@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pushinn – modern solutions for your business." />
+  <title>Pushinn</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --clr-bg:       #f7f7f5;
+      --clr-surface:  #ffffff;
+      --clr-primary:  #1a1a2e;
+      --clr-accent:   #4f6ef7;
+      --clr-muted:    #6b7280;
+      --clr-border:   #e5e7eb;
+      --font-sans:    'Segoe UI', system-ui, -apple-system, sans-serif;
+      --max-width:    1100px;
+      --radius:       12px;
+      --transition:   0.2s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--clr-bg);
+      color: var(--clr-primary);
+      line-height: 1.65;
+    }
+
+    a { color: var(--clr-accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Layout helpers ── */
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin-inline: auto;
+      padding-inline: 1.5rem;
+    }
+
+    section { padding-block: 5rem; }
+    section:nth-child(even) { background: var(--clr-surface); }
+
+    /* ── Header / Nav ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--clr-surface);
+      border-bottom: 1px solid var(--clr-border);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--clr-primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--clr-muted);
+      transition: color var(--transition);
+    }
+
+    .nav-links a:hover { color: var(--clr-accent); text-decoration: none; }
+
+    /* ── Hero ── */
+    #hero {
+      display: grid;
+      place-items: center;
+      min-height: calc(100vh - 64px);
+      text-align: center;
+      background: linear-gradient(145deg, #f0f4ff 0%, var(--clr-bg) 60%);
+    }
+
+    .hero-content { max-width: 680px; }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--clr-muted);
+      margin-bottom: 2.5rem;
+      max-width: 520px;
+      margin-inline: auto;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: opacity var(--transition), transform var(--transition);
+    }
+
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); text-decoration: none; }
+
+    .btn-primary { background: var(--clr-accent); color: #fff; }
+
+    /* ── About ── */
+    #about .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-text h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 1rem; }
+    .about-text p  { color: var(--clr-muted); margin-bottom: 0.875rem; }
+
+    .about-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--clr-bg);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .card-icon { font-size: 1.75rem; margin-bottom: 0.5rem; }
+    .card h3   { font-size: 1rem; font-weight: 600; margin-bottom: 0.35rem; }
+    .card p    { font-size: 0.875rem; color: var(--clr-muted); }
+
+    /* ── Contact ── */
+    #contact { text-align: center; }
+
+    #contact h2 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    #contact p { color: var(--clr-muted); margin-bottom: 2rem; max-width: 480px; margin-inline: auto; }
+
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--clr-accent);
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--clr-border);
+      background: var(--clr-surface);
+      padding-block: 2rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-copy { font-size: 0.85rem; color: var(--clr-muted); }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links a { font-size: 0.85rem; color: var(--clr-muted); }
+    .footer-links a:hover { color: var(--clr-accent); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      #about .container {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .about-cards { grid-template-columns: 1fr; }
+
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header>
+    <nav class="container">
+      <span class="nav-logo">Pushinn</span>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ── Hero ── -->
+  <section id="hero">
+    <div class="hero-content">
+      <span class="hero-eyebrow">Welcome to</span>
+      <h1>Pushinn</h1>
+      <p class="hero-sub">
+        Modern solutions that push your business forward — built with clarity, precision, and purpose.
+      </p>
+      <a href="#contact" class="btn btn-primary">Get in Touch</a>
+    </div>
+  </section>
+
+  <!-- ── About ── -->
+  <section id="about">
+    <div class="container">
+      <div class="about-text">
+        <h2>About Us</h2>
+        <p>
+          Pushinn was founded with a single mission: to help businesses grow through
+          thoughtful digital experiences. We combine strategy, design, and technology
+          to deliver products that make an impact.
+        </p>
+        <p>
+          Our team brings together years of expertise across product development,
+          UX design, and engineering — so you can focus on what matters most
+          while we handle the rest.
+        </p>
+      </div>
+      <div class="about-cards">
+        <div class="card">
+          <div class="card-icon">🚀</div>
+          <h3>Fast Delivery</h3>
+          <p>Rapid iteration and shipping so your ideas reach users quickly.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎯</div>
+          <h3>Focused Strategy</h3>
+          <p>Tailored solutions aligned with your business goals.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔒</div>
+          <h3>Reliable &amp; Secure</h3>
+          <p>Built with security and scalability in mind from day one.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🤝</div>
+          <h3>True Partnership</h3>
+          <p>We work alongside you as a committed long-term partner.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ── -->
+  <section id="contact">
+    <div class="container">
+      <h2>Contact &amp; Support</h2>
+      <p>
+        Have a question, a project idea, or need support? We'd love to hear from you.
+        Reach out and we'll get back to you as soon as possible.
+      </p>
+      <a class="contact-email" href="mailto:hello@pushinn.com">
+        ✉️ hello@pushinn.com
+      </a>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="container footer-inner">
+      <span class="footer-copy">&copy; <span id="yr"></span> Pushinn. All rights reserved.</span>
+      <ul class="footer-links">
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
