@@ -1,6 +1,11 @@
 {
   "applinks": {
     "apps": [],
-    "details": []
+    "details": [
+      {
+        "appID": "XXXXXXXXXX.com.pushinn.app",
+        "paths": ["*"]
+      }
+    ]
   }
 }
