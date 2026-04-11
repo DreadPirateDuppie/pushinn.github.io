@@ -286,7 +286,7 @@
 
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
     }
 
@@ -619,45 +619,89 @@
             </svg>
           </div>
           <h3 class="feature-title">NEURAL_MAPPING</h3>
-          <p class="feature-desc">Proprietary spot discovery algorithm. Real-time node sharing with encrypted location data.</p>
+          <p class="feature-desc">Proprietary spot discovery algorithm. Submit, rate, and navigate community-verified spots in real time with encrypted location data.</p>
         </div>
 
         <div class="feature-card">
           <span class="feature-code">POST /api/v1/battle</span>
           <div class="feature-icon" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
+            <!-- crossed swords / battle icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"></polyline>
+              <line x1="13" y1="19" x2="19" y2="13"></line>
+              <line x1="16" y1="16" x2="20" y2="20"></line>
+              <line x1="19" y1="21" x2="21" y2="19"></line>
+              <polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"></polyline>
+              <line x1="5" y1="14" x2="9" y2="18"></line>
+              <line x1="7" y1="17" x2="3" y2="21"></line>
             </svg>
           </div>
           <h3 class="feature-title">BATTLE_LOGIC</h3>
-          <p class="feature-desc">Asynchronous Game of SKATE protocol. Decentralized community verification and ranking.</p>
+          <p class="feature-desc">Asynchronous Game of SKATE protocol. Issue trick challenges, upload your response clips, and let the community vote on who lands it.</p>
         </div>
 
         <div class="feature-card">
           <span class="feature-code">WS /feed/live</span>
           <div class="feature-icon" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <!-- broadcast / live stream icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+              <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+              <circle cx="12" cy="20" r="1" fill="currentColor"></circle>
             </svg>
           </div>
           <h3 class="feature-title">DATA_STREAM</h3>
-          <p class="feature-desc">High-bandwidth media sharing. Follow the global network and sync with your local crew.</p>
+          <p class="feature-desc">High-bandwidth live feed. Share clips as they happen, subscribe to sessions worldwide, and sync real-time updates with your local crew.</p>
         </div>
 
         <div class="feature-card">
           <span class="feature-code">PUT /user/xp</span>
           <div class="feature-icon" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <circle cx="12" cy="8" r="7"></circle>
-              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+            <!-- trophy / award icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="8 21 12 17 16 21"></polyline>
+              <line x1="12" y1="17" x2="12" y2="11"></line>
+              <path d="M7 4H17l-1 7a5 5 0 0 1-8 0L7 4z"></path>
+              <path d="M5 4H3v3a3 3 0 0 0 4 0"></path>
+              <path d="M19 4h2v3a3 3 0 0 1-4 0"></path>
             </svg>
           </div>
           <h3 class="feature-title">REPUTATION_XP</h3>
-          <p class="feature-desc">Proof-of-trick consensus. Earn digital assets and unlock premium protocol features.</p>
+          <p class="feature-desc">Proof-of-trick consensus. Earn XP from verified clips and peer votes, unlock badge tiers, and climb the global leaderboard.</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-code">GET /api/v1/crew</span>
+          <div class="feature-icon" aria-hidden="true">
+            <!-- group / crew icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <h3 class="feature-title">CREW_SYNC</h3>
+          <p class="feature-desc">Build your squad and skate together. Private crew channels, shared spot lists, and session scheduling — all end-to-end encrypted.</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-code">POST /api/v1/clip</span>
+          <div class="feature-icon" aria-hidden="true">
+            <!-- film / video icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+              <line x1="8" y1="4" x2="8" y2="20"></line>
+              <line x1="16" y1="4" x2="16" y2="20"></line>
+              <line x1="2" y1="10" x2="8" y2="10"></line>
+              <line x1="16" y1="10" x2="22" y2="10"></line>
+              <line x1="2" y1="14" x2="8" y2="14"></line>
+              <line x1="16" y1="14" x2="22" y2="14"></line>
+            </svg>
+          </div>
+          <h3 class="feature-title">TRICK_VAULT</h3>
+          <p class="feature-desc">Your personal archive of every clip you've landed. Tag tricks, attach spot metadata, and showcase your progression over time.</p>
         </div>
 
       </div>
@@ -786,6 +830,33 @@
         document.getElementById('beta-email').value = '';
       }
     }
+    /* ── Feature-card scroll reveal ── */
+    (function () {
+      var cards = document.querySelectorAll('.feature-card');
+      if (!('IntersectionObserver' in window)) {
+        cards.forEach(function (c) { c.style.opacity = '1'; });
+        return;
+      }
+      cards.forEach(function (c) {
+        c.style.opacity = '0';
+        c.style.transform = 'translateY(32px)';
+        c.style.transition = 'opacity .6s cubic-bezier(.4,0,.2,1), transform .6s cubic-bezier(.4,0,.2,1)';
+      });
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var card = entry.target;
+            var idx  = Array.prototype.indexOf.call(cards, card);
+            setTimeout(function () {
+              card.style.opacity   = '1';
+              card.style.transform = 'translateY(0)';
+            }, idx * 80);
+            io.unobserve(card);
+          }
+        });
+      }, { threshold: 0.15 });
+      cards.forEach(function (c) { io.observe(c); });
+    })();
   </script>
 </body>
 </html>
