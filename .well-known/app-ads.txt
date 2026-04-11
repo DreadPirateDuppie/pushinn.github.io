@@ -1,0 +1,8 @@
+# app-ads.txt – Authorized Digital Sellers
+# See: https://iabtechlab.com/ads-txt/
+#
+# Format: <SSP/Exchange Domain>, <Publisher/Seller Account ID>, <Type of Account>, <Certificate Authority ID>
+# TODO: Add your authorized seller entries below.
+#
+# Example:
+# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
