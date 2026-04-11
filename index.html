@@ -3,58 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Pushinn – modern solutions for your business." />
-  <title>Pushinn</title>
+  <meta name="description" content="Pushinn — The Ultimate Skateboarding Social Network. Map spots. Battle peers. Earn reputation." />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pushinn.github.io/" />
+  <meta property="og:title" content="Pushinn | The Ultimate Skateboarding Social Network" />
+  <meta property="og:description" content="Join Pushinn — map your spots, challenge friends to battles, and climb the global leaderboard." />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Pushinn | The Ultimate Skateboarding Social Network" />
+  <meta name="twitter:description" content="Map spots. Battle peers. Earn reputation." />
+
+  <meta name="theme-color" content="#000000" />
+  <title>Pushinn | The Ultimate Skateboarding Social Network</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet" />
+
   <style>
-    /* ── Reset & base ── */
+    /* ── Reset ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --clr-bg:       #f7f7f5;
-      --clr-surface:  #ffffff;
-      --clr-primary:  #1a1a2e;
-      --clr-accent:   #4f6ef7;
-      --clr-muted:    #6b7280;
-      --clr-border:   #e5e7eb;
-      --font-sans:    'Segoe UI', system-ui, -apple-system, sans-serif;
-      --max-width:    1100px;
-      --radius:       12px;
-      --transition:   0.2s ease;
+      --green:       #00FF41;
+      --dark-green:  #008F11;
+      --black:       #000000;
+      --surface:     #0A0A0A;
+      --text:        #E0E0E0;
+      --dim:         #888888;
+      --border:      rgba(0, 255, 65, 0.1);
+      --glow:        0 0 20px rgba(0, 255, 65, 0.3);
+      --glow-strong: 0 0 40px rgba(0, 255, 65, 0.5);
+      --font:        'Inter', sans-serif;
+      --font-display:'Outfit', sans-serif;
+      --max-w:       1200px;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: var(--font-sans);
-      background: var(--clr-bg);
-      color: var(--clr-primary);
-      line-height: 1.65;
+      font-family: var(--font);
+      background: var(--black);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
     }
 
-    a { color: var(--clr-accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    a { color: inherit; text-decoration: none; transition: color .3s; }
 
-    /* ── Layout helpers ── */
+    /* ── Canvas Matrix Rain ── */
+    #matrix-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .06;
+    }
+
+    /* ── Layout ── */
     .container {
       width: 100%;
-      max-width: var(--max-width);
+      max-width: var(--max-w);
       margin-inline: auto;
-      padding-inline: 1.5rem;
+      padding-inline: 2rem;
     }
 
-    section { padding-block: 5rem; }
-    section:nth-child(even) { background: var(--clr-surface); }
-
-    /* ── Header / Nav ── */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--clr-surface);
-      border-bottom: 1px solid var(--clr-border);
-    }
-
+    /* ── Navbar ── */
     nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,.8);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -62,257 +91,701 @@
     }
 
     .nav-logo {
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      color: var(--clr-primary);
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      font-family: monospace;
+      font-weight: 900;
+      font-size: 1.25rem;
+      color: var(--green);
+      letter-spacing: -.02em;
+    }
+
+    .nav-logo-box {
+      width: 32px; height: 32px;
+      border: 2px solid var(--green);
+      display: grid; place-items: center;
+      font-size: .9rem;
     }
 
     .nav-links {
       display: flex;
-      gap: 2rem;
+      gap: 2.5rem;
       list-style: none;
+      font-family: monospace;
+      font-size: .7rem;
+      letter-spacing: .2em;
+      color: var(--dark-green);
     }
 
-    .nav-links a {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--clr-muted);
-      transition: color var(--transition);
-    }
-
-    .nav-links a:hover { color: var(--clr-accent); text-decoration: none; }
+    .nav-links a:hover { color: var(--green); }
 
     /* ── Hero ── */
     #hero {
-      display: grid;
-      place-items: center;
-      min-height: calc(100vh - 64px);
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      background: linear-gradient(145deg, #f0f4ff 0%, var(--clr-bg) 60%);
+      padding: 6rem 1.5rem 4rem;
     }
 
-    .hero-content { max-width: 680px; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .75rem;
+      border: 1px solid rgba(0,255,65,.3);
+      background: rgba(0,255,65,.04);
+      padding: .5rem 1rem;
+      border-radius: 999px;
+      font-family: monospace;
+      font-size: .65rem;
+      letter-spacing: .3em;
+      color: var(--green);
+      margin-bottom: 2.5rem;
+    }
 
-    .hero-eyebrow {
-      display: inline-block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--clr-accent);
-      margin-bottom: 1rem;
+    .badge-dot {
+      width: 8px; height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: ping 1.5s cubic-bezier(0,0,.2,1) infinite;
     }
 
     h1 {
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 800;
-      letter-spacing: -1.5px;
-      line-height: 1.1;
-      margin-bottom: 1.25rem;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(4rem, 15vw, 10rem);
+      line-height: .9;
+      letter-spacing: -.04em;
+      margin-bottom: 2rem;
+    }
+
+    h1 .line-white { color: #fff; display: block; }
+    h1 .line-green {
+      color: var(--green);
+      text-shadow: var(--glow);
+      display: block;
     }
 
     .hero-sub {
-      font-size: 1.15rem;
-      color: var(--clr-muted);
-      margin-bottom: 2.5rem;
-      max-width: 520px;
+      font-family: monospace;
+      font-size: clamp(.9rem, 2vw, 1.2rem);
+      color: var(--dark-green);
+      max-width: 640px;
       margin-inline: auto;
+      margin-bottom: 3rem;
+      line-height: 1.7;
     }
 
-    .btn {
-      display: inline-block;
-      padding: 0.85rem 2rem;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: opacity var(--transition), transform var(--transition);
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      justify-content: center;
     }
 
-    .btn:hover { opacity: 0.88; transform: translateY(-1px); text-decoration: none; }
-
-    .btn-primary { background: var(--clr-accent); color: #fff; }
-
-    /* ── About ── */
-    #about .container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-
-    .about-text h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 1rem; }
-    .about-text p  { color: var(--clr-muted); margin-bottom: 0.875rem; }
-
-    .about-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    .card {
-      background: var(--clr-bg);
-      border: 1px solid var(--clr-border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-    }
-
-    .card-icon { font-size: 1.75rem; margin-bottom: 0.5rem; }
-    .card h3   { font-size: 1rem; font-weight: 600; margin-bottom: 0.35rem; }
-    .card p    { font-size: 0.875rem; color: var(--clr-muted); }
-
-    /* ── Contact ── */
-    #contact { text-align: center; }
-
-    #contact h2 {
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
+    .btn-primary {
+      position: relative;
+      padding: 1.1rem 2.5rem;
+      background: var(--green);
+      color: var(--black);
+      font-family: var(--font);
       font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: .05em;
+      overflow: hidden;
+      transition: transform .2s, box-shadow .3s;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      transform: translateY(100%);
+      transition: transform .3s;
+    }
+
+    .btn-primary:hover { transform: scale(1.04); box-shadow: var(--glow-strong); }
+    .btn-primary:hover::after { transform: translateY(0); }
+    .btn-primary span { position: relative; z-index: 1; }
+
+    .btn-secondary {
+      padding: 1.1rem 2.5rem;
+      border: 2px solid var(--green);
+      color: var(--green);
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: .05em;
+      transition: background .3s, box-shadow .3s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0,255,65,.1);
+      box-shadow: var(--glow);
+    }
+
+    /* ── Decorative side text ── */
+    .side-text {
+      display: none;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: monospace;
+      font-size: .55rem;
+      letter-spacing: .5em;
+      color: var(--dark-green);
+      writing-mode: vertical-rl;
+      opacity: .3;
+    }
+    .side-text-left  { left: 2rem; }
+    .side-text-right { right: 2rem; transform: translateY(-50%) rotate(180deg); }
+
+    @media (min-width: 1100px) { .side-text { display: block; } }
+
+    /* ── Features ── */
+    #features {
+      position: relative;
+      z-index: 1;
+      padding-block: 8rem;
+    }
+
+    .section-label {
+      font-family: monospace;
+      font-size: .65rem;
+      letter-spacing: .5em;
+      color: var(--green);
+      opacity: .5;
+      text-align: center;
       margin-bottom: 1rem;
     }
 
-    #contact p { color: var(--clr-muted); margin-bottom: 2rem; max-width: 480px; margin-inline: auto; }
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: -.03em;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 1.5rem;
+    }
 
-    .contact-email {
+    .section-divider {
+      width: 96px;
+      height: 3px;
+      background: var(--green);
+      box-shadow: var(--glow);
+      margin-inline: auto;
+      margin-bottom: 5rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      position: relative;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.05);
+      backdrop-filter: blur(10px);
+      border-radius: 4px;
+      padding: 2.5rem;
+      transition: transform .4s, border-color .4s, background .4s, box-shadow .4s;
+      overflow: hidden;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--green);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 0 30px rgba(0,255,65,.15);
+    }
+
+    .feature-card::before,
+    .feature-card::after {
+      content: '';
+      position: absolute;
+      width: 10px; height: 10px;
+      border-color: var(--green);
+      border-style: solid;
+      opacity: 0;
+      transition: opacity .4s;
+    }
+    .feature-card::before { top: 0; left: 0; border-width: 2px 0 0 2px; }
+    .feature-card::after  { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
+    .feature-card:hover::before,
+    .feature-card:hover::after { opacity: 1; }
+
+    .feature-code {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      font-family: monospace;
+      font-size: .55rem;
+      color: var(--dark-green);
+      opacity: .15;
+      transition: opacity .4s;
+    }
+    .feature-card:hover .feature-code { opacity: .35; }
+
+    .feature-icon {
+      color: var(--green);
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: rgba(255,255,255,.03);
       display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: var(--clr-accent);
+      border-radius: 12px;
+      transition: transform .4s, box-shadow .4s;
+    }
+    .feature-card:hover .feature-icon {
+      transform: scale(1.1);
+      box-shadow: var(--glow);
+    }
+
+    .feature-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #fff;
+      margin-bottom: .75rem;
+      transition: color .3s;
+    }
+    .feature-card:hover .feature-title { color: var(--green); }
+
+    .feature-desc {
+      font-family: monospace;
+      font-size: .8rem;
+      color: var(--dark-green);
+      line-height: 1.65;
+    }
+
+    /* ── Beta Section ── */
+    #beta {
+      position: relative;
+      z-index: 1;
+      padding-block: 8rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .beta-inner {
+      max-width: 600px;
+      margin-inline: auto;
+    }
+
+    .beta-inner h2 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: -.03em;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    .beta-inner p {
+      font-family: monospace;
+      color: var(--dark-green);
+      font-size: .9rem;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+
+    .beta-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      justify-content: center;
+    }
+
+    .beta-input {
+      flex: 1 1 260px;
+      padding: 1rem 1.25rem;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(0,255,65,.2);
+      color: var(--text);
+      font-family: monospace;
+      font-size: .9rem;
+      outline: none;
+      transition: border-color .3s, box-shadow .3s;
+    }
+
+    .beta-input::placeholder { color: var(--dim); }
+    .beta-input:focus {
+      border-color: var(--green);
+      box-shadow: var(--glow);
+    }
+
+    .beta-note {
+      margin-top: 1rem;
+      font-family: monospace;
+      font-size: .65rem;
+      color: var(--dim);
+      letter-spacing: .1em;
     }
 
     /* ── Footer ── */
     footer {
-      border-top: 1px solid var(--clr-border);
-      background: var(--clr-surface);
-      padding-block: 2rem;
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding-block: 5rem;
+      overflow: hidden;
     }
 
-    .footer-inner {
+    .footer-watermark {
+      position: absolute;
+      bottom: -2vw;
+      left: 0;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 15vw;
+      color: rgba(0,255,65,.04);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 3rem;
+      margin-bottom: 4rem;
+    }
+
+    .footer-brand p {
+      font-family: monospace;
+      font-size: .7rem;
+      color: var(--dark-green);
+      line-height: 1.7;
+      margin-top: 1rem;
+      max-width: 220px;
+    }
+
+    .footer-col h4 {
+      font-family: monospace;
+      font-weight: 700;
+      font-size: .65rem;
+      letter-spacing: .3em;
+      color: #fff;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      gap: .65rem;
+    }
+
+    .footer-col a {
+      font-family: monospace;
+      font-size: .65rem;
+      color: var(--dark-green);
+      letter-spacing: .05em;
+      transition: color .3s;
+    }
+
+    .footer-col a:hover { color: var(--green); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(0,255,65,.05);
+      padding-top: 2rem;
+      display: flex;
       flex-wrap: wrap;
       gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .footer-copy { font-size: 0.85rem; color: var(--clr-muted); }
+    .footer-copy {
+      font-family: monospace;
+      font-size: .6rem;
+      color: var(--dark-green);
+      opacity: .5;
+    }
 
-    .footer-links {
+    .footer-status {
       display: flex;
-      gap: 1.5rem;
-      list-style: none;
+      gap: 2rem;
     }
 
-    .footer-links a { font-size: 0.85rem; color: var(--clr-muted); }
-    .footer-links a:hover { color: var(--clr-accent); }
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      font-family: monospace;
+      font-size: .6rem;
+      color: var(--dark-green);
+    }
+
+    .status-dot {
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: var(--glow);
+    }
+
+    /* ── Animations ── */
+    @keyframes ping {
+      75%, 100% { transform: scale(2); opacity: 0; }
+    }
+
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal { animation: reveal .8s cubic-bezier(.4,0,.2,1) both; }
+    .delay-1 { animation-delay: .15s; }
+    .delay-2 { animation-delay: .3s; }
+    .delay-3 { animation-delay: .45s; }
+    .delay-4 { animation-delay: .6s; }
 
     /* ── Responsive ── */
-    @media (max-width: 768px) {
-      #about .container {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-      }
-
-      .about-cards { grid-template-columns: 1fr; }
-
+    @media (max-width: 640px) {
       .nav-links { display: none; }
+      .hero-badge { font-size: .55rem; }
+      .btn-primary, .btn-secondary { padding: .9rem 1.75rem; font-size: .9rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ── Header ── -->
-  <header>
-    <nav class="container">
-      <span class="nav-logo">Pushinn</span>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+  <!-- Matrix rain canvas -->
+  <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+
+  <!-- ── Navbar ── -->
+  <nav>
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="Pushinn home">
+        <div class="nav-logo-box" aria-hidden="true">P</div>
+        PUSHINN
+      </a>
+      <ul class="nav-links" role="navigation">
+        <li><a href="#features">FEATURES</a></li>
+        <li><a href="#beta">BETA</a></li>
+        <li><a href="privacy.html">PRIVACY</a></li>
       </ul>
-    </nav>
-  </header>
+    </div>
+  </nav>
 
   <!-- ── Hero ── -->
   <section id="hero">
-    <div class="hero-content">
-      <span class="hero-eyebrow">Welcome to</span>
-      <h1>Pushinn</h1>
-      <p class="hero-sub">
-        Modern solutions that push your business forward — built with clarity, precision, and purpose.
-      </p>
-      <a href="#contact" class="btn btn-primary">Get in Touch</a>
+    <span class="side-text side-text-left" aria-hidden="true">ESTABLISHING_CONNECTION... [OK]</span>
+    <span class="side-text side-text-right" aria-hidden="true">ENCRYPTING_DATA_STREAM... [OK]</span>
+
+    <div class="hero-badge reveal">
+      <span class="badge-dot" aria-hidden="true"></span>
+      PROTOCOL_VERSION: 1.0.4_BETA
+    </div>
+
+    <h1 class="reveal delay-1">
+      <span class="line-white">PUSHINN</span>
+      <span class="line-green">NETWORK</span>
+    </h1>
+
+    <p class="hero-sub reveal delay-2">
+      The decentralized social layer for skateboarding.<br />
+      Map spots. Battle peers. Earn reputation.
+    </p>
+
+    <div class="hero-ctas reveal delay-3">
+      <a href="#beta" class="btn-primary"><span>INITIALIZE_BETA</span></a>
+      <a href="#features" class="btn-secondary">VIEW_PROTOCOL</a>
     </div>
   </section>
 
-  <!-- ── About ── -->
-  <section id="about">
+  <!-- ── Features ── -->
+  <section id="features">
     <div class="container">
-      <div class="about-text">
-        <h2>About Us</h2>
-        <p>
-          Pushinn was founded with a single mission: to help businesses grow through
-          thoughtful digital experiences. We combine strategy, design, and technology
-          to deliver products that make an impact.
-        </p>
-        <p>
-          Our team brings together years of expertise across product development,
-          UX design, and engineering — so you can focus on what matters most
-          while we handle the rest.
-        </p>
-      </div>
-      <div class="about-cards">
-        <div class="card">
-          <div class="card-icon">🚀</div>
-          <h3>Fast Delivery</h3>
-          <p>Rapid iteration and shipping so your ideas reach users quickly.</p>
+      <p class="section-label">CORE_CAPABILITIES</p>
+      <h2 class="section-title">THE_PROTOCOL</h2>
+      <div class="section-divider" aria-hidden="true"></div>
+
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <span class="feature-code">GET /api/v1/spots</span>
+          <div class="feature-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <h3 class="feature-title">NEURAL_MAPPING</h3>
+          <p class="feature-desc">Proprietary spot discovery algorithm. Real-time node sharing with encrypted location data.</p>
         </div>
-        <div class="card">
-          <div class="card-icon">🎯</div>
-          <h3>Focused Strategy</h3>
-          <p>Tailored solutions aligned with your business goals.</p>
+
+        <div class="feature-card">
+          <span class="feature-code">POST /api/v1/battle</span>
+          <div class="feature-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+          </div>
+          <h3 class="feature-title">BATTLE_LOGIC</h3>
+          <p class="feature-desc">Asynchronous Game of SKATE protocol. Decentralized community verification and ranking.</p>
         </div>
-        <div class="card">
-          <div class="card-icon">🔒</div>
-          <h3>Reliable &amp; Secure</h3>
-          <p>Built with security and scalability in mind from day one.</p>
+
+        <div class="feature-card">
+          <span class="feature-code">WS /feed/live</span>
+          <div class="feature-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            </svg>
+          </div>
+          <h3 class="feature-title">DATA_STREAM</h3>
+          <p class="feature-desc">High-bandwidth media sharing. Follow the global network and sync with your local crew.</p>
         </div>
-        <div class="card">
-          <div class="card-icon">🤝</div>
-          <h3>True Partnership</h3>
-          <p>We work alongside you as a committed long-term partner.</p>
+
+        <div class="feature-card">
+          <span class="feature-code">PUT /user/xp</span>
+          <div class="feature-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="8" r="7"></circle>
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+            </svg>
+          </div>
+          <h3 class="feature-title">REPUTATION_XP</h3>
+          <p class="feature-desc">Proof-of-trick consensus. Earn digital assets and unlock premium protocol features.</p>
         </div>
+
       </div>
     </div>
   </section>
 
-  <!-- ── Contact ── -->
-  <section id="contact">
+  <!-- ── Beta Signup ── -->
+  <section id="beta">
     <div class="container">
-      <h2>Contact &amp; Support</h2>
-      <p>
-        Have a question, a project idea, or need support? We'd love to hear from you.
-        Reach out and we'll get back to you as soon as possible.
-      </p>
-      <a class="contact-email" href="mailto:hello@pushinn.com">
-        ✉️ hello@pushinn.com
-      </a>
+      <div class="beta-inner">
+        <p class="section-label">EARLY_ACCESS</p>
+        <h2>JOIN_THE_BETA</h2>
+        <p>
+          We're onboarding the first wave of skaters. Drop your email and we'll
+          send you access credentials when your node is ready to connect.
+        </p>
+        <form class="beta-form" onsubmit="handleSignup(event)">
+          <input
+            class="beta-input"
+            type="email"
+            id="beta-email"
+            placeholder="your@email.com"
+            required
+            aria-label="Email address for beta access"
+          />
+          <button type="submit" class="btn-primary"><span>REQUEST_ACCESS</span></button>
+        </form>
+        <p class="beta-note" id="beta-msg" aria-live="polite"></p>
+      </div>
     </div>
   </section>
 
   <!-- ── Footer ── -->
   <footer>
-    <div class="container footer-inner">
-      <span class="footer-copy">&copy; <span id="yr"></span> Pushinn. All rights reserved.</span>
-      <ul class="footer-links">
-        <li><a href="privacy.html">Privacy Policy</a></li>
-        <li><a href="terms.html">Terms of Service</a></li>
-      </ul>
+    <div class="footer-watermark" aria-hidden="true">PUSHINN</div>
+    <div class="container">
+      <div class="footer-grid">
+
+        <div class="footer-brand footer-col">
+          <div class="nav-logo">
+            <div class="nav-logo-box" aria-hidden="true">P</div>
+            PUSHINN
+          </div>
+          <p>The decentralized social layer for the global skateboarding community. Built on the Pushinn protocol.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>PROTOCOL</h4>
+          <ul>
+            <li><a href="#features">FEATURES</a></li>
+            <li><a href="#beta">BETA_ACCESS</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>COMMUNITY</h4>
+          <ul>
+            <li><a href="mailto:hello@pushinn.app">CONTACT_US</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>LEGAL</h4>
+          <ul>
+            <li><a href="privacy.html">PRIVACY_POLICY</a></li>
+            <li><a href="terms.html">TERMS_OF_SERVICE</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <span class="footer-copy">&copy; <span id="yr"></span> PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
+        <div class="footer-status">
+          <span class="status-item"><span class="status-dot" aria-hidden="true"></span>ENCRYPTED_CONNECTION</span>
+          <span class="status-item"><span class="status-dot" aria-hidden="true"></span>NODE_ACTIVE</span>
+        </div>
+      </div>
     </div>
   </footer>
 
   <script>
+    /* ── Year ── */
     document.getElementById('yr').textContent = new Date().getFullYear();
+
+    /* ── Matrix Rain ── */
+    (function () {
+      const canvas = document.getElementById('matrix-canvas');
+      const ctx = canvas.getContext('2d');
+      let cols, drops;
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+        cols  = Math.floor(canvas.width / 20);
+        drops = Array(cols).fill(1);
+      }
+
+      function draw() {
+        ctx.fillStyle = 'rgba(0,0,0,.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#00FF41';
+        ctx.font      = '14px monospace';
+        const chars   = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ01'.split('');
+        drops.forEach(function (y, i) {
+          const ch = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(ch, i * 20, y * 20);
+          if (y * 20 > canvas.height && Math.random() > .975) drops[i] = 0;
+          drops[i]++;
+        });
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+      setInterval(draw, 50);
+    })();
+
+    /* ── Beta form ── */
+    function handleSignup(e) {
+      e.preventDefault();
+      var email = document.getElementById('beta-email').value.trim();
+      var msg   = document.getElementById('beta-msg');
+      if (email) {
+        msg.style.color = '#00FF41';
+        msg.textContent = 'ACCESS_REQUEST_RECEIVED — we will be in touch.';
+        document.getElementById('beta-email').value = '';
+      }
+    }
   </script>
 </body>
 </html>
