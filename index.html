@@ -8,16 +8,20 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pushinn.github.io/" />
-  <meta property="og:title" content="Pushinn | The Ultimate Skateboarding Social Network" />
-  <meta property="og:description" content="Join Pushinn — map your spots, challenge friends to battles, and climb the global leaderboard." />
+  <meta property="og:title" content="Pushinn | The Underground Skate Network" />
+  <meta property="og:description" content="Map secret spots. Battle your crew. Earn rep in the London skate scene. Beta access open now." />
+  <meta property="og:image" content="https://pushinn.app/og-image.png" />
+  <meta property="og:site_name" content="Pushinn" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Pushinn | The Ultimate Skateboarding Social Network" />
-  <meta name="twitter:description" content="Map spots. Battle peers. Earn reputation." />
+  <meta name="twitter:site" content="@pushinn_app" />
+  <meta name="twitter:title" content="Pushinn | The Underground Skate Network" />
+  <meta name="twitter:description" content="Map spots. Battle your crew. Gatekeep your secret spots. London skate scene, beta now open." />
+  <meta name="twitter:image" content="https://pushinn.app/og-image.png" />
 
   <meta name="theme-color" content="#000000" />
-  <title>Pushinn | The Ultimate Skateboarding Social Network</title>
+  <title>Pushinn | The Underground Skate Network</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -62,7 +66,64 @@
       width: 100%; height: 100%;
       z-index: 0;
       pointer-events: none;
-      opacity: .06;
+      opacity: .015;
+    }
+
+    /* ── CRT Scanline + Grain Overlay ── */
+    #scanline-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,.08) 2px,
+        rgba(0,0,0,.08) 4px
+      );
+    }
+
+    #grain-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      opacity: .4;
+    }
+
+    /* ── CRT Startup Overlay ── */
+    #crt-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: crt-fade 0.5s ease-out 1.3s forwards;
+    }
+
+    #crt-line {
+      width: 100%;
+      height: 3px;
+      background: #fff;
+      box-shadow: 0 0 30px 8px rgba(255,255,255,.9), 0 0 60px 20px rgba(200,255,200,.4);
+      animation: crt-expand 1s cubic-bezier(.16,1,.3,1) 0.25s forwards;
+    }
+
+    @keyframes crt-expand {
+      0%   { height: 3px; opacity: 1; }
+      50%  { height: 60vh; opacity: 1; }
+      80%  { height: 100vh; opacity: 1; filter: brightness(3); }
+      100% { height: 100vh; opacity: 1; }
+    }
+
+    @keyframes crt-fade {
+      0%   { opacity: 1; pointer-events: all; }
+      100% { opacity: 0; pointer-events: none; }
     }
 
     /* ── Layout ── */
@@ -547,16 +608,41 @@
     .delay-3 { animation-delay: .45s; }
     .delay-4 { animation-delay: .6s; }
 
-    /* ── Scroll progress bar ── */
-    #scroll-bar {
+    /* ── Scroll progress — Skater Grind ── */
+    #skater-track {
       position: fixed;
-      top: 0; left: 0;
-      height: 3px;
+      top: 0; left: 0; right: 0;
+      height: 20px;
+      z-index: 200;
+      pointer-events: none;
+    }
+
+    #skater-rail {
+      position: absolute;
+      top: 9px; left: 0;
+      height: 2px;
+      width: 100%;
+      background: rgba(0,255,65,.12);
+    }
+
+    #skater-progress-fill {
+      position: absolute;
+      top: 9px; left: 0;
+      height: 2px;
       width: 0%;
       background: var(--green);
       box-shadow: var(--glow);
-      z-index: 200;
       transition: width .1s linear;
+    }
+
+    #skater-icon {
+      position: absolute;
+      top: 0;
+      left: 0%;
+      color: var(--green);
+      filter: drop-shadow(0 0 4px rgba(0,255,65,.7));
+      transition: left .1s linear;
+      transform: translateX(-50%);
     }
 
     /* ── Typewriter cursor ── */
@@ -610,21 +696,142 @@
       text-transform: uppercase;
     }
 
+    /* ── VHS Glitch on feature cards ── */
+    .glitch-line {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 10%, rgba(255,60,0,.7) 50%, transparent 90%);
+      top: 40%;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    @keyframes tracking-err {
+      0%   { top: 10%; opacity: .9; }
+      30%  { top: 55%; opacity: .7; transform: scaleX(1.02); }
+      60%  { top: 80%; opacity: .5; }
+      100% { top: 20%; opacity: 0; }
+    }
+
+    @keyframes rgb-split {
+      0%   { filter: none; }
+      15%  { filter: drop-shadow(3px 0 0 rgba(255,0,60,.55)) drop-shadow(-3px 0 0 rgba(0,120,255,.55)); transform: translateY(-8px) skewX(.4deg); }
+      30%  { filter: none; transform: translateY(-8px); }
+      50%  { filter: drop-shadow(-2px 0 0 rgba(255,0,60,.4)); transform: translateY(-8px) skewX(-.2deg); }
+      100% { filter: none; transform: translateY(-8px); }
+    }
+
+    .feature-card.is-glitching {
+      animation: rgb-split 0.45s ease both;
+    }
+
+    .feature-card.is-glitching .glitch-line {
+      animation: tracking-err 0.45s steps(3) both;
+    }
+
+    /* ── Activity HUD ── */
+    #activity-hud {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 150;
+      width: 240px;
+      background: rgba(0,0,0,.85);
+      border: 1px solid rgba(0,255,65,.2);
+      font-family: monospace;
+      font-size: .6rem;
+      color: var(--dark-green);
+      overflow: hidden;
+      pointer-events: none;
+      backdrop-filter: blur(8px);
+    }
+
+    #activity-hud-header .hud-status-dot {
+      width: 5px;
+      height: 5px;
+      flex-shrink: 0;
+    }
+
+    #activity-hud-header {
+      background: rgba(0,255,65,.06);
+      border-bottom: 1px solid rgba(0,255,65,.15);
+      padding: .35rem .6rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      letter-spacing: .12em;
+      color: var(--green);
+      font-size: .55rem;
+    }
+
+    #activity-hud-log {
+      height: 80px;
+      overflow: hidden;
+      padding: .4rem .6rem;
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+    }
+
+    .hud-entry {
+      opacity: .75;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      animation: hud-in .3s ease both;
+    }
+
+    .hud-entry.hud-new { color: var(--green); opacity: 1; }
+
+    @keyframes hud-in {
+      from { opacity: 0; transform: translateY(-4px); }
+      to   { opacity: .75; transform: none; }
+    }
+
     /* ── Responsive ── */
     @media (max-width: 640px) {
       .nav-links { display: none; }
       .hero-badge { font-size: .55rem; }
       .btn-primary, .btn-secondary { padding: .9rem 1.75rem; font-size: .9rem; }
+      #activity-hud { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Scroll progress bar -->
-  <div id="scroll-bar" aria-hidden="true"></div>
+  <!-- CRT startup overlay -->
+  <div id="crt-overlay" aria-hidden="true"><div id="crt-line"></div></div>
 
-  <!-- Matrix rain canvas -->
+  <!-- Skater grind progress track -->
+  <div id="skater-track" aria-hidden="true">
+    <div id="skater-rail"></div>
+    <div id="skater-progress-fill"></div>
+    <div id="skater-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="22" viewBox="0 0 26 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="13" cy="3" r="2" fill="currentColor" stroke="none"/>
+        <line x1="13" y1="5" x2="13" y2="12"/>
+        <line x1="13" y1="8" x2="9" y2="11"/>
+        <line x1="13" y1="8" x2="18" y2="6"/>
+        <line x1="13" y1="12" x2="10" y2="16"/>
+        <line x1="13" y1="12" x2="17" y2="16"/>
+        <rect x="6" y="16" width="14" height="2" rx="1" fill="currentColor" stroke="none"/>
+        <circle cx="9" cy="19.5" r="1.5" fill="currentColor" stroke="none"/>
+        <circle cx="17" cy="19.5" r="1.5" fill="currentColor" stroke="none"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Matrix rain canvas (very subtle, retained for ambient texture) -->
   <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+
+  <!-- CRT scanline overlay -->
+  <div id="scanline-overlay" aria-hidden="true"></div>
+
+  <!-- Film grain canvas -->
+  <canvas id="grain-canvas" aria-hidden="true"></canvas>
 
   <!-- ── Navbar ── -->
   <nav>
@@ -643,12 +850,12 @@
 
   <!-- ── Hero ── -->
   <section id="hero">
-    <span class="side-text side-text-left" aria-hidden="true">ESTABLISHING_CONNECTION... [OK]</span>
-    <span class="side-text side-text-right" aria-hidden="true">ENCRYPTING_DATA_STREAM... [OK]</span>
+    <span class="side-text side-text-left" aria-hidden="true">SOUTHBANK_SESSION... [LIVE]</span>
+    <span class="side-text side-text-right" aria-hidden="true">MAPPING_SECRET_SPOTS... [ON]</span>
 
     <div class="hero-badge reveal">
       <span class="badge-dot" aria-hidden="true"></span>
-      PROTOCOL_VERSION: 1.0.4_BETA
+      BETA_BUILD: 1.0.4
     </div>
 
     <h1 class="reveal delay-1">
@@ -661,8 +868,8 @@
     </p>
 
     <div class="hero-ctas reveal delay-3">
-      <a href="#beta" class="btn-primary"><span>INITIALIZE_BETA</span></a>
-      <a href="#features" class="btn-secondary">VIEW_PROTOCOL</a>
+      <a href="#beta" class="btn-primary"><span>JOIN_THE_CREW</span></a>
+      <a href="#features" class="btn-secondary">EXPLORE_MAP</a>
     </div>
   </section>
 
@@ -700,7 +907,8 @@
       <div class="features-grid">
 
         <div class="feature-card">
-          <span class="feature-code">GET /api/v1/spots</span>
+          <div class="glitch-line" aria-hidden="true"></div>
+          <span class="feature-code">// SPOTS</span>
           <div class="feature-icon" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -708,11 +916,12 @@
             </svg>
           </div>
           <h3 class="feature-title">Spot Map</h3>
-          <p class="feature-desc">Discover and submit skate spots near you. Community-rated locations with photos, obstacle tags, and real-time conditions.</p>
+          <p class="feature-desc">Build your personal spot database and discover what the community is sessioning. Community-rated locations, obstacle tags, and real-time conditions — all in your pocket.</p>
         </div>
 
         <div class="feature-card">
-          <span class="feature-code">POST /api/v1/battle</span>
+          <div class="glitch-line" aria-hidden="true"></div>
+          <span class="feature-code">&gt; BATTLES</span>
           <div class="feature-icon" aria-hidden="true">
             <!-- crossed swords / battle icon -->
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -726,11 +935,12 @@
             </svg>
           </div>
           <h3 class="feature-title">Game of Skate</h3>
-          <p class="feature-desc">Challenge anyone to a trick battle. Film your response, post it up, and let the community decide who takes the W.</p>
+          <p class="feature-desc">Call out anyone. Film your trick, post it up, and let the scene decide who takes the W. Your clout is on the line every time you step up.</p>
         </div>
 
         <div class="feature-card">
-          <span class="feature-code">WS /feed/live</span>
+          <div class="glitch-line" aria-hidden="true"></div>
+          <span class="feature-code">// FEED</span>
           <div class="feature-icon" aria-hidden="true">
             <!-- broadcast / live stream icon -->
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -741,11 +951,12 @@
             </svg>
           </div>
           <h3 class="feature-title">Live Feed</h3>
-          <p class="feature-desc">See what's going down right now. Follow friends and local crews, share clips the moment you land them.</p>
+          <p class="feature-desc">See what's going down right now. Follow friends and local crews, share clips the moment you land them, and get notified when your crew drops something heavy.</p>
         </div>
 
         <div class="feature-card">
-          <span class="feature-code">PUT /user/xp</span>
+          <div class="glitch-line" aria-hidden="true"></div>
+          <span class="feature-code">&gt; REP</span>
           <div class="feature-icon" aria-hidden="true">
             <!-- trophy / award icon -->
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -756,12 +967,13 @@
               <path d="M19 4h2v3a3 3 0 0 1-4 0"></path>
             </svg>
           </div>
-          <h3 class="feature-title">Rep & Ranking</h3>
-          <p class="feature-desc">Every verified clip and battle win earns you rep. Climb the local and global leaderboard and unlock exclusive perks.</p>
+          <h3 class="feature-title">Rep &amp; Ranking</h3>
+          <p class="feature-desc">Every verified clip and battle win stacks your rep. Climb the local and global leaderboard, unlock exclusive access, and make your name known in the scene.</p>
         </div>
 
         <div class="feature-card">
-          <span class="feature-code">GET /api/v1/crew</span>
+          <div class="glitch-line" aria-hidden="true"></div>
+          <span class="feature-code">// CREW</span>
           <div class="feature-icon" aria-hidden="true">
             <!-- group / crew icon -->
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -772,11 +984,12 @@
             </svg>
           </div>
           <h3 class="feature-title">Your Crew</h3>
-          <p class="feature-desc">Build your squad, plan sessions, and keep your group chat in one place. Invite-only so it stays your people.</p>
+          <p class="feature-desc">Build your squad, plan sessions, and keep your group locked in one spot. Invite-only so it stays your people — no randoms, no drama.</p>
         </div>
 
         <div class="feature-card">
-          <span class="feature-code">POST /api/v1/spots/private</span>
+          <div class="glitch-line" aria-hidden="true"></div>
+          <span class="feature-code">// PRIVATE_SPOTS</span>
           <div class="feature-icon" aria-hidden="true">
             <!-- lock / private icon -->
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -785,7 +998,7 @@
             </svg>
           </div>
           <h3 class="feature-title">Private Spots</h3>
-          <p class="feature-desc">Keep your secret spots secret. Mark any spot as private and share it only with the people you choose — it never shows up on the public map.</p>
+          <p class="feature-desc">Keep your secret spots secret. Gatekeep your best finds — mark any spot private and share it only with the people you trust. It never shows on the public map.</p>
         </div>
 
       </div>
@@ -797,10 +1010,10 @@
     <div class="container">
       <div class="beta-inner">
         <p class="section-label">EARLY_ACCESS</p>
-        <h2>JOIN_THE_BETA</h2>
+        <h2>JOIN_THE_CREW</h2>
         <p>
-          We're onboarding the first wave of skaters. Drop your email and we'll
-          send you access credentials when your node is ready to connect.
+          We're bringing in the first wave of London skaters. Drop your email
+          and we'll hit you when you're in — be first on the map, first in the battles.
         </p>
         <form class="beta-form" onsubmit="handleSignup(event)">
           <input
@@ -811,7 +1024,7 @@
             required
             aria-label="Email address for beta access"
           />
-          <button type="submit" class="btn-primary"><span>REQUEST_ACCESS</span></button>
+          <button type="submit" class="btn-primary"><span>JOIN_THE_CREW</span></button>
         </form>
         <p class="beta-note" id="beta-msg" aria-live="polite"></p>
       </div>
@@ -829,21 +1042,21 @@
             <div class="nav-logo-box" aria-hidden="true">P</div>
             PUSHINN
           </div>
-          <p>The decentralized social layer for the global skateboarding community. Built on the Pushinn protocol.</p>
+          <p>The underground social layer for the London skate scene. Map spots, build rep, gatekeep your best finds.</p>
         </div>
 
         <div class="footer-col">
-          <h4>PROTOCOL</h4>
+          <h4>THE MAP</h4>
           <ul>
             <li><a href="#features">FEATURES</a></li>
-            <li><a href="#beta">BETA_ACCESS</a></li>
+            <li><a href="#beta">JOIN_THE_CREW</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
           <h4>COMMUNITY</h4>
           <ul>
-            <li><a href="mailto:hello@pushinn.app">CONTACT_US</a></li>
+            <li><a href="mailto:support@pushinn.app">CONTACT_SUPPORT</a></li>
           </ul>
         </div>
 
@@ -858,49 +1071,96 @@
       </div>
 
       <div class="footer-bottom">
-        <span class="footer-copy">&copy; <span id="yr"></span> PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
+        <span class="footer-copy">&copy; <span id="yr"></span> PUSHINN. ALL_SYSTEMS_LIVE.</span>
         <div class="footer-status">
-          <span class="status-item"><span class="status-dot" aria-hidden="true"></span>ENCRYPTED_CONNECTION</span>
-          <span class="status-item"><span class="status-dot" aria-hidden="true"></span>NODE_ACTIVE</span>
+          <span class="status-item"><span class="status-dot" aria-hidden="true"></span>COMMUNITY_LIVE</span>
+          <span class="status-item"><span class="status-dot" aria-hidden="true"></span>SPOTS_ONLINE</span>
         </div>
       </div>
     </div>
   </footer>
 
+  <!-- ── Activity HUD ── -->
+  <aside id="activity-hud" aria-hidden="true">
+    <div id="activity-hud-header">
+      <span class="badge-dot hud-status-dot" aria-hidden="true"></span>
+      LIVE_ACTIVITY
+    </div>
+    <div id="activity-hud-log"></div>
+  </aside>
+
   <script>
     /* ── Year ── */
     document.getElementById('yr').textContent = new Date().getFullYear();
 
-    /* ── Matrix Rain ── */
+    /* ── CRT Startup ── */
     (function () {
-      const canvas = document.getElementById('matrix-canvas');
-      const ctx = canvas.getContext('2d');
-      let cols, drops;
+      var overlay = document.getElementById('crt-overlay');
+      if (!overlay) return;
+      /* Remove overlay from DOM after animation completes */
+      setTimeout(function () {
+        overlay.style.display = 'none';
+      }, 1900);
+    })();
+
+    /* ── Matrix Rain (very subtle ambient) ── */
+    (function () {
+      var canvas = document.getElementById('matrix-canvas');
+      var ctx = canvas.getContext('2d');
+      var cols, drops;
 
       function resize() {
         canvas.width  = window.innerWidth;
         canvas.height = window.innerHeight;
-        cols  = Math.floor(canvas.width / 20);
+        cols  = Math.floor(canvas.width / 24);
         drops = Array(cols).fill(1);
       }
 
       function draw() {
-        ctx.fillStyle = 'rgba(0,0,0,.05)';
+        ctx.fillStyle = 'rgba(0,0,0,.07)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = '#00FF41';
-        ctx.font      = '14px monospace';
-        const chars   = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ01'.split('');
+        ctx.font      = '12px monospace';
+        var chars = '01アイウエオ'.split('');
         drops.forEach(function (y, i) {
-          const ch = chars[Math.floor(Math.random() * chars.length)];
-          ctx.fillText(ch, i * 20, y * 20);
-          if (y * 20 > canvas.height && Math.random() > .975) drops[i] = 0;
+          var ch = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(ch, i * 24, y * 24);
+          if (y * 24 > canvas.height && Math.random() > .975) drops[i] = 0;
           drops[i]++;
         });
       }
 
       resize();
       window.addEventListener('resize', resize);
-      setInterval(draw, 50);
+      setInterval(draw, 80);
+    })();
+
+    /* ── Film Grain ── */
+    (function () {
+      var canvas = document.getElementById('grain-canvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      function drawGrain() {
+        var w = canvas.width, h = canvas.height;
+        var imgData = ctx.createImageData(w, h);
+        var data = imgData.data;
+        for (var i = 0; i < data.length; i += 4) {
+          var v = Math.floor(Math.random() * 255);
+          data[i] = data[i + 1] = data[i + 2] = v;
+          data[i + 3] = Math.floor(Math.random() * 12);
+        }
+        ctx.putImageData(imgData, 0, 0);
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+      setInterval(drawGrain, 120);
     })();
 
     /* ── Beta form ── */
@@ -914,13 +1174,16 @@
         document.getElementById('beta-email').value = '';
       }
     }
-    /* ── Scroll progress bar ── */
+    /* ── Skater grind progress ── */
     (function () {
-      var bar = document.getElementById('scroll-bar');
+      var fill   = document.getElementById('skater-progress-fill');
+      var icon   = document.getElementById('skater-icon');
       function update() {
         var scrolled = window.scrollY;
-        var total = document.documentElement.scrollHeight - window.innerHeight;
-        bar.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
+        var total    = document.documentElement.scrollHeight - window.innerHeight;
+        var pct      = total > 0 ? (scrolled / total) * 100 : 0;
+        fill.style.width = pct + '%';
+        icon.style.left  = pct + '%';
       }
       window.addEventListener('scroll', update, { passive: true });
       update();
@@ -1030,6 +1293,73 @@
         });
       }, { threshold: 0.15 });
       cards.forEach(function (c) { io.observe(c); });
+    })();
+    /* ── VHS Glitch on feature cards ── */
+    (function () {
+      var cards = document.querySelectorAll('.feature-card');
+      cards.forEach(function (card) {
+        card.addEventListener('mouseenter', function () {
+          if (card.classList.contains('is-glitching')) return;
+          card.classList.add('is-glitching');
+          card.addEventListener('animationend', function onEnd() {
+            card.classList.remove('is-glitching');
+            card.removeEventListener('animationend', onEnd);
+          });
+        });
+      });
+    })();
+
+    /* ── Activity HUD ── */
+    (function () {
+      var log = document.getElementById('activity-hud-log');
+      if (!log) return;
+
+      var messages = [
+        '[NEW_SPOT: SOUTHBANK]',
+        '[USER_JOINED: @grindking_ldn]',
+        '[BATTLE_STARTED: @sk8trix vs @ollie_god]',
+        '[SPOT_RATED: MILE_END ★★★★]',
+        '[USER_JOINED: @concrete_surfer]',
+        '[NEW_SPOT: CANARY_WHARF_PLAZA]',
+        '[BATTLE_WON: @sk8trix — W secured]',
+        '[REP_EARNED: +50xp @grindking_ldn]',
+        '[CREW_FORMED: SOUTH_LONDON_SQUAD]',
+        '[PRIVATE_SPOT_SHARED: CREW_ONLY]',
+        '[USER_JOINED: @boardrider_99]',
+        '[NEW_SPOT: BRIXTON_LEDGES]',
+        '[BATTLE_STARTED: @push_manuel vs @nollie_king]',
+        '[SPOT_RATED: SOUTHBANK ★★★★★]',
+        '[USER_JOINED: @five_0_five]',
+      ];
+
+      var MAX_LINES = 4;
+      var msgIdx    = 0;
+
+      function addEntry() {
+        var el = document.createElement('div');
+        el.className   = 'hud-entry hud-new';
+        el.textContent = messages[msgIdx % messages.length];
+        msgIdx++;
+
+        /* prepend so newest is at top */
+        log.insertBefore(el, log.firstChild);
+
+        /* keep only MAX_LINES */
+        while (log.children.length > MAX_LINES) {
+          log.removeChild(log.lastChild);
+        }
+
+        /* fade non-new entries */
+        Array.prototype.forEach.call(log.children, function (c, i) {
+          if (i > 0) c.classList.remove('hud-new');
+        });
+      }
+
+      /* Stagger initial fill then continue */
+      setTimeout(function () {
+        addEntry();
+        setInterval(addEntry, 3200);
+      }, 3000);
     })();
   </script>
 </body>
