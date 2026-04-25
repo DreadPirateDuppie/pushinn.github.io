@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Pushinn Intel Portal - App Feedback & Bug Reporting" />
-  <title>Intel Portal – Pushinn</title>
+  <meta name="description" content="Pushinn Contact - Get in Touch" />
+  <title>Contact – Pushinn</title>
 
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -93,7 +93,7 @@
       margin-bottom: .5rem;
     }
 
-    .status-alert {
+    .form-note {
       font-family: monospace;
       font-size: .75rem;
       color: var(--green);
@@ -104,7 +104,7 @@
     }
 
     /* ── Form ── */
-    .intel-form {
+    .contact-form {
       display: grid;
       gap: 1.5rem;
     }
@@ -133,13 +133,11 @@
       transition: border-color .3s;
     }
 
-    select option { background: var(--black); color: #fff; }
-
-    input:focus, textarea:focus, select:focus {
+    input:focus, textarea:focus {
       border-color: var(--green);
     }
 
-    .btn-transmit {
+    .btn-submit {
       background: transparent;
       border: 1px solid var(--green);
       color: var(--green);
@@ -152,7 +150,7 @@
       margin-top: 1rem;
     }
 
-    .btn-transmit:hover {
+    .btn-submit:hover {
       background: var(--green);
       color: var(--black);
     }
@@ -184,46 +182,36 @@
 
   <main>
     <div class="page-header">
-      <h1>Intel Portal</h1>
-      <p style="font-family: monospace; font-size: .75rem; color: var(--dark-green);">UPLOADING_FEEDBACK_TO_CORE...</p>
+      <h1>Contact</h1>
+      <p style="font-family: monospace; font-size: .75rem; color: var(--dark-green);">OPEN_COMMUNICATION_LINE...</p>
     </div>
 
-    <div class="status-alert">
-      <strong>PROTECT THE NETWORK:</strong> Have an issue or an idea? Transmit it here. Direct feedback helps us refine the build faster than public store reviews. Your intel is the backbone of the Pushinn evolution.
+    <div class="form-note">
+      <strong>VERIFICATION:</strong> To ensure priority response, please include your <strong>Pushinn Username</strong> if you are already an active network member.
     </div>
 
-    <form class="intel-form" action="https://formspree.io/f/xoqgylje" method="POST">
+    <form class="contact-form" action="https://formspree.io/f/xoqgylje" method="POST">
       <div class="form-group">
-        <label>// PUSHINN_USERNAME (VERIFICATION_REQUIRED)</label>
-        <input type="text" name="username" required placeholder="@yourhandle">
+        <label>// PUSHINN_USERNAME (OPTIONAL)</label>
+        <input type="text" name="username" placeholder="@yourhandle">
       </div>
 
       <div class="form-group">
-        <label>// TRANSMISSION_TYPE</label>
-        <select name="type" required>
-          <option value="BUG_REPORT">[BUG_REPORT]</option>
-          <option value="FEATURE_SUGGESTION">[FEATURE_SUGGESTION]</option>
-          <option value="UI_UX_INTEL">[UI_UX_INTEL]</option>
-          <option value="GENERAL_FEEDBACK">[GENERAL_FEEDBACK]</option>
-        </select>
+        <label>// EMAIL_ADDRESS</label>
+        <input type="email" name="email" required placeholder="name@domain.com">
       </div>
 
       <div class="form-group">
-        <label>// INTEL_PAYLOAD</label>
-        <textarea name="message" rows="6" required placeholder="Describe the anomaly or proposed upgrade in detail..."></textarea>
+        <label>// MESSAGE</label>
+        <textarea name="message" rows="6" required placeholder="How can we help?"></textarea>
       </div>
 
-      <div class="form-group">
-        <label>// CONTACT_FREQUENCY (OPTIONAL)</label>
-        <input type="email" name="email" placeholder="email@address.com">
-      </div>
-
-      <button type="submit" class="btn-transmit">TRANSMIT_INTEL</button>
+      <button type="submit" class="btn-submit">SEND_MESSAGE</button>
     </form>
   </main>
 
   <footer>
-    <span>&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN. SYSTEM_EVOLUTION_IN_PROGRESS.</span>
+    <span>&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN. ALL_SYSTEMS_LIVE.</span>
     <a href="index.html">HOME</a>
     <a href="privacy.html">PRIVACY</a>
     <a href="terms.html">TERMS</a>
