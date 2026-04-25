@@ -1075,8 +1075,8 @@
       <div class="footer-bottom">
         <span class="footer-copy">&copy; <span id="yr"></span> PUSHINN. ALL_SYSTEMS_LIVE.</span>
         <div class="footer-status">
+          <span class="status-item"><span class="status-dot" aria-hidden="true" style="background: #ffae00; box-shadow: 0 0 10px #ffae00;"></span>SYSTEM_STATUS: [HIRING_CONTRACTORS]</span>
           <span class="status-item"><span class="status-dot" aria-hidden="true"></span>COMMUNITY_LIVE</span>
-          <span class="status-item"><span class="status-dot" aria-hidden="true"></span>SPOTS_ONLINE</span>
         </div>
       </div>
     </div>
@@ -1336,6 +1336,37 @@
 
       var MAX_LINES = 4;
       var msgIdx    = 0;
+
+      function addEntry() {
+        var el = document.createElement('div');
+        el.className   = 'hud-entry hud-new';
+        el.textContent = messages[msgIdx % messages.length];
+        msgIdx++;
+
+        /* prepend so newest is at top */
+        log.insertBefore(el, log.firstChild);
+
+        /* keep only MAX_LINES */
+        while (log.children.length > MAX_LINES) {
+          log.removeChild(log.lastChild);
+        }
+
+        /* fade non-new entries */
+        Array.prototype.forEach.call(log.children, function (c, i) {
+          if (i > 0) c.classList.remove('hud-new');
+        });
+      }
+
+      /* Stagger initial fill then continue */
+      setTimeout(function () {
+        addEntry();
+        setInterval(addEntry, 3200);
+      }, 3000);
+    })();
+  </script>
+</body>
+</html>
+    var msgIdx    = 0;
 
       function addEntry() {
         var el = document.createElement('div');
