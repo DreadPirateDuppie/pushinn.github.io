@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pushinn Beta - Coming Soon" />
+  <title>Beta – Pushinn</title>
+
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:      #00FF41;
+      --dark-green: #008F11;
+      --black:      #000000;
+      --surface:    #0A0A0A;
+      --text:       #E0E0E0;
+      --dim:        #888888;
+      --border:     rgba(0, 255, 65, 0.1);
+      --font:       'Inter', sans-serif;
+      --font-display:'Outfit', sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--black);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    /* ── Navbar ── */
+    nav {
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,.9);
+    }
+
+    .nav-inner {
+      width: 100%;
+      max-width: 820px;
+      margin-inline: auto;
+      padding: 1.5rem 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-logo {
+      font-family: monospace;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--green);
+      text-decoration: none;
+    }
+
+    /* ── Main ── */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .teaser-badge {
+      font-family: monospace;
+      font-size: .75rem;
+      color: var(--green);
+      border: 1px solid var(--green);
+      padding: 4px 12px;
+      margin-bottom: 2rem;
+      letter-spacing: .2em;
+      animation: pulse 2s infinite;
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2rem, 8vw, 4rem);
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      letter-spacing: -.03em;
+    }
+
+    .location-intel {
+      font-family: monospace;
+      font-size: .85rem;
+      color: var(--dark-green);
+      letter-spacing: .1em;
+      margin-bottom: 3rem;
+    }
+
+    .app-stores {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 4rem;
+    }
+
+    .store-placeholder {
+      border: 1px solid var(--border);
+      padding: .75rem 1.5rem;
+      font-family: monospace;
+      font-size: .7rem;
+      color: var(--dim);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .btn-home {
+      font-family: monospace;
+      font-size: .75rem;
+      color: var(--green);
+      text-decoration: none;
+      border: 1px solid var(--green);
+      padding: .8rem 2rem;
+      letter-spacing: .1em;
+      transition: background .3s, color .3s;
+    }
+
+    .btn-home:hover {
+      background: var(--green);
+      color: var(--black);
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">PUSHINN</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="teaser-badge">INITIALIZING_BETA_DEPLOYMENT</div>
+    
+    <h1>Coming to an App Store near you.</h1>
+    
+    <div class="location-intel">
+      [LOCATION: LONDON_CORE] // [STATUS: IN_REVIEW]
+    </div>
+
+    <div class="app-stores">
+      <div class="store-placeholder">APPLE_APP_STORE</div>
+      <div class="store-placeholder">GOOGLE_PLAY_STORE</div>
+    </div>
+
+    <a href="index.html" class="btn-home">← RETURN_TO_HQ</a>
+  </main>
+
+  <footer style="padding: 2rem; font-family: monospace; font-size: .65rem; color: var(--dark-green);">
+    <span>&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN. THE_REVOLUTION_WILL_BE_MAPPED.</span>
+  </footer>
+
+</body>
+</html>
