@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Pushinn Bounty Board - Open Contracts" />
-  <title>Bounty Board – Pushinn</title>
+  <meta name="description" content="Pushinn Community Missions - Help Build the Network" />
+  <title>Missions – Pushinn</title>
 
+  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet" />
@@ -61,12 +62,7 @@
       color: var(--green);
     }
 
-    .nav-logo-box {
-      width: 28px; height: 28px;
-      border: 2px solid var(--green);
-      display: grid; place-items: center;
-      font-size: .8rem;
-    }
+    .nav-logo img { width: 28px; height: 28px; }
 
     .nav-back {
       font-family: monospace;
@@ -115,8 +111,8 @@
       max-width: 600px;
     }
 
-    /* ── Bounties ── */
-    .bounty-item {
+    /* ── Missions ── */
+    .mission-item {
       background: rgba(255,255,255,.03);
       border: 1px solid var(--border);
       padding: 2rem;
@@ -125,24 +121,24 @@
       transition: border-color .3s;
     }
 
-    .bounty-item:hover {
+    .mission-item:hover {
       border-color: var(--green);
     }
 
-    .bounty-meta {
+    .mission-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1rem;
     }
 
-    .bounty-id {
+    .mission-id {
       font-family: monospace;
       font-size: .7rem;
       color: var(--dark-green);
     }
 
-    .bounty-tag {
+    .mission-tag {
       font-family: monospace;
       font-size: .6rem;
       background: rgba(0, 255, 65, 0.05);
@@ -151,7 +147,7 @@
       border: 1px solid rgba(0, 255, 65, 0.2);
     }
 
-    .bounty-title {
+    .mission-title {
       font-family: var(--font-display);
       font-weight: 700;
       font-size: 1.2rem;
@@ -159,13 +155,13 @@
       margin-bottom: .75rem;
     }
 
-    .bounty-desc {
+    .mission-desc {
       color: #bbb;
       font-size: .9rem;
       margin-bottom: 1.5rem;
     }
 
-    .btn-apply {
+    .btn-action {
       display: inline-block;
       font-family: monospace;
       font-size: .75rem;
@@ -176,7 +172,7 @@
       transition: background .3s, color .3s;
     }
 
-    .btn-apply:hover {
+    .btn-action:hover {
       background: var(--green);
       color: var(--black);
       text-decoration: none;
@@ -209,45 +205,45 @@
 
   <main>
     <div class="page-header">
-      <h1>Bounty Board</h1>
+      <h1>Community Missions</h1>
       <span class="status-badge">NETWORK_UPGRADES_OPEN</span>
     </div>
 
     <p class="synopsis">
-      Pushinn Labs LTD is currently operating as a lean, pre-funding startup. We do not offer full-time employment at this stage. Instead, we issue <strong>Contract Bounties</strong> for specific technical and creative tasks.
+      The Pushinn Network is built by the crew, for the crew. We are currently recruiting volunteers to help stabilize the core and expand the map. Your contributions earn you <strong>Ranking Score (Clout)</strong> and <strong>Priority Beta Access</strong>.
     </p>
 
-    <!-- Bounty 1 -->
-    <div class="bounty-item">
-      <div class="bounty-meta">
-        <span class="bounty-id">#BNTY-001</span>
-        <span class="bounty-tag">DEVELOPMENT</span>
+    <!-- Mission 1 -->
+    <div class="mission-item">
+      <div class="mission-meta">
+        <span class="mission-id">// MS-01: BUG_HUNTER</span>
+        <span class="mission-tag">REWARD: BETA_ACCESS</span>
       </div>
-      <h3 class="bounty-title">Flutter UI Component Library</h3>
-      <p class="bounty-desc">Building a standardized set of "Terminal-Aesthetic" widgets for the mobile client. Focus on high-contrast visuals and optimized performance.</p>
-      <a href="mailto:admin@pushinn.app?subject=Bounty%20Application:%20BNTY-001" class="btn-apply">INITIATE_CONTACT</a>
+      <h3 class="mission-title">Beta Intelligence & Bug Hunting</h3>
+      <p class="mission-desc">Identify system anomalies, UI glitches, or broken links in the current build. Report them to the core team to secure your place in the final wave.</p>
+      <a href="contact.html" class="btn-action">REPORT_BUGS</a>
     </div>
 
-    <!-- Bounty 2 -->
-    <div class="bounty-item">
-      <div class="bounty-meta">
-        <span class="bounty-id">#BNTY-002</span>
-        <span class="bounty-tag">MARKETING</span>
+    <!-- Mission 2 -->
+    <div class="mission-item">
+      <div class="mission-meta">
+        <span class="mission-id">// MS-02: SPOT_SEEDER</span>
+        <span class="mission-tag">REWARD: OG_SPOTTER_BADGE</span>
       </div>
-      <h3 class="bounty-title">Guerilla Spot Seeding (London)</h3>
-      <p class="bounty-desc">Physical mapping and verification of high-quality street spots across London. Requires accurate metadata collection and photography.</p>
-      <a href="mailto:admin@pushinn.app?subject=Bounty%20Application:%20BNTY-002" class="btn-apply">INITIATE_CONTACT</a>
+      <h3 class="mission-title">London Spot Seeding</h3>
+      <p class="mission-desc">Help us map the city. Add 10 high-quality street spots with accurate metadata (pavement quality, security levels) to earn the legacy 'OG Spotter' status.</p>
+      <a href="contact.html" class="btn-action">JOIN_THE_SEED</a>
     </div>
 
-    <!-- Bounty 3 -->
-    <div class="bounty-item">
-      <div class="bounty-meta">
-        <span class="bounty-id">#BNTY-003</span>
-        <span class="bounty-tag">SECURITY</span>
+    <!-- Mission 3 -->
+    <div class="mission-item">
+      <div class="mission-meta">
+        <span class="mission-id">// MS-03: GATEKEEPER</span>
+        <span class="mission-tag">REWARD: RANKING_BOOST</span>
       </div>
-      <h3 class="bounty-title">Database Hardening & Scale</h3>
-      <p class="bounty-desc">Reviewing our Supabase schema for 1M+ user scalability and implementing advanced RLS (Row Level Security) for "Crew-Only" privacy.</p>
-      <a href="mailto:admin@pushinn.app?subject=Bounty%20Application:%20BNTY-003" class="btn-apply">INITIATE_CONTACT</a>
+      <h3 class="mission-title">Tribal Verification / Moderation</h3>
+      <p class="mission-desc">Assist the core team in verifying new users and authenticating trick clips. High-trust contributors will be promoted to permanent Gatekeeper status.</p>
+      <a href="contact.html" class="btn-action">VOLUNTEER_NOW</a>
     </div>
 
   </main>
