@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pushinn Support - Authenticated User Contact" />
+  <title>Support – Pushinn</title>
+
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:      #00FF41;
+      --dark-green: #008F11;
+      --black:      #000000;
+      --surface:    #0A0A0A;
+      --text:       #E0E0E0;
+      --dim:        #888888;
+      --border:     rgba(0, 255, 65, 0.1);
+      --font:       'Inter', sans-serif;
+      --font-display:'Outfit', sans-serif;
+      --max-w:      820px;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--black);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a { color: var(--green); text-decoration: none; transition: opacity .2s; }
+    a:hover { opacity: .8; text-decoration: underline; }
+
+    /* ── Navbar ── */
+    nav {
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,.9);
+    }
+
+    .nav-inner {
+      max-width: var(--max-w);
+      margin-inline: auto;
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      font-family: monospace;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--green);
+    }
+
+    .nav-logo img { width: 28px; height: 28px; }
+
+    .nav-back {
+      font-family: monospace;
+      font-size: .7rem;
+      color: var(--dark-green);
+      letter-spacing: .1em;
+    }
+
+    /* ── Main ── */
+    main {
+      max-width: var(--max-w);
+      margin-inline: auto;
+      padding: 4rem 1.5rem 6rem;
+    }
+
+    .page-header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .page-header h1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 2.5rem;
+      letter-spacing: -.03em;
+      color: #fff;
+      margin-bottom: .5rem;
+    }
+
+    .warning-box {
+      background: rgba(255, 174, 0, 0.05);
+      border: 1px solid rgba(255, 174, 0, 0.2);
+      padding: 1rem;
+      margin-bottom: 3rem;
+      font-family: monospace;
+      font-size: .75rem;
+      color: #ffae00;
+    }
+
+    /* ── Form ── */
+    .support-form {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: grid;
+      gap: .5rem;
+    }
+
+    .form-group label {
+      font-family: monospace;
+      font-size: .7rem;
+      color: var(--dark-green);
+      letter-spacing: .1em;
+    }
+
+    input, textarea {
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      padding: .8rem 1rem;
+      color: #fff;
+      font-family: var(--font);
+      font-size: .9rem;
+      border-radius: 4px;
+      outline: none;
+      transition: border-color .3s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--green);
+    }
+
+    .btn-submit {
+      background: transparent;
+      border: 1px solid var(--green);
+      color: var(--green);
+      padding: 1rem;
+      font-family: monospace;
+      font-weight: bold;
+      letter-spacing: .2em;
+      cursor: pointer;
+      transition: background .3s, color .3s;
+      margin-top: 1rem;
+    }
+
+    .btn-submit:hover {
+      background: var(--green);
+      color: var(--black);
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-family: monospace;
+      font-size: .65rem;
+      color: var(--dark-green);
+    }
+
+    footer a { color: var(--dark-green); margin-inline: 1rem; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="favicon.png" alt="P">
+        PUSHINN
+      </a>
+      <a class="nav-back" href="index.html">← BACK_TO_HOME</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="page-header">
+      <h1>Support Core</h1>
+      <p style="font-family: monospace; font-size: .75rem; color: var(--dark-green);">ESTABLISHING_SECURE_CHANNEL...</p>
+    </div>
+
+    <div class="warning-box">
+      [CRITICAL]: THIS CHANNEL IS RESERVED FOR ACTIVE NETWORK USERS ONLY. INCLUDE YOUR REGISTERED USERNAME OR YOUR TRANSMISSION WILL BE DISCARDED.
+    </div>
+
+    <form class="support-form" action="https://formspree.io/f/xoqgylje" method="POST">
+      <div class="form-group">
+        <label>// FULL_NAME</label>
+        <input type="text" name="name" required placeholder="Aiden Pearce">
+      </div>
+
+      <div class="form-group">
+        <label>// EMAIL_ADDRESS</label>
+        <input type="email" name="email" required placeholder="contact@domain.com">
+      </div>
+
+      <div class="form-group">
+        <label>// PUSHINN_USERNAME (REQUIRED_FOR_VERIFICATION)</label>
+        <input type="text" name="username" required placeholder="@yourhandle">
+      </div>
+
+      <div class="form-group">
+        <label>// MESSAGE_PAYLOAD</label>
+        <textarea name="message" rows="5" required placeholder="Describe the system anomaly..."></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">TRANSMIT_DATA</button>
+    </form>
+  </main>
+
+  <footer>
+    <span>&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN. ALL_SYSTEMS_LIVE.</span>
+    <a href="index.html">HOME</a>
+    <a href="privacy.html">PRIVACY</a>
+    <a href="terms.html">TERMS</a>
+  </footer>
+
+</body>
+</html>
