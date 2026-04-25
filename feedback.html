@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Pushinn Support - Authenticated User Contact" />
-  <title>Support – Pushinn</title>
+  <meta name="description" content="Pushinn Intel Portal - App Feedback & Bug Reporting" />
+  <title>Intel Portal – Pushinn</title>
 
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -93,18 +93,18 @@
       margin-bottom: .5rem;
     }
 
-    .warning-box {
-      background: rgba(255, 174, 0, 0.05);
-      border: 1px solid rgba(255, 174, 0, 0.2);
-      padding: 1rem;
-      margin-bottom: 3rem;
+    .status-alert {
       font-family: monospace;
       font-size: .75rem;
-      color: #ffae00;
+      color: var(--green);
+      background: rgba(0, 255, 65, 0.05);
+      padding: 1rem;
+      border: 1px solid var(--border);
+      margin-bottom: 3rem;
     }
 
     /* ── Form ── */
-    .support-form {
+    .intel-form {
       display: grid;
       gap: 1.5rem;
     }
@@ -121,7 +121,7 @@
       letter-spacing: .1em;
     }
 
-    input, textarea {
+    input, textarea, select {
       background: rgba(255,255,255,.05);
       border: 1px solid var(--border);
       padding: .8rem 1rem;
@@ -133,11 +133,13 @@
       transition: border-color .3s;
     }
 
-    input:focus, textarea:focus {
+    select option { background: var(--black); color: #fff; }
+
+    input:focus, textarea:focus, select:focus {
       border-color: var(--green);
     }
 
-    .btn-submit {
+    .btn-transmit {
       background: transparent;
       border: 1px solid var(--green);
       color: var(--green);
@@ -150,7 +152,7 @@
       margin-top: 1rem;
     }
 
-    .btn-submit:hover {
+    .btn-transmit:hover {
       background: var(--green);
       color: var(--black);
     }
@@ -182,41 +184,46 @@
 
   <main>
     <div class="page-header">
-      <h1>Support Core</h1>
-      <p style="font-family: monospace; font-size: .75rem; color: var(--dark-green);">ESTABLISHING_SECURE_CHANNEL...</p>
+      <h1>Intel Portal</h1>
+      <p style="font-family: monospace; font-size: .75rem; color: var(--dark-green);">UPLOADING_FEEDBACK_TO_CORE...</p>
     </div>
 
-    <div class="warning-box">
-      [CRITICAL]: THIS CHANNEL IS RESERVED FOR ACTIVE NETWORK USERS ONLY. INCLUDE YOUR REGISTERED USERNAME OR YOUR TRANSMISSION WILL BE DISCARDED.
+    <div class="status-alert">
+      <strong>PROTECT THE NETWORK:</strong> Have an issue or an idea? Transmit it here. Direct feedback helps us refine the build faster than public store reviews. Your intel is the backbone of the Pushinn evolution.
     </div>
 
-    <form class="support-form" action="https://formspree.io/f/xoqgylje" method="POST">
+    <form class="intel-form" action="https://formspree.io/f/xoqgylje" method="POST">
       <div class="form-group">
-        <label>// FULL_NAME</label>
-        <input type="text" name="name" required placeholder="Aiden Pearce">
-      </div>
-
-      <div class="form-group">
-        <label>// EMAIL_ADDRESS</label>
-        <input type="email" name="email" required placeholder="contact@domain.com">
-      </div>
-
-      <div class="form-group">
-        <label>// PUSHINN_USERNAME (REQUIRED_FOR_VERIFICATION)</label>
+        <label>// PUSHINN_USERNAME (VERIFICATION_REQUIRED)</label>
         <input type="text" name="username" required placeholder="@yourhandle">
       </div>
 
       <div class="form-group">
-        <label>// MESSAGE_PAYLOAD</label>
-        <textarea name="message" rows="5" required placeholder="Describe the system anomaly..."></textarea>
+        <label>// TRANSMISSION_TYPE</label>
+        <select name="type" required>
+          <option value="BUG_REPORT">[BUG_REPORT]</option>
+          <option value="FEATURE_SUGGESTION">[FEATURE_SUGGESTION]</option>
+          <option value="UI_UX_INTEL">[UI_UX_INTEL]</option>
+          <option value="GENERAL_FEEDBACK">[GENERAL_FEEDBACK]</option>
+        </select>
       </div>
 
-      <button type="submit" class="btn-submit">TRANSMIT_DATA</button>
+      <div class="form-group">
+        <label>// INTEL_PAYLOAD</label>
+        <textarea name="message" rows="6" required placeholder="Describe the anomaly or proposed upgrade in detail..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>// CONTACT_FREQUENCY (OPTIONAL)</label>
+        <input type="email" name="email" placeholder="email@address.com">
+      </div>
+
+      <button type="submit" class="btn-transmit">TRANSMIT_INTEL</button>
     </form>
   </main>
 
   <footer>
-    <span>&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN. ALL_SYSTEMS_LIVE.</span>
+    <span>&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN. SYSTEM_EVOLUTION_IN_PROGRESS.</span>
     <a href="index.html">HOME</a>
     <a href="privacy.html">PRIVACY</a>
     <a href="terms.html">TERMS</a>
