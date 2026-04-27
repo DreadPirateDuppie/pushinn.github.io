@@ -893,15 +893,28 @@
     /* ── Activity HUD ── */
     (function () {
       var container = document.getElementById('hud-content');
-      var events = ['[SPOT: SOUTHBANK]', '[USER: @SKATE_OR_DIE]', '[BATTLE: LDN_v_NYC]', '[STATUS: WET]', '[NEW_REP: +50]', '[SCAN: COMPLETE]'];
-      function add() {
-        var l = document.createElement('div');
-        l.textContent = events[Math.floor(Math.random() * events.length)];
-        l.style.marginBottom = '4px';
-        container.appendChild(l);
-        if (container.children.length > 8) container.removeChild(container.children[0]);
+      var statusText = document.getElementById('hud-status');
+      
+      async function fetchLiveActivity() {
+        try {
+          const response = await fetch('activity.json');
+          if (!response.ok) return;
+          const data = await response.json();
+          if (data.events && data.events.length > 0) {
+            statusText.textContent = '[LINK_ESTABLISHED]';
+            statusText.style.color = 'var(--green)';
+            data.events.forEach(event => {
+              if (container.lastChild && container.lastChild.textContent === event) return;
+              var l = document.createElement('div');
+              l.textContent = event;
+              l.style.marginBottom = '4px';
+              container.appendChild(l);
+              if (container.children.length > 8) container.removeChild(container.children[0]);
+            });
+          }
+        } catch (e) {}
       }
-      setInterval(add, 2000);
+      setInterval(fetchLiveActivity, 5000);
       setInterval(function() { 
         document.getElementById('hud-timer').textContent = Math.random().toString().slice(2, 8);
       }, 100);
