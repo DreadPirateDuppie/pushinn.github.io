@@ -38,12 +38,12 @@
       --surface:    #0A0A0A;
       --text:       #E0E0E0;
       --dim:        #888888;
-      --border:     rgba(0, 255, 65, 0.1);
+      --border:     rgba(0, 255, 65, 0.15);
       --font:       'Inter', sans-serif;
       --font-display:'Outfit', sans-serif;
       --glow:       0 0 15px rgba(0, 255, 65, 0.4);
       --glow-strong:0 0 30px rgba(0, 255, 65, 0.6);
-      --max-w:      1100px;
+      --max-w:      1200px;
     }
 
     html { scroll-behavior: smooth; }
@@ -59,7 +59,7 @@
 
     a { color: inherit; text-decoration: none; transition: color .3s; }
 
-    /* ── Canvas Matrix Rain ── */
+    /* ── Background layers ── */
     #matrix-canvas {
       position: fixed;
       top: 0; left: 0;
@@ -69,7 +69,6 @@
       opacity: .015;
     }
 
-    /* ── CRT Scanline + Grain Overlay ── */
     #scanline-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -94,7 +93,7 @@
       opacity: .4;
     }
 
-    /* ── CRT Startup Overlay ── */
+    /* ── CRT Startup ── */
     #crt-overlay {
       position: fixed;
       inset: 0;
@@ -134,17 +133,13 @@
       padding-inline: 1.5rem;
     }
 
-    @media (max-width: 768px) {
-      .container { padding-inline: 1.25rem; }
-    }
-
     /* ── Navbar ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
       border-bottom: 1px solid var(--border);
-      background: rgba(0,0,0,.9);
+      background: rgba(0,0,0,.92);
       backdrop-filter: blur(12px);
     }
 
@@ -153,16 +148,16 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 1rem 0 .75rem;
+      padding: 1.25rem 0 1rem;
       gap: .75rem;
     }
 
     .nav-logo {
-      font-family: monospace;
+      font-family: var(--font-display);
       font-weight: 900;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       color: var(--green);
-      letter-spacing: .2em;
+      letter-spacing: .25em;
     }
 
     .nav-links {
@@ -175,7 +170,7 @@
       color: var(--dark-green);
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
       .nav-links { gap: 1rem; font-size: .6rem; }
     }
 
@@ -198,35 +193,31 @@
       display: inline-flex;
       align-items: center;
       gap: .75rem;
-      border: 1px solid rgba(0,255,65,.3);
+      border: 1px solid var(--border);
       background: rgba(0,255,65,.04);
-      padding: .5rem 1rem;
-      border-radius: 999px;
+      padding: .5rem 1.2rem;
+      border-radius: 4px;
       font-family: monospace;
       font-size: .6rem;
       letter-spacing: .2em;
       color: var(--green);
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
     }
 
     .badge-dot {
-      width: 8px; height: 8px;
+      width: 6px; height: 6px;
       background: var(--green);
       border-radius: 50%;
-      animation: ping 1.5s cubic-bezier(0,0,.2,1) infinite;
-    }
-
-    @keyframes ping {
-      75%, 100% { transform: scale(2); opacity: 0; }
+      box-shadow: var(--glow);
     }
 
     h1 {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: clamp(3rem, 12vw, 8rem);
-      line-height: .9;
-      letter-spacing: -.04em;
-      margin-bottom: 1.5rem;
+      font-size: clamp(3.5rem, 15vw, 10rem);
+      line-height: .85;
+      letter-spacing: -.05em;
+      margin-bottom: 2rem;
     }
 
     h1 .line-white { color: #fff; display: block; }
@@ -238,128 +229,200 @@
 
     .hero-sub {
       font-family: monospace;
-      font-size: clamp(.8rem, 2vw, 1rem);
+      font-size: clamp(.85rem, 2vw, 1.1rem);
       color: var(--dark-green);
-      max-width: 500px;
+      max-width: 540px;
       margin-inline: auto;
-      margin-bottom: 3rem;
+      margin-bottom: 3.5rem;
       line-height: 1.6;
     }
 
     .hero-ctas {
       display: flex;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 1.5rem;
       justify-content: center;
     }
 
     .btn-primary {
-      padding: 1rem 2rem;
+      padding: 1.2rem 3rem;
       background: var(--green);
       color: var(--black);
       font-family: monospace;
-      font-weight: 700;
+      font-weight: 900;
       font-size: .8rem;
-      letter-spacing: .1em;
+      letter-spacing: .15em;
       transition: transform .2s, box-shadow .3s;
     }
 
-    .btn-primary:hover { transform: scale(1.02); box-shadow: var(--glow-strong); }
+    .btn-primary:hover { transform: scale(1.03); box-shadow: var(--glow-strong); }
 
     .btn-secondary {
-      padding: 1rem 2rem;
+      padding: 1.2rem 3rem;
       border: 1px solid var(--green);
       color: var(--green);
       font-family: monospace;
-      font-weight: 700;
+      font-weight: 900;
       font-size: .8rem;
-      letter-spacing: .1em;
+      letter-spacing: .15em;
       transition: background .3s;
     }
 
     .btn-secondary:hover { background: rgba(0,255,65,.1); }
 
-    /* ── Features ── */
+    /* ── New "Protocol Scanner" Section ── */
     #features {
       position: relative;
       z-index: 1;
-      padding-block: 6rem;
+      padding-block: 10rem;
+      background: rgba(255,255,255, 0.01);
+      border-top: 1px solid var(--border);
     }
 
-    .section-label {
-      font-family: monospace;
-      font-size: .65rem;
-      letter-spacing: .5em;
-      color: var(--green);
-      opacity: .5;
-      text-align: center;
-      margin-bottom: 1rem;
+    .scanner-container {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 4rem;
+      align-items: start;
     }
 
-    .section-title {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      letter-spacing: -.03em;
-      text-align: center;
-      color: #fff;
-      margin-bottom: 1.5rem;
+    @media (max-width: 1000px) {
+      .scanner-container { grid-template-columns: 1fr; }
+      .scanner-visual { display: none; }
     }
 
-    .section-divider {
-      width: 96px;
-      height: 3px;
-      background: var(--green);
-      box-shadow: var(--glow);
-      margin-inline: auto;
-      margin-bottom: 5rem;
+    .protocol-header {
+      margin-bottom: 4rem;
     }
 
     .protocol-list {
-      display: grid;
-      gap: 0;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.01);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
 
-    .protocol-item {
-      display: grid;
-      grid-template-columns: 80px 1fr;
+    .protocol-row {
+      position: relative;
       padding: 2.5rem;
-      border-bottom: 1px solid var(--border);
-      transition: background .3s;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0, 0.3);
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(.4,0,.2,1);
+      overflow: hidden;
     }
 
-    @media (max-width: 600px) {
-      .protocol-item { grid-template-columns: 1fr; gap: 1rem; padding: 1.5rem; }
+    .protocol-row:hover, .protocol-row.active {
+      border-color: var(--green);
+      background: rgba(0,255,65, 0.05);
+      padding-left: 3.5rem;
     }
 
-    .protocol-item:last-child { border-bottom: none; }
-    .protocol-item:hover { background: rgba(0,255,65,0.03); }
+    .protocol-row.active::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: var(--green);
+      box-shadow: var(--glow);
+    }
 
-    .protocol-code {
+    .protocol-num {
       font-family: monospace;
-      font-size: .6rem;
-      color: var(--green);
-      opacity: .5;
+      font-size: .7rem;
+      color: var(--dark-green);
+      margin-bottom: .75rem;
+      display: block;
     }
 
-    .protocol-content h3 {
+    .protocol-row.active .protocol-num { color: var(--green); }
+
+    .protocol-row h3 {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 1.5rem;
+      font-size: 1.75rem;
       color: #fff;
-      margin-bottom: .75rem;
+      margin-bottom: .5rem;
       letter-spacing: -.02em;
     }
 
-    .protocol-content p {
+    .protocol-row p {
       font-family: monospace;
-      font-size: .8rem;
+      font-size: .85rem;
       color: var(--dark-green);
-      line-height: 1.7;
-      max-width: 500px;
+      max-width: 480px;
+      opacity: .6;
+      transition: opacity .3s;
     }
+
+    .protocol-row.active p { opacity: 1; color: var(--text); }
+
+    /* The Scanning Line */
+    .scan-line {
+      position: absolute;
+      left: 0; right: 0;
+      height: 1px;
+      background: var(--green);
+      box-shadow: 0 0 10px var(--green);
+      z-index: 10;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .protocol-row.active .scan-line {
+      opacity: .4;
+      animation: scanner-move 3s linear infinite;
+    }
+
+    @keyframes scanner-move {
+      0% { top: 0; }
+      100% { top: 100%; }
+    }
+
+    /* Dynamic Visual Window */
+    .scanner-visual {
+      position: sticky;
+      top: 150px;
+      height: 450px;
+      border: 1px solid var(--border);
+      background: #000;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .visual-header {
+      font-family: monospace;
+      font-size: .6rem;
+      color: var(--green);
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: .75rem;
+    }
+
+    .visual-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: monospace;
+      font-size: .55rem;
+      line-height: 1.2;
+      color: var(--dark-green);
+      white-space: pre;
+    }
+
+    .visual-footer {
+      border-top: 1px solid var(--border);
+      padding-top: .75rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .bar-container { height: 4px; background: rgba(0,255,65,.1); width: 100%; position: relative; }
+    .bar-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--green); transition: width .5s ease; }
 
     /* ── Stats Strip ── */
     #stats {
@@ -367,34 +430,25 @@
       z-index: 1;
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      padding-block: 3rem;
+      padding-block: 4rem;
     }
 
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 1.5rem;
-      text-align: center;
+      gap: 2rem;
     }
 
-    @media (max-width: 480px) {
-      .stats-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
-    }
+    @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
 
-    .stat-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: .5rem;
-    }
+    .stat-item { display: flex; flex-direction: column; align-items: center; }
 
     .stat-number {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: clamp(2rem, 5vw, 3rem);
+      font-size: clamp(2.5rem, 6vw, 4rem);
       color: var(--green);
       text-shadow: var(--glow);
-      letter-spacing: -.03em;
     }
 
     .stat-label {
@@ -405,200 +459,64 @@
       text-transform: uppercase;
     }
 
-    /* ── Beta Section ── */
-    #beta {
-      position: relative;
-      z-index: 1;
-      padding-block: 6rem;
+    /* ── Other Sections ── */
+    .section-standard {
+      padding-block: 8rem;
       border-top: 1px solid var(--border);
-      text-align: center;
-    }
-
-    .beta-inner {
-      max-width: 500px;
-      margin-inline: auto;
-    }
-
-    .beta-inner h2 {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: clamp(2rem, 5vw, 3rem);
-      letter-spacing: -.03em;
-      color: #fff;
-      margin-bottom: 1rem;
-    }
-
-    .beta-inner p {
-      font-family: monospace;
-      color: var(--dark-green);
-      font-size: .8rem;
-      margin-bottom: 2rem;
-      line-height: 1.6;
-    }
-
-    .beta-form {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .75rem;
-      justify-content: center;
-    }
-
-    .beta-input {
-      flex: 1 1 240px;
-      padding: .8rem 1rem;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(0,255,65,.2);
-      color: var(--text);
-      font-family: monospace;
-      font-size: .85rem;
-      outline: none;
-      transition: border-color .3s, box-shadow .3s;
-    }
-
-    .beta-input::placeholder { color: var(--dim); }
-    .beta-input:focus {
-      border-color: var(--green);
-      box-shadow: var(--glow);
-    }
-
-    .beta-note {
-      margin-top: 1rem;
-      font-family: monospace;
-      font-size: .6rem;
-      color: var(--dim);
-      letter-spacing: .1em;
     }
 
     /* ── Footer ── */
     footer {
-      position: relative;
-      z-index: 1;
+      padding-block: 5rem;
       border-top: 1px solid var(--border);
-      padding-block: 4rem;
-      overflow: hidden;
-    }
-
-    .footer-watermark {
-      position: absolute;
-      bottom: -2vw;
-      left: 0;
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 15vw;
-      color: rgba(0,255,65,.04);
-      pointer-events: none;
-      user-select: none;
-      white-space: nowrap;
     }
 
     .footer-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 3rem;
-      margin-bottom: 3rem;
-    }
-
-    .footer-brand p {
-      font-family: monospace;
-      font-size: .7rem;
-      color: var(--dark-green);
-      line-height: 1.7;
-      margin-top: 1rem;
-      max-width: 220px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 4rem;
+      margin-bottom: 4rem;
     }
 
     .footer-col h4 {
       font-family: monospace;
-      font-weight: 700;
-      font-size: .65rem;
-      letter-spacing: .3em;
+      font-size: .7rem;
       color: #fff;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
+      letter-spacing: .2em;
     }
 
-    .footer-col ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: .65rem;
-    }
-
+    .footer-col ul { list-style: none; display: grid; gap: .75rem; }
     .footer-col a {
       font-family: monospace;
       font-size: .65rem;
       color: var(--dark-green);
       letter-spacing: .05em;
-      transition: color .3s;
     }
-
     .footer-col a:hover { color: var(--green); }
 
-    .footer-bottom {
-      border-top: 1px solid rgba(0,255,65,.05);
-      padding-top: 2rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer-copy {
-      font-family: monospace;
-      font-size: .6rem;
-      color: var(--dark-green);
-      opacity: .5;
-    }
-
-    .footer-status {
-      display: flex;
-      gap: 2rem;
-    }
-
-    .status-item {
-      display: flex;
-      align-items: center;
-      gap: .4rem;
-      font-family: monospace;
-      font-size: .6rem;
-      color: var(--dark-green);
-    }
-
-    .status-dot {
-      width: 6px; height: 6px;
-      background: var(--green);
-      border-radius: 50%;
-      box-shadow: var(--glow);
-    }
-
-    /* ── Activity HUD ── */
+    /* ── HUD ── */
     #activity-hud {
       position: fixed;
-      bottom: 1rem;
-      right: 1.25rem;
+      bottom: 1.5rem;
+      right: 1.5rem;
       z-index: 150;
-      width: 220px;
+      width: 240px;
       background: rgba(0,0,0,.9);
       border: 1px solid var(--border);
       font-family: monospace;
       font-size: .55rem;
-      color: var(--dark-green);
-      pointer-events: none;
+      color: var(--green);
       display: none;
     }
-
-    @media (min-width: 1024px) { #activity-hud { display: block; } }
+    @media (min-width: 1100px) { #activity-hud { display: block; } }
 
     @keyframes reveal {
-      from { opacity: 0; transform: translateY(24px); }
+      from { opacity: 0; transform: translateY(30px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
-    .reveal { animation: reveal .8s cubic-bezier(.4,0,.2,1) both; }
-    .delay-1 { animation-delay: .15s; }
-    .delay-2 { animation-delay: .3s; }
-    .delay-3 { animation-delay: .45s; }
-    .delay-4 { animation-delay: .6s; }
+    .reveal { opacity: 0; }
+    .reveal.visible { animation: reveal .8s cubic-bezier(.4,0,.2,1) forwards; }
 
     /* ── Scroll progress — Skater Grind ── */
     #skater-track {
@@ -608,15 +526,13 @@
       z-index: 200;
       pointer-events: none;
     }
-
     #skater-rail {
       position: absolute;
       top: 9px; left: 0;
       height: 2px;
       width: 100%;
-      background: rgba(0,255,65,.12);
+      background: rgba(0,255,65,.1);
     }
-
     #skater-progress-fill {
       position: absolute;
       top: 9px; left: 0;
@@ -624,99 +540,66 @@
       width: 0%;
       background: var(--green);
       box-shadow: var(--glow);
-      transition: width .1s linear;
     }
-
     #skater-icon {
       position: absolute;
       top: 0;
       left: 0%;
       color: var(--green);
-      filter: drop-shadow(0 0 4px rgba(0,255,65,.7));
-      transition: left .1s linear;
+      filter: drop-shadow(0 0 5px var(--green));
       transform: translateX(-50%);
     }
-
-    /* ── Typewriter cursor ── */
-    #tw-cursor {
-      display: inline-block;
-      color: var(--green);
-      animation: blink 1s step-end infinite;
-    }
-    @keyframes blink { 50% { opacity: 0; } }
-
-    /* ── Active nav link ── */
-    .nav-links a.active { color: var(--green); }
   </style>
 </head>
 <body>
 
-  <!-- ── CRT Startup Overlay ── -->
+  <!-- CRT Overlay -->
   <div id="crt-overlay" aria-hidden="true"><div id="crt-line"></div></div>
 
-  <!-- ── Scroll progress — Skater Grind ── -->
+  <!-- Grind Progress -->
   <div id="skater-track" aria-hidden="true">
     <div id="skater-rail"></div>
     <div id="skater-progress-fill"></div>
     <div id="skater-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="7" cy="19" r="2"></circle>
-        <circle cx="17" cy="19" r="2"></circle>
-        <path d="M3 17h18"></path>
-        <path d="M3 17a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h1"></path>
-        <path d="M21 17a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-1"></path>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="19" r="2"></circle><circle cx="17" cy="19" r="2"></circle><path d="M3 17h18"></path><path d="M3 17a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h1"></path><path d="M21 17a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-1"></path></svg>
     </div>
   </div>
 
-  <!-- Background layers -->
   <canvas id="matrix-canvas" aria-hidden="true"></canvas>
   <div id="scanline-overlay" aria-hidden="true"></div>
   <canvas id="grain-canvas" aria-hidden="true"></canvas>
 
-  <!-- ── Navbar ── -->
   <nav>
     <div class="container nav-inner">
-      <a href="#hero" class="nav-logo" aria-label="Pushinn home">
-        PUSHINN
-      </a>
-      <ul class="nav-links" role="navigation">
+      <a href="#hero" class="nav-logo">PUSHINN</a>
+      <ul class="nav-links">
         <li><a href="#features">FEATURES</a></li>
         <li><a href="bounties.html">COMMUNITY_MISSIONS</a></li>
         <li><a href="contact.html">CONTACT</a></li>
-        <li><a href="#beta">BETA</a></li>
-        <li><a href="privacy.html">PRIVACY</a></li>
+        <li><a href="beta.html">BETA</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- ── Hero ── -->
   <section id="hero">
-    <span class="side-text side-text-left" aria-hidden="true">SOUTHBANK_SESSION... [LIVE]</span>
-    <span class="side-text side-text-right" aria-hidden="true">MAPPING_SECRET_SPOTS... [ON]</span>
-
     <div class="hero-badge reveal">
-      <span class="badge-dot" aria-hidden="true"></span>
+      <span class="badge-dot"></span>
       BETA_BUILD: 1.0.4
     </div>
-
     <h1 class="reveal delay-1">
       <span class="line-white">PUSHINN</span>
       <span class="line-green">NETWORK</span>
     </h1>
-
-    <p class="hero-sub reveal delay-2" id="hero-sub" aria-label="The skateboarding social network. Map spots. Battle peers. Earn reputation.">
+    <p class="hero-sub reveal delay-2">
       <span id="tw-text"></span><span id="tw-cursor">|</span>
     </p>
-
     <div class="hero-ctas reveal delay-3">
-      <a href="#beta" class="btn-primary"><span>JOIN_THE_CREW</span></a>
+      <a href="#beta" class="btn-primary">JOIN_THE_CREW</a>
       <a href="beta.html" class="btn-secondary">ACCESS_THE_BETA</a>
     </div>
   </section>
 
-  <!-- ── Stats Strip ── -->
-  <section id="stats" aria-label="Community stats">
+  <section id="stats">
     <div class="container">
       <div class="stats-grid">
         <div class="stat-item">
@@ -733,156 +616,154 @@
         </div>
         <div class="stat-item">
           <span class="stat-number" data-target="40" data-suffix="+">0+</span>
-          <span class="stat-label">Cities Represented</span>
+          <span class="stat-label">Cities Mapped</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── System Protocol (Features) ── -->
+  <!-- ── Protocol Scanner (New Dynamic Features) ── -->
   <section id="features">
     <div class="container">
-      <p class="section-label">SYSTEM_SPECIFICATIONS</p>
-      <h2 class="section-title">Core Protocol</h2>
-      <div class="section-divider" aria-hidden="true"></div>
+      <div class="protocol-header reveal">
+        <p class="section-label">// SYSTEM_SPECIFICATIONS</p>
+        <h2 class="section-title" style="text-align: left;">Core Protocol</h2>
+      </div>
 
-      <div class="protocol-list reveal">
-        <!-- Item 1 -->
-        <div class="protocol-item">
-          <div class="protocol-code">// 01</div>
-          <div class="protocol-content">
+      <div class="scanner-container">
+        <!-- The List -->
+        <div class="protocol-list">
+          
+          <div class="protocol-row active" data-id="geo">
+            <div class="scan-line"></div>
+            <span class="protocol-num">// 01</span>
             <h3>Geospatial Intel</h3>
-            <p>A community-driven map for locating and verifying urban athletic spaces. High-fidelity coordinates with real-time status updates.</p>
+            <p>Real-time condition mapping. Know if the spot is wet, dry, or locked off before you drop in.</p>
           </div>
-        </div>
 
-        <!-- Item 2 -->
-        <div class="protocol-item">
-          <div class="protocol-code">// 02</div>
-          <div class="protocol-content">
-            <h3>Asynchronous Battles</h3>
-            <p>Challenge peers to skill-based contests. Verified by the community through a weighted consensus model. Earn reputation and clout.</p>
+          <div class="protocol-row" data-id="battle">
+            <div class="scan-line"></div>
+            <span class="protocol-num">// 02</span>
+            <h3>Async Battles</h3>
+            <p>Challenge the crew. community verified wagers. earn your rep on the global ledger.</p>
           </div>
-        </div>
 
-        <!-- Item 3 -->
-        <div class="protocol-item">
-          <div class="protocol-code">// 03</div>
-          <div class="protocol-content">
+          <div class="protocol-row" data-id="private">
+            <div class="scan-line"></div>
+            <span class="protocol-num">// 03</span>
             <h3>Private Nodes</h3>
-            <p>Encrypted spot visibility for your crew. Gatekeep your best finds and share them only with those who have cleared verification.</p>
+            <p>Gatekeep your best finds. Encrypted crew-only visibility. No snitching.</p>
           </div>
+
+          <div class="protocol-row" data-id="talent">
+            <div class="scan-line"></div>
+            <span class="protocol-num">// 04</span>
+            <h3>Talent ID</h3>
+            <p>Objective metrics for the 1%. Character-select scouting for verified brands.</p>
+          </div>
+
         </div>
 
-        <!-- Item 4 -->
-        <div class="protocol-item">
-          <div class="protocol-code">// 04</div>
-          <div class="protocol-content">
-            <h3>Talent Identification</h3>
-            <p>Objective performance tracking via our Triple-Score algorithm. A direct pipeline for brand owners to scout verified urban athletes.</p>
+        <!-- The Dynamic Visual Window -->
+        <div class="scanner-visual reveal">
+          <div class="visual-header">
+            <span>[DIAGNOSTIC_FEED]</span>
+            <span id="visual-id">PROT_01</span>
+          </div>
+          <div class="visual-content" id="ascii-display">
+   ______
+  / ____/
+ / / __  
+/ /_/ /  
+\____/   
+          </div>
+          <div class="visual-footer">
+            <div>
+              <div style="font-size: .5rem; color: var(--dark-green); margin-bottom: 4px;">SIGNAL_STRENGTH</div>
+              <div class="bar-container"><div class="bar-fill" style="width: 85%;"></div></div>
+            </div>
+            <div>
+              <div style="font-size: .5rem; color: var(--dark-green); margin-bottom: 4px;">UP-LINK_STABILITY</div>
+              <div class="bar-container"><div class="bar-fill" style="width: 92%;"></div></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── Community Missions Section ── -->
-  <section id="community-missions" style="padding-block: 8rem; background: rgba(0,255,65,0.01); border-top: 1px solid var(--border);">
+  <section id="community-missions" class="section-standard">
     <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem; align-items: center;">
       <div class="reveal">
         <p class="section-label">// NETWORK_GROWTH</p>
-        <h2 class="section-title" style="margin-bottom: 1.5rem;">Join the Community Missions</h2>
-        <p style="color: #bbb; margin-bottom: 2rem; line-height: 1.8;">
-          The Pushinn Network is built by the crew, for the crew. We are currently recruiting volunteers to help stabilize the core and expand the map. Your contributions earn you <strong>Ranking Score (Clout)</strong> and <strong>Priority Beta Access</strong>.
+        <h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem;">Join the Missions</h2>
+        <p style="color: #bbb; margin-bottom: 2rem; font-size: .9rem;">
+          Built by the crew, for the crew. We are recruiting volunteers to stabilize the core and expand the map. Your contributions earn you <strong>Ranking Score</strong> and <strong>Priority Access</strong>.
         </p>
-        <a href="bounties.html" class="btn-secondary" style="border-width: 1px; padding: .8rem 2rem; font-size: .8rem;">VIEW_ACTIVE_MISSIONS</a>
+        <a href="bounties.html" class="btn-secondary">VIEW_MISSIONS</a>
       </div>
-      <div class="reveal" style="border: 1px solid var(--border); padding: 2.5rem; background: rgba(0,0,0,0.4); text-align: left; position: relative; overflow: hidden;">
+      <div class="reveal" style="border: 1px solid var(--border); padding: 2.5rem; background: rgba(0,0,0,0.4); text-align: left;">
         <div style="font-family: monospace; font-size: .65rem; color: var(--dark-green); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px;">
-          <span class="status-dot" style="background: var(--green); box-shadow: 0 0 10px var(--green); width: 6px; height: 6px;"></span>
-          LIVE_MISSION_FEED
+          <span class="status-dot"></span> LIVE_MISSION_FEED
         </div>
         <ul style="list-style: none; font-family: monospace; font-size: .8rem; color: #fff; display: grid; gap: 12px;">
-          <li style="color: var(--green);">[MS-01]: BETA_INTEL_HUNT</li>
-          <li>[MS-02]: LONDON_SPOT_SEEDING</li>
-          <li>[MS-03]: TRIBAL_MODERATION</li>
+          <li style="color: var(--green);">[MS-01]: BUG_HUNTER</li>
+          <li>[MS-02]: SPOT_SEEDER</li>
+          <li>[MS-03]: GATEKEEPER</li>
         </ul>
-        <div style="margin-top: 2rem; font-family: monospace; font-size: .6rem; color: var(--dark-green); border-top: 1px solid var(--border); padding-top: 1rem;">
-          INTEL_UP-LINK: 100%_ACTIVE
-        </div>
       </div>
     </div>
   </section>
 
-  <!-- ── Support Section ── -->
-  <section id="support-section" style="padding-block: 8rem; border-top: 1px solid var(--border);">
+  <section id="support-section" class="section-standard">
     <div class="container" style="text-align: center;">
       <div class="reveal">
-        <p class="section-label">// DIRECT_COMMUNICATION</p>
-        <h2 class="section-title" style="margin-bottom: 1.5rem;">Need Assistance?</h2>
-        <p style="color: #bbb; margin-bottom: 3rem; max-width: 600px; margin-inline: auto; line-height: 1.8;">
-          Whether you've found a system anomaly or have a proposal for the network, our direct communication line is open. Verified users receive priority frequency.
+        <p class="section-label">// COMMUNICATIONS</p>
+        <h2 class="section-title" style="margin-bottom: 1.5rem;">Direct Link</h2>
+        <p style="color: #bbb; margin-bottom: 3rem; max-width: 600px; margin-inline: auto;">
+          Whether you've found a system anomaly or have a proposal for the network, our direct communication line is open.
         </p>
-        <a href="contact.html" class="btn-primary" style="padding: 1rem 3rem;">CONTACT_CORE</a>
+        <a href="contact.html" class="btn-primary">CONTACT_CORE</a>
       </div>
     </div>
   </section>
 
-  <!-- ── Beta Signup ── -->
   <section id="beta">
     <div class="container">
-      <div class="beta-inner">
+      <div class="beta-inner reveal">
         <p class="section-label">EARLY_ACCESS</p>
         <h2>JOIN_THE_CREW</h2>
-        <p>
-          We're bringing in the first wave of London skaters. Drop your email
-          and we'll hit you when you're in — be first on the map, first in the battles.
-        </p>
+        <p>Bringing in the first wave of London skaters. Drop your email and we'll hit you when you're in.</p>
         <form class="beta-form" onsubmit="handleSignup(event)">
-          <input
-            class="beta-input"
-            type="email"
-            id="beta-email"
-            placeholder="your@email.com"
-            required
-            aria-label="Email address for beta access"
-          />
-          <button type="submit" class="btn-primary"><span>JOIN_THE_CREW</span></button>
+          <input class="beta-input" type="email" placeholder="your@email.com" required>
+          <button type="submit" class="btn-primary">TRANSMIT</button>
         </form>
-        <p class="beta-note" id="beta-msg" aria-live="polite"></p>
+        <p class="beta-note" id="beta-msg"></p>
       </div>
     </div>
   </section>
 
-  <!-- ── Footer ── -->
   <footer>
-    <div class="footer-watermark" aria-hidden="true">PUSHINN</div>
     <div class="container">
       <div class="footer-grid">
-
-        <div class="footer-brand footer-col">
-          <div class="nav-logo">
-            PUSHINN
-          </div>
+        <div class="footer-brand">
+          <div class="nav-logo">PUSHINN</div>
           <p>The underground social layer for the London skate scene. Map spots, build rep, gatekeep your best finds.</p>
         </div>
-
         <div class="footer-col">
           <h4>THE MAP</h4>
           <ul>
             <li><a href="#features">FEATURES</a></li>
-            <li><a href="bounties.html">COMMUNITY_MISSIONS</a></li>
-            <li><a href="#beta">JOIN_THE_CREW</a></li>
+            <li><a href="bounties.html">MISSIONS</a></li>
+            <li><a href="#beta">JOIN</a></li>
           </ul>
         </div>
-
         <div class="footer-col">
           <h4>COMMUNITY</h4>
           <ul>
             <li><a href="contact.html">CONTACT_CORE</a></li>
           </ul>
         </div>
-
         <div class="footer-col">
           <h4>LEGAL</h4>
           <ul>
@@ -890,49 +771,69 @@
             <li><a href="terms.html">TERMS</a></li>
           </ul>
         </div>
-
       </div>
-
       <div class="footer-bottom">
         <span class="footer-copy">&copy; <span id="yr"></span> PUSHINN. ALL_SYSTEMS_LIVE.</span>
         <div class="footer-status">
-          <span class="status-item"><span class="status-dot" aria-hidden="true" style="background: #ffae00; box-shadow: 0 0 10px #ffae00;"></span>SYSTEM_STATUS: [HIRING_CONTRACTORS]</span>
-          <span class="status-item"><span class="status-dot" aria-hidden="true"></span>COMMUNITY_LIVE</span>
+          <span class="status-item"><span class="status-dot" style="background: #ffae00; box-shadow: 0 0 10px #ffae00;"></span>SYSTEM: [HIRING]</span>
+          <span class="status-item"><span class="status-dot"></span>COMMUNITY_LIVE</span>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- ── Activity HUD ── -->
   <div id="activity-hud" aria-hidden="true">
-    <div class="hud-inner">
-      <div class="hud-line">[LINK_ESTABLISHED]</div>
-      <div id="hud-content"></div>
+    <div style="padding: .75rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
+      <span>[LIVE_LINK]</span>
+      <span id="hud-timer">0.0.0</span>
     </div>
+    <div id="hud-content" style="padding: .75rem; height: 120px; overflow: hidden;"></div>
   </div>
 
   <script>
-    /* ── Date ── */
     document.getElementById('yr').textContent = new Date().getFullYear();
 
     /* ── Typewriter ── */
     (function () {
-      var text = "The skateboarding social network. Map spots. Battle peers. Earn reputation.";
+      var text = "Map spots. Battle peers. Join the crew.";
       var i = 0;
       var target = document.getElementById('tw-text');
       function type() {
         if (i < text.length) {
           target.textContent += text.charAt(i);
           i++;
-          setTimeout(type, 40);
+          setTimeout(type, 50);
         }
       }
-      setTimeout(type, 1800);
+      setTimeout(type, 2000);
+    })();
+
+    /* ── Protocol Scanner Logic ── */
+    (function () {
+      var rows = document.querySelectorAll('.protocol-row');
+      var idDisplay = document.getElementById('visual-id');
+      var ascii = document.getElementById('ascii-display');
+      
+      var data = {
+        geo: { id: "PROT_01", art: "   ______\n  / ____/\n / / __  \n/ /_/ /  \n\\____/   " },
+        battle: { id: "PROT_02", art: "    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/      " },
+        private: { id: "PROT_03", art: "    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/      " },
+        talent: { id: "PROT_04", art: "  _______ \n /_  __(_)\n  / / / / \n / / / /  \n/_/ /_/   " }
+      };
+
+      rows.forEach(function(row) {
+        row.addEventListener('mouseenter', function() {
+          rows.forEach(function(r) { r.classList.remove('active'); });
+          row.classList.add('active');
+          var d = data[row.getAttribute('data-id')];
+          idDisplay.textContent = d.id;
+          ascii.textContent = d.art;
+        });
+      });
     })();
 
     /* ── Stats counter ── */
     (function () {
-      var options = { threshold: 0.5 };
       var observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
@@ -940,10 +841,8 @@
             var target = parseInt(el.getAttribute('data-target'));
             var suffix = el.getAttribute('data-suffix') || '';
             var count = 0;
-            var duration = 2000;
-            var step = target / (duration / 30);
             var timer = setInterval(function () {
-              count += step;
+              count += target / 60;
               if (count >= target) {
                 el.textContent = target + suffix;
                 clearInterval(timer);
@@ -954,21 +853,9 @@
             observer.unobserve(el);
           }
         });
-      }, options);
-      document.querySelectorAll('.stat-number').forEach(function (el) {
-        observer.observe(el);
-      });
+      }, { threshold: 0.5 });
+      document.querySelectorAll('.stat-number').forEach(function (el) { observer.observe(el); });
     })();
-
-    /* ── Form handling ── */
-    function handleSignup(e) {
-      e.preventDefault();
-      var msg = document.getElementById('beta-msg');
-      msg.textContent = ">_INITIATING_ONBOARDING_SEQUENCE... [REDIRECTING_TO_CORE]";
-      setTimeout(function() {
-        msg.textContent = ">_STATION_BUSY. PLEASE_TRY_LATER.";
-      }, 2000);
-    }
 
     /* ── Reveal on scroll ── */
     (function () {
@@ -979,107 +866,31 @@
           }
         });
       }, { threshold: 0.1 });
-      document.querySelectorAll('.reveal').forEach(function (el) {
-        observer.observe(el);
-      });
+      document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
     })();
 
     /* ── Skater Grind Scroll ── */
     window.addEventListener('scroll', function () {
-      var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-      var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      var scrolled = (winScroll / height) * 100;
+      var scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
       document.getElementById('skater-progress-fill').style.width = scrolled + '%';
       document.getElementById('skater-icon').style.left = scrolled + '%';
     });
 
-    /* ── CRT Startup Logic ── */
-    (function () {
-      var overlay = document.getElementById('crt-overlay');
-      if (!overlay) return;
-      setTimeout(function () {
-        overlay.style.display = 'none';
-      }, 1900);
-    })();
-
-    /* ── Matrix Rain ── */
-    (function () {
-      var canvas = document.getElementById('matrix-canvas');
-      var ctx = canvas.getContext('2d');
-      var cols, drops;
-      function resize() {
-        canvas.width  = window.innerWidth;
-        canvas.height = window.innerHeight;
-        cols  = Math.floor(canvas.width / 24);
-        drops = Array(cols).fill(1);
-      }
-      function draw() {
-        ctx.fillStyle = 'rgba(0,0,0,.07)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#00FF41';
-        ctx.font      = '12px monospace';
-        var chars = '01アイウエオ'.split('');
-        drops.forEach(function (y, i) {
-          var ch = chars[Math.floor(Math.random() * chars.length)];
-          ctx.fillText(ch, i * 24, y * 24);
-          if (y * 24 > canvas.height && Math.random() > .975) drops[i] = 0;
-          drops[i]++;
-        });
-      }
-      resize();
-      window.addEventListener('resize', resize);
-      setInterval(draw, 80);
-    })();
-
-    /* ── Film Grain ── */
-    (function () {
-      var canvas = document.getElementById('grain-canvas');
-      if (!canvas) return;
-      var ctx = canvas.getContext('2d');
-      function resize() {
-        canvas.width  = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (var i = 0; i < 1000; i++) {
-          var x = Math.random() * canvas.width;
-          var y = Math.random() * canvas.height;
-          var opacity = Math.random() * 0.05;
-          ctx.fillStyle = 'rgba(255,255,255,' + opacity + ')';
-          ctx.fillRect(x, y, 1, 1);
-        }
-      }
-      resize();
-      window.addEventListener('resize', resize);
-      setInterval(draw, 50);
-    })();
-
-    /* ── Activity HUD Logic ── */
+    /* ── Activity HUD ── */
     (function () {
       var container = document.getElementById('hud-content');
-      var events = [
-        '[SPOT_DISCOVERED: SOUTHBANK_LEDGE]',
-        '[USER_SYNCED: @SKATE_OR_DIE]',
-        '[BATTLE_INITIALIZED: LDN_VS_BRS]',
-        '[STATUS: SPOT_LOCKED_OFF]',
-        '[NETWORK_UPGRADE: PROTOCOL_1.0.4]',
-        '[USER_VERIFIED: @STREET_KING]',
-        '[INTEL_RECEIVED: NEW_STAIR_SET]',
-        '[COMMUNITY_SIGNAL: SESSION_ALIVE]'
-      ];
-      function addEntry() {
-        var line = document.createElement('div');
-        line.className = 'hud-line hud-new';
-        line.textContent = events[Math.floor(Math.random() * events.length)];
-        container.appendChild(line);
-        if (container.children.length > 5) container.removeChild(container.children[0]);
-        setTimeout(function() { line.classList.remove('hud-new'); }, 100);
+      var events = ['[SPOT: SOUTHBANK]', '[USER: @SKATE_OR_DIE]', '[BATTLE: LDN_v_NYC]', '[STATUS: WET]', '[NEW_REP: +50]', '[SCAN: COMPLETE]'];
+      function add() {
+        var l = document.createElement('div');
+        l.textContent = events[Math.floor(Math.random() * events.length)];
+        l.style.marginBottom = '4px';
+        container.appendChild(l);
+        if (container.children.length > 8) container.removeChild(container.children[0]);
       }
-      setTimeout(function() {
-        addEntry();
-        setInterval(addEntry, 3200);
-      }, 3000);
+      setInterval(add, 2000);
+      setInterval(function() { 
+        document.getElementById('hud-timer').textContent = Math.random().toString().slice(2, 8);
+      }, 100);
     })();
   </script>
 </body>
