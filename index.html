@@ -834,22 +834,36 @@
 
     /* ── Stats counter ── */
     (function () {
+      async function fetchLiveStats() {
+        try {
+          const response = await fetch('stats.json');
+          if (!response.ok) return;
+          const data = await response.json();
+          document.getElementById('stat-spots').setAttribute('data-target', data.spots || 0);
+          document.getElementById('stat-skaters').setAttribute('data-target', data.skaters || 0);
+          document.getElementById('stat-battles').setAttribute('data-target', data.battles || 0);
+          document.getElementById('stat-cities').setAttribute('data-target', data.cities || 0);
+        } catch (e) {}
+      }
+
       var observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            var el = entry.target;
-            var target = parseInt(el.getAttribute('data-target'));
-            var suffix = el.getAttribute('data-suffix') || '';
-            var count = 0;
-            var timer = setInterval(function () {
-              count += target / 60;
-              if (count >= target) {
-                el.textContent = target + suffix;
-                clearInterval(timer);
-              } else {
-                el.textContent = Math.floor(count) + suffix;
-              }
-            }, 30);
+            fetchLiveStats().then(() => {
+              var el = entry.target;
+              var target = parseInt(el.getAttribute('data-target'));
+              var suffix = el.getAttribute('data-suffix') || '';
+              var count = 0;
+              var timer = setInterval(function () {
+                count += Math.max(1, target / 60);
+                if (count >= target) {
+                  el.textContent = target + suffix;
+                  clearInterval(timer);
+                } else {
+                  el.textContent = Math.floor(count) + suffix;
+                }
+              }, 30);
+            });
             observer.unobserve(el);
           }
         });
