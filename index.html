@@ -1018,9 +1018,19 @@
         </p>
         <a href="bounties.html" class="btn-secondary" style="border-width: 1px; padding: .8rem 2rem; font-size: .8rem;">VIEW_ACTIVE_MISSIONS</a>
       </div>
-      <div class="reveal" style="border: 1px solid var(--border); padding: 3rem; background: rgba(0,0,0,0.4); text-align: center;">
-        <div style="font-family: monospace; font-size: .7rem; color: var(--green); margin-bottom: 1rem;">[CURRENT_STATUS]</div>
-        <div style="font-family: var(--font-display); font-weight: 900; font-size: 2rem; color: #fff; letter-spacing: 2px;">UPGRADES_OPEN</div>
+      <div class="reveal" style="border: 1px solid var(--border); padding: 2.5rem; background: rgba(0,0,0,0.4); text-align: left; position: relative; overflow: hidden;">
+        <div style="font-family: monospace; font-size: .65rem; color: var(--dark-green); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px;">
+          <span class="status-dot" style="background: var(--green); box-shadow: 0 0 10px var(--green); width: 6px; height: 6px;"></span>
+          LIVE_MISSION_FEED
+        </div>
+        <ul style="list-style: none; font-family: monospace; font-size: .8rem; color: #fff; display: grid; gap: 12px;">
+          <li style="color: var(--green);">[MS-01]: BETA_INTEL_HUNT</li>
+          <li>[MS-02]: LONDON_SPOT_SEEDING</li>
+          <li>[MS-03]: TRIBAL_MODERATION</li>
+        </ul>
+        <div style="margin-top: 2rem; font-family: monospace; font-size: .6rem; color: var(--dark-green); border-top: 1px solid var(--border); padding-top: 1rem;">
+          INTEL_UP-LINK: 100%_ACTIVE
+        </div>
       </div>
     </div>
   </section>
