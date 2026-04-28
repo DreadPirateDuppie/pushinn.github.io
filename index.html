@@ -43,7 +43,7 @@
       --font-display:'Outfit', sans-serif;
       --glow:       0 0 15px rgba(0, 255, 65, 0.4);
       --glow-strong:0 0 30px rgba(0, 255, 65, 0.6);
-      --max-w:      1200px;
+      --max-w:      1100px;
     }
 
     html { scroll-behavior: smooth; }
@@ -133,6 +133,10 @@
       padding-inline: 1.5rem;
     }
 
+    @media (max-width: 768px) {
+      .container { padding-inline: 1.25rem; }
+    }
+
     /* ── Navbar ── */
     nav {
       position: fixed;
@@ -148,14 +152,14 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 1.25rem 0 1rem;
+      padding: 1rem 0 .75rem;
       gap: .75rem;
     }
 
     .nav-logo {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: var(--green);
       letter-spacing: .25em;
     }
@@ -170,7 +174,7 @@
       color: var(--dark-green);
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 480px) {
       .nav-links { gap: 1rem; font-size: .6rem; }
     }
 
@@ -205,10 +209,14 @@
     }
 
     .badge-dot {
-      width: 6px; height: 6px;
+      width: 8px; height: 8px;
       background: var(--green);
       border-radius: 50%;
-      box-shadow: var(--glow);
+      animation: ping 1.5s cubic-bezier(0,0,.2,1) infinite;
+    }
+
+    @keyframes ping {
+      75%, 100% { transform: scale(2); opacity: 0; }
     }
 
     h1 {
@@ -275,6 +283,35 @@
       position: relative;
       z-index: 1;
       padding-block: 8rem;
+    }
+
+    .section-label {
+      font-family: monospace;
+      font-size: .65rem;
+      letter-spacing: .5em;
+      color: var(--green);
+      opacity: .5;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: -.03em;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-divider {
+      width: 96px;
+      height: 3px;
+      background: var(--green);
+      box-shadow: var(--glow);
+      margin-inline: auto;
+      margin-bottom: 5rem;
     }
 
     .protocol-grid {
@@ -369,8 +406,24 @@
 
     /* ── Footer ── */
     footer {
-      padding-block: 5rem;
+      position: relative;
+      z-index: 1;
       border-top: 1px solid var(--border);
+      padding-block: 4rem;
+      overflow: hidden;
+    }
+
+    .footer-watermark {
+      position: absolute;
+      bottom: -2vw;
+      left: 0;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 15vw;
+      color: rgba(0,255,65,.04);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
     }
 
     .footer-grid {
@@ -380,43 +433,102 @@
       margin-bottom: 4rem;
     }
 
-    .footer-col h4 {
+    .footer-brand p {
       font-family: monospace;
       font-size: .7rem;
-      color: #fff;
-      margin-bottom: 1.5rem;
-      letter-spacing: .2em;
+      color: var(--dark-green);
+      line-height: 1.7;
+      margin-top: 1rem;
+      max-width: 220px;
     }
 
-    .footer-col ul { list-style: none; display: grid; gap: .75rem; }
+    .footer-col h4 {
+      font-family: monospace;
+      font-weight: 700;
+      font-size: .65rem;
+      letter-spacing: .3em;
+      color: #fff;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+    }
+
     .footer-col a {
       font-family: monospace;
       font-size: .65rem;
       color: var(--dark-green);
       letter-spacing: .05em;
+      transition: color .3s;
     }
+
     .footer-col a:hover { color: var(--green); }
 
-    /* ── HUD ── */
+    .footer-bottom {
+      border-top: 1px solid rgba(0,255,65,.05);
+      padding-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-family: monospace;
+      font-size: .6rem;
+      color: var(--dark-green);
+      opacity: .5;
+    }
+
+    .footer-status {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      font-family: monospace;
+      font-size: .6rem;
+      color: var(--dark-green);
+    }
+
+    .status-dot {
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: var(--glow);
+    }
+
+    /* ── Activity HUD ── */
     #activity-hud {
       position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
+      bottom: 1rem;
+      right: 1.25rem;
       z-index: 150;
-      width: 240px;
+      width: 220px;
       background: rgba(0,0,0,.9);
       border: 1px solid var(--border);
       font-family: monospace;
       font-size: .55rem;
-      color: var(--green);
+      color: var(--dark-green);
+      pointer-events: none;
       display: none;
     }
-    @media (min-width: 1100px) { #activity-hud { display: block; } }
+
+    @media (min-width: 1024px) { #activity-hud { display: block; } }
 
     @keyframes reveal {
-      from { opacity: 0; transform: translateY(30px); }
+      from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
     .reveal { opacity: 0; }
     .reveal.visible { animation: reveal .8s cubic-bezier(.4,0,.2,1) forwards; }
 
@@ -428,13 +540,15 @@
       z-index: 200;
       pointer-events: none;
     }
+
     #skater-rail {
       position: absolute;
       top: 9px; left: 0;
       height: 2px;
       width: 100%;
-      background: rgba(0,255,65,.1);
+      background: rgba(0,255,65,.12);
     }
+
     #skater-progress-fill {
       position: absolute;
       top: 9px; left: 0;
@@ -443,60 +557,90 @@
       background: var(--green);
       box-shadow: var(--glow);
     }
+
     #skater-icon {
       position: absolute;
       top: 0;
       left: 0%;
       color: var(--green);
-      filter: drop-shadow(0 0 5px var(--green));
+      filter: drop-shadow(0 0 4px rgba(0,255,65,.7));
       transform: translateX(-50%);
     }
+
+    /* ── Typewriter cursor ── */
+    #tw-cursor {
+      display: inline-block;
+      color: var(--green);
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ── Active nav link ── */
+    .nav-links a.active { color: var(--green); }
   </style>
 </head>
 <body>
 
-  <!-- CRT Overlay -->
+  <!-- ── CRT Startup Overlay ── -->
   <div id="crt-overlay" aria-hidden="true"><div id="crt-line"></div></div>
 
-  <!-- Grind Progress -->
+  <!-- ── Scroll progress — Skater Grind ── -->
   <div id="skater-track" aria-hidden="true">
     <div id="skater-rail"></div>
     <div id="skater-progress-fill"></div>
     <div id="skater-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="19" r="2"></circle><circle cx="17" cy="19" r="2"></circle><path d="M3 17h18"></path><path d="M3 17a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h1"></path><path d="M21 17a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-1"></path></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="7" cy="19" r="2"></circle>
+        <circle cx="17" cy="19" r="2"></circle>
+        <path d="M3 17h18"></path>
+        <path d="M3 17a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h1"></path>
+        <path d="M21 17a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-1"></path>
+      </svg>
     </div>
   </div>
 
+  <!-- Background layers -->
   <canvas id="matrix-canvas" aria-hidden="true"></canvas>
   <div id="scanline-overlay" aria-hidden="true"></div>
   <canvas id="grain-canvas" aria-hidden="true"></canvas>
 
+  <!-- ── Navbar ── -->
   <nav>
     <div class="container nav-inner">
-      <a href="#hero" class="nav-logo">PUSHINN</a>
-      <ul class="nav-links">
+      <a href="#hero" class="nav-logo" aria-label="Pushinn home">
+        PUSHINN
+      </a>
+      <ul class="nav-links" role="navigation">
         <li><a href="#features">FEATURES</a></li>
         <li><a href="bounties.html">COMMUNITY_MISSIONS</a></li>
         <li><a href="contact.html">CONTACT</a></li>
         <li><a href="beta.html">BETA</a></li>
+        <li><a href="privacy.html">PRIVACY</a></li>
       </ul>
     </div>
   </nav>
 
+  <!-- ── Hero ── -->
   <section id="hero">
+    <span class="side-text side-text-left" aria-hidden="true">SOUTHBANK_SESSION... [LIVE]</span>
+    <span class="side-text side-text-right" aria-hidden="true">MAPPING_SECRET_SPOTS... [ON]</span>
+
     <div class="hero-badge reveal">
-      <span class="badge-dot"></span>
+      <span class="badge-dot" aria-hidden="true"></span>
       BETA_BUILD: 1.0.4
     </div>
+
     <h1 class="reveal delay-1">
       <span class="line-white">PUSHINN</span>
       <span class="line-green">NETWORK</span>
     </h1>
-    <p class="hero-sub reveal delay-2">
+
+    <p class="hero-sub reveal delay-2" id="hero-sub" aria-label="The skateboarding social network. Map spots. Battle peers. Earn reputation.">
       <span id="tw-text"></span><span id="tw-cursor">|</span>
     </p>
+
     <div class="hero-ctas reveal delay-3">
-      <a href="#beta" class="btn-primary">JOIN_THE_CREW</a>
+      <a href="#beta" class="btn-primary"><span>JOIN_THE_CREW</span></a>
       <a href="beta.html" class="btn-secondary">ACCESS_THE_BETA</a>
     </div>
   </section>
@@ -524,148 +668,144 @@
     </div>
   </section>
 
-  <!-- ── Protocol Scanner (New Dynamic Features) ── -->
+  <!-- ── System Protocol (Two-Column Redesign) ── -->
   <section id="features">
     <div class="container">
-      <div class="protocol-header reveal">
-        <p class="section-label">// SYSTEM_SPECIFICATIONS</p>
-        <h2 class="section-title" style="text-align: left;">Core Protocol</h2>
+      <div class="protocol-header reveal" style="text-align: center; margin-bottom: 5rem;">
+        <p class="section-label">SYSTEM_SPECIFICATIONS</p>
+        <h2 class="section-title">Core Protocol</h2>
+        <div class="section-divider"></div>
       </div>
 
-      <div class="scanner-container">
-        <!-- The List -->
-        <div class="protocol-list">
-          
-          <div class="protocol-row active" data-id="geo">
-            <div class="scan-line"></div>
-            <span class="protocol-num">// 01</span>
-            <h3>Geospatial Intel</h3>
-            <p>Real-time condition mapping. Know if the spot is wet, dry, or locked off before you drop in.</p>
-          </div>
-
-          <div class="protocol-row" data-id="battle">
-            <div class="scan-line"></div>
-            <span class="protocol-num">// 02</span>
-            <h3>Async Battles</h3>
-            <p>Challenge the crew. community verified wagers. earn your rep on the global ledger.</p>
-          </div>
-
-          <div class="protocol-row" data-id="private">
-            <div class="scan-line"></div>
-            <span class="protocol-num">// 03</span>
-            <h3>Private Nodes</h3>
-            <p>Gatekeep your best finds. Encrypted crew-only visibility. No snitching.</p>
-          </div>
-
-          <div class="protocol-row" data-id="talent">
-            <div class="scan-line"></div>
-            <span class="protocol-num">// 04</span>
-            <h3>Talent ID</h3>
-            <p>Objective metrics for the 1%. Character-select scouting for verified brands.</p>
-          </div>
-
+      <div class="protocol-grid reveal">
+        <!-- Protocol 01 -->
+        <div class="protocol-block">
+          <div class="block-id">// 01_GEOSPATIAL_INTEL</div>
+          <h3>Map Everything</h3>
+          <p>Community-driven intelligence for locating and verifying urban terrain. Real-time status on spot conditions.</p>
         </div>
 
-        <!-- The Dynamic Visual Window -->
-        <div class="scanner-visual reveal">
-          <div class="visual-header">
-            <span>[DIAGNOSTIC_FEED]</span>
-            <span id="visual-id">PROT_01</span>
-          </div>
-          <div class="visual-content" id="ascii-display">
-   ______
-  / ____/
- / / __  
-/ /_/ /  
-\____/   
-          </div>
-          <div class="visual-footer">
-            <div>
-              <div style="font-size: .5rem; color: var(--dark-green); margin-bottom: 4px;">SIGNAL_STRENGTH</div>
-              <div class="bar-container"><div class="bar-fill" style="width: 85%;"></div></div>
-            </div>
-            <div>
-              <div style="font-size: .5rem; color: var(--dark-green); margin-bottom: 4px;">UP-LINK_STABILITY</div>
-              <div class="bar-container"><div class="bar-fill" style="width: 92%;"></div></div>
-            </div>
-          </div>
+        <!-- Protocol 02 -->
+        <div class="protocol-block">
+          <div class="block-id">// 02_ASYNC_BATTLES</div>
+          <h3>Battle Peers</h3>
+          <p>Challenge the crew to skill-based contests. Verified by weighted community consensus on the global ledger.</p>
+        </div>
+
+        <!-- Protocol 03 -->
+        <div class="protocol-block">
+          <div class="block-id">// 03_PRIVATE_NODES</div>
+          <h3>Gatekeep Spots</h3>
+          <p>Encrypted visibility for your crew. Share hidden spots only with those who have cleared tribal verification.</p>
+        </div>
+
+        <!-- Protocol 04 -->
+        <div class="protocol-block">
+          <div class="block-id">// 04_TALENT_ID</div>
+          <h3>Character Select</h3>
+          <p>Objective metrics for the 1%. A direct pipeline for brands to scout talent via the Triple-Score algorithm.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="community-missions" class="section-standard">
+  <!-- ── Community Missions Section ── -->
+  <section id="community-missions" style="padding-block: 8rem; background: rgba(0,255,65,0.01); border-top: 1px solid var(--border);">
     <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem; align-items: center;">
       <div class="reveal">
         <p class="section-label">// NETWORK_GROWTH</p>
-        <h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem;">Join the Missions</h2>
-        <p style="color: #bbb; margin-bottom: 2rem; font-size: .9rem;">
-          Built by the crew, for the crew. We are recruiting volunteers to stabilize the core and expand the map. Your contributions earn you <strong>Ranking Score</strong> and <strong>Priority Access</strong>.
+        <h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem;">Join the Community Missions</h2>
+        <p style="color: #bbb; margin-bottom: 2rem; line-height: 1.8;">
+          The Pushinn Network is built by the crew, for the crew. We are currently recruiting volunteers to help stabilize the core and expand the map. Your contributions earn you <strong>Ranking Score (Clout)</strong> and <strong>Priority Beta Access</strong>.
         </p>
-        <a href="bounties.html" class="btn-secondary">VIEW_MISSIONS</a>
+        <a href="bounties.html" class="btn-secondary" style="border-width: 1px; padding: .8rem 2rem; font-size: .8rem;">VIEW_ACTIVE_MISSIONS</a>
       </div>
-      <div class="reveal" style="border: 1px solid var(--border); padding: 2.5rem; background: rgba(0,0,0,0.4); text-align: left;">
+      <div class="reveal" style="border: 1px solid var(--border); padding: 2.5rem; background: rgba(0,0,0,0.4); text-align: left; position: relative; overflow: hidden;">
         <div style="font-family: monospace; font-size: .65rem; color: var(--dark-green); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px;">
-          <span class="status-dot"></span> LIVE_MISSION_FEED
+          <span class="status-dot" style="background: var(--green); box-shadow: 0 0 10px var(--green); width: 6px; height: 6px;"></span>
+          LIVE_MISSION_FEED
         </div>
         <ul style="list-style: none; font-family: monospace; font-size: .8rem; color: #fff; display: grid; gap: 12px;">
           <li style="color: var(--green);">[MS-01]: BUG_HUNTER</li>
-          <li>[MS-02]: SPOT_SEEDER</li>
-          <li>[MS-03]: GATEKEEPER</li>
+          <li>[MS-02]: LONDON_SPOT_SEEDING</li>
+          <li>[MS-03]: TRIBAL_MODERATION</li>
         </ul>
+        <div style="margin-top: 2rem; font-family: monospace; font-size: .6rem; color: var(--dark-green); border-top: 1px solid var(--border); padding-top: 1rem;">
+          INTEL_UP-LINK: 100%_ACTIVE
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="support-section" class="section-standard">
+  <!-- ── Support Section ── -->
+  <section id="support-section" style="padding-block: 8rem; border-top: 1px solid var(--border);">
     <div class="container" style="text-align: center;">
       <div class="reveal">
-        <p class="section-label">// COMMUNICATIONS</p>
-        <h2 class="section-title" style="margin-bottom: 1.5rem;">Direct Link</h2>
-        <p style="color: #bbb; margin-bottom: 3rem; max-width: 600px; margin-inline: auto;">
-          Whether you've found a system anomaly or have a proposal for the network, our direct communication line is open.
+        <p class="section-label">// DIRECT_COMMUNICATION</p>
+        <h2 class="section-title" style="margin-bottom: 1.5rem;">Need Assistance?</h2>
+        <p style="color: #bbb; margin-bottom: 3rem; max-width: 600px; margin-inline: auto; line-height: 1.8;">
+          Whether you've found a system anomaly or have a proposal for the network, our direct communication line is open. Verified users receive priority frequency.
         </p>
-        <a href="contact.html" class="btn-primary">CONTACT_CORE</a>
+        <a href="contact.html" class="btn-primary" style="padding: 1rem 3rem;">CONTACT_CORE</a>
       </div>
     </div>
   </section>
 
+  <!-- ── Beta Signup ── -->
   <section id="beta">
     <div class="container">
-      <div class="beta-inner reveal">
+      <div class="beta-inner">
         <p class="section-label">EARLY_ACCESS</p>
         <h2>JOIN_THE_CREW</h2>
-        <p>Bringing in the first wave of London skaters. Drop your email and we'll hit you when you're in.</p>
+        <p>
+          We're bringing in the first wave of London skaters. Drop your email
+          and we'll hit you when you're in — be first on the map, first in the battles.
+        </p>
         <form class="beta-form" onsubmit="handleSignup(event)">
-          <input class="beta-input" type="email" placeholder="your@email.com" required>
-          <button type="submit" class="btn-primary">TRANSMIT</button>
+          <input
+            class="beta-input"
+            type="email"
+            id="beta-email"
+            placeholder="your@email.com"
+            required
+            aria-label="Email address for beta access"
+          />
+          <button type="submit" class="btn-primary"><span>JOIN_THE_CREW</span></button>
         </form>
-        <p class="beta-note" id="beta-msg"></p>
+        <p class="beta-note" id="beta-msg" aria-live="polite"></p>
       </div>
     </div>
   </section>
 
+  <!-- ── Footer ── -->
   <footer>
+    <div class="footer-watermark" aria-hidden="true">PUSHINN</div>
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="nav-logo">PUSHINN</div>
+
+        <div class="footer-brand footer-col">
+          <div class="nav-logo">
+            PUSHINN
+          </div>
           <p>The underground social layer for the London skate scene. Map spots, build rep, gatekeep your best finds.</p>
         </div>
+
         <div class="footer-col">
           <h4>THE MAP</h4>
           <ul>
             <li><a href="#features">FEATURES</a></li>
-            <li><a href="bounties.html">MISSIONS</a></li>
-            <li><a href="#beta">JOIN</a></li>
+            <li><a href="bounties.html">COMMUNITY_MISSIONS</a></li>
+            <li><a href="#beta">JOIN_THE_CREW</a></li>
           </ul>
         </div>
+
         <div class="footer-col">
           <h4>COMMUNITY</h4>
           <ul>
             <li><a href="contact.html">CONTACT_CORE</a></li>
           </ul>
         </div>
+
         <div class="footer-col">
           <h4>LEGAL</h4>
           <ul>
@@ -673,26 +813,32 @@
             <li><a href="terms.html">TERMS</a></li>
           </ul>
         </div>
+
       </div>
+
       <div class="footer-bottom">
         <span class="footer-copy">&copy; <span id="yr"></span> PUSHINN. ALL_SYSTEMS_LIVE.</span>
         <div class="footer-status">
-          <span class="status-item"><span class="status-dot" style="background: #ffae00; box-shadow: 0 0 10px #ffae00;"></span>SYSTEM: [HIRING]</span>
-          <span class="status-item"><span class="status-dot"></span>COMMUNITY_LIVE</span>
+          <span class="status-item"><span class="status-dot" aria-hidden="true" style="background: #ffae00; box-shadow: 0 0 10px #ffae00;"></span>SYSTEM_STATUS: [HIRING_CONTRACTORS]</span>
+          <span class="status-item"><span class="status-dot" aria-hidden="true"></span>COMMUNITY_LIVE</span>
         </div>
       </div>
     </div>
   </footer>
 
+  <!-- ── Activity HUD ── -->
   <div id="activity-hud" aria-hidden="true">
     <div style="padding: .75rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
-      <span>[LIVE_LINK]</span>
+      <span id="hud-status">[LINK_SEARCHING...]</span>
       <span id="hud-timer">0.0.0</span>
     </div>
-    <div id="hud-content" style="padding: .75rem; height: 120px; overflow: hidden;"></div>
+    <div id="hud-content" style="padding: .75rem; height: 120px; overflow: hidden;">
+      <div style="color: var(--dim);">SYSTEM: AWAITING_UP-LINK</div>
+    </div>
   </div>
 
   <script>
+    /* ── Date ── */
     document.getElementById('yr').textContent = new Date().getFullYear();
 
     /* ── Typewriter ── */
@@ -707,54 +853,7 @@
           setTimeout(type, 50);
         }
       }
-      setTimeout(type, 2000);
-    })();
-
-    /* ── Protocol Scanner Logic ── */
-    (function () {
-      var rows = document.querySelectorAll('.protocol-row');
-      var idDisplay = document.getElementById('visual-id');
-      var ascii = document.getElementById('ascii-display');
-      var bars = document.querySelectorAll('.bar-fill');
-      
-      var data = {
-        geo: { id: "INTEL_01", art: "  [■■■□□□□□□□]\n  [SCANNING...]\n  > SAT_LINK: 4\n  > GRID: LDN_C" },
-        battle: { id: "BATTLE_02", art: "  /\\  VS  /\\\n /  \\    /  \\\n/____\\  /____\\\n[MATCH_ACTIVE]" },
-        private: { id: "NODE_03", art: "   .----.\n  | IP_X |\n  |  ==  |\n   '----'" },
-        talent: { id: "TALENT_04", art: "  |  7.5  |\n  |  9.2  |\n  |  RANK |\n  [SCOUT_ON]" }
-      };
-
-      function glitchText(target, finalValue) {
-        let iterations = 0;
-        const chars = "!<>-_\\/[]{}—=+*^?#________";
-        const interval = setInterval(() => {
-          target.textContent = finalValue.split("").map((char, index) => {
-            if (index < iterations) return finalValue[index];
-            return chars[Math.floor(Math.random() * chars.length)];
-          }).join("");
-          if (iterations >= finalValue.length) clearInterval(interval);
-          iterations += 1/3;
-        }, 30);
-      }
-
-      rows.forEach(function(row) {
-        row.addEventListener('mouseenter', function() {
-          rows.forEach(function(r) { r.classList.remove('active'); });
-          row.classList.add('active');
-          var d = data[row.getAttribute('data-id')];
-          idDisplay.textContent = d.id;
-          glitchText(ascii, d.art);
-        });
-      });
-
-      // Live flickering bars
-      setInterval(() => {
-        bars.forEach(bar => {
-          const currentWidth = parseInt(bar.style.width);
-          const flicker = (Math.random() - 0.5) * 4;
-          bar.style.width = Math.min(100, Math.max(70, currentWidth + flicker)) + '%';
-        });
-      }, 150);
+      setTimeout(type, 1800);
     })();
 
     /* ── Stats counter ── */
@@ -771,6 +870,7 @@
         } catch (e) {}
       }
 
+      var options = { threshold: 0.5 };
       var observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
@@ -792,9 +892,19 @@
             observer.unobserve(el);
           }
         });
-      }, { threshold: 0.5 });
+      }, options);
       document.querySelectorAll('.stat-number').forEach(function (el) { observer.observe(el); });
     })();
+
+    /* ── Form handling ── */
+    function handleSignup(e) {
+      e.preventDefault();
+      var msg = document.getElementById('beta-msg');
+      msg.textContent = ">_INITIATING_ONBOARDING_SEQUENCE... [REDIRECTING_TO_CORE]";
+      setTimeout(function() {
+        msg.textContent = ">_STATION_BUSY. PLEASE_TRY_LATER.";
+      }, 2000);
+    }
 
     /* ── Reveal on scroll ── */
     (function () {
@@ -810,49 +920,76 @@
 
     /* ── Skater Grind Scroll ── */
     window.addEventListener('scroll', function () {
-      var scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      var scrolled = (winScroll / height) * 100;
       document.getElementById('skater-progress-fill').style.width = scrolled + '%';
       document.getElementById('skater-icon').style.left = scrolled + '%';
     });
 
-    /* ── Activity HUD ── */
+    /* ── CRT Startup Logic ── */
     (function () {
-      var container = document.getElementById('hud-content');
-      var statusText = document.getElementById('hud-status');
-      
-      async function fetchLiveActivity() {
-        try {
-          const response = await fetch('activity.json');
-          if (!response.ok) return;
-          const data = await response.json();
-          if (data.events && data.events.length > 0) {
-            statusText.textContent = '[LINK_ESTABLISHED]';
-            statusText.style.color = 'var(--green)';
-            data.events.forEach(event => {
-              if (container.lastChild && container.lastChild.textContent === event) return;
-              var l = document.createElement('div');
-              l.textContent = event;
-              l.style.marginBottom = '4px';
-              container.appendChild(l);
-              if (container.children.length > 8) container.removeChild(container.children[0]);
-            });
-          }
-        } catch (e) {}
-      }
-      setInterval(fetchLiveActivity, 5000);
-      setInterval(function() { 
-        document.getElementById('hud-timer').textContent = Math.random().toString().slice(2, 8);
-      }, 100);
+      var overlay = document.getElementById('crt-overlay');
+      if (!overlay) return;
+      setTimeout(function () {
+        overlay.style.display = 'none';
+      }, 1900);
     })();
-  </script>
-</body>
-</html>
-erHeight)) * 100;
-      document.getElementById('skater-progress-fill').style.width = scrolled + '%';
-      document.getElementById('skater-icon').style.left = scrolled + '%';
-    });
 
-    /* ── Activity HUD ── */
+    /* ── Matrix Rain ── */
+    (function () {
+      var canvas = document.getElementById('matrix-canvas');
+      var ctx = canvas.getContext('2d');
+      var cols, drops;
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+        cols  = Math.floor(canvas.width / 24);
+        drops = Array(cols).fill(1);
+      }
+      function draw() {
+        ctx.fillStyle = 'rgba(0,0,0,.07)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#00FF41';
+        ctx.font      = '12px monospace';
+        var chars = '01アイウエオ'.split('');
+        drops.forEach(function (y, i) {
+          var ch = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(ch, i * 24, y * 24);
+          if (y * 24 > canvas.height && Math.random() > .975) drops[i] = 0;
+          drops[i]++;
+        });
+      }
+      resize();
+      window.addEventListener('resize', resize);
+      setInterval(draw, 80);
+    })();
+
+    /* ── Film Grain ── */
+    (function () {
+      var canvas = document.getElementById('grain-canvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (var i = 0; i < 1000; i++) {
+          var x = Math.random() * canvas.width;
+          var y = Math.random() * canvas.height;
+          var opacity = Math.random() * 0.05;
+          ctx.fillStyle = 'rgba(255,255,255,' + opacity + ')';
+          ctx.fillRect(x, y, 1, 1);
+        }
+      }
+      resize();
+      window.addEventListener('resize', resize);
+      setInterval(draw, 50);
+    })();
+
+    /* ── Activity HUD Logic ── */
     (function () {
       var container = document.getElementById('hud-content');
       var statusText = document.getElementById('hud-status');
