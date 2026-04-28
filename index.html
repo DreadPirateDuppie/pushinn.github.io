@@ -270,159 +270,61 @@
 
     .btn-secondary:hover { background: rgba(0,255,65,.1); }
 
-    /* ── New "Protocol Scanner" Section ── */
+    /* ── System Protocol Grid ── */
     #features {
       position: relative;
       z-index: 1;
-      padding-block: 10rem;
-      background: rgba(255,255,255, 0.01);
-      border-top: 1px solid var(--border);
+      padding-block: 8rem;
     }
 
-    .scanner-container {
+    .protocol-grid {
       display: grid;
-      grid-template-columns: 1fr 400px;
-      gap: 4rem;
-      align-items: start;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
     }
 
-    @media (max-width: 1000px) {
-      .scanner-container { grid-template-columns: 1fr; }
-      .scanner-visual { display: none; }
+    @media (max-width: 600px) {
+      .protocol-grid { grid-template-columns: 1fr; }
     }
 
-    .protocol-header {
-      margin-bottom: 4rem;
-    }
-
-    .protocol-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .protocol-row {
-      position: relative;
-      padding: 2.5rem;
+    .protocol-block {
+      background: rgba(255,255,255,0.02);
       border: 1px solid var(--border);
-      background: rgba(0,0,0, 0.3);
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(.4,0,.2,1);
-      overflow: hidden;
+      padding: 3rem 2rem;
+      position: relative;
+      transition: all .3s;
     }
 
-    .protocol-row:hover, .protocol-row.active {
+    .protocol-block:hover {
       border-color: var(--green);
-      background: rgba(0,255,65, 0.05);
-      padding-left: 3.5rem;
-    }
-
-    .protocol-row.active::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 4px;
-      background: var(--green);
+      background: rgba(0,255,65,0.03);
       box-shadow: var(--glow);
     }
 
-    .protocol-num {
+    .block-id {
       font-family: monospace;
-      font-size: .7rem;
+      font-size: .6rem;
       color: var(--dark-green);
-      margin-bottom: .75rem;
-      display: block;
+      margin-bottom: 1.5rem;
+      letter-spacing: .2em;
     }
 
-    .protocol-row.active .protocol-num { color: var(--green); }
-
-    .protocol-row h3 {
+    .protocol-block h3 {
       font-family: var(--font-display);
       font-weight: 800;
       font-size: 1.75rem;
       color: #fff;
-      margin-bottom: .5rem;
+      margin-bottom: 1rem;
       letter-spacing: -.02em;
     }
 
-    .protocol-row p {
+    .protocol-block p {
       font-family: monospace;
       font-size: .85rem;
       color: var(--dark-green);
-      max-width: 480px;
-      opacity: .6;
-      transition: opacity .3s;
+      line-height: 1.7;
+      opacity: .8;
     }
-
-    .protocol-row.active p { opacity: 1; color: var(--text); }
-
-    /* The Scanning Line */
-    .scan-line {
-      position: absolute;
-      left: 0; right: 0;
-      height: 1px;
-      background: var(--green);
-      box-shadow: 0 0 10px var(--green);
-      z-index: 10;
-      pointer-events: none;
-      opacity: 0;
-    }
-
-    .protocol-row.active .scan-line {
-      opacity: .4;
-      animation: scanner-move 3s linear infinite;
-    }
-
-    @keyframes scanner-move {
-      0% { top: 0; }
-      100% { top: 100%; }
-    }
-
-    /* Dynamic Visual Window */
-    .scanner-visual {
-      position: sticky;
-      top: 150px;
-      height: 450px;
-      border: 1px solid var(--border);
-      background: #000;
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .visual-header {
-      font-family: monospace;
-      font-size: .6rem;
-      color: var(--green);
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: .75rem;
-    }
-
-    .visual-content {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: monospace;
-      font-size: .55rem;
-      line-height: 1.2;
-      color: var(--dark-green);
-      white-space: pre;
-    }
-
-    .visual-footer {
-      border-top: 1px solid var(--border);
-      padding-top: .75rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    .bar-container { height: 4px; background: rgba(0,255,65,.1); width: 100%; position: relative; }
-    .bar-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--green); transition: width .5s ease; }
 
     /* ── Stats Strip ── */
     #stats {
@@ -909,6 +811,43 @@
     /* ── Skater Grind Scroll ── */
     window.addEventListener('scroll', function () {
       var scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      document.getElementById('skater-progress-fill').style.width = scrolled + '%';
+      document.getElementById('skater-icon').style.left = scrolled + '%';
+    });
+
+    /* ── Activity HUD ── */
+    (function () {
+      var container = document.getElementById('hud-content');
+      var statusText = document.getElementById('hud-status');
+      
+      async function fetchLiveActivity() {
+        try {
+          const response = await fetch('activity.json');
+          if (!response.ok) return;
+          const data = await response.json();
+          if (data.events && data.events.length > 0) {
+            statusText.textContent = '[LINK_ESTABLISHED]';
+            statusText.style.color = 'var(--green)';
+            data.events.forEach(event => {
+              if (container.lastChild && container.lastChild.textContent === event) return;
+              var l = document.createElement('div');
+              l.textContent = event;
+              l.style.marginBottom = '4px';
+              container.appendChild(l);
+              if (container.children.length > 8) container.removeChild(container.children[0]);
+            });
+          }
+        } catch (e) {}
+      }
+      setInterval(fetchLiveActivity, 5000);
+      setInterval(function() { 
+        document.getElementById('hud-timer').textContent = Math.random().toString().slice(2, 8);
+      }, 100);
+    })();
+  </script>
+</body>
+</html>
+erHeight)) * 100;
       document.getElementById('skater-progress-fill').style.width = scrolled + '%';
       document.getElementById('skater-icon').style.left = scrolled + '%';
     });
