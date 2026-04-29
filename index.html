@@ -695,19 +695,7 @@
     }, { threshold: 0.15 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    /* ── HUD Loop ── */
-    const hudContainer = document.getElementById('hud-content');
-    const events = ['[SPOT: SOUTHBANK]', '[USER: @SKATE_OR_DIE]', '[BATTLE: LDN_v_NYC]', '[STATUS: LOCKED_OFF]', '[NEW_REP: +50]', '[LINK: SECURE]'];
-    setInterval(() => {
-      const line = document.createElement('div');
-      line.textContent = events[Math.floor(Math.random() * events.length)];
-      line.style.marginBottom = '6px';
-      hudContainer.appendChild(line);
-      if (hudContainer.children.length > 9) hudContainer.removeChild(hudContainer.children[0]);
-    }, 2800);
-    setInterval(() => {
-      document.getElementById('hud-timer').textContent = Math.random().toString().slice(2, 8);
-    }, 120);
+    /* ── HUD Loop removed ── */
 
     /* ── Matrix Rain ── */
     const canvas = document.getElementById('matrix-canvas');
@@ -751,6 +739,35 @@
     resizeGrain();
     window.addEventListener('resize', resizeGrain);
     setInterval(renderGrain, 60);
+
+    /* ── Scroll ── */
+    window.addEventListener('scroll', () => {
+      const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      document.getElementById('skater-progress').style.width = scrolled + '%';
+      document.getElementById('skater-icon').style.left = scrolled + '%';
+    });
+  </script>
+</body>
+</html>
+th.random() * grainCanvas.height;
+        gctx.fillStyle = `rgba(255,255,255,${Math.random() * .06})`;
+        gctx.fillRect(x,y,1,1);
+      }
+    }
+    resizeGrain();
+    window.addEventListener('resize', resizeGrain);
+    setInterval(renderGrain, 60);
+
+    /* ── Scroll ── */
+    window.addEventListener('scroll', () => {
+      const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      document.getElementById('skater-progress').style.width = scrolled + '%';
+      document.getElementById('skater-icon').style.left = scrolled + '%';
+    });
+  </script>
+</body>
+</html>
+erGrain, 60);
 
     /* ── Scroll ── */
     window.addEventListener('scroll', () => {
