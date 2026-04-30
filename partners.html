@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pushinn Pro Partner Portal - B2B & Brand Resources" />
+  <title>Partner Portal – Pushinn Pro</title>
+
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:      #00FF41;
+      --dark-green: #008F11;
+      --black:      #000000;
+      --surface:    #0A0A0A;
+      --text:       #E0E0E0;
+      --dim:        #888888;
+      --border:     rgba(0, 255, 65, 0.15);
+      --font:       'Inter', sans-serif;
+      --font-display:'Outfit', sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--black);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a { color: var(--green); text-decoration: none; transition: opacity .2s; }
+    a:hover { opacity: .8; text-decoration: underline; }
+
+    /* ── Navbar ── */
+    nav {
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,.9);
+    }
+
+    .nav-inner {
+      max-width: 820px;
+      margin-inline: auto;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.3rem;
+      color: var(--green);
+      letter-spacing: .3em;
+    }
+
+    .nav-back {
+      font-family: monospace;
+      font-size: .7rem;
+      color: var(--dark-green);
+      letter-spacing: .1em;
+    }
+
+    /* ── Main ── */
+    main {
+      max-width: 820px;
+      margin-inline: auto;
+      padding: 4rem 1.5rem 6rem;
+    }
+
+    .page-header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .page-header h1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 2.5rem;
+      color: #fff;
+    }
+
+    .partner-alert {
+      background: rgba(0, 255, 65, 0.05);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      margin-bottom: 4rem;
+      font-family: monospace;
+      font-size: .85rem;
+      color: var(--green);
+    }
+
+    .service-block {
+      margin-bottom: 4rem;
+    }
+
+    .service-id {
+      font-family: monospace;
+      font-size: .7rem;
+      color: var(--dark-green);
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: #fff;
+      margin-bottom: 1.25rem;
+    }
+
+    p { color: #bbb; margin-bottom: 1.5rem; font-size: 1rem; }
+
+    .feature-list {
+      list-style: none;
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .feature-list li {
+      display: flex;
+      gap: 1rem;
+      font-family: monospace;
+      font-size: .85rem;
+      color: var(--dark-green);
+    }
+
+    .feature-list li::before {
+      content: '>';
+      color: var(--green);
+    }
+
+    .btn-partner {
+      display: inline-block;
+      padding: 1rem 3rem;
+      background: var(--green);
+      color: #000;
+      font-family: monospace;
+      font-weight: 900;
+      letter-spacing: .2em;
+      transition: transform .2s;
+    }
+
+    .btn-partner:hover { transform: scale(1.03); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-family: monospace;
+      font-size: .65rem;
+      color: var(--dark-green);
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">PUSHINN PRO</a>
+      <a class="nav-back" href="index.html">← BACK_TO_HQ</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="page-header">
+      <h1>Partner Portal</h1>
+      <p style="font-family: monospace; font-size: .75rem; color: var(--dark-green);">B2B_INFRASTRUCTURE_LINK</p>
+    </div>
+
+    <div class="partner-alert">
+      [NOTICE]: Pushinn Pro offers high-fidelity talent identification and localized community engagement for authentic lifestyle brands.
+    </div>
+
+    <div class="service-block">
+      <span class="service-id">// 01_TALENT_SCOUTING</span>
+      <h2>The Scouting Engine</h2>
+      <p>Bypass vanity social metrics. Our Triple-Score algorithm provides objective data on athlete skill, consistency, and community reputation.</p>
+      <ul class="feature-list">
+        <li>Verified trick-clip authentication</li>
+        <li>Historical performance tracking</li>
+        <li>Territorial dominance heatmaps</li>
+      </ul>
+    </div>
+
+    <div class="service-block">
+      <span class="service-id">// 02_COMMUNITY_BOUNTIES</span>
+      <h2>Sponsored Challenges</h2>
+      <p>Engage the network directly. Brands can fund specific bounties (e.g., "Best Trick at Southbank") to drive high-quality user-generated content.</p>
+      <ul class="feature-list">
+        <li>Custom mission parameters</li>
+        <li>Direct community voting loops</li>
+        <li>Perpetual media rights for winning entries</li>
+      </ul>
+    </div>
+
+    <div class="service-block">
+      <span class="service-id">// 03_SPOT_INTELLIGENCE</span>
+      <h2>Urban Logistics</h2>
+      <p>Leverage our proprietary dataset of London’s urban terrain for events, filming sessions, and product activations.</p>
+      <ul class="feature-list">
+        <li>Real-time pavement quality audits</li>
+        <li>Security heat-map analysis</li>
+        <li>Optimal session timing data</li>
+      </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 6rem; padding: 4rem; border: 1px solid var(--border); background: rgba(255,255,255,0.02);">
+      <h2 style="margin-bottom: 2rem;">Initiate Partnership</h2>
+      <a href="mailto:admin@pushinn.app?subject=Partner%20Inquiry" class="btn-partner">CONTACT_OPS</a>
+    </div>
+
+  </main>
+
+  <footer>
+    <span>&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN PRO. ALL_SYSTEMS_LIVE.</span>
+  </footer>
+
+</body>
+</html>
