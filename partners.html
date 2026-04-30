@@ -89,7 +89,7 @@
 
     .partner-alert {
       background: rgba(0, 255, 65, 0.05);
-      border: 1px solid var(--border);
+      border-left: 3px solid var(--green);
       padding: 1.5rem;
       margin-bottom: 4rem;
       font-family: monospace;
@@ -98,63 +98,65 @@
     }
 
     .service-block {
-      margin-bottom: 4rem;
+      margin-bottom: 6rem;
     }
 
     .service-id {
       font-family: monospace;
       font-size: .7rem;
       color: var(--dark-green);
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      display: block;
+      letter-spacing: .2em;
     }
 
     h2 {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 1.8rem;
+      font-size: 2rem;
       color: #fff;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
     }
 
-    p { color: #bbb; margin-bottom: 1.5rem; font-size: 1rem; }
+    p { color: #bbb; margin-bottom: 2rem; font-size: 1.05rem; }
 
     .feature-list {
       list-style: none;
       display: grid;
-      gap: 1rem;
-      margin-bottom: 2rem;
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
     }
 
     .feature-list li {
       display: flex;
       gap: 1rem;
       font-family: monospace;
-      font-size: .85rem;
+      font-size: .9rem;
       color: var(--dark-green);
     }
 
     .feature-list li::before {
       content: '>';
       color: var(--green);
+      font-weight: 900;
     }
 
     .btn-partner {
       display: inline-block;
-      padding: 1rem 3rem;
+      padding: 1.25rem 4rem;
       background: var(--green);
       color: #000;
       font-family: monospace;
       font-weight: 900;
       letter-spacing: .2em;
-      transition: transform .2s;
+      transition: all .2s;
     }
 
-    .btn-partner:hover { transform: scale(1.03); }
+    .btn-partner:hover { transform: scale(1.03); box-shadow: 0 0 30px rgba(0,255,65,0.4); }
 
-    /* ── Footer ── */
     footer {
       border-top: 1px solid var(--border);
-      padding: 2rem;
+      padding: 3rem;
       text-align: center;
       font-family: monospace;
       font-size: .65rem;
@@ -174,55 +176,58 @@
   <main>
     <div class="page-header">
       <h1>Partner Portal</h1>
-      <p style="font-family: monospace; font-size: .75rem; color: var(--dark-green);">B2B_INFRASTRUCTURE_LINK</p>
+      <p style="font-family: monospace; font-size: .75rem; color: var(--dark-green);">STRATEGIC_B2B_INFRASTRUCTURE</p>
     </div>
 
     <div class="partner-alert">
-      [NOTICE]: Pushinn Pro offers high-fidelity talent identification and localized community engagement for authentic lifestyle brands.
+      [OFFER_PROTOCOL]: We bridge the gap between high-end lifestyle brands and the urban athlete. No harvesting. No noise. Pure utility.
     </div>
 
+    <!-- Pillar 1 -->
     <div class="service-block">
-      <span class="service-id">// 01_TALENT_SCOUTING</span>
+      <span class="service-id">// PILLAR_01: TALENT_DISCOVERY</span>
       <h2>The Scouting Engine</h2>
-      <p>Bypass vanity social metrics. Our Triple-Score algorithm provides objective data on athlete skill, consistency, and community reputation.</p>
+      <p>Bypass the vanity metrics of traditional social media. Our Triple-Score algorithm filters for consistency, technical skill, and community reputation. We facilitate direct, consensual licensing between brands and the athletes they discover.</p>
       <ul class="feature-list">
-        <li>Verified trick-clip authentication</li>
-        <li>Historical performance tracking</li>
-        <li>Territorial dominance heatmaps</li>
+        <li>Direct-to-athlete licensing pipelines</li>
+        <li>Historical skill-verification logs</li>
+        <li>Consensual media rights facilitation</li>
       </ul>
     </div>
 
+    <!-- Pillar 2 -->
     <div class="service-block">
-      <span class="service-id">// 02_COMMUNITY_BOUNTIES</span>
-      <h2>Sponsored Challenges</h2>
-      <p>Engage the network directly. Brands can fund specific bounties (e.g., "Best Trick at Southbank") to drive high-quality user-generated content.</p>
+      <span class="service-id">// PILLAR_02: SPOT_ACTIVATIONS</span>
+      <h2>Branded "Spot-Drops"</h2>
+      <p>Turn real-world coordinates into one-time marketing events. Brands can sponsor specific spots on the map for a limited duration, funding prizes and bounties for the community to claim through skill-based battles.</p>
       <ul class="feature-list">
-        <li>Custom mission parameters</li>
-        <li>Direct community voting loops</li>
-        <li>Perpetual media rights for winning entries</li>
+        <li>Custom map-node branding</li>
+        <li>Hyper-local session sponsorship</li>
+        <li>Real-world prize pool management</li>
       </ul>
     </div>
 
+    <!-- Pillar 3 -->
     <div class="service-block">
-      <span class="service-id">// 03_SPOT_INTELLIGENCE</span>
-      <h2>Urban Logistics</h2>
-      <p>Leverage our proprietary dataset of London’s urban terrain for events, filming sessions, and product activations.</p>
+      <span class="service-id">// PILLAR_03: THE_CLOUT_BRIDGE</span>
+      <h2>Retail Point Redemption</h2>
+      <p>Bridge the gap between digital clout and the cash register. Our in-app point system (Clout) allows users to redeem rewards at physical partner shops, driving direct foot traffic to the core of the skate industry.</p>
       <ul class="feature-list">
-        <li>Real-time pavement quality audits</li>
-        <li>Security heat-map analysis</li>
-        <li>Optimal session timing data</li>
+        <li>In-app points for physical retail pickup</li>
+        <li>Exclusive partner-only gear drops</li>
+        <li>Direct foot-traffic metric tracking</li>
       </ul>
     </div>
 
-    <div style="text-align: center; margin-top: 6rem; padding: 4rem; border: 1px solid var(--border); background: rgba(255,255,255,0.02);">
-      <h2 style="margin-bottom: 2rem;">Initiate Partnership</h2>
+    <div style="text-align: center; margin-top: 8rem; padding: 5rem; border: 1px solid var(--border); background: rgba(0,255,65,0.02);">
+      <h2 style="margin-bottom: 2.5rem;">Initiate Strategic Link</h2>
       <a href="mailto:admin@pushinn.app?subject=Partner%20Inquiry" class="btn-partner">CONTACT_OPS</a>
     </div>
 
   </main>
 
   <footer>
-    <span>&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN PRO. ALL_SYSTEMS_LIVE.</span>
+    <span>&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN PRO. ALL_SYSTEMS_OPERATIONAL.</span>
   </footer>
 
 </body>
