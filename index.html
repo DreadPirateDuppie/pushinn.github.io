@@ -8,14 +8,14 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pushinn.app/" />
-  <meta property="og:title" content="Pushinn | The Underground Skate Network" />
+  <meta property="og:title" content="Pushinn Pro | The Underground Skate Network" />
   <meta property="og:description" content="Map secret spots. Battle your crew. Earn rep in the London skate scene. Beta access open now." />
   <meta property="og:image" content="https://pushinn.app/og-image.png" />
   <meta property="og:site_name" content="Pushinn" />
 
   <meta name="theme-color" content="#000000" />
   <link rel="icon" type="image/png" href="favicon.png">
-  <title>Pushinn | The Underground Skate Network</title>
+  <title>Pushinn Pro | The Underground Skate Network</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -34,7 +34,7 @@
       --border:     rgba(0, 255, 65, 0.15);
       --font:       'Inter', sans-serif;
       --font-display:'Outfit', sans-serif;
-      --glow:       0 0 15px rgba(0, 255, 65, 0.4);
+      --glow:       0 0 15px rgba(0, 255, 65, 0.3);
       --glow-strong:0 0 30px rgba(0, 255, 65, 0.6);
       --max-w:      1200px;
     }
@@ -126,6 +126,18 @@
       backdrop-filter: blur(15px);
     }
 
+    nav::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--green), #fff, var(--green), transparent);
+      box-shadow: 0 0 15px 1px var(--green), 0 0 30px 2px rgba(0,255,65,0.4);
+      opacity: 0.8;
+    }
+
     .nav-inner {
       display: flex;
       flex-direction: column;
@@ -186,31 +198,6 @@
 
     @media (max-width: 1000px) { .side-text { display: none; } }
 
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: .75rem;
-      border: 1px solid var(--border);
-      background: rgba(0,255,65,.04);
-      padding: .6rem 1.5rem;
-      border-radius: 4px;
-      font-family: monospace;
-      font-size: .65rem;
-      letter-spacing: .3em;
-      color: var(--green);
-      margin-bottom: 3rem;
-    }
-
-    .badge-dot {
-      width: 6px; height: 6px;
-      background: var(--green);
-      border-radius: 50%;
-      box-shadow: var(--glow);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse { 0% { opacity: .4; } 50% { opacity: 1; } 100% { opacity: .4; } }
-
     h1 {
       font-family: var(--font-display);
       font-weight: 900;
@@ -236,6 +223,7 @@
       max-width: 580px;
       margin-bottom: 5rem;
       line-height: 1.6;
+      margin-inline: auto;
     }
 
     /* ── Sections ── */
@@ -355,23 +343,6 @@
       transition: width 1.5s ease-out;
     }
 
-    /* ── Interactive HUD ── */
-    #activity-hud {
-      position: fixed;
-      bottom: 2.5rem;
-      right: 2.5rem;
-      z-index: 150;
-      width: 280px;
-      background: rgba(0,0,0,.92);
-      border: 1px solid var(--border);
-      font-family: monospace;
-      font-size: .6rem;
-      color: var(--green);
-      display: none;
-      backdrop-filter: blur(10px);
-    }
-    @media (min-width: 1100px) { #activity-hud { display: block; } }
-
     /* ── Stats ── */
     #stats {
       background: var(--surface);
@@ -473,13 +444,11 @@
     <span class="side-text side-right">MAPPING_LONDON_CORE</span>
 
     <div class="reveal active">
-      <div class="hero-badge">
-        <span class="badge-dot"></span>
-        UPLINK_ESTABLISHED: 1.0.4
-      </div>
-      <h1>PUSHINN<br><span class="h1-glitch">NETWORK</span></h1>
+      <h1>PUSHINN<br><span class="h1-glitch">PRO</span></h1>
       <p class="hero-sub" id="tw-text">The tactical social layer for London's urban underground.</p>
-      <a href="#beta" class="btn-action">JOIN_THE_CREW</a>
+      <div class="hero-ctas">
+        <a href="#beta" class="btn-action">JOIN_THE_CREW</a>
+      </div>
     </div>
   </section>
 
@@ -673,14 +642,6 @@
     </div>
   </footer>
 
-  <div id="activity-hud" aria-hidden="true">
-    <div style="padding: .75rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
-      <span>[LIVE_LINK]</span>
-      <span id="hud-timer">000000</span>
-    </div>
-    <div id="hud-content" style="padding: .75rem; height: 160px; overflow: hidden; opacity: .8;"></div>
-  </div>
-
   <script>
     /* ── Intersection Observer ── */
     const observer = new IntersectionObserver((entries) => {
@@ -695,7 +656,26 @@
     }, { threshold: 0.15 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    /* ── HUD Loop removed ── */
+    /* ── Stats Logic ── */
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.getAttribute('data-target'));
+          let count = 0;
+          const timer = setInterval(() => {
+            count += Math.max(1, target / 50);
+            if (count >= target) {
+              el.textContent = target;
+              clearInterval(timer);
+            } else {
+              el.textContent = Math.floor(count);
+            }
+          }, 40);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.stat-num').forEach(el => statsObserver.observe(el));
 
     /* ── Matrix Rain ── */
     const canvas = document.getElementById('matrix-canvas');
@@ -743,37 +723,10 @@
     /* ── Scroll ── */
     window.addEventListener('scroll', () => {
       const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      document.getElementById('skater-progress').style.width = scrolled + '%';
-      document.getElementById('skater-icon').style.left = scrolled + '%';
-    });
-  </script>
-</body>
-</html>
-th.random() * grainCanvas.height;
-        gctx.fillStyle = `rgba(255,255,255,${Math.random() * .06})`;
-        gctx.fillRect(x,y,1,1);
-      }
-    }
-    resizeGrain();
-    window.addEventListener('resize', resizeGrain);
-    setInterval(renderGrain, 60);
-
-    /* ── Scroll ── */
-    window.addEventListener('scroll', () => {
-      const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      document.getElementById('skater-progress').style.width = scrolled + '%';
-      document.getElementById('skater-icon').style.left = scrolled + '%';
-    });
-  </script>
-</body>
-</html>
-erGrain, 60);
-
-    /* ── Scroll ── */
-    window.addEventListener('scroll', () => {
-      const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      document.getElementById('skater-progress').style.width = scrolled + '%';
-      document.getElementById('skater-icon').style.left = scrolled + '%';
+      const fill = document.getElementById('skater-progress');
+      const icon = document.getElementById('skater-icon');
+      if (fill) fill.style.width = scrolled + '%';
+      if (icon) icon.style.left = scrolled + '%';
     });
   </script>
 </body>
