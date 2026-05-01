@@ -498,13 +498,26 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const el = entry.target;
-          const target = parseInt(el.getAttribute('data-target'));
-          let count = 0;
-          const timer = setInterval(() => {
-            count += Math.max(1, target / 50);
-            if (count >= target) { el.textContent = target; clearInterval(timer); } 
-            else { el.textContent = Math.floor(count); }
-          }, 40);
+          const target = parseInt(el.getAttribute('data-target')) || 0;
+          let iterations = 0;
+          const maxIterations = 20;
+          const interval = setInterval(() => {
+            el.textContent = Math.floor(Math.random() * 999);
+            iterations++;
+            if (iterations >= maxIterations) {
+              clearInterval(interval);
+              if (target === 0) {
+                el.textContent = "[PENDING...]";
+                el.style.fontSize = "1.2rem";
+                el.style.color = "var(--dim)";
+              } else {
+                el.textContent = target;
+                el.style.fontSize = "";
+                el.style.color = "var(--green)";
+              }
+            }
+          }, 50);
+          statsObserver.unobserve(el);
         }
       });
     }, { threshold: 0.5 });
