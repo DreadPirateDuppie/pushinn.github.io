@@ -59,21 +59,31 @@
       width: 100%; height: 100%;
       z-index: 0;
       pointer-events: none;
-      opacity: .015;
+      opacity: .01;
+    }
+
+    /* Falling Data Dust */
+    #data-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      opacity: .2;
     }
 
     #scanline-overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      z-index: 1;
+      z-index: 5;
       pointer-events: none;
       background: repeating-linear-gradient(
         to bottom,
         transparent,
         transparent 2px,
-        rgba(0,0,0,.15) 2px,
-        rgba(0,0,0,.15) 4px
+        rgba(0,0,0,.1) 2px,
+        rgba(0,0,0,.1) 4px
       );
     }
 
@@ -81,7 +91,7 @@
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      z-index: 1;
+      z-index: 6;
       pointer-events: none;
       opacity: .2;
     }
@@ -136,7 +146,6 @@
       background: linear-gradient(to right, transparent, var(--green), #fff, var(--green), transparent);
       box-shadow: 0 0 15px 1px var(--green), 0 0 30px 2px rgba(0,255,65,0.4);
       opacity: 0.8;
-      transition: transform 0.5s ease-out;
     }
 
     .nav-inner {
@@ -170,10 +179,12 @@
       .nav-links { gap: 1rem; font-size: .6rem; flex-wrap: wrap; justify-content: center; }
     }
 
+    .nav-links a:hover { color: var(--green); text-shadow: var(--glow); }
+
     /* ── Hero (Dynamic Content) ── */
     #hero {
       position: relative;
-      z-index: 2;
+      z-index: 10;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -181,16 +192,6 @@
       justify-content: center;
       text-align: center;
       padding: 6rem 2rem 4rem;
-      perspective: 1000px;
-    }
-
-    .parallax-layer {
-      transition: transform 0.1s ease-out;
-      transform-style: preserve-3d;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
 
     .side-text {
@@ -201,7 +202,6 @@
       letter-spacing: .5em;
       writing-mode: vertical-rl;
       opacity: .25;
-      transition: transform 0.2s ease-out;
     }
     .side-left { left: 4rem; top: 50%; transform: translateY(-50%); }
     .side-right { right: 4rem; top: 50%; transform: translateY(-50%) rotate(180deg); }
@@ -263,7 +263,7 @@
     /* ── Sections ── */
     section {
       position: relative;
-      z-index: 2;
+      z-index: 10;
       padding-block: 15rem;
       border-top: 1px solid var(--border);
     }
@@ -309,7 +309,7 @@
       letter-spacing: -.04em;
     }
 
-    /* ── Protocol Grid ── */
+    /* ── Symmetrical Protocol Nodes ── */
     .protocol-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -321,12 +321,13 @@
     }
 
     .protocol-node {
-      background: rgba(0,0,0, 0.4);
+      background: rgba(0,0,0, 0.6);
       border: 1px solid var(--border);
       padding: 4rem;
       position: relative;
       transition: all .4s cubic-bezier(.4,0,.2,1);
       overflow: hidden;
+      backdrop-filter: blur(5px);
     }
 
     .protocol-node:hover {
@@ -446,6 +447,7 @@
   </div>
 
   <canvas id="matrix-canvas"></canvas>
+  <canvas id="data-canvas"></canvas>
   <div id="scanline-overlay"></div>
   <canvas id="grain-canvas"></canvas>
 
@@ -464,13 +466,13 @@
 
   <!-- ── Opening Screen ── -->
   <section id="hero">
-    <span class="side-text side-left" id="parallax-l">SESSION_ACTIVE_001</span>
-    <span class="side-text side-right" id="parallax-r">MAPPING_LONDON_CORE</span>
+    <span class="side-text side-left">SESSION_ACTIVE_001</span>
+    <span class="side-text side-right">MAPPING_LONDON_CORE</span>
 
-    <div class="parallax-layer reveal active" id="hero-layer">
+    <div class="reveal active">
       <p class="section-label" style="margin-bottom: 1rem;">[TRANSMISSION_ACTIVE]</p>
       <h1>PUSHINN PRO</h1>
-      <p class="hero-sub">The tactical social layer for London's urban underground.</p>
+      <p class="hero-sub" id="tw-text">The tactical social layer for London's urban underground.</p>
       <a href="#beta" class="btn-action">JOIN_THE_CREW</a>
 
       <div class="hero-stats">
@@ -615,23 +617,37 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.stat-num').forEach(el => statsObserver.observe(el));
 
-    /* ── Mouse Reactive Parallax ── */
-    const hero = document.getElementById('hero');
-    const heroLayer = document.getElementById('hero-layer');
-    const pl = document.getElementById('parallax-l');
-    const pr = document.getElementById('parallax-r');
+    /* ── Data Stream Particles ── */
+    const dataCanvas = document.getElementById('data-canvas');
+    const dctx = dataCanvas.getContext('2d');
+    let dataPoints = [];
 
-    document.addEventListener('mousemove', (e) => {
-      const x = (window.innerWidth / 2 - e.pageX) / 40;
-      const y = (window.innerHeight / 2 - e.pageY) / 40;
-      
-      // Title Tilt
-      if (heroLayer) heroLayer.style.transform = `rotateX(${y}deg) rotateY(${-x}deg)`;
-      
-      // Side Text Parallax
-      if (pl) pl.style.transform = `translateY(-50%) translateX(${x*0.5}px)`;
-      if (pr) pr.style.transform = `translateY(-50%) rotate(180deg) translateX(${-x*0.5}px)`;
-    });
+    function initData() {
+      dataCanvas.width = window.innerWidth;
+      dataCanvas.height = window.innerHeight;
+      dataPoints = [];
+      for(let i=0; i<30; i++) {
+        dataPoints.push({
+          x: Math.random() * dataCanvas.width,
+          y: Math.random() * dataCanvas.height,
+          val: Math.random().toString(16).slice(2, 8).toUpperCase(),
+          speed: 0.5 + Math.random() * 1.5
+        });
+      }
+    }
+
+    function drawData() {
+      dctx.clearRect(0,0,dataCanvas.width, dataCanvas.height);
+      dctx.fillStyle = 'rgba(0, 255, 65, 0.3)';
+      dctx.font = '10px monospace';
+      dataPoints.forEach(p => {
+        dctx.fillText(p.val, p.x, p.y);
+        p.y += p.speed;
+        if(p.y > dataCanvas.height) p.y = -20;
+      });
+      requestAnimationFrame(drawData);
+    }
+    initData(); window.addEventListener('resize', initData); drawData();
 
     /* ── Matrix Rain ── */
     const canvas = document.getElementById('matrix-canvas');
