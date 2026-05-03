@@ -59,7 +59,7 @@
       width: 100%; height: 100%;
       z-index: 0;
       pointer-events: none;
-      opacity: .02;
+      opacity: .015;
     }
 
     #scanline-overlay {
@@ -83,7 +83,7 @@
       width: 100%; height: 100%;
       z-index: 1;
       pointer-events: none;
-      opacity: .25;
+      opacity: .2;
     }
 
     /* ── CRT Startup ── */
@@ -136,6 +136,7 @@
       background: linear-gradient(to right, transparent, var(--green), #fff, var(--green), transparent);
       box-shadow: 0 0 15px 1px var(--green), 0 0 30px 2px rgba(0,255,65,0.4);
       opacity: 0.8;
+      transition: transform 0.5s ease-out;
     }
 
     .nav-inner {
@@ -169,9 +170,7 @@
       .nav-links { gap: 1rem; font-size: .6rem; flex-wrap: wrap; justify-content: center; }
     }
 
-    .nav-links a:hover { color: var(--green); text-shadow: var(--glow); }
-
-    /* ── Opening Screen (Hero) ── */
+    /* ── Hero (Dynamic Content) ── */
     #hero {
       position: relative;
       z-index: 2;
@@ -182,6 +181,16 @@
       justify-content: center;
       text-align: center;
       padding: 6rem 2rem 4rem;
+      perspective: 1000px;
+    }
+
+    .parallax-layer {
+      transition: transform 0.1s ease-out;
+      transform-style: preserve-3d;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .side-text {
@@ -191,12 +200,13 @@
       color: var(--dark-green);
       letter-spacing: .5em;
       writing-mode: vertical-rl;
-      opacity: .2;
+      opacity: .25;
+      transition: transform 0.2s ease-out;
     }
-    .side-left { left: 3rem; top: 50%; transform: translateY(-50%); }
-    .side-right { right: 3rem; top: 50%; transform: translateY(-50%) rotate(180deg); }
+    .side-left { left: 4rem; top: 50%; transform: translateY(-50%); }
+    .side-right { right: 4rem; top: 50%; transform: translateY(-50%) rotate(180deg); }
 
-    @media (max-width: 1000px) { .side-text { display: none; } }
+    @media (max-width: 1100px) { .side-text { display: none; } }
 
     h1 {
       font-family: var(--font-display);
@@ -207,6 +217,7 @@
       color: #fff;
       margin-bottom: 2rem;
       white-space: nowrap;
+      text-shadow: 0 0 20px rgba(255,255,255,0.1);
     }
 
     .hero-sub {
@@ -219,26 +230,23 @@
       margin-inline: auto;
     }
 
-    /* ── Hero Stats ── */
     .hero-stats {
       margin-top: 5rem;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
+      gap: 3rem;
       width: 100%;
-      max-width: 900px;
+      max-width: 1000px;
     }
 
     @media (max-width: 768px) {
       .hero-stats { grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
     }
 
-    .stat-item { display: flex; flex-direction: column; align-items: center; }
-
     .stat-num {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-size: clamp(1.8rem, 5vw, 3rem);
       color: var(--green);
       text-shadow: var(--glow);
     }
@@ -256,15 +264,14 @@
     section {
       position: relative;
       z-index: 2;
-      padding-block: 15rem; /* Desktop Oxygen */
+      padding-block: 15rem;
       border-top: 1px solid var(--border);
     }
 
     @media (max-width: 768px) {
-      section { padding-block: 6rem; } /* Mobile Efficiency */
+      section { padding-block: 6rem; }
     }
 
-    /* Vertical Trace Line */
     section::after {
       content: '';
       position: absolute;
@@ -302,7 +309,7 @@
       letter-spacing: -.04em;
     }
 
-    /* ── Symmetrical Protocol Nodes ── */
+    /* ── Protocol Grid ── */
     .protocol-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -401,12 +408,8 @@
       box-shadow: 0 0 40px rgba(0,255,65,.5);
     }
 
-    /* ── Info Split ── */
-    .info-split { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
-    @media (max-width: 900px) { .info-split { grid-template-columns: 1fr; text-align: center; } }
-
     /* ── Footer ── */
-    footer { padding-block: 10rem 5rem; border-top: 1px solid var(--border); }
+    footer { padding-block: 10rem 5rem; }
     .footer-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -446,7 +449,7 @@
   <div id="scanline-overlay"></div>
   <canvas id="grain-canvas"></canvas>
 
-  <nav>
+  <nav id="main-nav">
     <div class="nav-inner">
       <a href="#hero" class="nav-logo">PUSHINN PRO</a>
       <ul class="nav-links">
@@ -459,39 +462,26 @@
     </div>
   </nav>
 
-  <!-- ── Hero Section ── -->
+  <!-- ── Opening Screen ── -->
   <section id="hero">
-    <span class="side-text side-left">SESSION_ACTIVE_001</span>
-    <span class="side-text side-right">MAPPING_LONDON_CORE</span>
+    <span class="side-text side-left" id="parallax-l">SESSION_ACTIVE_001</span>
+    <span class="side-text side-right" id="parallax-r">MAPPING_LONDON_CORE</span>
 
-    <div class="reveal active">
+    <div class="parallax-layer reveal active" id="hero-layer">
+      <p class="section-label" style="margin-bottom: 1rem;">[TRANSMISSION_ACTIVE]</p>
       <h1>PUSHINN PRO</h1>
       <p class="hero-sub">The tactical social layer for London's urban underground.</p>
       <a href="#beta" class="btn-action">JOIN_THE_CREW</a>
 
-      <!-- Moved Stats into Hero -->
       <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-num" id="stat-spots" data-target="0">0</div>
-          <div class="stat-label">Spots Mapped</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num" id="stat-skaters" data-target="0">0</div>
-          <div class="stat-label">Beta Skaters</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num" id="stat-battles" data-target="0">0</div>
-          <div class="stat-label">Battles Played</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num" id="stat-cities" data-target="0">0</div>
-          <div class="stat-label">Cities Mapped</div>
-        </div>
+        <div class="stat-item"><div class="stat-num" id="stat-spots" data-target="0">0</div><div class="stat-label">Spots Mapped</div></div>
+        <div class="stat-item"><div class="stat-num" id="stat-skaters" data-target="0">0</div><div class="stat-label">Beta Skaters</div></div>
+        <div class="stat-item"><div class="stat-num" id="stat-battles" data-target="0">0</div><div class="stat-label">Battles Played</div></div>
+        <div class="stat-item"><div class="stat-num" id="stat-cities" data-target="0">0</div><div class="stat-label">Cities Mapped</div></div>
       </div>
     </div>
   </section>
 
-  <!-- ── Features ── -->
   <section id="features">
     <div class="container">
       <p class="section-label">// SYSTEM_SPECIFICATIONS</p>
@@ -532,7 +522,7 @@
           <p class="section-label" style="text-align: left;">// NETWORK_GROWTH</p>
           <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Community Missions</h2>
           <p style="color: #888; font-size: 1.1rem; margin-bottom: 4rem; max-width: 450px;">Stabilize the core and expand the map. Contributions earn you Clout and Priority Access.</p>
-          <a href="bounties.html" class="btn-outline">VIEW_MISSIONS</a>
+          <a href="bounties.html" class="btn-outline" style="border: 1px solid var(--green); padding: 1.25rem 4rem; color: var(--green); font-family: monospace; font-weight: 900; letter-spacing: .2em;">VIEW_MISSIONS</a>
         </div>
         <div class="reveal" style="border: 1px solid var(--border); padding: 5rem; background: rgba(0,255,65,0.02);">
           <div style="font-family: monospace; color: var(--green); margin-bottom: 2rem;">[LIVE_FEED]</div>
@@ -583,6 +573,7 @@
   </footer>
 
   <script>
+    /* ── Intersection Observer ── */
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -594,13 +585,14 @@
     }, { threshold: 0.15 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+    /* ── Stats Logic (Decryption) ── */
     const statsObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const el = entry.target;
           const target = parseInt(el.getAttribute('data-target')) || 0;
           let iterations = 0;
-          const maxIterations = 50; // SLOWED DOWN (More iterations)
+          const maxIterations = 50; 
           const interval = setInterval(() => {
             el.textContent = Math.floor(Math.random() * 999);
             iterations++;
@@ -608,7 +600,7 @@
               clearInterval(interval);
               if (target === 0) {
                 el.textContent = "COMING SOON";
-                el.style.fontSize = "clamp(.8rem, 2vw, 1.1rem)"; // Scaled size
+                el.style.fontSize = "clamp(.7rem, 1.5vw, 1rem)";
                 el.style.color = "var(--dim)";
               } else {
                 el.textContent = target;
@@ -616,13 +608,32 @@
                 el.style.color = "var(--green)";
               }
             }
-          }, 60); // SLOWED DOWN (Longer interval)
+          }, 60);
           statsObserver.unobserve(el);
         }
       });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.1 });
     document.querySelectorAll('.stat-num').forEach(el => statsObserver.observe(el));
 
+    /* ── Mouse Reactive Parallax ── */
+    const hero = document.getElementById('hero');
+    const heroLayer = document.getElementById('hero-layer');
+    const pl = document.getElementById('parallax-l');
+    const pr = document.getElementById('parallax-r');
+
+    document.addEventListener('mousemove', (e) => {
+      const x = (window.innerWidth / 2 - e.pageX) / 40;
+      const y = (window.innerHeight / 2 - e.pageY) / 40;
+      
+      // Title Tilt
+      if (heroLayer) heroLayer.style.transform = `rotateX(${y}deg) rotateY(${-x}deg)`;
+      
+      // Side Text Parallax
+      if (pl) pl.style.transform = `translateY(-50%) translateX(${x*0.5}px)`;
+      if (pr) pr.style.transform = `translateY(-50%) rotate(180deg) translateX(${-x*0.5}px)`;
+    });
+
+    /* ── Matrix Rain ── */
     const canvas = document.getElementById('matrix-canvas');
     const ctx = canvas.getContext('2d');
     let cols, drops;
@@ -642,6 +653,7 @@
     }
     resize(); window.addEventListener('resize', resize); setInterval(draw, 90);
 
+    /* ── Film Grain ── */
     const grainCanvas = document.getElementById('grain-canvas');
     const gctx = grainCanvas.getContext('2d');
     function resizeGrain() { grainCanvas.width = window.innerWidth; grainCanvas.height = window.innerHeight; }
@@ -656,6 +668,7 @@
     }
     resizeGrain(); window.addEventListener('resize', resizeGrain); setInterval(renderGrain, 60);
 
+    /* ── Scroll ── */
     window.addEventListener('scroll', () => {
       const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
       const fill = document.getElementById('skater-progress');
