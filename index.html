@@ -62,7 +62,6 @@
       opacity: .01;
     }
 
-    /* Falling Data Dust */
     #data-canvas {
       position: fixed;
       top: 0; left: 0;
@@ -126,7 +125,7 @@
       100% { opacity: 0; pointer-events: none; }
     }
 
-    /* ── Persistent Navbar ── */
+    /* ── Navbar ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -181,7 +180,7 @@
 
     .nav-links a:hover { color: var(--green); text-shadow: var(--glow); }
 
-    /* ── Hero (Dynamic Content) ── */
+    /* ── Hero ── */
     #hero {
       position: relative;
       z-index: 10;
@@ -464,16 +463,15 @@
     </div>
   </nav>
 
-  <!-- ── Opening Screen ── -->
+  <!-- ── Hero Section ── -->
   <section id="hero">
-    <span class="side-text side-left">SESSION_ACTIVE_001</span>
-    <span class="side-text side-right">MAPPING_LONDON_CORE</span>
+    <span class="side-text side-left">SKATE_SPOT_DATABASE</span>
+    <span class="side-text side-right">LONDON_STREET_NETWORK</span>
 
     <div class="reveal active">
-      <p class="section-label" style="margin-bottom: 1rem;">[TRANSMISSION_ACTIVE]</p>
       <h1>PUSHINN PRO</h1>
       <p class="hero-sub" id="tw-text">The tactical social layer for London's urban underground.</p>
-      <a href="#beta" class="btn-action">JOIN_THE_CREW</a>
+      <a href="#beta" class="btn-action">AWAITING_DEPLOYMENT</a>
 
       <div class="hero-stats">
         <div class="stat-item"><div class="stat-num" id="stat-spots" data-target="0">0</div><div class="stat-label">Spots Mapped</div></div>
@@ -484,73 +482,125 @@
     </div>
   </section>
 
+  <!-- ── Features ── -->
   <section id="features">
     <div class="container">
-      <p class="section-label">// SYSTEM_SPECIFICATIONS</p>
-      <h2 class="section-title">Core Protocol</h2>
+      <p class="section-label">HOW IT WORKS</p>
+      <h2 class="section-title">App Features</h2>
+
       <div class="protocol-grid">
+        
+        <!-- Node 01 -->
         <div class="protocol-node reveal">
-          <div class="node-header"><div class="node-ascii">   ______\n  / ____/\n / / __  \n/ /_/ /  \n\____/</div><div class="node-id">PROT_01</div></div>
+          <div class="node-header">
+            <div class="node-ascii">   ______
+  / ____/
+ / / __  
+/ /_/ /  
+\____/</div>
+            <div class="node-id">01</div>
+          </div>
           <h3>Geospatial Intel</h3>
-          <p>Real-time community mapping. Live status reporting on pavement quality and security heat.</p>
+          <p>Real-time community mapping. Live status reporting on pavement quality, crowd density, and security heat.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
+
+        <!-- Node 02 -->
         <div class="protocol-node reveal">
-          <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">PROT_02</div></div>
+          <div class="node-header">
+            <div class="node-ascii">    ____ 
+   / __ \
+  / /_/ /
+ / ____/ 
+/_/</div>
+            <div class="node-id">02</div>
+          </div>
           <h3>Async Battles</h3>
-          <p>Skill-based wagers verified by community weighted consensus. Earn reputation.</p>
+          <p>Skill-based wagers verified by community weighted consensus. Earn reputation on the global ledger.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
+
+        <!-- Node 03 -->
         <div class="protocol-node reveal">
-          <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">PROT_03</div></div>
+          <div class="node-header">
+            <div class="node-ascii">    ____ 
+   / __ \
+  / /_/ /
+ / ____/ 
+/_/</div>
+            <div class="node-id">03</div>
+          </div>
           <h3>Private Nodes</h3>
-          <p>Encrypted spot visibility. Share hidden spots only with those who have cleared verification.</p>
+          <p>Encrypted spot visibility for the crew. Share your best finds only with those who have cleared verification.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
+
+        <!-- Node 04 -->
         <div class="protocol-node reveal">
-          <div class="node-header"><div class="node-ascii">  _______ \n /_  __(_).\n  / / / / \n / / / /  \n/_/ /_/</div><div class="node-id">PROT_04</div></div>
+          <div class="node-header">
+            <div class="node-ascii">  _______ 
+ /_  __(_).
+  / / / / 
+ / / / /  
+/_/ /_/</div>
+            <div class="node-id">04</div>
+          </div>
           <h3>Talent ID</h3>
-          <p>Objective scouting metrics for the 1%. A direct pipeline for brands to scout talent.</p>
+          <p>Objective scouting metrics for the 1%. A direct pipeline for brands to scout talent via the Triple-Score.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
+
       </div>
     </div>
   </section>
 
+  <!-- ── Missions ── -->
   <section id="missions">
     <div class="container">
       <div class="info-split">
         <div class="reveal">
-          <p class="section-label" style="text-align: left;">// NETWORK_GROWTH</p>
-          <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Community Missions</h2>
-          <p style="color: #888; font-size: 1.1rem; margin-bottom: 4rem; max-width: 450px;">Stabilize the core and expand the map. Contributions earn you Clout and Priority Access.</p>
-          <a href="bounties.html" class="btn-outline" style="border: 1px solid var(--green); padding: 1.25rem 4rem; color: var(--green); font-family: monospace; font-weight: 900; letter-spacing: .2em;">VIEW_MISSIONS</a>
+          <p class="section-label" style="text-align: left;">COMMUNITY</p>
+          <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Help us build the map</h2>
+          <p style="color: #888; font-size: 1.1rem; margin-bottom: 4rem; max-width: 450px;">
+            Stabilize the core and expand the map. Your contributions earn you <strong>Clout</strong> and <strong>Priority Access</strong>.
+          </p>
+          <a href="bounties.html" class="btn-action">VIEW_MISSIONS</a>
         </div>
         <div class="reveal" style="border: 1px solid var(--border); padding: 5rem; background: rgba(0,255,65,0.02);">
-          <div style="font-family: monospace; color: var(--green); margin-bottom: 2rem;">[LIVE_FEED]</div>
-          <div style="font-family: monospace; font-size: .85rem; color: var(--dim); line-height: 2.5;">> [MS-01]: BUG_HUNTER<br>> [MS-02]: SPOT_SEEDER<br>> [MS-03]: GATEKEEPER</div>
+          <div style="font-family: monospace; color: var(--green); margin-bottom: 2rem;">LIVE_FEED</div>
+          <div style="font-family: monospace; font-size: .85rem; color: var(--dim); line-height: 2.5;">
+            > [01]: BUG_HUNTER<br>
+            > [02]: SPOT_SEEDER<br>
+            > [03]: GATEKEEPER
+          </div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ── Support ── -->
   <section id="support">
     <div class="container" style="text-align: center;">
       <div class="reveal">
-        <p class="section-label">// COMMUNICATIONS</p>
-        <h2 class="section-title">Contact Core</h2>
-        <p style="color: #888; font-size: 1.1rem; margin-bottom: 5rem; max-width: 600px; margin-inline: auto;">System anomaly detected? Our direct communication line is open.</p>
-        <a href="contact.html" class="btn-action">INITIATE_LINK</a>
+        <p class="section-label">SUPPORT</p>
+        <h2 class="section-title">Get in touch</h2>
+        <p style="color: #888; font-size: 1.1rem; margin-bottom: 5rem; max-width: 600px; margin-inline: auto;">
+          System anomaly detected? Proposal for the network? Our direct communication line is open.
+        </p>
+        <a href="contact.html" class="btn-action">CONTACT US</a>
       </div>
     </div>
   </section>
 
+  <!-- ── Beta ── -->
   <section id="beta" style="background: linear-gradient(to bottom, transparent, rgba(0,255,65,0.03));">
     <div class="container" style="text-align: center;">
       <div class="reveal">
-        <p class="section-label">// FINAL_DEPLOYMENT</p>
+        <p class="section-label">GET ACCESS</p>
         <h2 class="section-title">AWAITING_DEPLOYMENT</h2>
-        <p style="color: #888; font-size: 1.1rem; margin-bottom: 5rem; max-width: 500px; margin-inline: auto;">The first wave drops soon. Secure your frequency.</p>
+        <p style="color: #888; font-size: 1.1rem; margin-bottom: 5rem; max-width: 500px; margin-inline: auto;">
+          The first wave drops soon. Secure your frequency.
+        </p>
         <form onsubmit="return false;" style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
           <input type="email" placeholder="your@email.com" style="padding: 1.5rem; background: #080808; border: 1px solid var(--border); color: #fff; width: 350px; font-family: monospace;">
           <button class="btn-action">TRANSMIT</button>
@@ -559,17 +609,43 @@
     </div>
   </section>
 
-  <footer>
+  <footer style="border-top: 1px solid var(--border); padding-block: 8rem 4rem;">
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand"><h2>PUSHINN PRO</h2><p>The tactical social layer for London's urban subculture.</p></div>
-        <div class="footer-col"><h4>MAP_GRID</h4><ul><li><a href="#features">FEATURES</a></li><li><a href="bounties.html">MISSIONS</a></li></ul></div>
-        <div class="footer-col"><h4>COMMUNITY</h4><ul><li><a href="contact.html">CONTACT</a></li><li><a href="beta.html">BETA</a></li></ul></div>
-        <div class="footer-col"><h4>LEGAL_DEPT</h4><ul><li><a href="privacy.html">PRIVACY</a></li><li><a href="terms.html">TERMS</a></li><li><a href="partners.html">PARTNER_ACCESS</a></li><li><a href="help.html">HELP_DESK</a></li></ul></div>
+        <div class="footer-brand">
+          <h2>PUSHINN PRO</h2>
+          <p>The tactical social layer for London's urban subculture.</p>
+        </div>
+        <div class="footer-col">
+          <h4>MAP_GRID</h4>
+          <ul>
+            <li><a href="#features">FEATURES</a></li>
+            <li><a href="bounties.html">MISSIONS</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>COMMUNITY</h4>
+          <ul>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="beta.html">BETA</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>LEGAL_DEPT</h4>
+          <ul>
+            <li><a href="privacy.html">PRIVACY</a></li>
+            <li><a href="terms.html">TERMS</a></li>
+            <li><a href="partners.html">PARTNER_ACCESS</a></li>
+            <li><a href="help.html">HELP_DESK</a></li>
+          </ul>
+        </div>
       </div>
       <div style="margin-top: 5rem; border-top: 1px solid var(--border); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
         <span style="font-family: monospace; font-size: .65rem; color: var(--dark-green);">&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN PRO. ALL_SYSTEMS_OPERATIONAL.</span>
-        <div style="display: flex; gap: 3rem; font-family: monospace; font-size: .65rem; color: var(--dark-green);"><span>STATUS: [HIRING]</span><span>UP-LINK: [STABLE]</span></div>
+        <div style="display: flex; gap: 3rem; font-family: monospace; font-size: .65rem; color: var(--dark-green);">
+          <span>STATUS: [HIRING]</span>
+          <span>UP-LINK: [STABLE]</span>
+        </div>
       </div>
     </div>
   </footer>
@@ -695,4 +771,3 @@
   </script>
 </body>
 </html>
-l>
