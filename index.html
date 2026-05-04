@@ -125,7 +125,7 @@
       100% { opacity: 0; pointer-events: none; }
     }
 
-    /* ── Navbar ── */
+    /* ── Persistent Navbar ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -190,7 +190,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 6rem 2rem 4rem;
+      padding: 8rem 2rem 6rem;
     }
 
     .side-text {
@@ -224,13 +224,55 @@
       font-size: clamp(.9rem, 2.5vw, 1.2rem);
       color: var(--dark-green);
       max-width: 580px;
-      margin-bottom: 4rem;
+      margin-bottom: 3rem;
       line-height: 1.6;
       margin-inline: auto;
     }
 
+    /* ── Hero Beta Form ── */
+    .hero-form {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 5rem;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .hero-input {
+      flex: 1;
+      min-width: 280px;
+      padding: 1.25rem;
+      background: #080808;
+      border: 1px solid var(--border);
+      color: #fff;
+      font-family: monospace;
+      outline: none;
+      transition: border-color .3s;
+    }
+
+    .hero-input:focus { border-color: var(--green); }
+
+    .btn-action {
+      display: inline-block;
+      padding: 1.25rem 3.5rem;
+      background: var(--green);
+      color: #000;
+      font-family: monospace;
+      font-weight: 900;
+      font-size: .9rem;
+      letter-spacing: .2em;
+      transition: all .3s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-action:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 40px rgba(0,255,65,.5);
+    }
+
     .hero-stats {
-      margin-top: 5rem;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 3rem;
@@ -239,7 +281,7 @@
     }
 
     @media (max-width: 768px) {
-      .hero-stats { grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
+      .hero-stats { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
     }
 
     .stat-num {
@@ -308,16 +350,14 @@
       letter-spacing: -.04em;
     }
 
-    /* ── Symmetrical Protocol Nodes ── */
+    /* ── Protocol Grid ── */
     .protocol-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 3rem;
     }
 
-    @media (max-width: 900px) {
-      .protocol-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 900px) { .protocol-grid { grid-template-columns: 1fr; } }
 
     .protocol-node {
       background: rgba(0,0,0, 0.6);
@@ -336,86 +376,19 @@
       box-shadow: 0 0 40px rgba(0,255,65,.1);
     }
 
-    .node-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 3rem;
-    }
+    .node-header { display: flex; justify-content: space-between; margin-bottom: 3rem; }
+    .node-ascii { font-family: monospace; font-size: .55rem; color: var(--dark-green); white-space: pre; }
+    .node-id { font-family: monospace; font-size: .65rem; color: var(--green); opacity: .5; }
 
-    .node-ascii {
-      font-family: monospace;
-      font-size: .55rem;
-      line-height: 1.1;
-      color: var(--dark-green);
-      white-space: pre;
-    }
+    .protocol-node h3 { font-family: var(--font-display); font-weight: 800; font-size: 2.25rem; color: #fff; margin-bottom: 1.5rem; }
+    .protocol-node p { font-family: monospace; font-size: .95rem; color: var(--dim); line-height: 1.8; }
 
-    .node-id {
-      font-family: monospace;
-      font-size: .65rem;
-      color: var(--green);
-      opacity: .5;
-    }
-
-    .protocol-node h3 {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: 2.25rem;
-      color: #fff;
-      margin-bottom: 1.5rem;
-      letter-spacing: -.02em;
-    }
-
-    .protocol-node p {
-      font-family: monospace;
-      font-size: .95rem;
-      color: var(--dim);
-      line-height: 1.8;
-    }
-
-    .node-bar-container {
-      margin-top: 3rem;
-      height: 2px;
-      background: rgba(0,255,65,.1);
-      width: 100%;
-      position: relative;
-    }
-
-    .node-bar-fill {
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      background: var(--green);
-      box-shadow: var(--glow);
-      width: 0%;
-      transition: width 1.5s ease-out;
-    }
-
-    /* ── Buttons ── */
-    .btn-action {
-      display: inline-block;
-      padding: 1.5rem 5rem;
-      background: var(--green);
-      color: #000;
-      font-family: monospace;
-      font-weight: 900;
-      font-size: .9rem;
-      letter-spacing: .3em;
-      transition: all .3s;
-    }
-    .btn-action:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 40px rgba(0,255,65,.5);
-    }
+    .node-bar-container { margin-top: 3rem; height: 2px; background: rgba(0,255,65,.1); width: 100%; position: relative; }
+    .node-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--green); width: 0%; transition: width 1.5s ease-out; }
 
     /* ── Footer ── */
-    footer { padding-block: 10rem 5rem; }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 5rem;
-      margin-bottom: 8rem;
-    }
+    footer { padding-block: 10rem 5rem; border-top: 1px solid var(--border); }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 5rem; margin-bottom: 8rem; }
     .footer-brand h2 { font-family: var(--font-display); font-weight: 900; color: var(--green); font-size: 2.5rem; margin-bottom: 1.5rem; }
     .footer-brand p { font-family: monospace; font-size: .9rem; color: var(--dark-green); line-height: 1.8; max-width: 350px; }
     .footer-col h4 { font-family: monospace; font-size: .7rem; color: #fff; margin-bottom: 1.5rem; letter-spacing: .2em; }
@@ -457,21 +430,27 @@
         <li><a href="#features">FEATURES</a></li>
         <li><a href="bounties.html">COMMUNITY_MISSIONS</a></li>
         <li><a href="contact.html">CONTACT</a></li>
-        <li><a href="beta.html">BETA</a></li>
+        <li><a href="#hero">BETA</a></li>
         <li><a href="privacy.html">PRIVACY</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- ── Hero Section ── -->
+  <!-- ── Opening Screen (Combined Identity + Beta) ── -->
   <section id="hero">
     <span class="side-text side-left">SKATE_SPOT_DATABASE</span>
     <span class="side-text side-right">LONDON_STREET_NETWORK</span>
 
     <div class="reveal active">
+      <p class="section-label" style="margin-bottom: 1rem;">GET ACCESS</p>
       <h1>PUSHINN PRO</h1>
-      <p class="hero-sub" id="tw-text">The tactical social layer for London's urban underground.</p>
-      <a href="#beta" class="btn-action">AWAITING_DEPLOYMENT</a>
+      <p class="hero-sub">The tactical social layer for London's urban underground.</p>
+      
+      <form class="hero-form" action="https://formspree.io/f/xoqgylje" method="POST" style="margin-inline: auto;">
+        <input type="hidden" name="_next" value="https://pushinn.app/thank-you.html">
+        <input class="hero-input" type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit" class="btn-action">AWAITING_DEPLOYMENT</button>
+      </form>
 
       <div class="hero-stats">
         <div class="stat-item"><div class="stat-num" id="stat-spots" data-target="0">0</div><div class="stat-label">Spots Mapped</div></div>
@@ -487,171 +466,79 @@
     <div class="container">
       <p class="section-label">HOW IT WORKS</p>
       <h2 class="section-title">App Features</h2>
-
       <div class="protocol-grid">
-        
-        <!-- Node 01 -->
         <div class="protocol-node reveal">
-          <div class="node-header">
-            <div class="node-ascii">   ______
-  / ____/
- / / __  
-/ /_/ /  
-\____/</div>
-            <div class="node-id">01</div>
-          </div>
+          <div class="node-header"><div class="node-ascii">   ______\n  / ____/\n / / __  \n/ /_/ /  \n\____/</div><div class="node-id">01</div></div>
           <h3>Geospatial Intel</h3>
-          <p>Real-time community mapping. Live status reporting on pavement quality, crowd density, and security heat.</p>
+          <p>Real-time community mapping. Live status reporting on pavement quality and security heat.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
-
-        <!-- Node 02 -->
         <div class="protocol-node reveal">
-          <div class="node-header">
-            <div class="node-ascii">    ____ 
-   / __ \
-  / /_/ /
- / ____/ 
-/_/</div>
-            <div class="node-id">02</div>
-          </div>
+          <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">02</div></div>
           <h3>Async Battles</h3>
-          <p>Skill-based wagers verified by community weighted consensus. Earn reputation on the global ledger.</p>
+          <p>Skill-based wagers verified by community weighted consensus. Earn reputation.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
-
-        <!-- Node 03 -->
         <div class="protocol-node reveal">
-          <div class="node-header">
-            <div class="node-ascii">    ____ 
-   / __ \
-  / /_/ /
- / ____/ 
-/_/</div>
-            <div class="node-id">03</div>
-          </div>
+          <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">03</div></div>
           <h3>Private Nodes</h3>
-          <p>Encrypted spot visibility for the crew. Share your best finds only with those who have cleared verification.</p>
+          <p>Encrypted spot visibility. Share hidden spots only with those who have cleared verification.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
-
-        <!-- Node 04 -->
         <div class="protocol-node reveal">
-          <div class="node-header">
-            <div class="node-ascii">  _______ 
- /_  __(_).
-  / / / / 
- / / / /  
-/_/ /_/</div>
-            <div class="node-id">04</div>
-          </div>
+          <div class="node-header"><div class="node-ascii">  _______ \n /_  __(_).\n  / / / / \n / / / /  \n/_/ /_/</div><div class="node-id">04</div></div>
           <h3>Talent ID</h3>
-          <p>Objective scouting metrics for the 1%. A direct pipeline for brands to scout talent via the Triple-Score.</p>
+          <p>Objective scouting metrics for the 1%. A direct pipeline for brands to scout talent.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- ── Missions ── -->
   <section id="missions">
     <div class="container">
       <div class="info-split">
         <div class="reveal">
           <p class="section-label" style="text-align: left;">COMMUNITY</p>
           <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Help us build the map</h2>
-          <p style="color: #888; font-size: 1.1rem; margin-bottom: 4rem; max-width: 450px;">
-            Stabilize the core and expand the map. Your contributions earn you <strong>Clout</strong> and <strong>Priority Access</strong>.
-          </p>
-          <a href="bounties.html" class="btn-action">VIEW_MISSIONS</a>
+          <p style="color: #888; font-size: 1.1rem; margin-bottom: 4rem; max-width: 450px;">Stabilize the core and expand the map. Contributions earn you Clout and Priority Access.</p>
+          <a href="bounties.html" class="btn-outline" style="border: 1px solid var(--green); padding: 1.25rem 4rem; color: var(--green); font-family: monospace; font-weight: 900; letter-spacing: .2em;">VIEW_MISSIONS</a>
         </div>
         <div class="reveal" style="border: 1px solid var(--border); padding: 5rem; background: rgba(0,255,65,0.02);">
           <div style="font-family: monospace; color: var(--green); margin-bottom: 2rem;">LIVE_FEED</div>
-          <div style="font-family: monospace; font-size: .85rem; color: var(--dim); line-height: 2.5;">
-            > [01]: BUG_HUNTER<br>
-            > [02]: SPOT_SEEDER<br>
-            > [03]: GATEKEEPER
-          </div>
+          <div style="font-family: monospace; font-size: .85rem; color: var(--dim); line-height: 2.5;">> [01]: BUG_HUNTER<br>> [02]: SPOT_SEEDER<br>> [03]: GATEKEEPER</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── Support ── -->
   <section id="support">
     <div class="container" style="text-align: center;">
       <div class="reveal">
         <p class="section-label">SUPPORT</p>
         <h2 class="section-title">Get in touch</h2>
-        <p style="color: #888; font-size: 1.1rem; margin-bottom: 5rem; max-width: 600px; margin-inline: auto;">
-          System anomaly detected? Proposal for the network? Our direct communication line is open.
-        </p>
+        <p style="color: #888; font-size: 1.1rem; margin-bottom: 5rem; max-width: 600px; margin-inline: auto;">System anomaly detected? Our direct communication line is open.</p>
         <a href="contact.html" class="btn-action">CONTACT US</a>
       </div>
     </div>
   </section>
 
-  <!-- ── Beta ── -->
-  <section id="beta" style="background: linear-gradient(to bottom, transparent, rgba(0,255,65,0.03));">
-    <div class="container" style="text-align: center;">
-      <div class="reveal">
-        <p class="section-label">GET ACCESS</p>
-        <h2 class="section-title">AWAITING_DEPLOYMENT</h2>
-        <p style="color: #888; font-size: 1.1rem; margin-bottom: 5rem; max-width: 500px; margin-inline: auto;">
-          The first wave drops soon. Secure your frequency.
-        </p>
-        <form onsubmit="return false;" style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-          <input type="email" placeholder="your@email.com" style="padding: 1.5rem; background: #080808; border: 1px solid var(--border); color: #fff; width: 350px; font-family: monospace;">
-          <button class="btn-action">TRANSMIT</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <footer style="border-top: 1px solid var(--border); padding-block: 8rem 4rem;">
+  <footer>
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand">
-          <h2>PUSHINN PRO</h2>
-          <p>The tactical social layer for London's urban subculture.</p>
-        </div>
-        <div class="footer-col">
-          <h4>MAP_GRID</h4>
-          <ul>
-            <li><a href="#features">FEATURES</a></li>
-            <li><a href="bounties.html">MISSIONS</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>COMMUNITY</h4>
-          <ul>
-            <li><a href="contact.html">CONTACT</a></li>
-            <li><a href="beta.html">BETA</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>LEGAL_DEPT</h4>
-          <ul>
-            <li><a href="privacy.html">PRIVACY</a></li>
-            <li><a href="terms.html">TERMS</a></li>
-            <li><a href="partners.html">PARTNER_ACCESS</a></li>
-            <li><a href="help.html">HELP_DESK</a></li>
-          </ul>
-        </div>
+        <div class="footer-brand"><h2>PUSHINN</h2><p>The tactical social layer for London's urban subculture.</p></div>
+        <div class="footer-col"><h4>MAP_GRID</h4><ul><li><a href="#features">FEATURES</a></li><li><a href="bounties.html">MISSIONS</a></li></ul></div>
+        <div class="footer-col"><h4>COMMUNITY</h4><ul><li><a href="contact.html">CONTACT</a></li><li><a href="#hero">BETA</a></li></ul></div>
+        <div class="footer-col"><h4>LEGAL_DEPT</h4><ul><li><a href="privacy.html">PRIVACY</a></li><li><a href="terms.html">TERMS</a></li><li><a href="partners.html">PARTNER_ACCESS</a></li><li><a href="help.html">HELP_DESK</a></li></ul></div>
       </div>
       <div style="margin-top: 5rem; border-top: 1px solid var(--border); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
         <span style="font-family: monospace; font-size: .65rem; color: var(--dark-green);">&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN PRO. ALL_SYSTEMS_OPERATIONAL.</span>
-        <div style="display: flex; gap: 3rem; font-family: monospace; font-size: .65rem; color: var(--dark-green);">
-          <span>STATUS: [HIRING]</span>
-          <span>UP-LINK: [STABLE]</span>
-        </div>
+        <div style="display: flex; gap: 3rem; font-family: monospace; font-size: .65rem; color: var(--dark-green);"><span>STATUS: [HIRING]</span><span>UP-LINK: [STABLE]</span></div>
       </div>
     </div>
   </footer>
 
   <script>
-    /* ── Intersection Observer ── */
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -663,7 +550,6 @@
     }, { threshold: 0.15 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    /* ── Stats Logic (Decryption) ── */
     const statsObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -693,39 +579,23 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.stat-num').forEach(el => statsObserver.observe(el));
 
-    /* ── Data Stream Particles ── */
     const dataCanvas = document.getElementById('data-canvas');
     const dctx = dataCanvas.getContext('2d');
     let dataPoints = [];
-
     function initData() {
-      dataCanvas.width = window.innerWidth;
-      dataCanvas.height = window.innerHeight;
+      dataCanvas.width = window.innerWidth; dataCanvas.height = window.innerHeight;
       dataPoints = [];
       for(let i=0; i<30; i++) {
-        dataPoints.push({
-          x: Math.random() * dataCanvas.width,
-          y: Math.random() * dataCanvas.height,
-          val: Math.random().toString(16).slice(2, 8).toUpperCase(),
-          speed: 0.5 + Math.random() * 1.5
-        });
+        dataPoints.push({ x: Math.random() * dataCanvas.width, y: Math.random() * dataCanvas.height, val: Math.random().toString(16).slice(2, 8).toUpperCase(), speed: 0.5 + Math.random() * 1.5 });
       }
     }
-
     function drawData() {
-      dctx.clearRect(0,0,dataCanvas.width, dataCanvas.height);
-      dctx.fillStyle = 'rgba(0, 255, 65, 0.3)';
-      dctx.font = '10px monospace';
-      dataPoints.forEach(p => {
-        dctx.fillText(p.val, p.x, p.y);
-        p.y += p.speed;
-        if(p.y > dataCanvas.height) p.y = -20;
-      });
+      dctx.clearRect(0,0,dataCanvas.width, dataCanvas.height); dctx.fillStyle = 'rgba(0, 255, 65, 0.3)'; dctx.font = '10px monospace';
+      dataPoints.forEach(p => { dctx.fillText(p.val, p.x, p.y); p.y += p.speed; if(p.y > dataCanvas.height) p.y = -20; });
       requestAnimationFrame(drawData);
     }
     initData(); window.addEventListener('resize', initData); drawData();
 
-    /* ── Matrix Rain ── */
     const canvas = document.getElementById('matrix-canvas');
     const ctx = canvas.getContext('2d');
     let cols, drops;
@@ -738,35 +608,28 @@
       ctx.fillStyle = '#00FF41'; ctx.font = '14px monospace';
       drops.forEach((y, i) => {
         const text = String.fromCharCode(0x30A0 + Math.random() * 96);
-        ctx.fillText(text, i * 24, y * 24);
-        if (y * 24 > canvas.height && Math.random() > .975) drops[i] = 0;
-        drops[i]++;
+        ctx.fillText(text, i * 24, y * 24); if (y * 24 > canvas.height && Math.random() > .975) drops[i] = 0; drops[i]++;
       });
     }
     resize(); window.addEventListener('resize', resize); setInterval(draw, 90);
 
-    /* ── Film Grain ── */
     const grainCanvas = document.getElementById('grain-canvas');
     const gctx = grainCanvas.getContext('2d');
     function resizeGrain() { grainCanvas.width = window.innerWidth; grainCanvas.height = window.innerHeight; }
     function renderGrain() {
       gctx.clearRect(0,0,grainCanvas.width,grainCanvas.height);
       for(let i=0; i<800; i++){
-        let x = Math.random() * grainCanvas.width;
-        let y = Math.random() * grainCanvas.height;
-        gctx.fillStyle = `rgba(255,255,255,${Math.random() * .06})`;
-        gctx.fillRect(x,y,1,1);
+        let x = Math.random() * grainCanvas.width; let y = Math.random() * grainCanvas.height;
+        gctx.fillStyle = `rgba(255,255,255,${Math.random() * .06})`; gctx.fillRect(x,y,1,1);
       }
     }
     resizeGrain(); window.addEventListener('resize', resizeGrain); setInterval(renderGrain, 60);
 
-    /* ── Scroll ── */
     window.addEventListener('scroll', () => {
       const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
       const fill = document.getElementById('skater-progress');
       const icon = document.getElementById('skater-icon');
-      if (fill) fill.style.width = scrolled + '%';
-      if (icon) icon.style.left = scrolled + '%';
+      if (fill) fill.style.width = scrolled + '%'; if (icon) icon.style.left = scrolled + '%';
     });
   </script>
 </body>
