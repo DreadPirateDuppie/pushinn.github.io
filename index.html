@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Pushinn — The Ultimate Skateboarding Social Network. Map spots. Battle peers. Earn reputation." />
+  <meta name="description" content="Pushinn Pro — The Ultimate Skateboarding Social Network. Map spots. Battle peers. Earn reputation." />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pushinn.app/" />
   <meta property="og:title" content="Pushinn Pro | The Underground Skate Network" />
-  <meta property="og:description" content="Map secret spots. Battle your crew. Earn rep in the London skate scene. Beta access open now." />
+  <meta property="og:description" content="Find secret spots. Battle the crew. Get scouted. The professional tool for the London skate scene." />
   <meta property="og:image" content="https://pushinn.app/og-image.png" />
-  <meta property="og:site_name" content="Pushinn" />
+  <meta property="og:site_name" content="Pushinn Pro" />
 
   <meta name="theme-color" content="#000000" />
   <link rel="icon" type="image/png" href="favicon.png">
-  <title>Pushinn Pro | The Underground Skate Network</title>
+  <title>Pushinn Pro | Find Spots. Battle Crew. Get Scouted.</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -193,20 +193,6 @@
       padding: 8rem 2rem 6rem;
     }
 
-    .side-text {
-      position: absolute;
-      font-family: monospace;
-      font-size: .55rem;
-      color: var(--dark-green);
-      letter-spacing: .5em;
-      writing-mode: vertical-rl;
-      opacity: .25;
-    }
-    .side-left { left: 4rem; top: 50%; transform: translateY(-50%); }
-    .side-right { right: 4rem; top: 50%; transform: translateY(-50%) rotate(180deg); }
-
-    @media (max-width: 1100px) { .side-text { display: none; } }
-
     h1 {
       font-family: var(--font-display);
       font-weight: 900;
@@ -223,7 +209,7 @@
       font-family: monospace;
       font-size: clamp(.9rem, 2.5vw, 1.2rem);
       color: var(--dark-green);
-      max-width: 580px;
+      max-width: 620px;
       margin-bottom: 3rem;
       line-height: 1.6;
       margin-inline: auto;
@@ -380,11 +366,15 @@
     .node-ascii { font-family: monospace; font-size: .55rem; color: var(--dark-green); white-space: pre; }
     .node-id { font-family: monospace; font-size: .65rem; color: var(--green); opacity: .5; }
 
-    .protocol-node h3 { font-family: var(--font-display); font-weight: 800; font-size: 2.25rem; color: #fff; margin-bottom: 1.5rem; }
+    .protocol-node h3 { font-family: var(--font-display); font-weight: 800; font-size: 2rem; color: #fff; margin-bottom: 1.5rem; letter-spacing: -.02em;}
     .protocol-node p { font-family: monospace; font-size: .95rem; color: var(--dim); line-height: 1.8; }
 
     .node-bar-container { margin-top: 3rem; height: 2px; background: rgba(0,255,65,.1); width: 100%; position: relative; }
     .node-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--green); width: 0%; transition: width 1.5s ease-out; }
+
+    /* ── Info Split ── */
+    .info-split { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+    @media (max-width: 900px) { .info-split { grid-template-columns: 1fr; text-align: center; } }
 
     /* ── Footer ── */
     footer { padding-block: 10rem 5rem; border-top: 1px solid var(--border); }
@@ -436,15 +426,12 @@
     </div>
   </nav>
 
-  <!-- ── Opening Screen (Combined Identity + Beta) ── -->
+  <!-- ── Opening Screen (Direct Pitch) ── -->
   <section id="hero">
-    <span class="side-text side-left">SKATE_SPOT_DATABASE</span>
-    <span class="side-text side-right">LONDON_STREET_NETWORK</span>
-
     <div class="reveal active">
-      <p class="section-label" style="margin-bottom: 1rem;">GET ACCESS</p>
+      <p class="section-label" style="margin-bottom: 1rem;">THE_NETWORK_IS_WAITING</p>
       <h1>PUSHINN PRO</h1>
-      <p class="hero-sub">The tactical social layer for London's urban underground.</p>
+      <p class="hero-sub">Find secret spots. Battle the crew. Get scouted by brands.<br>The professional network for the urban skateboarding community.</p>
       
       <form class="hero-form" action="https://formspree.io/f/xoqgylje" method="POST" style="margin-inline: auto;">
         <input type="hidden" name="_next" value="https://pushinn.app/thank-you.html">
@@ -461,34 +448,38 @@
     </div>
   </section>
 
-  <!-- ── Features ── -->
+  <!-- ── Features (The Direct Breakdown) ── -->
   <section id="features">
     <div class="container">
       <p class="section-label">HOW IT WORKS</p>
-      <h2 class="section-title">App Features</h2>
+      <h2 class="section-title">Everything you need to own the city.</h2>
       <div class="protocol-grid">
+        <!-- Node 01 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">   ______\n  / ____/\n / / __  \n/ /_/ /  \n\____/</div><div class="node-id">01</div></div>
-          <h3>Geospatial Intel</h3>
-          <p>Real-time community mapping. Live status reporting on pavement quality and security heat.</p>
+          <h3>Live Spot Intel</h3>
+          <p>Know before you go. Real-time community reports on pavement quality, security presence, and spot density.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
+        <!-- Node 02 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">02</div></div>
-          <h3>Async Battles</h3>
-          <p>Skill-based wagers verified by community weighted consensus. Earn reputation.</p>
+          <h3>Skill-Based Battles</h3>
+          <p>Challenge anyone, anywhere. Record your clips, upload them to the global ledger, and let the community decide the winner.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
+        <!-- Node 03 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">03</div></div>
-          <h3>Private Nodes</h3>
-          <p>Encrypted spot visibility. Share hidden spots only with those who have cleared verification.</p>
+          <h3>Secure Crew Nodes</h3>
+          <p>Gatekeep your secret spots. Share high-fidelity coordinates only with your verified crew members.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
+        <!-- Node 04 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">  _______ \n /_  __(_).\n  / / / / \n / / / /  \n/_/ /_/</div><div class="node-id">04</div></div>
-          <h3>Talent ID</h3>
-          <p>Objective scouting metrics for the 1%. A direct pipeline for brands to scout talent.</p>
+          <h3>Talent Scouting</h3>
+          <p>Get noticed. Build an objective "Triple-Score" rating that brands and shops use to scout the next wave of talent.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
       </div>
@@ -500,13 +491,13 @@
       <div class="info-split">
         <div class="reveal">
           <p class="section-label" style="text-align: left;">COMMUNITY</p>
-          <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Help us build the map</h2>
-          <p style="color: #888; font-size: 1.1rem; margin-bottom: 4rem; max-width: 450px;">Stabilize the core and expand the map. Contributions earn you Clout and Priority Access.</p>
+          <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Build the Network</h2>
+          <p style="color: #888; font-size: 1.1rem; margin-bottom: 4rem; max-width: 450px;">Stabilize the core and expand the map. Your contributions earn you digital clout and early access to the pro tools.</p>
           <a href="bounties.html" class="btn-outline" style="border: 1px solid var(--green); padding: 1.25rem 4rem; color: var(--green); font-family: monospace; font-weight: 900; letter-spacing: .2em;">VIEW_MISSIONS</a>
         </div>
         <div class="reveal" style="border: 1px solid var(--border); padding: 5rem; background: rgba(0,255,65,0.02);">
           <div style="font-family: monospace; color: var(--green); margin-bottom: 2rem;">LIVE_FEED</div>
-          <div style="font-family: monospace; font-size: .85rem; color: var(--dim); line-height: 2.5;">> [01]: BUG_HUNTER<br>> [02]: SPOT_SEEDER<br>> [03]: GATEKEEPER</div>
+          <div style="font-family: monospace; font-size: .85rem; color: var(--dim); line-height: 2.5;">> [01]: SPOT_SEARCHER<br>> [02]: BATTLE_JUDGE<br>> [03]: GATEKEEPER</div>
         </div>
       </div>
     </div>
@@ -516,8 +507,8 @@
     <div class="container" style="text-align: center;">
       <div class="reveal">
         <p class="section-label">SUPPORT</p>
-        <h2 class="section-title">Get in touch</h2>
-        <p style="color: #888; font-size: 1.1rem; margin-bottom: 5rem; max-width: 600px; margin-inline: auto;">System anomaly detected? Our direct communication line is open.</p>
+        <h2 class="section-title">Get in Touch</h2>
+        <p style="color: #888; font-size: 1.1rem; margin-bottom: 5rem; max-width: 600px; margin-inline: auto;">Whether you've found a bug or have a proposal for the network, our direct line is open.</p>
         <a href="contact.html" class="btn-action">CONTACT US</a>
       </div>
     </div>
@@ -526,7 +517,7 @@
   <footer>
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand"><h2>PUSHINN</h2><p>The tactical social layer for London's urban subculture.</p></div>
+        <div class="footer-brand"><h2>PUSHINN</h2><p>The professional social layer for London's urban skateboarding subculture.</p></div>
         <div class="footer-col"><h4>MAP_GRID</h4><ul><li><a href="#features">FEATURES</a></li><li><a href="bounties.html">MISSIONS</a></li></ul></div>
         <div class="footer-col"><h4>COMMUNITY</h4><ul><li><a href="contact.html">CONTACT</a></li><li><a href="#hero">BETA</a></li></ul></div>
         <div class="footer-col"><h4>LEGAL_DEPT</h4><ul><li><a href="privacy.html">PRIVACY</a></li><li><a href="terms.html">TERMS</a></li><li><a href="partners.html">PARTNER_ACCESS</a></li><li><a href="help.html">HELP_DESK</a></li></ul></div>
