@@ -257,47 +257,6 @@
       .btn-action { padding-block: 1.25rem; }
     }
 
-    /* ── Bottom Stats Section ── */
-    #bottom-stats {
-      position: relative;
-      z-index: 10;
-      padding-block: 10rem;
-      border-top: 1px solid var(--border);
-      background: var(--surface);
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 4rem;
-      width: 100%;
-      max-width: 1100px;
-      margin-inline: auto;
-    }
-
-    @media (max-width: 800px) {
-      .stats-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
-    }
-
-    .stat-num {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: clamp(1.5rem, 4vw, 2.2rem);
-      color: var(--green);
-      text-align: center;
-    }
-
-    .stat-label {
-      font-family: monospace;
-      font-size: .55rem;
-      letter-spacing: .2em;
-      color: var(--dark-green);
-      text-transform: uppercase;
-      margin-top: .4rem;
-      opacity: .7;
-      text-align: center;
-    }
-
     /* ── Sections ── */
     section {
       position: relative;
@@ -413,12 +372,25 @@
     }
     .btn-main:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(0,255,65,.5); }
 
+    /* ── Bottom Stats ── */
+    #bottom-stats {
+      position: relative;
+      z-index: 10;
+      padding-block: 10rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4rem; width: 100%; max-width: 1100px; margin-inline: auto; }
+    @media (max-width: 800px) { .stats-grid { grid-template-columns: 1fr 1fr; gap: 2rem; } }
+    .stat-num { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.5rem, 4vw, 2.2rem); color: var(--green); text-align: center; }
+    .stat-label { font-family: monospace; font-size: .55rem; letter-spacing: .2em; color: var(--dark-green); text-transform: uppercase; margin-top: .4rem; opacity: .7; text-align: center; }
+
     /* ── Footer ── */
     footer { padding-block: 15rem 8rem; border-top: 1px solid var(--border); }
     .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8rem; margin-bottom: 12rem; }
     .footer-brand h2 { font-family: var(--font-display); font-weight: 900; color: var(--green); font-size: 3rem; margin-bottom: 2rem; }
     .footer-brand p { font-family: monospace; font-size: .95rem; color: var(--dark-green); line-height: 1.8; max-width: 400px; }
-    .footer-col h4 { font-family: monospace; font-size: .8rem; color: #fff; margin-bottom: 2rem; letter-spacing: .3em; }
+    .footer-col h4 { font-family: monospace; font-size: .7rem; color: #fff; margin-bottom: 2rem; letter-spacing: .3em; }
     .footer-col ul { list-style: none; display: grid; gap: 1rem; }
     .footer-col a { font-family: monospace; font-size: .75rem; color: var(--dark-green); transition: color .3s; }
     .footer-col a:hover { color: var(--green); }
@@ -427,22 +399,16 @@
     .reveal { opacity: 0; transform: translateY(80px); transition: all 1.2s cubic-bezier(.4,0,.2,1); }
     .reveal.active { opacity: 1; transform: translateY(0); }
 
-    /* ── Skater Grind ── */
-    #skater-track { position: fixed; top: 0; left: 0; right: 0; height: 12px; z-index: 200; pointer-events: none; }
-    #skater-rail { position: absolute; top: 5px; left: 0; width: 100%; height: 2px; background: rgba(0,255,65,.1); }
-    #skater-progress { position: absolute; top: 5px; left: 0; height: 2px; background: var(--green); box-shadow: var(--glow); transition: width .1s; }
-    #skater-icon { position: absolute; top: -4px; left: 0; color: var(--green); transform: translateX(-50%); filter: drop-shadow(0 0 5px var(--green)); }
+    /* ── Scroll Progress Line ── */
+    #progress-track { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 200; pointer-events: none; }
+    #progress-bar { position: absolute; top: 0; left: 0; height: 100%; background: var(--green); box-shadow: var(--glow); transition: width .1s linear; width: 0%; }
   </style>
 </head>
 <body>
 
   <div id="crt-overlay" aria-hidden="true"><div id="crt-line"></div></div>
-  <div id="skater-track" aria-hidden="true">
-    <div id="skater-rail"></div>
-    <div id="skater-progress"></div>
-    <div id="skater-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="19" r="2"></circle><circle cx="17" cy="19" r="2"></circle><path d="M3 17h18"></path><path d="M3 17a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h1"></path><path d="M21 17a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-1"></path></svg>
-    </div>
+  <div id="progress-track" aria-hidden="true">
+    <div id="progress-bar"></div>
   </div>
 
   <canvas id="matrix-canvas"></canvas>
@@ -463,7 +429,7 @@
     </div>
   </nav>
 
-  <!-- ── Hero (Centered Identity) ── -->
+  <!-- ── Hero ── -->
   <section id="hero">
     <div class="reveal active">
       <h1>PUSHINN PRO</h1>
@@ -483,28 +449,24 @@
       <p class="section-label">HOW IT WORKS</p>
       <h2 class="section-title">Everything you need to own the city.</h2>
       <div class="protocol-grid">
-        <!-- Node 01 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">   ______\n  / ____/\n / / __  \n/ /_/ /  \n\____/</div><div class="node-id">01</div></div>
           <h3>Live Spot Intel</h3>
           <p>Real-time community mapping. Live status reporting on pavement quality, crowd density, and security heat.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
-        <!-- Node 02 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">02</div></div>
           <h3>Skill-Based Battles</h3>
           <p>Challenge anyone, anywhere. Record your clips, upload them to the ledger, and let the community decide the winner.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
-        <!-- Node 03 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">03</div></div>
           <h3>Secret Spot Sharing</h3>
           <p>Gatekeep your best finds. Share coordinates only with your verified crew members to keep your secret spots secret.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
-        <!-- Node 04 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">  _______ \n /_  __(_).\n  / / / / \n / / / /  \n/_/ /_/</div><div class="node-id">04</div></div>
           <h3>Talent Scouting</h3>
@@ -515,7 +477,6 @@
     </div>
   </section>
 
-  <!-- ── Missions ── -->
   <section id="missions">
     <div class="container">
       <div class="info-split">
@@ -533,7 +494,6 @@
     </div>
   </section>
 
-  <!-- ── Support ── -->
   <section id="support">
     <div class="container" style="text-align: center;">
       <div class="reveal">
@@ -545,7 +505,7 @@
     </div>
   </section>
 
-  <!-- ── Bottom Stats Section (Coming Soon) ── -->
+  <!-- ── Bottom Stats Section ── -->
   <section id="bottom-stats">
     <div class="container">
       <div class="stats-grid">
@@ -661,9 +621,8 @@
 
     window.addEventListener('scroll', () => {
       const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      const fill = document.getElementById('skater-progress');
-      const icon = document.getElementById('skater-icon');
-      if (fill) fill.style.width = scrolled + '%'; if (icon) icon.style.left = scrolled + '%';
+      const bar = document.getElementById('progress-bar');
+      if (bar) bar.style.width = scrolled + '%';
     });
   </script>
 </body>
