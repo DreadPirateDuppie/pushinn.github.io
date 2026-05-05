@@ -151,8 +151,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 1.5rem 0 1.25rem;
-      gap: 1rem;
+      padding: 2rem 0 1.5rem; /* More Navbar Height */
+      gap: 1.5rem;
     }
 
     .nav-logo {
@@ -166,7 +166,7 @@
 
     .nav-links {
       display: flex;
-      gap: 2.5rem;
+      gap: 3rem;
       list-style: none;
       font-family: monospace;
       font-size: .65rem;
@@ -175,12 +175,12 @@
     }
 
     @media (max-width: 600px) {
-      .nav-links { gap: 1rem; font-size: .6rem; flex-wrap: wrap; justify-content: center; }
+      .nav-links { gap: 1.5rem; font-size: .6rem; flex-wrap: wrap; justify-content: center; }
     }
 
     .nav-links a:hover { color: var(--green); text-shadow: var(--glow); }
 
-    /* ── Hero (Identity) ── */
+    /* ── Hero ── */
     #hero {
       position: relative;
       z-index: 10;
@@ -190,7 +190,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 4rem 2rem;
+      padding: 12rem 2rem 8rem; /* Massive Top/Bottom padding */
     }
 
     h1 {
@@ -200,18 +200,18 @@
       line-height: .85;
       letter-spacing: -.06em;
       color: #fff;
-      margin-bottom: 2.5rem;
+      margin-bottom: 4rem; /* More space after Title */
       text-transform: uppercase;
     }
 
     .hero-sub {
       font-family: monospace;
-      font-size: clamp(.85rem, 2vw, 1.1rem);
+      font-size: clamp(.9rem, 2.5vw, 1.2rem);
       color: var(--dark-green);
-      max-width: 700px;
-      margin-bottom: 4rem;
-      letter-spacing: .05em;
-      line-height: 1.5;
+      max-width: 800px;
+      margin-bottom: 6rem; /* More space after tagline */
+      letter-spacing: .08em;
+      line-height: 1.8;
       margin-inline: auto;
       text-align: center;
     }
@@ -221,31 +221,31 @@
       display: flex;
       justify-content: center;
       width: 100%;
-      max-width: 540px;
+      max-width: 600px;
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.02);
-      margin-bottom: 6rem;
+      margin-bottom: 15rem; /* Massive gap to stats */
     }
 
     .hero-input {
       flex: 1;
-      padding: 1.5rem;
+      padding: 1.75rem;
       background: transparent;
       border: none;
       color: #fff;
       font-family: monospace;
       outline: none;
-      font-size: .9rem;
+      font-size: 1rem;
     }
 
     .btn-action {
-      padding: 0 3rem;
+      padding: 0 4rem;
       background: var(--green);
       color: #000;
       font-family: monospace;
       font-weight: 900;
-      font-size: .8rem;
-      letter-spacing: .15em;
+      font-size: .9rem;
+      letter-spacing: .2em;
       transition: all .3s;
       cursor: pointer;
       border: none;
@@ -253,53 +253,52 @@
     .btn-action:hover { background: #fff; box-shadow: var(--glow-strong); }
 
     @media (max-width: 600px) {
-      .hero-form { flex-direction: column; border: none; gap: 1rem; background: transparent; }
-      .hero-input { background: #080808; border: 1px solid var(--border); }
-      .btn-action { padding-block: 1.25rem; }
+      .hero-form { flex-direction: column; border: none; gap: 1.5rem; background: transparent; }
+      .hero-input { background: #080808; border: 1px solid var(--border); padding: 1.5rem; }
+      .btn-action { padding-block: 1.5rem; }
     }
 
     .hero-stats {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 4rem;
+      gap: 6rem; /* Wider Gaps */
       width: 100%;
-      max-width: 1000px;
+      max-width: 1100px;
       border-top: 1px solid var(--border);
-      padding-top: 4rem;
-      margin-top: 10rem;
+      padding-top: 6rem;
     }
 
     @media (max-width: 800px) {
-      .hero-stats { grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 6rem; }
+      .hero-stats { grid-template-columns: 1fr 1fr; gap: 4rem; padding-top: 4rem; }
     }
 
     .stat-num {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-size: clamp(2rem, 5vw, 3rem);
       color: var(--green);
     }
 
     .stat-label {
       font-family: monospace;
-      font-size: .55rem;
-      letter-spacing: .2em;
+      font-size: .6rem;
+      letter-spacing: .3em;
       color: var(--dark-green);
       text-transform: uppercase;
-      margin-top: .4rem;
-      opacity: .7;
+      margin-top: .75rem;
+      opacity: .6;
     }
 
     /* ── Sections ── */
     section {
       position: relative;
       z-index: 10;
-      padding-block: 15rem;
+      padding-block: 25rem; /* Massive Section Gaps */
       border-top: 1px solid var(--border);
     }
 
     @media (max-width: 768px) {
-      section { padding-block: 8rem; }
+      section { padding-block: 15rem; }
     }
 
     section::after {
@@ -321,10 +320,10 @@
 
     .section-label {
       font-family: monospace;
-      font-size: .75rem;
-      letter-spacing: .5em;
+      font-size: .8rem;
+      letter-spacing: .6em;
       color: var(--green);
-      margin-bottom: 2rem;
+      margin-bottom: 3rem;
       display: block;
       text-align: center;
     }
@@ -332,10 +331,10 @@
     .section-title {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-size: clamp(3rem, 7vw, 6rem);
       text-align: center;
       color: #fff;
-      margin-bottom: 8rem;
+      margin-bottom: 12rem; /* Massive title-to-content gap */
       letter-spacing: -.04em;
     }
 
@@ -343,15 +342,15 @@
     .protocol-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 3rem;
+      gap: 6rem; /* More breathing room between feature blocks */
     }
 
-    @media (max-width: 900px) { .protocol-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 900px) { .protocol-grid { grid-template-columns: 1fr; gap: 8rem; } }
 
     .protocol-node {
       background: rgba(0,0,0, 0.6);
       border: 1px solid var(--border);
-      padding: 4rem;
+      padding: 5rem 4rem;
       position: relative;
       transition: all .4s cubic-bezier(.4,0,.2,1);
       overflow: hidden;
@@ -361,28 +360,28 @@
     .protocol-node:hover {
       border-color: var(--green);
       background: rgba(0,255,65, 0.05);
-      transform: translateY(-8px);
-      box-shadow: 0 0 40px rgba(0,255,65,.1);
+      transform: translateY(-10px);
+      box-shadow: 0 0 50px rgba(0,255,65,.1);
     }
 
-    .node-header { display: flex; justify-content: space-between; margin-bottom: 3rem; }
-    .node-ascii { font-family: monospace; font-size: .55rem; color: var(--dark-green); white-space: pre; }
-    .node-id { font-family: monospace; font-size: .65rem; color: var(--green); opacity: .5; }
+    .node-header { display: flex; justify-content: space-between; margin-bottom: 4rem; }
+    .node-ascii { font-family: monospace; font-size: .6rem; color: var(--dark-green); white-space: pre; }
+    .node-id { font-family: monospace; font-size: .75rem; color: var(--green); opacity: .5; }
 
-    .protocol-node h3 { font-family: var(--font-display); font-weight: 800; font-size: 2rem; color: #fff; margin-bottom: 1.5rem; letter-spacing: -.02em;}
-    .protocol-node p { font-family: monospace; font-size: .95rem; color: var(--dim); line-height: 1.8; }
+    .protocol-node h3 { font-family: var(--font-display); font-weight: 800; font-size: 2.25rem; color: #fff; margin-bottom: 2rem; letter-spacing: -.02em;}
+    .protocol-node p { font-family: monospace; font-size: 1.05rem; color: var(--dim); line-height: 1.8; }
 
-    .node-bar-container { margin-top: 3rem; height: 2px; background: rgba(0,255,65,.1); width: 100%; position: relative; }
+    .node-bar-container { margin-top: 4rem; height: 2px; background: rgba(0,255,65,.1); width: 100%; position: relative; }
     .node-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--green); width: 0%; transition: width 1.5s ease-out; }
 
     /* ── Info Split ── */
-    .info-split { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
-    @media (max-width: 900px) { .info-split { grid-template-columns: 1fr; text-align: center; } }
+    .info-split { display: grid; grid-template-columns: 1fr 1fr; gap: 10rem; align-items: center; }
+    @media (max-width: 900px) { .info-split { grid-template-columns: 1fr; text-align: center; gap: 6rem; } }
 
     /* ── Buttons (General) ── */
     .btn-secondary {
       display: inline-block;
-      padding: 1.25rem 4rem;
+      padding: 1.5rem 5rem;
       border: 1px solid var(--green);
       color: var(--green);
       font-family: monospace;
@@ -394,29 +393,29 @@
 
     .btn-main {
       display: inline-block;
-      padding: 1.5rem 5rem;
+      padding: 1.5rem 6rem;
       background: var(--green);
       color: #000;
       font-family: monospace;
       font-weight: 900;
-      font-size: .9rem;
+      font-size: .95rem;
       letter-spacing: .3em;
       transition: all .3s;
     }
     .btn-main:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(0,255,65,.5); }
 
     /* ── Footer ── */
-    footer { padding-block: 10rem 5rem; border-top: 1px solid var(--border); }
-    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 5rem; margin-bottom: 8rem; }
-    .footer-brand h2 { font-family: var(--font-display); font-weight: 900; color: var(--green); font-size: 2.5rem; margin-bottom: 1.5rem; }
-    .footer-brand p { font-family: monospace; font-size: .9rem; color: var(--dark-green); line-height: 1.8; max-width: 350px; }
-    .footer-col h4 { font-family: monospace; font-size: .7rem; color: #fff; margin-bottom: 1.5rem; letter-spacing: .2em; }
-    .footer-col ul { list-style: none; display: grid; gap: .75rem; }
-    .footer-col a { font-family: monospace; font-size: .65rem; color: var(--dark-green); transition: color .3s; }
+    footer { padding-block: 15rem 8rem; border-top: 1px solid var(--border); }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8rem; margin-bottom: 12rem; }
+    .footer-brand h2 { font-family: var(--font-display); font-weight: 900; color: var(--green); font-size: 3rem; margin-bottom: 2rem; }
+    .footer-brand p { font-family: monospace; font-size: .95rem; color: var(--dark-green); line-height: 1.8; max-width: 400px; }
+    .footer-col h4 { font-family: monospace; font-size: .8rem; color: #fff; margin-bottom: 2rem; letter-spacing: .3em; }
+    .footer-col ul { list-style: none; display: grid; gap: 1rem; }
+    .footer-col a { font-family: monospace; font-size: .75rem; color: var(--dark-green); transition: color .3s; }
     .footer-col a:hover { color: var(--green); }
 
     /* ── Reveal ── */
-    .reveal { opacity: 0; transform: translateY(60px); transition: all 1s cubic-bezier(.4,0,.2,1); }
+    .reveal { opacity: 0; transform: translateY(80px); transition: all 1.2s cubic-bezier(.4,0,.2,1); }
     .reveal.active { opacity: 1; transform: translateY(0); }
 
     /* ── Skater Grind ── */
@@ -455,7 +454,7 @@
     </div>
   </nav>
 
-  <!-- ── Opening Screen (Identity) ── -->
+  <!-- ── Opening Screen ── -->
   <section id="hero">
     <div class="reveal active">
       <h1>PUSHINN PRO</h1>
@@ -485,7 +484,7 @@
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">   ______\n  / ____/\n / / __  \n/ /_/ /  \n\____/</div><div class="node-id">01</div></div>
           <h3>Live Spot Intel</h3>
-          <p>Real-time community mapping. Live status reporting on pavement quality, crowd density, and security heat.</p>
+          <p>Real-time community reports on pavement quality, security presence, and spot density. Know the conditions before you go.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
         <div class="protocol-node reveal">
