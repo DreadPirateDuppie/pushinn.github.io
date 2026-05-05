@@ -151,8 +151,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2rem 0 1.5rem; /* More Navbar Height */
-      gap: 1.5rem;
+      padding: 1.5rem 0 1.25rem;
+      gap: 1rem;
     }
 
     .nav-logo {
@@ -166,7 +166,7 @@
 
     .nav-links {
       display: flex;
-      gap: 3rem;
+      gap: 2.5rem;
       list-style: none;
       font-family: monospace;
       font-size: .65rem;
@@ -175,12 +175,12 @@
     }
 
     @media (max-width: 600px) {
-      .nav-links { gap: 1.5rem; font-size: .6rem; flex-wrap: wrap; justify-content: center; }
+      .nav-links { gap: 1rem; font-size: .6rem; flex-wrap: wrap; justify-content: center; }
     }
 
     .nav-links a:hover { color: var(--green); text-shadow: var(--glow); }
 
-    /* ── Hero ── */
+    /* ── Hero (Centered Vertical) ── */
     #hero {
       position: relative;
       z-index: 10;
@@ -190,7 +190,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 12rem 2rem 8rem; /* Massive Top/Bottom padding */
+      padding: 2rem;
     }
 
     h1 {
@@ -200,18 +200,18 @@
       line-height: .85;
       letter-spacing: -.06em;
       color: #fff;
-      margin-bottom: 4rem; /* More space after Title */
+      margin-bottom: 2.5rem;
       text-transform: uppercase;
     }
 
     .hero-sub {
       font-family: monospace;
-      font-size: clamp(.9rem, 2.5vw, 1.2rem);
+      font-size: clamp(.85rem, 2vw, 1.1rem);
       color: var(--dark-green);
-      max-width: 800px;
-      margin-bottom: 6rem; /* More space after tagline */
-      letter-spacing: .08em;
-      line-height: 1.8;
+      max-width: 700px;
+      margin-bottom: 4rem;
+      letter-spacing: .05em;
+      line-height: 1.5;
       margin-inline: auto;
       text-align: center;
     }
@@ -221,31 +221,30 @@
       display: flex;
       justify-content: center;
       width: 100%;
-      max-width: 600px;
+      max-width: 540px;
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.02);
-      margin-bottom: 15rem; /* Massive gap to stats */
     }
 
     .hero-input {
       flex: 1;
-      padding: 1.75rem;
+      padding: 1.5rem;
       background: transparent;
       border: none;
       color: #fff;
       font-family: monospace;
       outline: none;
-      font-size: 1rem;
+      font-size: .9rem;
     }
 
     .btn-action {
-      padding: 0 4rem;
+      padding: 0 3rem;
       background: var(--green);
       color: #000;
       font-family: monospace;
       font-weight: 900;
-      font-size: .9rem;
-      letter-spacing: .2em;
+      font-size: .8rem;
+      letter-spacing: .15em;
       transition: all .3s;
       cursor: pointer;
       border: none;
@@ -253,47 +252,57 @@
     .btn-action:hover { background: #fff; box-shadow: var(--glow-strong); }
 
     @media (max-width: 600px) {
-      .hero-form { flex-direction: column; border: none; gap: 1.5rem; background: transparent; }
-      .hero-input { background: #080808; border: 1px solid var(--border); padding: 1.5rem; }
-      .btn-action { padding-block: 1.5rem; }
+      .hero-form { flex-direction: column; border: none; gap: 1rem; background: transparent; }
+      .hero-input { background: #080808; border: 1px solid var(--border); }
+      .btn-action { padding-block: 1.25rem; }
     }
 
-    .hero-stats {
+    /* ── Bottom Stats Section ── */
+    #bottom-stats {
+      position: relative;
+      z-index: 10;
+      padding-block: 10rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 6rem; /* Wider Gaps */
+      gap: 4rem;
       width: 100%;
       max-width: 1100px;
-      border-top: 1px solid var(--border);
-      padding-top: 6rem;
+      margin-inline: auto;
     }
 
     @media (max-width: 800px) {
-      .hero-stats { grid-template-columns: 1fr 1fr; gap: 4rem; padding-top: 4rem; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
     }
 
     .stat-num {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: clamp(2rem, 5vw, 3rem);
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
       color: var(--green);
+      text-align: center;
     }
 
     .stat-label {
       font-family: monospace;
-      font-size: .6rem;
-      letter-spacing: .3em;
+      font-size: .55rem;
+      letter-spacing: .2em;
       color: var(--dark-green);
       text-transform: uppercase;
-      margin-top: .75rem;
-      opacity: .6;
+      margin-top: .4rem;
+      opacity: .7;
+      text-align: center;
     }
 
     /* ── Sections ── */
     section {
       position: relative;
       z-index: 10;
-      padding-block: 25rem; /* Massive Section Gaps */
+      padding-block: 25rem; /* Desktop Oxygen */
       border-top: 1px solid var(--border);
     }
 
@@ -334,7 +343,7 @@
       font-size: clamp(3rem, 7vw, 6rem);
       text-align: center;
       color: #fff;
-      margin-bottom: 12rem; /* Massive title-to-content gap */
+      margin-bottom: 12rem;
       letter-spacing: -.04em;
     }
 
@@ -342,7 +351,7 @@
     .protocol-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6rem; /* More breathing room between feature blocks */
+      gap: 6rem;
     }
 
     @media (max-width: 900px) { .protocol-grid { grid-template-columns: 1fr; gap: 8rem; } }
@@ -454,7 +463,7 @@
     </div>
   </nav>
 
-  <!-- ── Opening Screen ── -->
+  <!-- ── Hero (Centered Identity) ── -->
   <section id="hero">
     <div class="reveal active">
       <h1>PUSHINN PRO</h1>
@@ -465,13 +474,6 @@
         <input class="hero-input" type="email" name="email" placeholder="ENTER_EMAIL_FOR_ACCESS" required>
         <button type="submit" class="btn-action">TRANSMIT</button>
       </form>
-
-      <div class="hero-stats">
-        <div class="stat-item"><div class="stat-num" id="stat-spots" data-target="0">0</div><div class="stat-label">Spots Mapped</div></div>
-        <div class="stat-item"><div class="stat-num" id="stat-skaters" data-target="0">0</div><div class="stat-label">Beta Skaters</div></div>
-        <div class="stat-item"><div class="stat-num" id="stat-battles" data-target="0">0</div><div class="stat-label">Battles Played</div></div>
-        <div class="stat-item"><div class="stat-num" id="stat-cities" data-target="0">0</div><div class="stat-label">Cities Mapped</div></div>
-      </div>
     </div>
   </section>
 
@@ -481,24 +483,28 @@
       <p class="section-label">HOW IT WORKS</p>
       <h2 class="section-title">Everything you need to own the city.</h2>
       <div class="protocol-grid">
+        <!-- Node 01 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">   ______\n  / ____/\n / / __  \n/ /_/ /  \n\____/</div><div class="node-id">01</div></div>
           <h3>Live Spot Intel</h3>
-          <p>Real-time community reports on pavement quality, security presence, and spot density. Know the conditions before you go.</p>
+          <p>Real-time community mapping. Live status reporting on pavement quality, crowd density, and security heat.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
+        <!-- Node 02 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">02</div></div>
           <h3>Skill-Based Battles</h3>
           <p>Challenge anyone, anywhere. Record your clips, upload them to the ledger, and let the community decide the winner.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
+        <!-- Node 03 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">03</div></div>
           <h3>Secret Spot Sharing</h3>
           <p>Gatekeep your best finds. Share coordinates only with your verified crew members to keep your secret spots secret.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
+        <!-- Node 04 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">  _______ \n /_  __(_).\n  / / / / \n / / / /  \n/_/ /_/</div><div class="node-id">04</div></div>
           <h3>Talent Scouting</h3>
@@ -509,6 +515,7 @@
     </div>
   </section>
 
+  <!-- ── Missions ── -->
   <section id="missions">
     <div class="container">
       <div class="info-split">
@@ -526,6 +533,7 @@
     </div>
   </section>
 
+  <!-- ── Support ── -->
   <section id="support">
     <div class="container" style="text-align: center;">
       <div class="reveal">
@@ -533,6 +541,18 @@
         <h2 class="section-title">Get in Touch</h2>
         <p style="color: #888; font-size: 1.1rem; margin-bottom: 5rem; max-width: 600px; margin-inline: auto;">Whether you've found a bug or have a proposal for the network, our direct line is open.</p>
         <a href="contact.html" class="btn-main">CONTACT US</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Bottom Stats Section (Coming Soon) ── -->
+  <section id="bottom-stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item"><div class="stat-num" id="stat-spots" data-target="0">0</div><div class="stat-label">Spots Mapped</div></div>
+        <div class="stat-item"><div class="stat-num" id="stat-skaters" data-target="0">0</div><div class="stat-label">Beta Skaters</div></div>
+        <div class="stat-item"><div class="stat-num" id="stat-battles" data-target="0">0</div><div class="stat-label">Battles Played</div></div>
+        <div class="stat-item"><div class="stat-num" id="stat-cities" data-target="0">0</div><div class="stat-label">Cities Mapped</div></div>
       </div>
     </div>
   </section>
