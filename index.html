@@ -125,7 +125,7 @@
       100% { opacity: 0; pointer-events: none; }
     }
 
-    /* ── Persistent Navbar ── */
+    /* ── Navbar ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -180,7 +180,7 @@
 
     .nav-links a:hover { color: var(--green); text-shadow: var(--glow); }
 
-    /* ── Hero ── */
+    /* ── Hero (Identity) ── */
     #hero {
       position: relative;
       z-index: 10;
@@ -190,92 +190,91 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 8rem 2rem 6rem;
+      padding: 4rem 2rem;
     }
 
     h1 {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: clamp(3rem, 15vw, 10rem);
-      line-height: .9;
-      letter-spacing: -.05em;
+      font-size: clamp(3.5rem, 15vw, 11rem);
+      line-height: .85;
+      letter-spacing: -.06em;
       color: #fff;
-      margin-bottom: 2rem;
-      white-space: nowrap;
-      text-shadow: 0 0 20px rgba(255,255,255,0.1);
+      margin-bottom: 2.5rem;
+      text-transform: uppercase;
     }
 
     .hero-sub {
       font-family: monospace;
-      font-size: clamp(.9rem, 2.5vw, 1.2rem);
+      font-size: clamp(.85rem, 2vw, 1.1rem);
       color: var(--dark-green);
-      max-width: 620px;
-      margin-bottom: 3rem;
-      line-height: 1.6;
-      margin-inline: auto;
+      max-width: 700px;
+      margin-bottom: 4rem;
+      letter-spacing: .05em;
+      line-height: 1.5;
     }
 
     /* ── Hero Beta Form ── */
     .hero-form {
       display: flex;
       justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: 5rem;
       width: 100%;
-      max-width: 500px;
+      max-width: 540px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      margin-bottom: 6rem;
     }
 
     .hero-input {
       flex: 1;
-      min-width: 280px;
-      padding: 1.25rem;
-      background: #080808;
-      border: 1px solid var(--border);
+      padding: 1.5rem;
+      background: transparent;
+      border: none;
       color: #fff;
       font-family: monospace;
       outline: none;
-      transition: border-color .3s;
+      font-size: .9rem;
     }
 
-    .hero-input:focus { border-color: var(--green); }
-
     .btn-action {
-      display: inline-block;
-      padding: 1.25rem 3.5rem;
+      padding: 0 3rem;
       background: var(--green);
       color: #000;
       font-family: monospace;
       font-weight: 900;
-      font-size: .9rem;
-      letter-spacing: .2em;
+      font-size: .8rem;
+      letter-spacing: .15em;
       transition: all .3s;
       cursor: pointer;
       border: none;
     }
-    .btn-action:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 40px rgba(0,255,65,.5);
+    .btn-action:hover { background: #fff; box-shadow: var(--glow-strong); }
+
+    @media (max-width: 600px) {
+      .hero-form { flex-direction: column; border: none; gap: 1rem; background: transparent; }
+      .hero-input { background: #080808; border: 1px solid var(--border); }
+      .btn-action { padding-block: 1.25rem; }
     }
 
     .hero-stats {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 3rem;
+      gap: 4rem;
       width: 100%;
       max-width: 1000px;
+      border-top: 1px solid var(--border);
+      padding-top: 3rem;
     }
 
-    @media (max-width: 768px) {
-      .hero-stats { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 800px) {
+      .hero-stats { grid-template-columns: 1fr 1fr; gap: 2rem; }
     }
 
     .stat-num {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
       color: var(--green);
-      text-shadow: var(--glow);
     }
 
     .stat-label {
@@ -284,7 +283,8 @@
       letter-spacing: .2em;
       color: var(--dark-green);
       text-transform: uppercase;
-      margin-top: .5rem;
+      margin-top: .4rem;
+      opacity: .7;
     }
 
     /* ── Sections ── */
@@ -296,7 +296,7 @@
     }
 
     @media (max-width: 768px) {
-      section { padding-block: 6rem; }
+      section { padding-block: 8rem; }
     }
 
     section::after {
@@ -376,6 +376,32 @@
     .info-split { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
     @media (max-width: 900px) { .info-split { grid-template-columns: 1fr; text-align: center; } }
 
+    /* ── Buttons (General) ── */
+    .btn-secondary {
+      display: inline-block;
+      padding: 1.25rem 4rem;
+      border: 1px solid var(--green);
+      color: var(--green);
+      font-family: monospace;
+      font-weight: 900;
+      letter-spacing: .2em;
+      transition: background .3s;
+    }
+    .btn-secondary:hover { background: rgba(0,255,65,.1); }
+
+    .btn-main {
+      display: inline-block;
+      padding: 1.5rem 5rem;
+      background: var(--green);
+      color: #000;
+      font-family: monospace;
+      font-weight: 900;
+      font-size: .9rem;
+      letter-spacing: .3em;
+      transition: all .3s;
+    }
+    .btn-main:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(0,255,65,.5); }
+
     /* ── Footer ── */
     footer { padding-block: 10rem 5rem; border-top: 1px solid var(--border); }
     .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 5rem; margin-bottom: 8rem; }
@@ -418,7 +444,7 @@
       <a href="#hero" class="nav-logo">PUSHINN PRO</a>
       <ul class="nav-links">
         <li><a href="#features">FEATURES</a></li>
-        <li><a href="bounties.html">COMMUNITY_MISSIONS</a></li>
+        <li><a href="bounties.html">COMMUNITY</a></li>
         <li><a href="contact.html">CONTACT</a></li>
         <li><a href="#hero">BETA</a></li>
         <li><a href="privacy.html">PRIVACY</a></li>
@@ -426,17 +452,16 @@
     </div>
   </nav>
 
-  <!-- ── Opening Screen (Direct Pitch) ── -->
+  <!-- ── Opening Screen (Identity) ── -->
   <section id="hero">
     <div class="reveal active">
-      <p class="section-label" style="margin-bottom: 1rem;">THE_NETWORK_IS_WAITING</p>
       <h1>PUSHINN PRO</h1>
-      <p class="hero-sub">Find secret spots. Battle the crew. Get scouted by brands.<br>The professional network for the urban skateboarding community.</p>
+      <p class="hero-sub">Find secret spots, battle the crew, and get scouted.<br>The professional urban sports network.</p>
       
       <form class="hero-form" action="https://formspree.io/f/xoqgylje" method="POST" style="margin-inline: auto;">
         <input type="hidden" name="_next" value="https://pushinn.app/thank-you.html">
-        <input class="hero-input" type="email" name="email" placeholder="your@email.com" required>
-        <button type="submit" class="btn-action">AWAITING_DEPLOYMENT</button>
+        <input class="hero-input" type="email" name="email" placeholder="ENTER_EMAIL_FOR_ACCESS" required>
+        <button type="submit" class="btn-action">TRANSMIT</button>
       </form>
 
       <div class="hero-stats">
@@ -448,38 +473,34 @@
     </div>
   </section>
 
-  <!-- ── Features (The Direct Breakdown) ── -->
+  <!-- ── Features ── -->
   <section id="features">
     <div class="container">
       <p class="section-label">HOW IT WORKS</p>
       <h2 class="section-title">Everything you need to own the city.</h2>
       <div class="protocol-grid">
-        <!-- Node 01 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">   ______\n  / ____/\n / / __  \n/ /_/ /  \n\____/</div><div class="node-id">01</div></div>
           <h3>Live Spot Intel</h3>
-          <p>Know before you go. Real-time community reports on pavement quality, security presence, and spot density.</p>
+          <p>Real-time community reports on pavement quality, security presence, and spot density. Know the conditions before you go.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
-        <!-- Node 02 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">02</div></div>
           <h3>Skill-Based Battles</h3>
-          <p>Challenge anyone, anywhere. Record your clips, upload them to the global ledger, and let the community decide the winner.</p>
+          <p>Challenge anyone, anywhere. Record your clips, upload them to the ledger, and let the community decide the winner.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
-        <!-- Node 03 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">03</div></div>
           <h3>Secret Spot Sharing</h3>
-          <p>Gatekeep your best finds. Share location data only with your trusted crew so your secret spots stay secret.</p>
+          <p>Gatekeep your best finds. Share coordinates only with your verified crew members to keep your secret spots secret.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
-        <!-- Node 04 -->
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">  _______ \n /_  __(_).\n  / / / / \n / / / /  \n/_/ /_/</div><div class="node-id">04</div></div>
           <h3>Talent Scouting</h3>
-          <p>Get noticed. Build an objective "Triple-Score" rating that brands and shops use to scout the next wave of talent.</p>
+          <p>Build an objective Triple-Score rating that brands and shops use to scout and license the next wave of talent.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
       </div>
@@ -492,8 +513,8 @@
         <div class="reveal">
           <p class="section-label" style="text-align: left;">COMMUNITY</p>
           <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Build the Network</h2>
-          <p style="color: #888; font-size: 1.1rem; margin-bottom: 4rem; max-width: 450px;">Stabilize the core and expand the map. Your contributions earn you digital clout and early access to the pro tools.</p>
-          <a href="bounties.html" class="btn-outline" style="border: 1px solid var(--green); padding: 1.25rem 4rem; color: var(--green); font-family: monospace; font-weight: 900; letter-spacing: .2em;">VIEW_MISSIONS</a>
+          <p style="color: #888; font-size: 1.1rem; margin-bottom: 4rem; max-width: 450px;">Stabilize the core and expand the map. Contributions earn you digital clout and early access to pro tools.</p>
+          <a href="bounties.html" class="btn-secondary">VIEW_MISSIONS</a>
         </div>
         <div class="reveal" style="border: 1px solid var(--border); padding: 5rem; background: rgba(0,255,65,0.02);">
           <div style="font-family: monospace; color: var(--green); margin-bottom: 2rem;">LIVE_FEED</div>
@@ -509,7 +530,7 @@
         <p class="section-label">SUPPORT</p>
         <h2 class="section-title">Get in Touch</h2>
         <p style="color: #888; font-size: 1.1rem; margin-bottom: 5rem; max-width: 600px; margin-inline: auto;">Whether you've found a bug or have a proposal for the network, our direct line is open.</p>
-        <a href="contact.html" class="btn-action">CONTACT US</a>
+        <a href="contact.html" class="btn-main">CONTACT US</a>
       </div>
     </div>
   </section>
