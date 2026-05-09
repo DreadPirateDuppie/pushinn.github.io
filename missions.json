@@ -1,0 +1,26 @@
+[
+  {
+    "id": "MS-01: BUG_HUNTER",
+    "reward": "BETA_ACCESS",
+    "title": "Beta Intelligence & Bug Hunting",
+    "description": "Identify system anomalies, UI glitches, or broken links in the current build. Report them to the core team to secure your place in the final wave.",
+    "buttonText": "REPORT_BUGS",
+    "link": "contact.html"
+  },
+  {
+    "id": "MS-02: SPOT_SEEDER",
+    "reward": "OG_SPOTTER_BADGE",
+    "title": "London Spot Seeding",
+    "description": "Help us map the city. Add 10 high-quality street spots with accurate metadata (pavement quality, security levels) to earn the legacy 'OG Spotter' status.",
+    "buttonText": "JOIN_THE_SEED",
+    "link": "contact.html"
+  },
+  {
+    "id": "MS-03: GATEKEEPER",
+    "reward": "RANKING_BOOST",
+    "title": "Tribal Verification / Moderation",
+    "description": "Assist the core team in verifying new users and authenticating trick clips. High-trust contributors will be promoted to permanent Gatekeeper status.",
+    "buttonText": "VOLUNTEER_NOW",
+    "link": "contact.html"
+  }
+]
