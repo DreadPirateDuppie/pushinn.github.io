@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Pushinn Community Missions - Help Build the Network" />
-  <title>Missions – Pushinn</title>
+  <meta name="description" content="PushInn athlete missions for asynchronous battle queues, map intelligence, and Tribal Verification operations." />
+  <title>Athlete Missions – Pushinn</title>
 
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -223,22 +223,23 @@
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">PUSHINN</a>
       <ul class="nav-links">
-        <li><a href="index.html#features">FEATURES</a></li>
-        <li><a href="bounties.html">COMMUNITY</a></li>
+        <li><a href="index.html#features">EXPLORE_MAP</a></li>
+        <li><a href="bounties.html">START_BATTLE</a></li>
+        <li><a href="partners.html">SPONSOR_ME</a></li>
         <li><a href="contact.html">CONTACT</a></li>
-        <li><a href="index.html#hero">BETA</a></li>
+        <li><a href="index.html#hero">JOIN_TRIBE</a></li>
       </ul>
     </div>
   </nav>
 
   <main>
     <div class="page-header">
-      <h1>Community Missions</h1>
-      <span class="status-badge" id="status-badge">NETWORK_UPGRADES_OPEN</span>
+      <h1>Athlete Missions</h1>
+      <span class="status-badge" id="status-badge">ASYNC_BATTLE_QUEUE_OPEN</span>
     </div>
 
     <p class="synopsis">
-      The Pushinn Network is built by the crew, for the crew. We are currently recruiting volunteers to help stabilize the core and expand the map. Your contributions earn you <strong>Ranking Score (Clout)</strong> and <strong>Priority Beta Access</strong>.
+      Run tactical missions to increase <strong>Map Score</strong>, <strong>Player Score</strong>, and <strong>Ranking Score</strong>. Every completed op strengthens trustless verification and moves your profile closer to sponsor-ready status.
     </p>
 
     <div id="mission-container">
@@ -249,7 +250,7 @@
   <footer>
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand"><h2>PUSHINN</h2><p>The professional social layer for London's urban skateboarding subculture.</p></div>
+        <div class="footer-brand"><h2>PUSHINN</h2><p>The trustless battle and geospatial intelligence network for action sports.</p></div>
         <div class="footer-col"><h4>MAP_GRID</h4><ul><li><a href="index.html#features">FEATURES</a></li><li><a href="bounties.html">MISSIONS</a></li></ul></div>
         <div class="footer-col"><h4>COMMUNITY</h4><ul><li><a href="contact.html">CONTACT</a></li><li><a href="index.html#hero">BETA</a></li></ul></div>
         <div class="footer-col"><h4>LEGAL</h4><ul><li><a href="privacy.html">PRIVACY</a></li><li><a href="terms.html">TERMS</a></li><li><a href="partners.html">PARTNER_ACCESS</a></li><li><a href="help.html">HELP_DESK</a></li></ul></div>
@@ -262,23 +263,55 @@
   </footer>
 
   <script>
+    function safeMissionLink(raw) {
+      if (typeof raw !== 'string') return 'contact.html';
+      const trimmed = raw.trim();
+      if (/^(https?:|mailto:)/i.test(trimmed)) return trimmed;
+      if (/^[a-zA-Z0-9._/#?&=%:-]+$/.test(trimmed) && !/^javascript:/i.test(trimmed)) return trimmed;
+      return 'contact.html';
+    }
+
+    function renderMission(container, mission) {
+      const item = document.createElement('div');
+      item.className = 'mission-item';
+
+      const meta = document.createElement('div');
+      meta.className = 'mission-meta';
+
+      const id = document.createElement('span');
+      id.className = 'mission-id';
+      id.textContent = `// ${mission.id || 'MISSION'}`;
+
+      const reward = document.createElement('span');
+      reward.className = 'mission-tag';
+      reward.textContent = `REWARD: ${mission.reward || 'RANKING_SCORE'}`;
+
+      meta.append(id, reward);
+
+      const title = document.createElement('h3');
+      title.className = 'mission-title';
+      title.textContent = mission.title || 'Untitled Mission';
+
+      const desc = document.createElement('p');
+      desc.className = 'mission-desc';
+      desc.textContent = mission.description || 'Mission details pending.';
+
+      const cta = document.createElement('a');
+      cta.className = 'btn-action';
+      cta.href = safeMissionLink(mission.link);
+      cta.textContent = mission.buttonText || 'OPEN_MISSION';
+
+      item.append(meta, title, desc, cta);
+      container.appendChild(item);
+    }
+
     async function loadMissions() {
       const container = document.getElementById('mission-container');
       try {
         const response = await fetch('missions.json');
         const missions = await response.json();
-        
-        container.innerHTML = missions.map(m => `
-          <div class="mission-item">
-            <div class="mission-meta">
-              <span class="mission-id">// ${m.id}</span>
-              <span class="mission-tag">REWARD: ${m.reward}</span>
-            </div>
-            <h3 class="mission-title">${m.title}</h3>
-            <p class="mission-desc">${m.description}</p>
-            <a href="${m.link}" class="btn-action">${m.buttonText}</a>
-          </div>
-        `).join('');
+        container.innerHTML = '';
+        (Array.isArray(missions) ? missions : []).forEach((mission) => renderMission(container, mission || {}));
       } catch (err) {
         console.error('Failed to load missions:', err);
         container.innerHTML = '<p style="color: red; font-family: monospace;">ERROR: FAILED_TO_LOAD_MISSION_DATA</p>';

@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Pushinn Pro — The Ultimate Skateboarding Social Network. Map spots. Battle peers. Earn reputation." />
+  <meta name="description" content="PushInn is Strava meets Chess.com for skateboarding: trustless verification, asynchronous S.K.A.T.E. battles, and a Triple-Score path to sponsorship." />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pushinn.app/" />
-  <meta property="og:title" content="Pushinn Pro | The Underground Skate Network" />
-  <meta property="og:description" content="Find secret spots. Battle the crew. Get scouted. The professional tool for the London skate scene." />
+  <meta property="og:title" content="PushInn | Strava Meets Chess.com for Skateboarding" />
+  <meta property="og:description" content="Own your city, run asynchronous battles, and build a verified Triple-Score portfolio for brands and shops." />
   <meta property="og:image" content="https://pushinn.app/og-image.png" />
-  <meta property="og:site_name" content="Pushinn Pro" />
+  <meta property="og:site_name" content="PushInn" />
 
   <meta name="theme-color" content="#000000" />
   <link rel="icon" type="image/png" href="favicon.png">
-  <title>Pushinn Pro | Find Spots. Battle Crew. Get Scouted.</title>
+  <title>PushInn | Trustless Battles. Verified Talent.</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -257,6 +257,30 @@
       .btn-action { padding-block: 1.25rem; }
     }
 
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .hero-cta-link {
+      font-family: monospace;
+      font-size: .7rem;
+      letter-spacing: .16em;
+      color: var(--dark-green);
+      border: 1px solid var(--border);
+      padding: .7rem 1rem;
+      transition: all .3s;
+    }
+
+    .hero-cta-link:hover {
+      color: var(--green);
+      border-color: var(--green);
+      box-shadow: var(--glow);
+    }
+
     /* ── Sections ── */
     section {
       position: relative;
@@ -420,10 +444,10 @@
     <div class="nav-inner">
       <a href="#hero" class="nav-logo">PUSHINN</a>
       <ul class="nav-links">
-        <li><a href="#features">FEATURES</a></li>
-        <li><a href="bounties.html">COMMUNITY</a></li>
-        <li><a href="contact.html">CONTACT</a></li>
-        <li><a href="#hero">BETA</a></li>
+        <li><a href="#features">EXPLORE_MAP</a></li>
+        <li><a href="bounties.html">START_BATTLE</a></li>
+        <li><a href="partners.html">SPONSOR_ME</a></li>
+        <li><a href="#hero">JOIN_TRIBE</a></li>
         <li><a href="privacy.html">PRIVACY</a></li>
       </ul>
     </div>
@@ -432,45 +456,50 @@
   <!-- ── Hero ── -->
   <section id="hero">
     <div class="reveal active">
-      <h1>PUSHINN PRO</h1>
-      <p class="hero-sub">Find secret spots, battle the crew, and get scouted.<br>The professional urban sports network.</p>
+      <h1>PUSHINN</h1>
+      <p class="hero-sub">Strava meets Chess.com for skateboarding.<br>Trustless verification, asynchronous S.K.A.T.E. battles, and measurable progression.</p>
       
       <form class="hero-form" action="https://formspree.io/f/xoqgylje" method="POST" style="margin-inline: auto;">
         <input type="hidden" name="_next" value="https://pushinn.app/thank-you.html">
         <input class="hero-input" type="email" name="email" placeholder="ENTER_EMAIL_FOR_ACCESS" required>
-        <button type="submit" class="btn-action">TRANSMIT</button>
+        <button type="submit" class="btn-action">JOIN_TRIBE</button>
       </form>
+      <div class="hero-cta-row">
+        <a class="hero-cta-link" href="bounties.html">START_BATTLE</a>
+        <a class="hero-cta-link" href="partners.html">SPONSOR_ME</a>
+        <a class="hero-cta-link" href="#features">EXPLORE_MAP</a>
+      </div>
     </div>
   </section>
 
   <!-- ── Features ── -->
   <section id="features">
     <div class="container">
-      <p class="section-label">HOW IT WORKS</p>
-      <h2 class="section-title">Everything you need to own the city.</h2>
+      <p class="section-label">CORE_SYSTEMS</p>
+      <h2 class="section-title">Proof over clout. Metrics over hype.</h2>
       <div class="protocol-grid">
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">   ______\n  / ____/\n / / __  \n/ /_/ /  \n\____/</div><div class="node-id">01</div></div>
-          <h3>Live Spot Intel</h3>
-          <p>Real-time community mapping. Live status reporting on pavement quality, crowd density, and security heat.</p>
+          <h3>Heat Alerts & Spot Status</h3>
+          <p>Live geospatial intel with a 4-hour TTL: Wet, Dry, Locked Off, Security Active, and Session Alive updates from the crew.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">02</div></div>
-          <h3>Skill-Based Battles</h3>
-          <p>Challenge anyone, anywhere. Record your clips, upload them to the ledger, and let the community decide the winner.</p>
+          <h3>Asynchronous S.K.A.T.E. Engine</h3>
+          <p>Battle anyone, anywhere across timezone-safe turns, timeout logic, and forfeit handling in S.K.A.T.E., S.K.8, or custom formats.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">03</div></div>
-          <h3>Secret Spot Sharing</h3>
-          <p>Gatekeep your best finds. Share coordinates only with your verified crew members to keep your secret spots secret.</p>
+          <h3>Tribal Verification</h3>
+          <p>Community consensus validates clips and rider trust. Ranking Score controls vote weight and keeps the system objective.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
         <div class="protocol-node reveal">
           <div class="node-header"><div class="node-ascii">  _______ \n /_  __(_).\n  / / / / \n / / / /  \n/_/ /_/</div><div class="node-id">04</div></div>
-          <h3>Talent Scouting</h3>
-          <p>Build an objective Triple-Score rating that brands and shops use to scout and license the next wave of talent.</p>
+          <h3>Triple-Score Sponsor Pipeline</h3>
+          <p>Map Score, Player Score, and Ranking Score build a verifiable portfolio that brands and shops can scout without vanity metrics.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
       </div>
@@ -481,15 +510,15 @@
     <div class="container">
       <div class="info-split">
         <div class="reveal">
-          <p class="section-label" style="text-align: left;">COMMUNITY</p>
-          <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Build the Network</h2>
-          <p style="color: #888; font-size: 1.1rem; margin-bottom: 4rem; max-width: 450px;">Map the city, earn your rank. Active contributors will gain premium accounts as thanks for building the network.</p>
+          <p class="section-label" style="text-align: left;">ATHLETE_PATH</p>
+          <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Own Your City</h2>
+          <p style="color: #888; font-size: 1.1rem; margin-bottom: 4rem; max-width: 450px;">Run battle missions, submit verified clips, and level your Triple-Score to move from local sessions to sponsor-ready proof.</p>
 
-          <a href="bounties.html" class="btn-secondary">VIEW_MISSIONS</a>
+          <a href="bounties.html" class="btn-secondary">START_BATTLE</a>
         </div>
         <div class="reveal" style="border: 1px solid var(--border); padding: 5rem; background: rgba(0,255,65,0.02);">
-          <div style="font-family: monospace; color: var(--green); margin-bottom: 2rem;">LIVE_FEED</div>
-          <div style="font-family: monospace; font-size: .85rem; color: var(--dim); line-height: 2.5;">> [01]: SPOT_SEARCHER<br>> [02]: BATTLE_JUDGE<br>> [03]: GATEKEEPER</div>
+          <div style="font-family: monospace; color: var(--green); margin-bottom: 2rem;">BATTLE_FEED</div>
+          <div style="font-family: monospace; font-size: .85rem; color: var(--dim); line-height: 2.5;">> [01]: MODE: S.K.A.T.E.<br>> [02]: VERIFY: TRIBAL_VOTE<br>> [03]: STATUS: SESSION_ALIVE</div>
         </div>
       </div>
     </div>
@@ -498,10 +527,10 @@
   <section id="support">
     <div class="container" style="text-align: center;">
       <div class="reveal">
-        <p class="section-label">SUPPORT</p>
-        <h2 class="section-title">Get in Touch</h2>
-        <p style="color: #888; font-size: 1.1rem; margin-bottom: 5rem; max-width: 600px; margin-inline: auto;">Whether you've found a bug or have a proposal for the network, our direct line is open.</p>
-        <a href="contact.html" class="btn-main">CONTACT US</a>
+        <p class="section-label">BRAND_PATH</p>
+        <h2 class="section-title">Sponsor-Heat Access</h2>
+        <p style="color: #888; font-size: 1.1rem; margin-bottom: 5rem; max-width: 600px; margin-inline: auto;">Scout verified riders, track geospatial session heat, and launch direct Sponsor Me campaigns with objective performance data.</p>
+        <a href="partners.html" class="btn-main">SPONSOR_ME</a>
       </div>
     </div>
   </section>
@@ -521,7 +550,7 @@
   <footer>
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand"><h2>PUSHINN</h2><p>The professional social layer for London's urban skateboarding subculture.</p></div>
+        <div class="footer-brand"><h2>PUSHINN</h2><p>The trustless battle and geospatial intelligence network for action sports.</p></div>
         <div class="footer-col"><h4>MAP_GRID</h4><ul><li><a href="#features">FEATURES</a></li><li><a href="bounties.html">MISSIONS</a></li></ul></div>
         <div class="footer-col"><h4>COMMUNITY</h4><ul><li><a href="contact.html">CONTACT</a></li><li><a href="#hero">BETA</a></li></ul></div>
         <div class="footer-col"><h4>LEGAL</h4><ul><li><a href="privacy.html">PRIVACY</a></li><li><a href="terms.html">TERMS</a></li><li><a href="partners.html">PARTNER_ACCESS</a></li><li><a href="help.html">HELP_DESK</a></li></ul></div>
