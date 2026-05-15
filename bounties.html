@@ -280,13 +280,16 @@
     const defaultMissionButtonText = 'OPEN_MISSION';
 
     function isValidMissionObject(mission) {
-      return Boolean(mission && typeof mission === 'object' && !Array.isArray(mission));
+      return mission && typeof mission === 'object' && !Array.isArray(mission);
     }
 
     function safeMissionLink(raw) {
       if (typeof raw !== 'string') return 'contact.html';
       const trimmed = raw.trim();
-      if (trimmed.toLowerCase() === allowedMissionMailto) return allowedMissionMailto;
+      const lower = trimmed.toLowerCase();
+      if (lower === allowedMissionMailto) return allowedMissionMailto;
+      if (/^(https?:|javascript:|data:|vbscript:|file:)/.test(lower)) return 'contact.html';
+      if (lower.includes('%2e%2e%2f') || lower.includes('%2e%2e/')) return 'contact.html';
       if (trimmed.includes('..') || trimmed.includes('//')) return 'contact.html';
       if (!/^[a-zA-Z0-9._-]+$/.test(trimmed)) return 'contact.html';
       if (allowedMissionLinks.has(trimmed)) return trimmed;
