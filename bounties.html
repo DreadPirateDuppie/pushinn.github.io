@@ -273,13 +273,22 @@
       'terms.html'
     ]);
     const allowedMissionMailto = 'mailto:admin@pushinn.app';
+    const defaultMissionId = 'MS-00';
+    const defaultMissionReward = 'RANKING_SCORE';
+    const defaultMissionTitle = 'Untitled Mission';
+    const defaultMissionDescription = 'Mission details pending.';
+    const defaultMissionButtonText = 'OPEN_MISSION';
+
+    function isValidMissionObject(mission) {
+      return Boolean(mission && typeof mission === 'object' && !Array.isArray(mission));
+    }
 
     function safeMissionLink(raw) {
       if (typeof raw !== 'string') return 'contact.html';
       const trimmed = raw.trim();
       if (trimmed.toLowerCase() === allowedMissionMailto) return allowedMissionMailto;
       if (trimmed.includes('..') || trimmed.includes('//')) return 'contact.html';
-      if (!/^[a-zA-Z0-9._/-]+$/.test(trimmed)) return 'contact.html';
+      if (!/^[a-zA-Z0-9._-]+$/.test(trimmed)) return 'contact.html';
       if (allowedMissionLinks.has(trimmed)) return trimmed;
       return 'contact.html';
     }
@@ -293,27 +302,27 @@
 
       const id = document.createElement('span');
       id.className = 'mission-id';
-      id.textContent = `// ${mission.id || 'MS-00'}`;
+      id.textContent = `// ${mission.id || defaultMissionId}`;
 
       const reward = document.createElement('span');
       reward.className = 'mission-tag';
-      reward.textContent = `REWARD: ${mission.reward || 'RANKING_SCORE'}`;
+      reward.textContent = `REWARD: ${mission.reward || defaultMissionReward}`;
 
       meta.append(id, reward);
 
       const title = document.createElement('h3');
       title.className = 'mission-title';
-      title.textContent = mission.title || 'Untitled Mission';
+      title.textContent = mission.title || defaultMissionTitle;
 
       const desc = document.createElement('p');
       desc.className = 'mission-desc';
-      desc.textContent = mission.description || 'Mission details pending.';
+      desc.textContent = mission.description || defaultMissionDescription;
 
       const cta = document.createElement('a');
       cta.className = 'btn-action';
       const safeHref = safeMissionLink(mission.link);
       cta.href = safeHref;
-      cta.textContent = mission.buttonText || 'OPEN_MISSION';
+      cta.textContent = mission.buttonText || defaultMissionButtonText;
 
       item.append(meta, title, desc, cta);
       container.appendChild(item);
@@ -326,7 +335,7 @@
         const missions = await response.json();
         container.innerHTML = '';
         (Array.isArray(missions) ? missions : []).forEach((mission) => {
-          if (mission && typeof mission === 'object' && !Array.isArray(mission)) {
+          if (isValidMissionObject(mission)) {
             renderMission(container, mission);
           }
         });
