@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="PushInn athlete missions for asynchronous battle queues, map intelligence, and Tribal Verification operations." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pushinn.app/bounties.html" />
+  <meta property="og:title" content="PushInn | Athlete Missions – Run Tactical Ops" />
+  <meta property="og:description" content="Run battle missions to increase Map Score, Player Score, and Ranking Score. Every op moves your profile closer to sponsor-ready." />
+  <meta property="og:image" content="https://pushinn.app/og-image.png" />
+  <meta property="og:site_name" content="PushInn" />
   <title>Athlete Missions – Pushinn</title>
 
   <link rel="icon" type="image/png" href="favicon.png">
@@ -256,7 +262,7 @@
         <div class="footer-col"><h4>LEGAL</h4><ul><li><a href="privacy.html">PRIVACY</a></li><li><a href="terms.html">TERMS</a></li><li><a href="partners.html">PARTNER_ACCESS</a></li><li><a href="help.html">HELP_DESK</a></li></ul></div>
       </div>
       <div style="margin-top: 5rem; border-top: 1px solid var(--border); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
-        <span style="font-family: monospace; font-size: .65rem; color: var(--dark-green);">&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
+        <span style="font-family: monospace; font-size: .65rem; color: var(--dark-green);">&copy; <span class="yr"></span> PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
         <div style="display: flex; gap: 3rem; font-family: monospace; font-size: .65rem; color: var(--dark-green);"><span>STATUS: [HIRING]</span><span>UP-LINK: [STABLE]</span></div>
       </div>
     </div>
@@ -354,6 +360,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', loadMissions);
+    document.querySelectorAll('.yr').forEach(function(el) { el.textContent = new Date().getFullYear(); });
   </script>
 </body>
 </html>

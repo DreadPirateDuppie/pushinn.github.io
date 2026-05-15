@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Pushinn Contact - Get in Touch" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pushinn.app/contact.html" />
+  <meta property="og:title" content="PushInn | Contact – Open Communication Line" />
+  <meta property="og:description" content="Reach the PushInn core for beta access, sponsorship, support, and general intel." />
+  <meta property="og:image" content="https://pushinn.app/og-image.png" />
+  <meta property="og:site_name" content="PushInn" />
   <title>Contact – Pushinn</title>
 
   <link rel="icon" type="image/png" href="favicon.png">
@@ -246,19 +252,20 @@
 
     <form class="contact-form" action="https://formspree.io/f/xoqgylje" method="POST">
       <input type="hidden" name="_next" value="https://pushinn.app/thank-you.html">
+      <input type="hidden" name="_subject" id="form-subject" value="PushInn Contact">
       <div class="form-group">
-        <label>// PUSHINN_USERNAME (OPTIONAL)</label>
-        <input type="text" name="username" placeholder="@yourhandle">
+        <label for="field-username">// PUSHINN_USERNAME (OPTIONAL)</label>
+        <input id="field-username" type="text" name="username" placeholder="@yourhandle">
       </div>
 
       <div class="form-group">
-        <label>// EMAIL_ADDRESS</label>
-        <input type="email" name="email" required placeholder="name@domain.com">
+        <label for="field-email">// EMAIL_ADDRESS</label>
+        <input id="field-email" type="email" name="email" required placeholder="name@domain.com">
       </div>
 
       <div class="form-group">
-        <label>// MESSAGE</label>
-        <textarea name="message" rows="6" required placeholder="How can we help?"></textarea>
+        <label for="field-message">// MESSAGE</label>
+        <textarea id="field-message" name="message" rows="6" required placeholder="How can we help?"></textarea>
       </div>
 
       <button type="submit" class="btn-submit">SEND_MESSAGE</button>
@@ -266,7 +273,7 @@
   </main>
 
   <footer>
-    <span>&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN. ALL_SYSTEMS_LIVE.</span>
+    <span>&copy; <span class="yr"></span> PUSHINN. ALL_SYSTEMS_LIVE.</span>
     <div class="footer-links">
       <a href="index.html">HOME</a>
       <a href="index.html#features">FEATURES</a>
@@ -279,6 +286,28 @@
       <a href="help.html">HELP</a>
     </div>
   </footer>
+
+<script>
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    const subject = params.get('subject');
+    if (!subject) return;
+
+    const subjectField = document.getElementById('form-subject');
+    const note = document.querySelector('.form-note');
+
+    const labelMap = {
+      'beta-waitlist': { subject: 'Beta Waitlist Request', note: 'CONTEXT: BETA_WAITLIST_REQUEST — Let us know your city and skate focus.' },
+      'sponsor': { subject: 'Sponsorship Inquiry', note: 'CONTEXT: SPONSOR_ME_INQUIRY — Share brand details and activation goals.' },
+    };
+    const mapped = labelMap[subject];
+    if (mapped) {
+      if (subjectField) subjectField.value = mapped.subject;
+      if (note) note.textContent = mapped.note;
+    }
+    document.querySelectorAll('.yr').forEach(function(el) { el.textContent = new Date().getFullYear(); });
+  })();
+</script>
 
 </body>
 </html>

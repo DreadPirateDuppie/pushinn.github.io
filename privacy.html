@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Pushinn Privacy Policy" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pushinn.app/privacy.html" />
+  <meta property="og:title" content="PushInn | Privacy Policy" />
+  <meta property="og:description" content="PushInn privacy policy covering data collection, rider trust, and platform security protocols." />
+  <meta property="og:image" content="https://pushinn.app/og-image.png" />
+  <meta property="og:site_name" content="PushInn" />
   <link rel="icon" type="image/png" href="favicon.png">
   <title>Privacy Policy – Pushinn</title>
 
@@ -258,7 +264,7 @@
   </main>
 
   <footer>
-    <span>&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN.</span>
+    <span>&copy; <span class="yr"></span> PUSHINN.</span>
     <div class="footer-links">
       <a href="index.html">HOME</a>
       <a href="index.html#features">FEATURES</a>
@@ -272,5 +278,6 @@
     </div>
   </footer>
 
+<script>document.querySelectorAll(".yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>

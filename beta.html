@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Pushinn Beta - Coming Soon" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pushinn.app/beta.html" />
+  <meta property="og:title" content="PushInn | Beta Access – Join the Waitlist" />
+  <meta property="og:description" content="PushInn beta is deploying from London. Join the waitlist for early Apple App Store and Google Play access." />
+  <meta property="og:image" content="https://pushinn.app/og-image.png" />
+  <meta property="og:site_name" content="PushInn" />
   <title>Beta – Pushinn</title>
 
   <link rel="icon" type="image/png" href="favicon.png">
@@ -238,15 +244,15 @@
     </div>
 
     <div class="app-stores">
-      <a class="store-placeholder" href="contact.html" aria-label="Join the PushInn Apple App Store waitlist">APPLE_APP_STORE // JOIN_WAITLIST</a>
-      <a class="store-placeholder" href="contact.html" aria-label="Join the PushInn Google Play waitlist">GOOGLE_PLAY_STORE // JOIN_WAITLIST</a>
+      <a class="store-placeholder" href="contact.html?subject=beta-waitlist" aria-label="Join the PushInn Apple App Store waitlist">APPLE_APP_STORE // JOIN_WAITLIST</a>
+      <a class="store-placeholder" href="contact.html?subject=beta-waitlist" aria-label="Join the PushInn Google Play waitlist">GOOGLE_PLAY_STORE // JOIN_WAITLIST</a>
     </div>
 
     <a href="index.html" class="btn-home">← RETURN_TO_HQ</a>
   </main>
 
   <footer>
-    <span>&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN. THE_REVOLUTION_WILL_BE_MAPPED.</span>
+    <span>&copy; <span class="yr"></span> PUSHINN. THE_REVOLUTION_WILL_BE_MAPPED.</span>
     <div class="footer-links">
       <a href="index.html">HOME</a>
       <a href="index.html#features">FEATURES</a>
@@ -260,5 +266,6 @@
     </div>
   </footer>
 
+<script>document.querySelectorAll(".yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>
