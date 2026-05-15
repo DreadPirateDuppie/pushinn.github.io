@@ -266,8 +266,8 @@
     function safeMissionLink(raw) {
       if (typeof raw !== 'string') return 'contact.html';
       const trimmed = raw.trim();
-      if (/^mailto:admin@pushinn\.app(\?.*)?$/i.test(trimmed)) return trimmed;
-      if (/^[a-zA-Z0-9_-]+(?:\/[a-zA-Z0-9_-]+)*\.html(?:#[a-zA-Z0-9_-]+)?(?:\?[a-zA-Z0-9_=&-]+)?$/.test(trimmed)) return trimmed;
+      if (/^mailto:admin@pushinn\.app(?:\?subject=[^&]*)?$/i.test(trimmed)) return trimmed;
+      if (/^[a-zA-Z0-9_-]+(?:\/[a-zA-Z0-9_-]+)*\.html(?:#[a-zA-Z0-9_-]+)?$/.test(trimmed)) return trimmed;
       return 'contact.html';
     }
 
@@ -280,7 +280,7 @@
 
       const id = document.createElement('span');
       id.className = 'mission-id';
-      id.textContent = `// ${mission.id || 'MISSION'}`;
+      id.textContent = `// ${mission.id || 'MS-00'}`;
 
       const reward = document.createElement('span');
       reward.className = 'mission-tag';
