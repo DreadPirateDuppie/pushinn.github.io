@@ -278,6 +278,8 @@
       if (typeof raw !== 'string') return 'contact.html';
       const trimmed = raw.trim();
       if (trimmed.toLowerCase() === allowedMissionMailto) return allowedMissionMailto;
+      if (trimmed.includes('..') || trimmed.includes('//') || trimmed.includes(':')) return 'contact.html';
+      if (!/^[a-zA-Z0-9._/-]+$/.test(trimmed)) return 'contact.html';
       if (allowedMissionLinks.has(trimmed)) return trimmed;
       return 'contact.html';
     }
@@ -309,7 +311,8 @@
 
       const cta = document.createElement('a');
       cta.className = 'btn-action';
-      cta.href = safeMissionLink(mission.link);
+      const safeHref = safeMissionLink(mission.link);
+      cta.href = safeHref.startsWith('mailto:') || safeHref.endsWith('.html') ? safeHref : 'contact.html';
       cta.textContent = mission.buttonText || 'OPEN_MISSION';
 
       item.append(meta, title, desc, cta);
