@@ -26,7 +26,7 @@
 
     :root {
       --green:      #00FF41;
-      --dark-green: #008F11;
+      --dark-green: #39D353;
       --black:      #000000;
       --surface:    #0A0A0A;
       --text:       #E0E0E0;
@@ -357,7 +357,7 @@
     }
 
     .node-header { display: flex; justify-content: space-between; margin-bottom: 4rem; }
-    .node-ascii { font-family: monospace; font-size: .6rem; color: var(--dark-green); white-space: pre; }
+    .node-ascii { margin: 0; font-family: monospace; font-size: .6rem; color: var(--dark-green); white-space: pre; }
     .node-id { font-family: monospace; font-size: .75rem; color: var(--green); opacity: .5; }
 
     .protocol-node h3 { font-family: var(--font-display); font-weight: 800; font-size: 2.25rem; color: #fff; margin-bottom: 2rem; letter-spacing: -.02em;}
@@ -407,6 +407,7 @@
     .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4rem; width: 100%; max-width: 1100px; margin-inline: auto; }
     @media (max-width: 800px) { .stats-grid { grid-template-columns: 1fr 1fr; gap: 2rem; } }
     .stat-num { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.5rem, 4vw, 2.2rem); color: var(--green); text-align: center; }
+    .stat-num.stat-placeholder { font-family: monospace; font-size: clamp(.8rem, 1.8vw, 1rem); color: var(--dark-green); letter-spacing: .18em; }
     .stat-label { font-family: monospace; font-size: .55rem; letter-spacing: .2em; color: var(--dark-green); text-transform: uppercase; margin-top: .4rem; opacity: .7; text-align: center; }
 
     /* ── Footer ── */
@@ -447,7 +448,7 @@
         <li><a href="#features">EXPLORE_MAP</a></li>
         <li><a href="bounties.html">START_BATTLE</a></li>
         <li><a href="partners.html">SPONSOR_ME</a></li>
-        <li><a href="#hero">JOIN_TRIBE</a></li>
+        <li><a href="beta.html">BETA</a></li>
         <li><a href="privacy.html">PRIVACY</a></li>
       </ul>
     </div>
@@ -479,25 +480,41 @@
       <h2 class="section-title">Proof over clout. Metrics over hype.</h2>
       <div class="protocol-grid">
         <div class="protocol-node reveal">
-          <div class="node-header"><div class="node-ascii">   ______\n  / ____/\n / / __  \n/ /_/ /  \n\____/</div><div class="node-id">01</div></div>
+          <div class="node-header"><pre class="node-ascii">   ______
+  / ____/
+ / / __  
+/ /_/ /  
+\____/</pre><div class="node-id">01</div></div>
           <h3>Heat Alerts & Spot Status</h3>
           <p>Live geospatial intel with a 4-hour TTL: Wet, Dry, Locked Off, Security Active, and Session Alive updates from the crew.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
         <div class="protocol-node reveal">
-          <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">02</div></div>
+          <div class="node-header"><pre class="node-ascii">    ____ 
+   / __ \
+  / /_/ /
+ / ____/ 
+/_/</pre><div class="node-id">02</div></div>
           <h3>Asynchronous S.K.A.T.E. Engine</h3>
           <p>Battle anyone, anywhere across timezone-safe turns, timeout logic, and forfeit handling in S.K.A.T.E., S.K.8, or custom formats.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
         <div class="protocol-node reveal">
-          <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">03</div></div>
+          <div class="node-header"><pre class="node-ascii">    ____ 
+   / __ \
+  / /_/ /
+ / ____/ 
+/_/</pre><div class="node-id">03</div></div>
           <h3>Tribal Verification</h3>
           <p>Community consensus validates clips and rider trust. Ranking Score controls vote weight and keeps the system objective.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
         </div>
         <div class="protocol-node reveal">
-          <div class="node-header"><div class="node-ascii">  _______ \n /_  __(_).\n  / / / / \n / / / /  \n/_/ /_/</div><div class="node-id">04</div></div>
+          <div class="node-header"><pre class="node-ascii">  _______ 
+ /_  __(_).
+  / / / / 
+ / / / /  
+/_/ /_/</pre><div class="node-id">04</div></div>
           <h3>Triple-Score Sponsor Pipeline</h3>
           <p>Map Score, Player Score, and Ranking Score build a verifiable portfolio that brands and shops can scout without vanity metrics.</p>
           <div class="node-bar-container"><div class="node-bar-fill"></div></div>
@@ -539,10 +556,10 @@
   <section id="bottom-stats">
     <div class="container">
       <div class="stats-grid">
-        <div class="stat-item"><div class="stat-num" id="stat-spots" data-target="0">0</div><div class="stat-label">Spots Mapped</div></div>
-        <div class="stat-item"><div class="stat-num" id="stat-skaters" data-target="0">0</div><div class="stat-label">Beta Skaters</div></div>
-        <div class="stat-item"><div class="stat-num" id="stat-battles" data-target="0">0</div><div class="stat-label">Battles Played</div></div>
-        <div class="stat-item"><div class="stat-num" id="stat-cities" data-target="0">0</div><div class="stat-label">Cities Mapped</div></div>
+        <div class="stat-item"><div class="stat-num stat-placeholder" id="stat-spots">COMING SOON</div><div class="stat-label">Spots Mapped</div></div>
+        <div class="stat-item"><div class="stat-num stat-placeholder" id="stat-skaters">COMING SOON</div><div class="stat-label">Beta Skaters</div></div>
+        <div class="stat-item"><div class="stat-num stat-placeholder" id="stat-battles">COMING SOON</div><div class="stat-label">Battles Played</div></div>
+        <div class="stat-item"><div class="stat-num stat-placeholder" id="stat-cities">COMING SOON</div><div class="stat-label">Cities Mapped</div></div>
       </div>
     </div>
   </section>
@@ -552,7 +569,7 @@
       <div class="footer-grid">
         <div class="footer-brand"><h2>PUSHINN</h2><p>The trustless battle and geospatial intelligence network for action sports.</p></div>
         <div class="footer-col"><h4>MAP_GRID</h4><ul><li><a href="#features">FEATURES</a></li><li><a href="bounties.html">MISSIONS</a></li></ul></div>
-        <div class="footer-col"><h4>COMMUNITY</h4><ul><li><a href="contact.html">CONTACT</a></li><li><a href="#hero">BETA</a></li></ul></div>
+        <div class="footer-col"><h4>COMMUNITY</h4><ul><li><a href="contact.html">CONTACT</a></li><li><a href="beta.html">BETA</a></li></ul></div>
         <div class="footer-col"><h4>LEGAL</h4><ul><li><a href="privacy.html">PRIVACY</a></li><li><a href="terms.html">TERMS</a></li><li><a href="partners.html">PARTNER_ACCESS</a></li><li><a href="help.html">HELP_DESK</a></li></ul></div>
       </div>
       <div style="margin-top: 5rem; border-top: 1px solid var(--border); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
@@ -601,7 +618,7 @@
         }
       });
     }, { threshold: 0.1 });
-    document.querySelectorAll('.stat-num').forEach(el => statsObserver.observe(el));
+    document.querySelectorAll('.stat-num[data-target]').forEach(el => statsObserver.observe(el));
 
     const dataCanvas = document.getElementById('data-canvas');
     const dctx = dataCanvas.getContext('2d');

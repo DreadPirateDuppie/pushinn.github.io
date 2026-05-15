@@ -16,7 +16,7 @@
 
     :root {
       --green:      #00FF41;
-      --dark-green: #008F11;
+      --dark-green: #39D353;
       --black:      #000000;
       --surface:    #0A0A0A;
       --text:       #E0E0E0;
@@ -227,7 +227,7 @@
         <li><a href="bounties.html">START_BATTLE</a></li>
         <li><a href="partners.html">SPONSOR_ME</a></li>
         <li><a href="contact.html">CONTACT</a></li>
-        <li><a href="index.html#hero">JOIN_TRIBE</a></li>
+        <li><a href="beta.html">BETA</a></li>
       </ul>
     </div>
   </nav>
@@ -252,7 +252,7 @@
       <div class="footer-grid">
         <div class="footer-brand"><h2>PUSHINN</h2><p>The trustless battle and geospatial intelligence network for action sports.</p></div>
         <div class="footer-col"><h4>MAP_GRID</h4><ul><li><a href="index.html#features">FEATURES</a></li><li><a href="bounties.html">MISSIONS</a></li></ul></div>
-        <div class="footer-col"><h4>COMMUNITY</h4><ul><li><a href="contact.html">CONTACT</a></li><li><a href="index.html#hero">BETA</a></li></ul></div>
+        <div class="footer-col"><h4>COMMUNITY</h4><ul><li><a href="contact.html">CONTACT</a></li><li><a href="beta.html">BETA</a></li></ul></div>
         <div class="footer-col"><h4>LEGAL</h4><ul><li><a href="privacy.html">PRIVACY</a></li><li><a href="terms.html">TERMS</a></li><li><a href="partners.html">PARTNER_ACCESS</a></li><li><a href="help.html">HELP_DESK</a></li></ul></div>
       </div>
       <div style="margin-top: 5rem; border-top: 1px solid var(--border); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
@@ -344,7 +344,12 @@
         });
       } catch (err) {
         console.error('Failed to load missions:', err);
-        container.innerHTML = '<p style="color: red; font-family: monospace;">ERROR: FAILED_TO_LOAD_MISSION_DATA</p>';
+        container.replaceChildren();
+        const errorMessage = document.createElement('p');
+        errorMessage.style.color = 'red';
+        errorMessage.style.fontFamily = 'monospace';
+        errorMessage.textContent = 'ERROR: FAILED_TO_LOAD_MISSION_DATA';
+        container.appendChild(errorMessage);
       }
     }
 

@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PushInn contact confirmation for submitted support, sponsor, and beta access requests." />
   <title>Transmission Successful – Pushinn</title>
 
   <link rel="icon" type="image/png" href="favicon.png">
@@ -15,7 +16,7 @@
 
     :root {
       --green:      #00FF41;
-      --dark-green: #008F11;
+      --dark-green: #39D353;
       --black:      #000000;
       --surface:    #0A0A0A;
       --text:       #E0E0E0;
@@ -32,6 +33,54 @@
       flex-direction: column;
       min-height: 100vh;
       text-align: center;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,.96);
+      backdrop-filter: blur(15px);
+    }
+
+    .nav-inner {
+      width: min(820px, 100%);
+      margin-inline: auto;
+      padding: 1.5rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .nav-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav-logo {
+      font-family: monospace;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--green);
+      text-decoration: none;
+    }
+
+    .nav-back,
+    .nav-links {
+      font-family: monospace;
+      color: var(--dark-green);
+      letter-spacing: .18em;
+      font-size: .65rem;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 1.5rem;
+      list-style: none;
+      justify-content: center;
     }
 
     main {
@@ -85,14 +134,78 @@
       background: var(--green);
       color: var(--black);
     }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      font-family: monospace;
+      font-size: .65rem;
+      color: var(--dark-green);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .75rem 1.25rem;
+    }
+
+    .footer-links a,
+    .nav-links a,
+    .nav-back { color: var(--dark-green); }
+
+    .footer-links a:hover,
+    .nav-links a:hover,
+    .nav-back:hover {
+      color: var(--green);
+    }
+
+    @media (max-width: 600px) {
+      .nav-top {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 <body>
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-top">
+        <a href="index.html" class="nav-logo">PUSHINN</a>
+        <a href="index.html" class="nav-back">← BACK_TO_HOME</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html#features">FEATURES</a></li>
+        <li><a href="bounties.html">MISSIONS</a></li>
+        <li><a href="partners.html">SPONSOR_ME</a></li>
+        <li><a href="contact.html">CONTACT</a></li>
+        <li><a href="beta.html">BETA</a></li>
+      </ul>
+    </div>
+  </nav>
   <main>
     <div class="success-icon">✓</div>
     <h1>Transmission Successful</h1>
     <p>INTEL_UPLOAD_COMPLETE // THE_CORE_HAS_RECEIVED_YOUR_DATA</p>
     <a href="index.html" class="btn-return">← RETURN_TO_HQ</a>
   </main>
+  <footer>
+    <span>&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
+    <div class="footer-links">
+      <a href="index.html">HOME</a>
+      <a href="index.html#features">FEATURES</a>
+      <a href="bounties.html">MISSIONS</a>
+      <a href="contact.html">CONTACT</a>
+      <a href="beta.html">BETA</a>
+      <a href="privacy.html">PRIVACY</a>
+      <a href="terms.html">TERMS</a>
+      <a href="partners.html">PARTNERS</a>
+      <a href="help.html">HELP</a>
+    </div>
+  </footer>
 </body>
 </html>
