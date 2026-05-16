@@ -355,6 +355,7 @@
       inset: 0;
       z-index: -1;
       pointer-events: none;
+      /* Dot anchors are deliberately scattered to keep the network field asymmetrical and cinematic. */
       background:
         radial-gradient(circle 2px at 12% 18%, rgba(0,255,65,.22) 0 100%, transparent 100%),
         radial-gradient(circle 2px at 84% 20%, rgba(0,255,65,.22) 0 100%, transparent 100%),
@@ -385,6 +386,7 @@
     .protocol-node::before {
       content: '';
       position: absolute;
+      /* Wide negative/positive inset values ensure the sweep starts off-card and crosses fully through on hover. */
       inset: -120% 40% auto -70%;
       height: 280%;
       width: 55%;
@@ -802,8 +804,8 @@
     const NODE_BAR_WIDTH_RANGE_PERCENT = 30;    // Percent range produces final widths in a 65-95% band.
     const NODE_STAGGER_INCREMENT_SECONDS = 0.1; // Progressive card boot-up delay per node.
     const NODE_STAGGER_MAX_DELAY_SECONDS = 0.5; // Maximum stagger delay cap for fast reveal.
-    const PARALLAX_VERTICAL_DEGREE_MULTIPLIER = 3.2;   // Multiplier used for rotateX degree calculation.
-    const PARALLAX_HORIZONTAL_DEGREE_MULTIPLIER = 4;   // Multiplier used for rotateY degree calculation.
+    const PARALLAX_VERTICAL_DEGREE_MULTIPLIER = 3.2;   // Slightly softer tilt keeps vertical motion stable while scrolling.
+    const PARALLAX_HORIZONTAL_DEGREE_MULTIPLIER = 4;   // Stronger lateral tilt amplifies side-to-side cursor tracking.
     const PARALLAX_CENTER_OFFSET = 0.5; // 0.5 = normalized center point (50%) for card-relative rotation offsets.
 
     const observer = new IntersectionObserver((entries) => {
@@ -812,7 +814,11 @@
           entry.target.classList.add('active');
           if (entry.target.classList.contains('protocol-node')) entry.target.classList.add('is-active');
           const bars = entry.target.querySelectorAll('.node-bar-fill');
-          bars.forEach(bar => { bar.style.width = (Math.random() * NODE_BAR_WIDTH_RANGE_PERCENT + NODE_BAR_MIN_WIDTH_PERCENT) + '%'; });
+          const nodeIndex = parseInt((entry.target.querySelector('.node-id')?.textContent || '1').trim(), 10) || 1;
+          bars.forEach((bar, barIndex) => {
+            const widthOffset = (nodeIndex * 5 + barIndex * 7) % NODE_BAR_WIDTH_RANGE_PERCENT;
+            bar.style.width = `${NODE_BAR_MIN_WIDTH_PERCENT + widthOffset}%`;
+          });
         }
       });
     }, { threshold: 0.15 });
@@ -825,11 +831,12 @@
     const prefersReducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const hoverCapabilityQuery = window.matchMedia('(hover: hover)');
     const protocolNodes = document.querySelectorAll('.protocol-node');
+    const parallaxHandlers = new WeakMap();
     const canRunParallax = () => !prefersReducedMotionQuery.matches && hoverCapabilityQuery.matches;
 
     const bindParallax = (node) => {
-      if (node._parallaxMoveHandler) return;
-      node._parallaxMoveHandler = (event) => {
+      if (parallaxHandlers.has(node)) return;
+      const moveHandler = (event) => {
         const rect = node.getBoundingClientRect();
         const normalizedMouseX = (event.clientX - rect.left) / rect.width;
         const normalizedMouseY = (event.clientY - rect.top) / rect.height;
@@ -838,20 +845,21 @@
         node.style.setProperty('--rx', `${rotationX.toFixed(2)}deg`);
         node.style.setProperty('--ry', `${rotationY.toFixed(2)}deg`);
       };
-      node._parallaxLeaveHandler = () => {
+      const leaveHandler = () => {
         node.style.setProperty('--rx', '0deg');
         node.style.setProperty('--ry', '0deg');
       };
-      node.addEventListener('mousemove', node._parallaxMoveHandler);
-      node.addEventListener('mouseleave', node._parallaxLeaveHandler);
+      parallaxHandlers.set(node, { moveHandler, leaveHandler });
+      node.addEventListener('mousemove', moveHandler);
+      node.addEventListener('mouseleave', leaveHandler);
     };
 
     const unbindParallax = (node) => {
-      if (!node._parallaxMoveHandler) return;
-      node.removeEventListener('mousemove', node._parallaxMoveHandler);
-      node.removeEventListener('mouseleave', node._parallaxLeaveHandler);
-      node._parallaxMoveHandler = null;
-      node._parallaxLeaveHandler = null;
+      const handlers = parallaxHandlers.get(node);
+      if (!handlers) return;
+      node.removeEventListener('mousemove', handlers.moveHandler);
+      node.removeEventListener('mouseleave', handlers.leaveHandler);
+      parallaxHandlers.delete(node);
       node.style.setProperty('--rx', '0deg');
       node.style.setProperty('--ry', '0deg');
     };
