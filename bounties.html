@@ -207,20 +207,17 @@
     }
 
     /* ── Footer ── */
-    footer { padding-block: 10rem 5rem; border-top: 1px solid var(--border); background: var(--surface); }
+    /* ── Footer ── */
     .container { max-width: var(--max-w); margin-inline: auto; padding-inline: 2rem; }
-    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8rem; margin-bottom: 8rem; align-items: start; }
-    .footer-brand h2 { font-family: var(--font-display); font-weight: 900; color: var(--green); font-size: 3rem; margin-bottom: 2rem; }
-    .footer-brand p { font-family: monospace; font-size: .95rem; color: var(--dark-green); line-height: 1.8; max-width: 400px; }
-    .footer-col h4 { font-family: monospace; font-size: .7rem; color: #fff; margin-bottom: 2rem; letter-spacing: .3em; }
-    .footer-col ul { list-style: none; display: grid; gap: 1rem; }
-    .footer-col a { font-family: monospace; font-size: .75rem; color: var(--dark-green); transition: color .3s; }
-    .footer-col a:hover { color: var(--green); }
-
-    @media (max-width: 800px) {
-      .footer-grid { gap: 4rem; }
-      .nav-links { gap: 1.5rem; }
-    }
+    footer { padding-block: 8rem 4rem; border-top: 1px solid var(--border); background: var(--surface); text-align: center; }
+    .footer-brand { margin-bottom: 3rem; }
+    .footer-brand h2 { font-family: var(--font-display); font-weight: 900; color: var(--green); font-size: 2rem; margin-bottom: .75rem; }
+    .footer-brand p { font-family: monospace; font-size: .8rem; color: var(--dark-green); line-height: 1.8; }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 2rem; list-style: none; margin-bottom: 4rem; }
+    .footer-links a { font-family: monospace; font-size: .7rem; color: var(--dark-green); transition: color .3s; letter-spacing: .12em; }
+    .footer-links a:hover { color: var(--green); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; font-family: monospace; font-size: .65rem; color: var(--dark-green); }
+    .footer-bottom-status { display: flex; gap: 3rem; }
   </style>
 </head>
 <body>
@@ -255,15 +252,23 @@
 
   <footer>
     <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand"><h2>PUSHINN</h2><p>The trustless battle and geospatial intelligence network for action sports.</p></div>
-        <div class="footer-col"><h4>MAP_GRID</h4><ul><li><a href="index.html#features">FEATURES</a></li><li><a href="bounties.html">MISSIONS</a></li></ul></div>
-        <div class="footer-col"><h4>COMMUNITY</h4><ul><li><a href="contact.html">CONTACT</a></li><li><a href="beta.html">BETA</a></li></ul></div>
-        <div class="footer-col"><h4>LEGAL</h4><ul><li><a href="privacy.html">PRIVACY</a></li><li><a href="terms.html">TERMS</a></li><li><a href="partners.html">PARTNER_ACCESS</a></li><li><a href="help.html">HELP_DESK</a></li></ul></div>
+      <div class="footer-brand">
+        <h2>PUSHINN</h2>
+        <p>The trustless battle and geospatial intelligence network for action sports.</p>
       </div>
-      <div style="margin-top: 5rem; border-top: 1px solid var(--border); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
-        <span style="font-family: monospace; font-size: .65rem; color: var(--dark-green);">&copy; <span class="yr"></span> PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
-        <div style="display: flex; gap: 3rem; font-family: monospace; font-size: .65rem; color: var(--dark-green);"><span>STATUS: [HIRING]</span><span>UP-LINK: [STABLE]</span></div>
+      <ul class="footer-links">
+        <li><a href="index.html#features">FEATURES</a></li>
+        <li><a href="bounties.html">MISSIONS</a></li>
+        <li><a href="contact.html">CONTACT</a></li>
+        <li><a href="beta.html">BETA</a></li>
+        <li><a href="privacy.html">PRIVACY</a></li>
+        <li><a href="terms.html">TERMS</a></li>
+        <li><a href="partners.html">PARTNER_ACCESS</a></li>
+        <li><a href="help.html">HELP_DESK</a></li>
+      </ul>
+      <div class="footer-bottom">
+        <span>&copy; <span class="yr"></span> PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
+        <div class="footer-bottom-status"><span>STATUS: [HIRING]</span><span>UP-LINK: [STABLE]</span></div>
       </div>
     </div>
   </footer>
