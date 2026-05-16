@@ -798,12 +798,12 @@
   </footer>
 
   <script>
-    const MIN_BAR_WIDTH = 65;     // Keeps activity bars visibly "live" once activated.
-    const BAR_WIDTH_RANGE = 30;   // Produces final widths in a 65-95% range.
+    const NODE_BAR_MIN_WIDTH_PERCENT = 65;      // Percent floor keeps node activity bars visibly live.
+    const NODE_BAR_WIDTH_RANGE_PERCENT = 30;    // Percent range produces final widths in a 65-95% band.
     const STAGGER_INCREMENT = 0.1; // Adds progressive card boot-up timing per node.
     const MAX_STAGGER_DELAY = 0.5; // Caps stagger so the section reveals quickly.
-    const PARALLAX_VERTICAL_INTENSITY = 3.2;
-    const PARALLAX_HORIZONTAL_INTENSITY = 4;
+    const PARALLAX_VERTICAL_DEGREE_MULTIPLIER = 3.2;   // Multiplier used for rotateX degree calculation.
+    const PARALLAX_HORIZONTAL_DEGREE_MULTIPLIER = 4;   // Multiplier used for rotateY degree calculation.
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -811,7 +811,7 @@
           entry.target.classList.add('active');
           if (entry.target.classList.contains('protocol-node')) entry.target.classList.add('is-active');
           const bars = entry.target.querySelectorAll('.node-bar-fill');
-          bars.forEach(bar => { bar.style.width = (Math.random() * BAR_WIDTH_RANGE + MIN_BAR_WIDTH) + '%'; });
+          bars.forEach(bar => { bar.style.width = (Math.random() * NODE_BAR_WIDTH_RANGE_PERCENT + NODE_BAR_MIN_WIDTH_PERCENT) + '%'; });
         }
       });
     }, { threshold: 0.15 });
@@ -827,8 +827,8 @@
           const rect = node.getBoundingClientRect();
           const px = (event.clientX - rect.left) / rect.width;
           const py = (event.clientY - rect.top) / rect.height;
-          const rx = (0.5 - py) * PARALLAX_VERTICAL_INTENSITY;
-          const ry = (px - 0.5) * PARALLAX_HORIZONTAL_INTENSITY;
+          const rx = (0.5 - py) * PARALLAX_VERTICAL_DEGREE_MULTIPLIER;
+          const ry = (px - 0.5) * PARALLAX_HORIZONTAL_DEGREE_MULTIPLIER;
           node.style.setProperty('--rx', `${rx.toFixed(2)}deg`);
           node.style.setProperty('--ry', `${ry.toFixed(2)}deg`);
         });
