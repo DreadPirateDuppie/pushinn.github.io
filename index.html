@@ -802,11 +802,14 @@
   <script>
     const NODE_BAR_MIN_WIDTH_PERCENT = 65;      // Percent floor keeps node activity bars visibly live.
     const NODE_BAR_WIDTH_RANGE_PERCENT = 30;    // Percent range produces final widths in a 65-95% band.
+    const NODE_INDEX_MULTIPLIER = 5;            // Spreads deterministic bar widths across cards.
+    const BAR_INDEX_MULTIPLIER = 7;             // Adds per-bar variation without randomness.
     const NODE_STAGGER_INCREMENT_SECONDS = 0.1; // Progressive card boot-up delay per node.
     const NODE_STAGGER_MAX_DELAY_SECONDS = 0.5; // Maximum stagger delay cap for fast reveal.
-    const PARALLAX_VERTICAL_DEGREE_MULTIPLIER = 3.2;   // Slightly softer tilt keeps vertical motion stable while scrolling.
+    const PARALLAX_VERTICAL_DEGREE_MULTIPLIER = 3.2;   // Slightly softer tilt keeps vertical motion stable during hover interaction.
     const PARALLAX_HORIZONTAL_DEGREE_MULTIPLIER = 4;   // Stronger lateral tilt amplifies side-to-side cursor tracking.
     const PARALLAX_CENTER_OFFSET = 0.5; // 0.5 = normalized center point (50%) for card-relative rotation offsets.
+    const protocolNodes = Array.from(document.querySelectorAll('.protocol-node'));
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -814,9 +817,9 @@
           entry.target.classList.add('active');
           if (entry.target.classList.contains('protocol-node')) entry.target.classList.add('is-active');
           const bars = entry.target.querySelectorAll('.node-bar-fill');
-          const nodeIndex = parseInt((entry.target.querySelector('.node-id')?.textContent || '1').trim(), 10) || 1;
+          const nodeSequenceIndex = Math.max(protocolNodes.indexOf(entry.target), 0) + 1;
           bars.forEach((bar, barIndex) => {
-            const widthOffset = (nodeIndex * 5 + barIndex * 7) % NODE_BAR_WIDTH_RANGE_PERCENT;
+            const widthOffset = (nodeSequenceIndex * NODE_INDEX_MULTIPLIER + barIndex * BAR_INDEX_MULTIPLIER) % NODE_BAR_WIDTH_RANGE_PERCENT;
             bar.style.width = `${NODE_BAR_MIN_WIDTH_PERCENT + widthOffset}%`;
           });
         }
@@ -830,7 +833,6 @@
 
     const prefersReducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const hoverCapabilityQuery = window.matchMedia('(hover: hover)');
-    const protocolNodes = document.querySelectorAll('.protocol-node');
     const parallaxHandlers = new WeakMap();
     const canRunParallax = () => !prefersReducedMotionQuery.matches && hoverCapabilityQuery.matches;
 
