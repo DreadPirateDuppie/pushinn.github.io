@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="PushInn contact confirmation for submitted support, sponsor, and beta access requests." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pushinn.app/thank-you.html" />
+  <meta property="og:title" content="PushInn | Transmission Successful" />
+  <meta property="og:description" content="Your intel has been received. PushInn core will process your request and respond shortly." />
+  <meta property="og:image" content="https://pushinn.app/og-image.png" />
+  <meta property="og:site_name" content="PushInn" />
   <title>Transmission Successful – Pushinn</title>
 
   <link rel="icon" type="image/png" href="favicon.png">
@@ -194,7 +200,7 @@
     <a href="index.html" class="btn-return">← RETURN_TO_HQ</a>
   </main>
   <footer>
-    <span>&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
+    <span>&copy; <span class="yr"></span> PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
     <div class="footer-links">
       <a href="index.html">HOME</a>
       <a href="index.html#features">FEATURES</a>
@@ -207,5 +213,6 @@
       <a href="help.html">HELP</a>
     </div>
   </footer>
+<script>document.querySelectorAll(".yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>
