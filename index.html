@@ -804,6 +804,7 @@
     const NODE_STAGGER_MAX_DELAY_SECONDS = 0.5; // Maximum stagger delay cap for fast reveal.
     const PARALLAX_VERTICAL_DEGREE_MULTIPLIER = 3.2;   // Multiplier used for rotateX degree calculation.
     const PARALLAX_HORIZONTAL_DEGREE_MULTIPLIER = 4;   // Multiplier used for rotateY degree calculation.
+    const PARALLAX_CENTER_OFFSET = 0.5;
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -821,15 +822,15 @@
     document.querySelectorAll('.protocol-node.reveal').forEach((el, index) => applyNodeStaggerDelay(el, index));
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!reduceMotion && window.matchMedia('(hover: hover)').matches) {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReducedMotion && window.matchMedia('(hover: hover)').matches) {
       document.querySelectorAll('.protocol-node').forEach(node => {
         node.addEventListener('mousemove', (event) => {
           const rect = node.getBoundingClientRect();
           const normalizedMouseX = (event.clientX - rect.left) / rect.width;
           const normalizedMouseY = (event.clientY - rect.top) / rect.height;
-          const rotationX = (0.5 - normalizedMouseY) * PARALLAX_VERTICAL_DEGREE_MULTIPLIER;
-          const rotationY = (normalizedMouseX - 0.5) * PARALLAX_HORIZONTAL_DEGREE_MULTIPLIER;
+          const rotationX = (PARALLAX_CENTER_OFFSET - normalizedMouseY) * PARALLAX_VERTICAL_DEGREE_MULTIPLIER;
+          const rotationY = (normalizedMouseX - PARALLAX_CENTER_OFFSET) * PARALLAX_HORIZONTAL_DEGREE_MULTIPLIER;
           node.style.setProperty('--rx', `${rotationX.toFixed(2)}deg`);
           node.style.setProperty('--ry', `${rotationY.toFixed(2)}deg`);
         });
