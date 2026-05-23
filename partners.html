@@ -63,7 +63,8 @@
     .nav-top {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      position: relative;
       gap: 1rem;
     }
 
@@ -80,7 +81,9 @@
       font-family: monospace;
       font-size: .65rem;
       color: var(--dark-green);
-      letter-spacing: .18em;
+      letter-spacing: .1em;
+      position: absolute;
+      right: 0;
     }
 
     .nav-links {
@@ -432,6 +435,7 @@
 
     @media (max-width: 600px) {
       .nav-top { flex-direction: column; }
+      .nav-back { position: static; }
       .nav-links { gap: 1rem; font-size: .6rem; justify-content: center; }
       .partner-types { grid-template-columns: 1fr 1fr; }
       .cta-block { padding: 2.5rem 1.25rem; }
