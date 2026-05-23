@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="PushInn Sponsor-Heat pipeline for validated rider scouting, geospatial heat intelligence, and direct sponsor campaigns." />
+  <meta name="description" content="Partner with PushInn — the verified skateboarding intelligence platform. Scout talent, run campaigns, and access geospatial session data. Business onboarding starts here." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pushinn.app/partners.html" />
-  <meta property="og:title" content="PushInn | Sponsor-Heat Portal – Scout Verified Riders" />
-  <meta property="og:description" content="Filter riders by Triple-Score, track geospatial session heat, and run direct Sponsor Me campaigns with objective data." />
+  <meta property="og:title" content="PushInn | Work With Us – Business Partner Onboarding" />
+  <meta property="og:description" content="Brands, shops, and agencies: access verified rider data, heat intel, and direct campaign tools. Apply to partner with PushInn." />
   <meta property="og:image" content="https://pushinn.app/og-image.png" />
   <meta property="og:site_name" content="PushInn" />
-  <title>Sponsor-Heat Portal – Pushinn</title>
+  <title>Work With Us – Business Partner Onboarding | PushInn</title>
 
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -70,16 +70,17 @@
     .nav-logo {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: 1.3rem;
+      font-size: 1.15rem;
       color: var(--green);
-      letter-spacing: .3em;
+      letter-spacing: .28em;
+      text-transform: uppercase;
     }
 
     .nav-back {
       font-family: monospace;
-      font-size: .7rem;
+      font-size: .65rem;
       color: var(--dark-green);
-      letter-spacing: .1em;
+      letter-spacing: .18em;
     }
 
     .nav-links {
@@ -89,8 +90,15 @@
       list-style: none;
       font-family: monospace;
       font-size: .65rem;
-      letter-spacing: .18em;
+      letter-spacing: .22em;
       color: var(--dark-green);
+    }
+
+    .nav-links a,
+    .nav-back {
+      color: var(--dark-green);
+      text-decoration: none;
+      transition: color .2s, text-shadow .2s;
     }
 
     .nav-links a:hover,
@@ -98,6 +106,19 @@
       color: var(--green);
       text-decoration: none;
       opacity: 1;
+      text-shadow: 0 0 12px rgba(0,255,65,0.35);
+    }
+
+    nav::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--green), #fff, var(--green), transparent);
+      box-shadow: 0 0 15px 1px var(--green), 0 0 30px 2px rgba(0,255,65,0.35);
+      opacity: 0.8;
     }
 
     /* ── Main ── */
@@ -107,34 +128,53 @@
       padding: 4rem 1.5rem 6rem;
     }
 
+    /* ── Hero ── */
     .page-header {
       border-bottom: 1px solid var(--border);
-      padding-bottom: 2rem;
-      margin-bottom: 3rem;
+      padding-bottom: 2.5rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .page-eyebrow {
+      font-family: monospace;
+      font-size: .7rem;
+      color: var(--dark-green);
+      letter-spacing: .25em;
+      margin-bottom: 1.25rem;
+      display: block;
     }
 
     .page-header h1 {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: 2.5rem;
+      font-size: clamp(2rem, 5vw, 3rem);
       color: #fff;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+
+    .page-header h1 span { color: var(--green); }
+
+    .page-lead {
+      color: #bbb;
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin-bottom: 0;
     }
 
     .partner-alert {
       background: rgba(0, 255, 65, 0.05);
       border-left: 3px solid var(--green);
-      padding: 1.5rem;
+      padding: 1.25rem 1.5rem;
       margin-bottom: 4rem;
       font-family: monospace;
-      font-size: .85rem;
+      font-size: .82rem;
       color: var(--green);
+      line-height: 1.6;
     }
 
-    .service-block {
-      margin-bottom: 6rem;
-    }
-
-    .service-id {
+    /* ── Section labels ── */
+    .section-id {
       font-family: monospace;
       font-size: .7rem;
       color: var(--dark-green);
@@ -146,25 +186,159 @@
     h2 {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 2rem;
+      font-size: 1.9rem;
       color: #fff;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
 
-    p { color: #bbb; margin-bottom: 2rem; font-size: 1.05rem; }
+    p { color: #bbb; margin-bottom: 1.75rem; font-size: 1.05rem; }
 
+    /* ── Who We Work With cards ── */
+    .partner-types {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 5rem;
+    }
+
+    .type-card {
+      border: 1px solid var(--border);
+      padding: 1.75rem 1.25rem;
+      background: rgba(0, 255, 65, 0.02);
+      transition: border-color .2s, background .2s;
+    }
+
+    .type-card:hover {
+      border-color: rgba(0, 255, 65, 0.4);
+      background: rgba(0, 255, 65, 0.05);
+    }
+
+    .type-icon {
+      font-family: monospace;
+      font-size: 1.4rem;
+      color: var(--green);
+      display: block;
+      margin-bottom: .75rem;
+    }
+
+    .type-card h3 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: .5rem;
+    }
+
+    .type-card p {
+      font-size: .85rem;
+      color: var(--dim);
+      margin-bottom: 0;
+    }
+
+    /* ── What You Unlock ── */
+    .unlock-section {
+      margin-bottom: 5rem;
+    }
+
+    .unlock-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .unlock-item {
+      display: grid;
+      grid-template-columns: 3rem 1fr;
+      gap: 1rem;
+      align-items: start;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      background: rgba(0, 255, 65, 0.02);
+    }
+
+    .unlock-num {
+      font-family: monospace;
+      font-size: .75rem;
+      color: var(--green);
+      padding-top: .2rem;
+      letter-spacing: .1em;
+    }
+
+    .unlock-item h3 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #fff;
+      margin-bottom: .5rem;
+    }
+
+    .unlock-item p {
+      font-size: .95rem;
+      color: #999;
+      margin-bottom: 0;
+    }
+
+    /* ── Onboarding steps ── */
+    .steps-section {
+      margin-bottom: 5rem;
+    }
+
+    .steps-list {
+      list-style: none;
+      display: grid;
+      gap: 0;
+      margin-top: 2rem;
+      counter-reset: step;
+    }
+
+    .steps-list li {
+      display: grid;
+      grid-template-columns: 3rem 1fr;
+      gap: 1.25rem;
+      padding: 2rem 1.5rem;
+      border: 1px solid var(--border);
+      border-bottom: none;
+      background: rgba(0, 255, 65, 0.02);
+      counter-increment: step;
+    }
+
+    .steps-list li:last-child { border-bottom: 1px solid var(--border); }
+
+    .step-num {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: var(--green);
+      line-height: 1;
+    }
+
+    .step-body h3 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #fff;
+      margin-bottom: .4rem;
+    }
+
+    .step-body p {
+      font-size: .9rem;
+      color: #999;
+      margin-bottom: 0;
+    }
+
+    /* ── Feature list (reused) ── */
     .feature-list {
       list-style: none;
       display: grid;
-      gap: 1.25rem;
-      margin-bottom: 2.5rem;
+      gap: 1rem;
+      margin-bottom: 2rem;
     }
 
     .feature-list li {
       display: flex;
       gap: 1rem;
       font-family: monospace;
-      font-size: .9rem;
+      font-size: .88rem;
       color: var(--dark-green);
     }
 
@@ -172,21 +346,68 @@
       content: '>';
       color: var(--green);
       font-weight: 900;
+      flex-shrink: 0;
     }
 
-    .btn-partner {
+    /* ── CTA block ── */
+    .cta-block {
+      text-align: center;
+      margin-top: 6rem;
+      padding: 4rem 2rem;
+      border: 1px solid var(--border);
+      background: rgba(0, 255, 65, 0.025);
+    }
+
+    .cta-block h2 {
+      font-size: clamp(1.6rem, 4vw, 2.25rem);
+      margin-bottom: 1rem;
+    }
+
+    .cta-block p {
+      max-width: 480px;
+      margin-inline: auto;
+      margin-bottom: 2.5rem;
+      font-size: .95rem;
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .btn-primary {
       display: inline-block;
-      padding: 1.25rem 4rem;
+      padding: 1.1rem 3rem;
       background: var(--green);
       color: #000;
       font-family: monospace;
       font-weight: 900;
+      font-size: .85rem;
       letter-spacing: .2em;
       transition: all .2s;
+      text-decoration: none;
     }
 
-    .btn-partner:hover { transform: scale(1.03); box-shadow: 0 0 30px rgba(0,255,65,0.4); }
+    .btn-primary:hover { transform: scale(1.03); box-shadow: 0 0 30px rgba(0,255,65,0.4); opacity: 1; text-decoration: none; }
 
+    .btn-secondary {
+      display: inline-block;
+      padding: 1.1rem 3rem;
+      border: 1px solid var(--green);
+      color: var(--green);
+      font-family: monospace;
+      font-weight: 700;
+      font-size: .85rem;
+      letter-spacing: .2em;
+      transition: all .2s;
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover { background: rgba(0,255,65,0.08); opacity: 1; text-decoration: none; }
+
+    /* ── Footer ── */
     footer {
       border-top: 1px solid var(--border);
       padding: 3rem;
@@ -210,58 +431,10 @@
     .footer-links a { color: var(--dark-green); }
 
     @media (max-width: 600px) {
-      .nav-top {
-        flex-direction: column;
-      }
-    }
-
-    /* ── Navbar Consistency Override ── */
-    nav::after {
-      content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 10%;
-      right: 10%;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--green), #fff, var(--green), transparent);
-      box-shadow: 0 0 15px 1px var(--green), 0 0 30px 2px rgba(0,255,65,0.35);
-      opacity: 0.8;
-    }
-    .nav-logo {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 1.15rem;
-      color: var(--green);
-      letter-spacing: .28em;
-      text-transform: uppercase;
-    }
-    .nav-back {
-      font-family: monospace;
-      font-size: .65rem;
-      color: var(--dark-green);
-      letter-spacing: .18em;
-    }
-    .nav-links {
-      font-family: monospace;
-      font-size: .65rem;
-      letter-spacing: .22em;
-      color: var(--dark-green);
-    }
-    .nav-links a,
-    .nav-back {
-      color: var(--dark-green);
-      text-decoration: none;
-      transition: color .2s, text-shadow .2s;
-    }
-    .nav-links a:hover,
-    .nav-back:hover {
-      color: var(--green);
-      text-decoration: none;
-      opacity: 1;
-      text-shadow: 0 0 12px rgba(0,255,65,0.35);
-    }
-    @media (max-width: 600px) {
+      .nav-top { flex-direction: column; }
       .nav-links { gap: 1rem; font-size: .6rem; justify-content: center; }
+      .partner-types { grid-template-columns: 1fr 1fr; }
+      .cta-block { padding: 2.5rem 1.25rem; }
     }
   </style>
 </head>
@@ -284,54 +457,145 @@
   </nav>
 
   <main>
+
+    <!-- ── Hero ── -->
     <div class="page-header">
-      <h1>Sponsor-Heat Portal</h1>
-      <p style="font-family: monospace; font-size: .75rem; color: var(--dark-green);">VALIDATED_TALENT_ACCESS_LAYER</p>
+      <span class="page-eyebrow">// PARTNER_PROTOCOL_v1 — BUSINESS_ONBOARDING</span>
+      <h1>Work With <span>PushInn</span>.</h1>
+      <p class="page-lead">We built the verified intelligence layer for skateboarding. Brands, shops, and agencies get direct access to trustless rider data, geospatial session heat, and a pipeline that runs on proof — not politics.</p>
     </div>
 
     <div class="partner-alert">
-      [OFFER_PROTOCOL]: Scout verified riders through objective metrics and geospatial session intelligence. No vanity metrics. No algorithm roulette.
+      [STATUS]: Accepting partner applications. This is not a media kit. This is an ops briefing for businesses serious about owning their slice of the culture before it's mainstream.
     </div>
 
-    <!-- Pillar 1 -->
-    <div class="service-block">
-      <span class="service-id">// PILLAR_01: VERIFIED_SCOUTING</span>
-      <h2>Triple-Score Talent Discovery</h2>
-      <p>Filter riders by Map Score, Player Score, and Ranking Score to identify consistent performers with trusted verification history across battles and map contribution.</p>
+    <!-- ── Who We Work With ── -->
+    <section aria-labelledby="who-heading" style="margin-bottom: 5rem;">
+      <span class="section-id">// WHO_WE_WORK_WITH</span>
+      <h2 id="who-heading">Built for These Operators</h2>
+      <p>If you move product, build culture, or fund athletes — you belong in this system.</p>
+
+      <div class="partner-types">
+        <div class="type-card">
+          <span class="type-icon">[B]</span>
+          <h3>Brands &amp; Sponsors</h3>
+          <p>Hardware, apparel, and lifestyle brands ready to back verified talent with data to prove ROI.</p>
+        </div>
+        <div class="type-card">
+          <span class="type-icon">[S]</span>
+          <h3>Skate Shops</h3>
+          <p>Local retailers and distributors who want a direct line to their scene's active roster and spot heat.</p>
+        </div>
+        <div class="type-card">
+          <span class="type-icon">[E]</span>
+          <h3>Event Organizers</h3>
+          <p>Contests, jams, and showcase series that need live leaderboard integration and verified participant data.</p>
+        </div>
+        <div class="type-card">
+          <span class="type-icon">[M]</span>
+          <h3>Media &amp; Agencies</h3>
+          <p>Content studios and marketing agencies sourcing authentic talent for campaigns backed by verifiable stats.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── What You Unlock ── -->
+    <section aria-labelledby="unlock-heading" class="unlock-section">
+      <span class="section-id">// PARTNER_ACCESS_STACK</span>
+      <h2 id="unlock-heading">What You Unlock</h2>
+      <p>Every partner gets access to the same intelligence layer our riders compete on — filtered for your business needs.</p>
+
+      <div class="unlock-grid">
+        <div class="unlock-item">
+          <span class="unlock-num">01</span>
+          <div>
+            <h3>Verified Talent Pipeline</h3>
+            <p>Filter riders by Triple-Score (Map Score, Player Score, Ranking Score) to shortlist consistent performers with an unbroken verification trail — no guesswork, no DMs, no wasted outreach.</p>
+          </div>
+        </div>
+        <div class="unlock-item">
+          <span class="unlock-num">02</span>
+          <div>
+            <h3>Geospatial Session Intelligence</h3>
+            <p>See where skill is concentrating in real time. Live spot status (Session Alive, Locked Off, Security Active) and heat-map data let you plan activations, shoots, and campaigns against actual session patterns.</p>
+          </div>
+        </div>
+        <div class="unlock-item">
+          <span class="unlock-num">03</span>
+          <div>
+            <h3>Direct Sponsor-Me Campaigns</h3>
+            <p>Run structured Sponsor Me programs tied to rider metrics. Athletes apply through a trust-weighted submission flow. You get clean performance attribution from day one — not six months in.</p>
+          </div>
+        </div>
+        <div class="unlock-item">
+          <span class="unlock-num">04</span>
+          <div>
+            <h3>Co-Marketing &amp; Platform Visibility</h3>
+            <p>Appear inside the PushInn app and site as a verified partner. Your brand gets native placement in a community that values proof over clout — the audience that's hardest to fake.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Onboarding Process ── -->
+    <section aria-labelledby="process-heading" class="steps-section">
+      <span class="section-id">// ONBOARDING_SEQUENCE</span>
+      <h2 id="process-heading">How It Works</h2>
+      <p>Four steps from inquiry to active partner status. No endless back-and-forth.</p>
+
+      <ol class="steps-list">
+        <li>
+          <span class="step-num">01</span>
+          <div class="step-body">
+            <h3>Submit Your Brief</h3>
+            <p>Tell us who you are, what you're trying to accomplish, and what type of partnership you're exploring. Use the Apply button below — takes under five minutes.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">02</span>
+          <div class="step-body">
+            <h3>Ops Review</h3>
+            <p>We review every application manually. If there's a fit, you'll hear back within 3 business days with a tailored onboarding scope — not a generic deck.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">03</span>
+          <div class="step-body">
+            <h3>Activation Brief</h3>
+            <p>We align on goals, access level, and timelines. Partner integrations are scoped lean and deployed fast — you're operational, not in planning limbo.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">04</span>
+          <div class="step-body">
+            <h3>Go Live</h3>
+            <p>Access the data, run campaigns, and track attribution through the platform. You're in the system. Riders see you. The community sees you. Performance is the receipt.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ── What We Need From You ── -->
+    <section aria-labelledby="req-heading" style="margin-bottom: 5rem;">
+      <span class="section-id">// PARTNER_REQUIREMENTS</span>
+      <h2 id="req-heading">What We Ask in Return</h2>
+      <p>We're selective because the community trusts us to be. Partners must clear a short bar:</p>
       <ul class="feature-list">
-        <li>Validated rider shortlists by objective metrics</li>
-        <li>Historical verification and battle consistency logs</li>
-        <li>Direct sponsor outreach to qualified athletes</li>
+        <li>Genuine interest in the skateboarding community — not just the demographic</li>
+        <li>Willingness to engage with verified data rather than follower counts</li>
+        <li>A real product, service, or activation — not a spec campaign looking for free content</li>
+        <li>Respect for athlete autonomy and the trustless verification model</li>
       </ul>
-    </div>
+    </section>
 
-    <!-- Pillar 2 -->
-    <div class="service-block">
-      <span class="service-id">// PILLAR_02: GEOSPATIAL_HEAT_INTEL</span>
-      <h2>Local Heat Alerts</h2>
-      <p>Monitor where high-skill sessions are active using live spot intel and status updates (Session Alive, Locked Off, Security Active) to allocate campaigns with tactical precision.</p>
-      <ul class="feature-list">
-        <li>Geospatial demand signals by area and session pattern</li>
-        <li>Localized sponsorship planning with live conditions</li>
-        <li>Data-backed city rollouts for brand operations</li>
-      </ul>
-    </div>
-
-    <!-- Pillar 3 -->
-    <div class="service-block">
-      <span class="service-id">// PILLAR_03: SPONSOR_ME_PIPELINE</span>
-      <h2>Direct Sponsor Campaigns</h2>
-      <p>Launch Sponsor Me programs tied to verified rider data, giving athletes a measurable path to brand deals while giving partners cleaner performance attribution.</p>
-      <ul class="feature-list">
-        <li>Direct submission flows with trust-weighted profiles</li>
-        <li>Campaign reporting tied to rider performance metrics</li>
-        <li>Structured partner-athlete activation workflows</li>
-      </ul>
-    </div>
-
-    <div style="text-align: center; margin-top: 8rem; padding: 5rem; border: 1px solid var(--border); background: rgba(0,255,65,0.02);">
-      <h2 style="margin-bottom: 2.5rem;">Initiate Sponsor-Heat Link</h2>
-      <a href="mailto:admin@pushinn.app?subject=Sponsor%20Me%20Inquiry" class="btn-partner">SPONSOR_ME</a>
+    <!-- ── CTA ── -->
+    <div class="cta-block">
+      <h2>Ready to Activate?</h2>
+      <p>Send us your brief and we'll assess fit within 3 business days. First move is yours.</p>
+      <div class="cta-actions">
+        <a href="mailto:admin@pushinn.app?subject=Business%20Partner%20Application&body=Business%20name%3A%0ABusiness%20type%20(brand%2C%20shop%2C%20event%2C%20media)%3A%0AActivation%20goal%3A%0ATimeline%3A" class="btn-primary">APPLY_TO_PARTNER</a>
+        <a href="contact.html" class="btn-secondary">ASK_A_QUESTION</a>
+      </div>
     </div>
 
   </main>
