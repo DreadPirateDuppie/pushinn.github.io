@@ -64,7 +64,8 @@
     .nav-top {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      position: relative;
       gap: 1rem;
     }
 
@@ -90,6 +91,8 @@
       font-size: .7rem;
       color: var(--dark-green);
       letter-spacing: .1em;
+      position: absolute;
+      right: 0;
     }
 
     .nav-back:hover { color: var(--green); text-decoration: none; opacity: 1; }
@@ -190,6 +193,7 @@
       .nav-top {
         flex-direction: column;
       }
+      .nav-back { position: static; }
     }
 
     /* ── Navbar Consistency Override ── */
