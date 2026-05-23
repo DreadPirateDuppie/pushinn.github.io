@@ -64,7 +64,8 @@
     .nav-top {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      position: relative;
       gap: 1rem;
     }
 
@@ -76,15 +77,20 @@
       text-decoration: none;
     }
 
-    .nav-back,
+    .nav-back {
+      font-family: monospace;
+      color: var(--dark-green);
+      letter-spacing: .18em;
+      font-size: .65rem;
+      position: absolute;
+      right: 0;
+    }
+
     .nav-links {
       font-family: monospace;
       color: var(--dark-green);
       letter-spacing: .18em;
       font-size: .65rem;
-    }
-
-    .nav-links {
       display: flex;
       flex-wrap: wrap;
       gap: 1rem 1.5rem;
@@ -203,6 +209,7 @@
       .nav-top {
         flex-direction: column;
       }
+      .nav-back { position: static; }
 
       .app-stores {
         flex-direction: column;
