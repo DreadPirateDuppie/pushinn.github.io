@@ -3,8 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Pushinn Community Missions - Help Build the Network" />
-  <title>Missions – Pushinn</title>
+  <meta name="description" content="PushInn athlete missions for asynchronous battle queues, map intelligence, and Tribal Verification operations." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pushinn.app/bounties.html" />
+  <meta property="og:title" content="PushInn | Missions" />
+  <meta property="og:description" content="Run battle missions to increase Map Score, Player Score, and Ranking Score. Every op moves your profile closer to sponsor-ready." />
+  <meta property="og:image" content="https://pushinn.app/og-image.png" />
+  <meta property="og:site_name" content="PushInn" />
+  <title>Missions – PushInn</title>
 
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -16,7 +22,7 @@
 
     :root {
       --green:      #00FF41;
-      --dark-green: #008F11;
+      --dark-green: #39D353;
       --black:      #000000;
       --surface:    #0A0A0A;
       --text:       #E0E0E0;
@@ -201,20 +207,16 @@
     }
 
     /* ── Footer ── */
-    footer { padding-block: 10rem 5rem; border-top: 1px solid var(--border); background: var(--surface); }
     .container { max-width: var(--max-w); margin-inline: auto; padding-inline: 2rem; }
-    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8rem; margin-bottom: 8rem; align-items: start; }
-    .footer-brand h2 { font-family: var(--font-display); font-weight: 900; color: var(--green); font-size: 3rem; margin-bottom: 2rem; }
-    .footer-brand p { font-family: monospace; font-size: .95rem; color: var(--dark-green); line-height: 1.8; max-width: 400px; }
-    .footer-col h4 { font-family: monospace; font-size: .7rem; color: #fff; margin-bottom: 2rem; letter-spacing: .3em; }
-    .footer-col ul { list-style: none; display: grid; gap: 1rem; }
-    .footer-col a { font-family: monospace; font-size: .75rem; color: var(--dark-green); transition: color .3s; }
-    .footer-col a:hover { color: var(--green); }
-
-    @media (max-width: 800px) {
-      .footer-grid { gap: 4rem; }
-      .nav-links { gap: 1.5rem; }
-    }
+    footer { padding-block: 8rem 4rem; border-top: 1px solid var(--border); background: var(--surface); text-align: center; }
+    .footer-brand { margin-bottom: 3rem; }
+    .footer-brand h2 { font-family: var(--font-display); font-weight: 900; color: var(--green); font-size: 2rem; margin-bottom: .75rem; }
+    .footer-brand p { font-family: monospace; font-size: .8rem; color: var(--dark-green); line-height: 1.8; }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 2rem; list-style: none; margin-bottom: 4rem; }
+    .footer-links a { font-family: monospace; font-size: .7rem; color: var(--dark-green); transition: color .3s; letter-spacing: .12em; }
+    .footer-links a:hover { color: var(--green); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; font-family: monospace; font-size: .65rem; color: var(--dark-green); }
+    .footer-bottom-status { display: flex; gap: 3rem; }
   </style>
 </head>
 <body>
@@ -223,22 +225,23 @@
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">PUSHINN</a>
       <ul class="nav-links">
-        <li><a href="index.html#features">FEATURES</a></li>
-        <li><a href="bounties.html">COMMUNITY</a></li>
+        <li><a href="index.html#features">EXPLORE_MAP</a></li>
+        <li><a href="bounties.html">START_BATTLE</a></li>
+        <li><a href="partners.html">SPONSOR_ME</a></li>
         <li><a href="contact.html">CONTACT</a></li>
-        <li><a href="index.html#hero">BETA</a></li>
+        <li><a href="beta.html">BETA</a></li>
       </ul>
     </div>
   </nav>
 
   <main>
     <div class="page-header">
-      <h1>Community Missions</h1>
-      <span class="status-badge" id="status-badge">NETWORK_UPGRADES_OPEN</span>
+      <h1>Athlete Missions</h1>
+      <span class="status-badge" id="status-badge">ASYNC_BATTLE_QUEUE_OPEN</span>
     </div>
 
     <p class="synopsis">
-      The Pushinn Network is built by the crew, for the crew. We are currently recruiting volunteers to help stabilize the core and expand the map. Your contributions earn you <strong>Ranking Score (Clout)</strong> and <strong>Priority Beta Access</strong>.
+      Run tactical missions to increase <strong>Map Score</strong>, <strong>Player Score</strong>, and <strong>Ranking Score</strong>. Every completed op strengthens trustless verification and moves your profile closer to sponsor-ready status.
     </p>
 
     <div id="mission-container">
@@ -248,44 +251,120 @@
 
   <footer>
     <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand"><h2>PUSHINN</h2><p>The professional social layer for London's urban skateboarding subculture.</p></div>
-        <div class="footer-col"><h4>MAP_GRID</h4><ul><li><a href="index.html#features">FEATURES</a></li><li><a href="bounties.html">MISSIONS</a></li></ul></div>
-        <div class="footer-col"><h4>COMMUNITY</h4><ul><li><a href="contact.html">CONTACT</a></li><li><a href="index.html#hero">BETA</a></li></ul></div>
-        <div class="footer-col"><h4>LEGAL</h4><ul><li><a href="privacy.html">PRIVACY</a></li><li><a href="terms.html">TERMS</a></li><li><a href="partners.html">PARTNER_ACCESS</a></li><li><a href="help.html">HELP_DESK</a></li></ul></div>
+      <div class="footer-brand">
+        <h2>PUSHINN</h2>
+        <p>The trustless battle and geospatial intelligence network for action sports.</p>
       </div>
-      <div style="margin-top: 5rem; border-top: 1px solid var(--border); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
-        <span style="font-family: monospace; font-size: .65rem; color: var(--dark-green);">&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
-        <div style="display: flex; gap: 3rem; font-family: monospace; font-size: .65rem; color: var(--dark-green);"><span>STATUS: [HIRING]</span><span>UP-LINK: [STABLE]</span></div>
+      <ul class="footer-links">
+        <li><a href="index.html#features">FEATURES</a></li>
+        <li><a href="bounties.html">MISSIONS</a></li>
+        <li><a href="contact.html">CONTACT</a></li>
+        <li><a href="beta.html">BETA</a></li>
+        <li><a href="privacy.html">PRIVACY</a></li>
+        <li><a href="terms.html">TERMS</a></li>
+        <li><a href="partners.html">PARTNER_ACCESS</a></li>
+        <li><a href="help.html">HELP_DESK</a></li>
+      </ul>
+      <div class="footer-bottom">
+        <span>&copy; <span class="yr"></span> PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
+        <div class="footer-bottom-status"><span>STATUS: [HIRING]</span><span>UP-LINK: [STABLE]</span></div>
       </div>
     </div>
   </footer>
 
   <script>
+    const allowedMissionLinks = new Set([
+      'index.html',
+      'bounties.html',
+      'contact.html',
+      'help.html',
+      'partners.html',
+      'privacy.html',
+      'terms.html'
+    ]);
+    const allowedMissionMailto = 'mailto:admin@pushinn.app';
+    const defaultMissionId = 'MS-00';
+    const defaultMissionReward = 'RANKING_SCORE';
+    const defaultMissionTitle = 'Untitled Mission';
+    const defaultMissionDescription = 'Mission details pending.';
+    const defaultMissionButtonText = 'OPEN_MISSION';
+
+    function isValidMissionObject(mission) {
+      return mission && typeof mission === 'object' && !Array.isArray(mission);
+    }
+
+    function safeMissionLink(raw) {
+      if (typeof raw !== 'string') return 'contact.html';
+      const trimmed = raw.trim();
+      const lower = trimmed.toLowerCase();
+      if (lower === allowedMissionMailto) return allowedMissionMailto;
+      if (/^(https?:|javascript:|data:|vbscript:|file:)/.test(lower)) return 'contact.html';
+      if (lower.includes('%2e%2e%2f') || lower.includes('%2e%2e/')) return 'contact.html';
+      if (trimmed.includes('..') || trimmed.includes('//')) return 'contact.html';
+      if (!/^[a-zA-Z0-9._-]+$/.test(trimmed)) return 'contact.html';
+      if (allowedMissionLinks.has(trimmed)) return trimmed;
+      return 'contact.html';
+    }
+
+    function renderMission(container, mission) {
+      const item = document.createElement('div');
+      item.className = 'mission-item';
+
+      const meta = document.createElement('div');
+      meta.className = 'mission-meta';
+
+      const id = document.createElement('span');
+      id.className = 'mission-id';
+      id.textContent = `// ${mission.id || defaultMissionId}`;
+
+      const reward = document.createElement('span');
+      reward.className = 'mission-tag';
+      reward.textContent = `REWARD: ${mission.reward || defaultMissionReward}`;
+
+      meta.append(id, reward);
+
+      const title = document.createElement('h3');
+      title.className = 'mission-title';
+      title.textContent = mission.title || defaultMissionTitle;
+
+      const desc = document.createElement('p');
+      desc.className = 'mission-desc';
+      desc.textContent = mission.description || defaultMissionDescription;
+
+      const cta = document.createElement('a');
+      cta.className = 'btn-action';
+      const safeHref = safeMissionLink(mission.link);
+      cta.href = safeHref;
+      cta.textContent = mission.buttonText || defaultMissionButtonText;
+
+      item.append(meta, title, desc, cta);
+      container.appendChild(item);
+    }
+
     async function loadMissions() {
       const container = document.getElementById('mission-container');
       try {
         const response = await fetch('missions.json');
         const missions = await response.json();
-        
-        container.innerHTML = missions.map(m => `
-          <div class="mission-item">
-            <div class="mission-meta">
-              <span class="mission-id">// ${m.id}</span>
-              <span class="mission-tag">REWARD: ${m.reward}</span>
-            </div>
-            <h3 class="mission-title">${m.title}</h3>
-            <p class="mission-desc">${m.description}</p>
-            <a href="${m.link}" class="btn-action">${m.buttonText}</a>
-          </div>
-        `).join('');
+        container.innerHTML = '';
+        (Array.isArray(missions) ? missions : []).forEach((mission) => {
+          if (isValidMissionObject(mission)) {
+            renderMission(container, mission);
+          }
+        });
       } catch (err) {
         console.error('Failed to load missions:', err);
-        container.innerHTML = '<p style="color: red; font-family: monospace;">ERROR: FAILED_TO_LOAD_MISSION_DATA</p>';
+        container.replaceChildren();
+        const errorMessage = document.createElement('p');
+        errorMessage.style.color = 'red';
+        errorMessage.style.fontFamily = 'monospace';
+        errorMessage.textContent = 'ERROR: FAILED_TO_LOAD_MISSION_DATA';
+        container.appendChild(errorMessage);
       }
     }
 
     document.addEventListener('DOMContentLoaded', loadMissions);
+    document.querySelectorAll('.yr').forEach(function(el) { el.textContent = new Date().getFullYear(); });
   </script>
 </body>
 </html>

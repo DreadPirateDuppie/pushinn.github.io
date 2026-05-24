@@ -3,135 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Pushinn Pro — The Ultimate Skateboarding Social Network. Map spots. Battle peers. Earn reputation." />
-
-  <!-- Open Graph -->
+  <meta name="description" content="Capture the Borough. Own the Streets. PushInn is the municipal battle engine for action sports." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pushinn.app/" />
-  <meta property="og:title" content="Pushinn Pro | The Underground Skate Network" />
-  <meta property="og:description" content="Find secret spots. Battle the crew. Get scouted. The professional tool for the London skate scene." />
+  <meta property="og:title" content="PushInn | Capture the Borough" />
+  <meta property="og:description" content="Discover spots, challenge riders, and turn your solo sessions into a territorial takeover." />
   <meta property="og:image" content="https://pushinn.app/og-image.png" />
-  <meta property="og:site_name" content="Pushinn Pro" />
+  <meta property="og:site_name" content="PushInn" />
+  <title>PushInn – Capture the Borough</title>
 
-  <meta name="theme-color" content="#000000" />
   <link rel="icon" type="image/png" href="favicon.png">
-  <title>Pushinn Pro | Find Spots. Battle Crew. Get Scouted.</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --green:      #00FF41;
-      --dark-green: #008F11;
-      --black:      #000000;
-      --surface:    #0A0A0A;
-      --text:       #E0E0E0;
-      --dim:        #888888;
-      --border:     rgba(0, 255, 65, 0.15);
-      --font:       'Inter', sans-serif;
-      --font-display:'Outfit', sans-serif;
-      --glow:       0 0 15px rgba(0, 255, 65, 0.3);
-      --glow-strong:0 0 30px rgba(0, 255, 65, 0.6);
-      --max-w:      1200px;
+      --green: #00FF41;
+      --dark-green: #39D353;
+      --black: #000000;
+      --surface: #0A0A0A;
+      --text: #E0E0E0;
+      --dim: #8A8A8A;
+      --border: rgba(0, 255, 65, 0.15);
+      --font: 'Inter', sans-serif;
+      --font-display: 'Outfit', sans-serif;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
       font-family: var(--font);
-      background: var(--black);
+      background:
+        radial-gradient(circle at top, rgba(0,255,65,0.08), transparent 35%),
+        linear-gradient(180deg, #030303 0%, #000 100%);
       color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
+      line-height: 1.7;
       min-height: 100vh;
     }
 
-    a { color: inherit; text-decoration: none; transition: color .3s; }
+    a { color: inherit; text-decoration: none; }
 
-    /* ── Background Overlays ── */
-    #matrix-canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-      pointer-events: none;
-      opacity: .01;
-    }
-
-    #data-canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 1;
-      pointer-events: none;
-      opacity: .2;
-    }
-
-    #scanline-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 5;
-      pointer-events: none;
-      background: repeating-linear-gradient(
-        to bottom,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,.1) 2px,
-        rgba(0,0,0,.1) 4px
-      );
-    }
-
-    #grain-canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 6;
-      pointer-events: none;
-      opacity: .2;
-    }
-
-    /* ── CRT Startup ── */
-    #crt-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: crt-fade 0.5s ease-out 1.3s forwards;
-    }
-
-    #crt-line {
-      width: 100%;
-      height: 2px;
-      background: #fff;
-      box-shadow: 0 0 30px 8px rgba(255,255,255,.9);
-      animation: crt-expand 1s cubic-bezier(.16,1,.3,1) 0.2s forwards;
-    }
-
-    @keyframes crt-expand {
-      0%   { height: 2px; opacity: 1; }
-      50%  { height: 60vh; opacity: 1; }
-      100% { height: 100vh; opacity: 1; }
-    }
-
-    @keyframes crt-fade {
-      100% { opacity: 0; pointer-events: none; }
-    }
-
-    /* ── Navbar ── */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
+      position: sticky;
+      top: 0;
       z-index: 100;
       border-bottom: 1px solid var(--border);
-      background: rgba(0,0,0,.96);
+      background: rgba(0, 0, 0, 0.94);
       backdrop-filter: blur(15px);
     }
 
@@ -143,382 +63,334 @@
       right: 10%;
       height: 1px;
       background: linear-gradient(to right, transparent, var(--green), #fff, var(--green), transparent);
-      box-shadow: 0 0 15px 1px var(--green), 0 0 30px 2px rgba(0,255,65,0.4);
+      box-shadow: 0 0 15px 1px var(--green), 0 0 30px 2px rgba(0,255,65,0.35);
       opacity: 0.8;
     }
 
     .nav-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1.5rem 0 1.25rem;
+      width: min(1100px, calc(100% - 3rem));
+      margin-inline: auto;
+      padding: 1.5rem 0 1rem;
+      display: grid;
       gap: 1rem;
+    }
+
+    .nav-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .nav-logo {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: 3rem;
+      font-size: 1.15rem;
       color: var(--green);
-      letter-spacing: .4em;
-      text-shadow: var(--glow);
+      letter-spacing: .28em;
+      text-transform: uppercase;
     }
 
     .nav-links {
       display: flex;
-      gap: 2.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem 1.5rem;
       list-style: none;
       font-family: monospace;
       font-size: .65rem;
-      letter-spacing: .25em;
+      letter-spacing: .22em;
       color: var(--dark-green);
     }
 
-    @media (max-width: 600px) {
-      .nav-links { gap: 1rem; font-size: .6rem; flex-wrap: wrap; justify-content: center; }
+    .nav-links a {
+      color: var(--dark-green);
+      transition: color .2s, text-shadow .2s;
     }
 
-    .nav-links a:hover { color: var(--green); text-shadow: var(--glow); }
-
-    /* ── Hero (Centered Vertical) ── */
-    #hero {
-      position: relative;
-      z-index: 10;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--green);
+      text-shadow: 0 0 12px rgba(0,255,65,0.35);
+      outline: none;
     }
 
-    h1 {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: clamp(3.5rem, 15vw, 11rem);
-      line-height: .85;
-      letter-spacing: -.06em;
-      color: #fff;
-      margin-bottom: 2.5rem;
+    main {
+      width: min(1100px, calc(100% - 3rem));
+      margin-inline: auto;
+      padding: 4rem 0 6rem;
+    }
+
+    .hero {
+      padding: 3rem 0 4rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-badge,
+    .section-id {
+      display: inline-block;
+      font-family: monospace;
+      font-size: .72rem;
+      color: var(--dark-green);
+      letter-spacing: .24em;
       text-transform: uppercase;
     }
 
-    .hero-sub {
-      font-family: monospace;
-      font-size: clamp(.85rem, 2vw, 1.1rem);
-      color: var(--dark-green);
-      max-width: 700px;
-      margin-bottom: 4rem;
-      letter-spacing: .05em;
-      line-height: 1.5;
-      margin-inline: auto;
-      text-align: center;
+    .hero-badge {
+      border: 1px solid var(--border);
+      padding: .45rem .9rem;
+      margin-bottom: 1.5rem;
+      background: rgba(0,255,65,0.04);
     }
 
-    /* ── Hero Beta Form ── */
-    .hero-form {
+    .hero h1 {
+      max-width: 780px;
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 7vw, 5.8rem);
+      line-height: .98;
+      letter-spacing: -.04em;
+      color: #fff;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-subheadline {
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      color: var(--green);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .hero-description {
+      max-width: 720px;
+      font-size: 1.08rem;
+      color: #c1c1c1;
+      margin-bottom: 2rem;
+    }
+
+    .hero-actions {
       display: flex;
+      flex-wrap: wrap;
+      gap: .9rem;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
       justify-content: center;
-      width: 100%;
-      max-width: 540px;
+      min-height: 48px;
+      padding: .85rem 1.25rem;
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.02);
+      font-family: monospace;
+      font-size: .76rem;
+      letter-spacing: .16em;
+      color: var(--green);
+      text-transform: uppercase;
+      transition: transform .2s, border-color .2s, background .2s, color .2s;
     }
 
-    .hero-input {
-      flex: 1;
-      padding: 1.5rem;
-      background: transparent;
-      border: none;
-      color: #fff;
-      font-family: monospace;
+    .cta:hover,
+    .cta:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(0,255,65,0.45);
+      background: rgba(0,255,65,0.08);
       outline: none;
-      font-size: .9rem;
     }
 
-    .btn-action {
-      padding: 0 3rem;
+    .cta-primary {
       background: var(--green);
-      color: #000;
-      font-family: monospace;
-      font-weight: 900;
-      font-size: .8rem;
-      letter-spacing: .15em;
-      transition: all .3s;
-      cursor: pointer;
-      border: none;
-    }
-    .btn-action:hover { background: #fff; box-shadow: var(--glow-strong); }
-
-    @media (max-width: 600px) {
-      .hero-form { flex-direction: column; border: none; gap: 1rem; background: transparent; }
-      .hero-input { background: #080808; border: 1px solid var(--border); }
-      .btn-action { padding-block: 1.25rem; }
-    }
-
-    /* ── Sections ── */
-    section {
-      position: relative;
-      z-index: 10;
-      padding-block: 25rem; /* Desktop Oxygen */
-      border-top: 1px solid var(--border);
-    }
-
-    @media (max-width: 768px) {
-      section { padding-block: 15rem; }
-    }
-
-    section::after {
-      content: '';
-      position: absolute;
-      top: 0; bottom: 0;
-      left: 50%;
-      width: 1px;
-      background: linear-gradient(to bottom, transparent, var(--border), transparent);
-      z-index: -1;
-    }
-
-    .container {
-      width: 100%;
-      max-width: var(--max-w);
-      margin-inline: auto;
-      padding-inline: 2rem;
-    }
-
-    .section-label {
-      font-family: monospace;
-      font-size: .8rem;
-      letter-spacing: .6em;
-      color: var(--green);
-      margin-bottom: 3rem;
-      display: block;
-      text-align: center;
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: clamp(3rem, 7vw, 6rem);
-      text-align: center;
-      color: #fff;
-      margin-bottom: 12rem;
-      letter-spacing: -.04em;
-    }
-
-    /* ── Protocol Grid ── */
-    .protocol-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-    }
-
-    @media (max-width: 900px) { .protocol-grid { grid-template-columns: 1fr; gap: 8rem; } }
-
-    .protocol-node {
-      background: rgba(0,0,0, 0.6);
-      border: 1px solid var(--border);
-      padding: 5rem 4rem;
-      position: relative;
-      transition: all .4s cubic-bezier(.4,0,.2,1);
-      overflow: hidden;
-      backdrop-filter: blur(5px);
-    }
-
-    .protocol-node:hover {
+      color: var(--black);
       border-color: var(--green);
-      background: rgba(0,255,65, 0.05);
-      transform: translateY(-10px);
-      box-shadow: 0 0 50px rgba(0,255,65,.1);
+      font-weight: 700;
     }
 
-    .node-header { display: flex; justify-content: space-between; margin-bottom: 4rem; }
-    .node-ascii { font-family: monospace; font-size: .6rem; color: var(--dark-green); white-space: pre; }
-    .node-id { font-family: monospace; font-size: .75rem; color: var(--green); opacity: .5; }
+    .cta-primary:hover,
+    .cta-primary:focus-visible {
+      background: #5eff84;
+      border-color: #5eff84;
+    }
 
-    .protocol-node h3 { font-family: var(--font-display); font-weight: 800; font-size: 2.25rem; color: #fff; margin-bottom: 2rem; letter-spacing: -.02em;}
-    .protocol-node p { font-family: monospace; font-size: 1.05rem; color: var(--dim); line-height: 1.8; }
+    .systems {
+      padding-top: 4rem;
+    }
 
-    .node-bar-container { margin-top: 4rem; height: 2px; background: rgba(0,255,65,.1); width: 100%; position: relative; }
-    .node-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--green); width: 0%; transition: width 1.5s ease-out; }
+    .systems-header {
+      max-width: 720px;
+      margin-bottom: 2rem;
+    }
 
-    /* ── Info Split ── */
-    .info-split { display: grid; grid-template-columns: 1fr 1fr; gap: 10rem; align-items: center; }
-    @media (max-width: 900px) { .info-split { grid-template-columns: 1fr; text-align: center; gap: 6rem; } }
+    .systems-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: #fff;
+      line-height: 1.05;
+      margin: .9rem 0 1rem;
+    }
 
-    /* ── Buttons (General) ── */
-    .btn-secondary {
-      display: inline-block;
-      padding: 1.5rem 5rem;
-      border: 1px solid var(--green);
+    .systems-header p {
+      color: #b7b7b7;
+      font-size: 1.02rem;
+    }
+
+    .systems-grid {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .system-card {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(0,255,65,0.05), rgba(255,255,255,0.01));
+      padding: 1.6rem;
+    }
+
+    .system-card h3 {
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 3vw, 1.8rem);
+      color: #fff;
+      margin: .45rem 0 .9rem;
+    }
+
+    .system-number {
+      font-family: monospace;
+      font-size: .78rem;
+      letter-spacing: .2em;
+      color: var(--green);
+    }
+
+    .system-card p {
+      color: #c6c6c6;
+      font-size: 1rem;
+    }
+
+    footer {
+      width: min(1100px, calc(100% - 3rem));
+      margin: 0 auto;
+      padding: 0 0 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+    }
+
+    .footer-tagline {
       color: var(--green);
       font-family: monospace;
-      font-weight: 900;
-      letter-spacing: .2em;
-      transition: background .3s;
+      font-size: .74rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
     }
-    .btn-secondary:hover { background: rgba(0,255,65,.1); }
 
-    .btn-main {
-      display: inline-block;
-      padding: 1.5rem 6rem;
-      background: var(--green);
-      color: #000;
+    .footer-meta {
+      color: var(--dim);
       font-family: monospace;
-      font-weight: 900;
-      font-size: .95rem;
-      letter-spacing: .3em;
-      transition: all .3s;
+      font-size: .68rem;
+      letter-spacing: .12em;
     }
-    .btn-main:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(0,255,65,.5); }
 
-    /* ── Bottom Stats ── */
-    #bottom-stats {
-      position: relative;
-      z-index: 10;
-      padding-block: 10rem;
-      border-top: 1px solid var(--border);
-      background: var(--surface);
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem 1.25rem;
+      font-family: monospace;
+      font-size: .68rem;
+      letter-spacing: .14em;
+      color: var(--dark-green);
     }
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4rem; width: 100%; max-width: 1100px; margin-inline: auto; }
-    @media (max-width: 800px) { .stats-grid { grid-template-columns: 1fr 1fr; gap: 2rem; } }
-    .stat-num { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.5rem, 4vw, 2.2rem); color: var(--green); text-align: center; }
-    .stat-label { font-family: monospace; font-size: .55rem; letter-spacing: .2em; color: var(--dark-green); text-transform: uppercase; margin-top: .4rem; opacity: .7; text-align: center; }
 
-    /* ── Footer ── */
-    footer { padding-block: 15rem 8rem; border-top: 1px solid var(--border); }
-    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8rem; margin-bottom: 12rem; align-items: start; }
-    .footer-brand h2 { font-family: var(--font-display); font-weight: 900; color: var(--green); font-size: 3rem; margin-bottom: 2rem; }
-    .footer-brand p { font-family: monospace; font-size: .95rem; color: var(--dark-green); line-height: 1.8; max-width: 400px; }
-    .footer-col h4 { font-family: monospace; font-size: .7rem; color: #fff; margin-bottom: 2rem; letter-spacing: .3em; }
-    .footer-col ul { list-style: none; display: grid; gap: 1rem; }
-    .footer-col a { font-family: monospace; font-size: .75rem; color: var(--dark-green); transition: color .3s; }
-    .footer-col a:hover { color: var(--green); }
+    .footer-links a {
+      color: var(--dark-green);
+      transition: color .2s, text-shadow .2s;
+    }
 
-    /* ── Reveal ── */
-    .reveal { opacity: 0; transform: translateY(80px); transition: all 1.2s cubic-bezier(.4,0,.2,1); }
-    .reveal.active { opacity: 1; transform: translateY(0); }
+    .footer-links a:hover,
+    .footer-links a:focus-visible {
+      color: var(--green);
+      text-shadow: 0 0 12px rgba(0,255,65,0.35);
+      outline: none;
+    }
 
-    /* ── Scroll Progress Line ── */
-    #progress-track { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 200; pointer-events: none; }
-    #progress-bar { position: absolute; top: 0; left: 0; height: 100%; background: var(--green); box-shadow: var(--glow); transition: width .1s linear; width: 0%; }
+    @media (max-width: 720px) {
+      main { padding-top: 3rem; }
+      .hero { padding-top: 2rem; }
+      .hero-actions { flex-direction: column; }
+      .cta { width: 100%; }
+    }
   </style>
 </head>
 <body>
 
-  <div id="crt-overlay" aria-hidden="true"><div id="crt-line"></div></div>
-  <div id="progress-track" aria-hidden="true">
-    <div id="progress-bar"></div>
-  </div>
-
-  <canvas id="matrix-canvas"></canvas>
-  <canvas id="data-canvas"></canvas>
-  <div id="scanline-overlay"></div>
-  <canvas id="grain-canvas"></canvas>
-
-  <nav id="main-nav">
+  <nav>
     <div class="nav-inner">
-      <a href="#hero" class="nav-logo">PUSHINN</a>
+      <div class="nav-top">
+        <a href="index.html" class="nav-logo">PUSHINN</a>
+      </div>
       <ul class="nav-links">
-        <li><a href="#features">FEATURES</a></li>
-        <li><a href="bounties.html">COMMUNITY</a></li>
+        <li><a href="#features">EXPLORE_MAP</a></li>
+        <li><a href="bounties.html">START_BATTLE</a></li>
+        <li><a href="partners.html">SPONSOR_ME</a></li>
         <li><a href="contact.html">CONTACT</a></li>
-        <li><a href="#hero">BETA</a></li>
-        <li><a href="privacy.html">PRIVACY</a></li>
+        <li><a href="beta.html">BETA</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- ── Hero ── -->
-  <section id="hero">
-    <div class="reveal active">
-      <h1>PUSHINN PRO</h1>
-      <p class="hero-sub">Find secret spots, battle the crew, and get scouted.<br>The professional urban sports network.</p>
-      
-      <form class="hero-form" action="https://formspree.io/f/xoqgylje" method="POST" style="margin-inline: auto;">
-        <input type="hidden" name="_next" value="https://pushinn.app/thank-you.html">
-        <input class="hero-input" type="email" name="email" placeholder="ENTER_EMAIL_FOR_ACCESS" required>
-        <button type="submit" class="btn-action">TRANSMIT</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- ── Features ── -->
-  <section id="features">
-    <div class="container">
-      <p class="section-label">HOW IT WORKS</p>
-      <h2 class="section-title">Everything you need to own the city.</h2>
-      <div class="protocol-grid">
-        <div class="protocol-node reveal">
-          <div class="node-header"><div class="node-ascii">   ______\n  / ____/\n / / __  \n/ /_/ /  \n\____/</div><div class="node-id">01</div></div>
-          <h3>Live Spot Intel</h3>
-          <p>Real-time community mapping. Live status reporting on pavement quality, crowd density, and security heat.</p>
-          <div class="node-bar-container"><div class="node-bar-fill"></div></div>
-        </div>
-        <div class="protocol-node reveal">
-          <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">02</div></div>
-          <h3>Skill-Based Battles</h3>
-          <p>Challenge anyone, anywhere. Record your clips, upload them to the ledger, and let the community decide the winner.</p>
-          <div class="node-bar-container"><div class="node-bar-fill"></div></div>
-        </div>
-        <div class="protocol-node reveal">
-          <div class="node-header"><div class="node-ascii">    ____ \n   / __ \\\n  / /_/ /\n / ____/ \n/_/</div><div class="node-id">03</div></div>
-          <h3>Secret Spot Sharing</h3>
-          <p>Gatekeep your best finds. Share coordinates only with your verified crew members to keep your secret spots secret.</p>
-          <div class="node-bar-container"><div class="node-bar-fill"></div></div>
-        </div>
-        <div class="protocol-node reveal">
-          <div class="node-header"><div class="node-ascii">  _______ \n /_  __(_).\n  / / / / \n / / / /  \n/_/ /_/</div><div class="node-id">04</div></div>
-          <h3>Talent Scouting</h3>
-          <p>Build an objective Triple-Score rating that brands and shops use to scout and license the next wave of talent.</p>
-          <div class="node-bar-container"><div class="node-bar-fill"></div></div>
-        </div>
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-badge">Municipal Battle Engine // Live</div>
+      <h1 id="hero-title">Capture the Borough. Own the Streets.</h1>
+      <p class="hero-subheadline">The municipal battle engine for action sports.</p>
+      <p class="hero-description">Discover spots, challenge riders, and turn your solo sessions into a territorial takeover.</p>
+      <div class="hero-actions">
+        <a class="cta cta-primary" href="beta.html">REQUEST ACCESS</a>
+        <a class="cta" href="bounties.html">START BATTLE</a>
+        <a class="cta" href="partners.html">SPONSOR ME</a>
+        <a class="cta" href="#features">EXPLORE MAP</a>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="missions">
-    <div class="container">
-      <div class="info-split">
-        <div class="reveal">
-          <p class="section-label" style="text-align: left;">COMMUNITY</p>
-          <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Build the Network</h2>
-          <p style="color: #888; font-size: 1.1rem; margin-bottom: 4rem; max-width: 450px;">Map the city, earn your rank. Active contributors will gain premium accounts as thanks for building the network.</p>
-
-          <a href="bounties.html" class="btn-secondary">VIEW_MISSIONS</a>
-        </div>
-        <div class="reveal" style="border: 1px solid var(--border); padding: 5rem; background: rgba(0,255,65,0.02);">
-          <div style="font-family: monospace; color: var(--green); margin-bottom: 2rem;">LIVE_FEED</div>
-          <div style="font-family: monospace; font-size: .85rem; color: var(--dim); line-height: 2.5;">> [01]: SPOT_SEARCHER<br>> [02]: BATTLE_JUDGE<br>> [03]: GATEKEEPER</div>
-        </div>
+    <section class="systems" id="features" aria-labelledby="systems-title">
+      <div class="systems-header">
+        <span class="section-id">Core Systems</span>
+        <h2 id="systems-title">Territorial playbooks for the street-level network.</h2>
+        <p>PushInn turns local sessions into a live municipal control layer built on battle logic, geospatial intelligence, and a permanent street archive.</p>
       </div>
-    </div>
-  </section>
 
-  <section id="support">
-    <div class="container" style="text-align: center;">
-      <div class="reveal">
-        <p class="section-label">SUPPORT</p>
-        <h2 class="section-title">Get in Touch</h2>
-        <p style="color: #888; font-size: 1.1rem; margin-bottom: 5rem; max-width: 600px; margin-inline: auto;">Whether you've found a bug or have a proposal for the network, our direct line is open.</p>
-        <a href="contact.html" class="btn-main">CONTACT US</a>
-      </div>
-    </div>
-  </section>
+      <div class="systems-grid">
+        <article class="system-card">
+          <div class="system-number">01</div>
+          <h3>The Borough Battle Engine</h3>
+          <p>Stop chasing follower counts. Challenge local riders to timed trick battles and S.K.A.T.E. matchups. Every skate clip you upload and every battle you win contributes to your crew’s dominance over legally recognized municipal boundaries like Camden or Southwark. Capture the borough and stamp the map with your crew's colors.</p>
+        </article>
 
-  <!-- ── Bottom Stats Section ── -->
-  <section id="bottom-stats">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat-item"><div class="stat-num" id="stat-spots" data-target="0">0</div><div class="stat-label">Spots Mapped</div></div>
-        <div class="stat-item"><div class="stat-num" id="stat-skaters" data-target="0">0</div><div class="stat-label">Beta Skaters</div></div>
-        <div class="stat-item"><div class="stat-num" id="stat-battles" data-target="0">0</div><div class="stat-label">Battles Played</div></div>
-        <div class="stat-item"><div class="stat-num" id="stat-cities" data-target="0">0</div><div class="stat-label">Cities Mapped</div></div>
+        <article class="system-card">
+          <div class="system-number">02</div>
+          <h3>Geospatial Intelligence</h3>
+          <p>Explore a live map powered by real-time environmental logging. Beyond just spot locations, get active intelligence on pavement quality, lingering rain, and active security patrols. Log spot status to earn XP and keep the local scene one step ahead of the heat.</p>
+        </article>
+
+        <article class="system-card">
+          <div class="system-number">03</div>
+          <h3>The Solo Destabilizer</h3>
+          <p>Operate as an independent ghost. Even without a crew, your anonymous skate clips carry structural weight. High solo activity "destabilizes" rival territories, fading their color opacity on the map and signaling to the city that their neighborhood is ready for a takeover.</p>
+        </article>
+
+        <article class="system-card">
+          <div class="system-number">04</div>
+          <h3>The Grind Archive</h3>
+          <p>Every spot has a history; now it has an immutable ledger. PushInn functions as a community-driven archive, cataloging every battle and skate clip ever recorded at a map node. Whether a spot has ten years of legacy or just surfaced last week, new riders can pull up and instantly see the tricks that went down before them, preserving the heritage of the streets for the next generation.</p>
+        </article>
+
+        <article class="system-card">
+          <div class="system-number">05</div>
+          <h3>The Scouting Dashboard</h3>
+          <p>Your activity heatmap and battle stats build a dynamic player card. Verified brands and local shops use the backend dashboard to scout raw street talent, issue gear stipends, and recruit riders directly based on objective skill and territorial dominance.</p>
+        </article>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <footer>
+<<<<<<< HEAD
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand"><h2>PUSHINN</h2><p>The professional social layer for London's urban skateboarding subculture.</p></div>
@@ -530,101 +402,23 @@
         <span style="font-family: monospace; font-size: .65rem; color: var(--dark-green);">&copy; <script>document.write(new Date().getFullYear())</script> PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
         <div style="display: flex; gap: 3rem; font-family: monospace; font-size: .65rem; color: var(--dark-green);"><span>STATUS: [HIRING]</span><span>UP-LINK: [STABLE]</span></div>
       </div>
+=======
+    <div class="footer-tagline">The municipal battle engine and geospatial intelligence network for the street.</div>
+    <div class="footer-meta">&copy; <span class="yr"></span> PUSHINN</div>
+    <div class="footer-links">
+      <a href="index.html">HOME</a>
+      <a href="#features">FEATURES</a>
+      <a href="bounties.html">MISSIONS</a>
+      <a href="contact.html">CONTACT</a>
+      <a href="beta.html">BETA</a>
+      <a href="privacy.html">PRIVACY</a>
+      <a href="terms.html">TERMS</a>
+      <a href="partners.html">PARTNERS</a>
+      <a href="help.html">HELP</a>
+>>>>>>> 291a6e4eb959721dc41729a4a60ae060dc2204df
     </div>
   </footer>
 
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          const bars = entry.target.querySelectorAll('.node-bar-fill');
-          bars.forEach(bar => { bar.style.width = (Math.random() * 30 + 65) + '%'; });
-        }
-      });
-    }, { threshold: 0.15 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    const statsObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const target = parseInt(el.getAttribute('data-target')) || 0;
-          let iterations = 0;
-          const maxIterations = 50; 
-          const interval = setInterval(() => {
-            el.textContent = Math.floor(Math.random() * 999);
-            iterations++;
-            if (iterations >= maxIterations) {
-              clearInterval(interval);
-              if (target === 0) {
-                el.textContent = "COMING SOON";
-                el.style.fontSize = "clamp(.7rem, 1.5vw, 1rem)";
-                el.style.color = "var(--dim)";
-              } else {
-                el.textContent = target;
-                el.style.fontSize = "";
-                el.style.color = "var(--green)";
-              }
-            }
-          }, 60);
-          statsObserver.unobserve(el);
-        }
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.stat-num').forEach(el => statsObserver.observe(el));
-
-    const dataCanvas = document.getElementById('data-canvas');
-    const dctx = dataCanvas.getContext('2d');
-    let dataPoints = [];
-    function initData() {
-      dataCanvas.width = window.innerWidth; dataCanvas.height = window.innerHeight;
-      dataPoints = [];
-      for(let i=0; i<30; i++) {
-        dataPoints.push({ x: Math.random() * dataCanvas.width, y: Math.random() * dataCanvas.height, val: Math.random().toString(16).slice(2, 8).toUpperCase(), speed: 0.5 + Math.random() * 1.5 });
-      }
-    }
-    function drawData() {
-      dctx.clearRect(0,0,dataCanvas.width, dataCanvas.height); dctx.fillStyle = 'rgba(0, 255, 65, 0.3)'; dctx.font = '10px monospace';
-      dataPoints.forEach(p => { dctx.fillText(p.val, p.x, p.y); p.y += p.speed; if(p.y > dataCanvas.height) p.y = -20; });
-      requestAnimationFrame(drawData);
-    }
-    initData(); window.addEventListener('resize', initData); drawData();
-
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-    let cols, drops;
-    function resize() {
-      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-      cols = Math.floor(canvas.width / 24); drops = Array(cols).fill(1);
-    }
-    function draw() {
-      ctx.fillStyle = 'rgba(0,0,0,.08)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#00FF41'; ctx.font = '14px monospace';
-      drops.forEach((y, i) => {
-        const text = String.fromCharCode(0x30A0 + Math.random() * 96);
-        ctx.fillText(text, i * 24, y * 24); if (y * 24 > canvas.height && Math.random() > .975) drops[i] = 0; drops[i]++;
-      });
-    }
-    resize(); window.addEventListener('resize', resize); setInterval(draw, 90);
-
-    const grainCanvas = document.getElementById('grain-canvas');
-    const gctx = grainCanvas.getContext('2d');
-    function resizeGrain() { grainCanvas.width = window.innerWidth; grainCanvas.height = window.innerHeight; }
-    function renderGrain() {
-      gctx.clearRect(0,0,grainCanvas.width,grainCanvas.height);
-      for(let i=0; i<800; i++){
-        let x = Math.random() * grainCanvas.width; let y = Math.random() * grainCanvas.height;
-        gctx.fillStyle = `rgba(255,255,255,${Math.random() * .06})`; gctx.fillRect(x,y,1,1);
-      }
-    }
-    resizeGrain(); window.addEventListener('resize', resizeGrain); setInterval(renderGrain, 60);
-
-    window.addEventListener('scroll', () => {
-      const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      const bar = document.getElementById('progress-bar');
-      if (bar) bar.style.width = scrolled + '%';
-    });
-  </script>
+  <script>document.querySelectorAll(".yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>
