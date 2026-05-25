@@ -250,3 +250,78 @@ footer {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Background Grid Animation */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 200%; height: 200%;
+  background-image: 
+    linear-gradient(var(--glass-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
+  background-size: 50px 50px;
+  z-index: -1;
+  animation: gridMove 60s linear infinite;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-50px, -50px); }
+}
+
+/* Hover Glitch Effect */
+.card:hover, .btn-main:hover {
+  animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+  border-color: var(--accent);
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); text-shadow: none; }
+  20% { transform: translate(-2px, 2px); text-shadow: 2px 0 var(--error), -2px 0 var(--accent); }
+  40% { transform: translate(-2px, -2px); text-shadow: -2px 0 var(--error), 2px 0 var(--accent); }
+  60% { transform: translate(2px, 2px); text-shadow: 2px 0 var(--error), -2px 0 var(--accent); }
+  80% { transform: translate(2px, -2px); text-shadow: -2px 0 var(--error), 2px 0 var(--accent); }
+  100% { transform: translate(0); }
+}
+
+/* Pulsating Status */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 255, 157, 0.1);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.65rem;
+  font-family: monospace;
+  font-weight: 800;
+}
+
+.status-dot {
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.4); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Typewriter Cursor */
+.typewriter-cursor {
+  border-right: 3px solid var(--accent);
+  animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
