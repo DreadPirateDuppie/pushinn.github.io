@@ -29,7 +29,7 @@
   <main>
     <section class="hero">
       <div class="container reveal">
-        <h1 id="hero-title"></h1>
+        <h1>Capture the Borough.<br/>Own the Streets.</h1>
         <p>The municipal battle engine for action sports. Discover spots, challenge riders, and turn your solo sessions into a territorial takeover.</p>
         <div class="hero-actions">
           <a href="beta-onboarding.html" class="btn-main">JOIN_BETA</a>
@@ -122,11 +122,8 @@
       </div>
       <div class="footer-bottom">
         <span>&copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
-        <div style="display: flex; gap: 2rem; align-items: center;">
-          <div class="status-pill">
-            <div class="status-dot"></div>
-            STATUS: [ACTIVE]
-          </div>
+        <div style="display: flex; gap: 2rem;">
+          <span>STATUS: [ACTIVE]</span>
           <span>UP-LINK: [STABLE]</span>
           <span>CONTACT: admin@pushinn.app</span>
         </div>
@@ -135,33 +132,11 @@
   </footer>
 
   <script>
-    // Typewriter Effect
-    const title = "Capture the Borough.\nOwn the Streets.";
-    const target = document.getElementById('hero-title');
-    let i = 0;
-
-    function typeWriter() {
-      if (i < title.length) {
-        if (title.charAt(i) === '\n') {
-          target.innerHTML += '<br/>';
-        } else {
-          target.innerHTML += title.charAt(i);
-        }
-        i++;
-        setTimeout(typeWriter, 50);
-      } else {
-        target.innerHTML += '<span class="typewriter-cursor"></span>';
-      }
-    }
-
-    // Scroll Reveal
+    // Simple reveal animation on scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active');
-          if (entry.target.querySelector('#hero-title')) {
-             setTimeout(typeWriter, 500);
-          }
         }
       });
     }, { threshold: 0.1 });
