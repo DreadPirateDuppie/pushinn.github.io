@@ -1,147 +1,226 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pushinn Pro | Municipal Battle Engine</title>
-  <meta name="description" content="Capture the Borough. Own the Streets. The ultimate social platform for skateboarders and BMX riders." />
+  <meta name="description" content="Capture the Borough. Own the Streets. The ultimate social platform for skateboarders and BMX riders.">
   
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            matrix: '#00FF41',
+            obsidian: '#0A0A0A',
+            surface: '#111111',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #000; color: #fff; }
+    .matrix-border { border: 1px solid rgba(0, 255, 65, 0.2); }
+    .matrix-hover:hover { border-color: rgba(0, 255, 65, 0.8); box-shadow: 0 0 15px rgba(0, 255, 65, 0.15); transform: translateY(-2px); }
+    .typewriter-cursor { border-right: 2px solid #00FF41; animation: blink 0.75s step-end infinite; }
+    @keyframes blink { 50% { border-color: transparent; } }
+  </style>
 </head>
-<body>
+<body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
 
-  <nav>
-    <div class="container nav-inner">
-      <a href="index.html" class="nav-logo">PUSHINN</a>
-      <ul class="nav-links">
-        <li><a href="missions.html">MISSIONS</a></li>
-        <li><a href="business.html">BUSINESS</a></li>
-        <li><a href="resources.html">RESOURCES</a></li>
-        <li><a href="support.html">SUPPORT</a></li>
-      </ul>
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <div class="flex-shrink-0">
+          <a href="index.html" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
+        </div>
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-baseline space-x-8">
+            <a href="missions.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">MISSIONS</a>
+            <a href="business.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">BUSINESS</a>
+            <a href="resources.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">RESOURCES</a>
+            <a href="support.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
 
-  <main>
-    <section class="hero">
-      <div class="container reveal">
-        <h1>Capture the Borough.<br/>Own the Streets.</h1>
-        <p>The municipal battle engine for action sports. Discover spots, challenge riders, and turn your solo sessions into a territorial takeover.</p>
-        <div class="hero-actions">
-          <a href="beta-onboarding.html" class="btn-main">JOIN_BETA</a>
-        </div>
+  <!-- HERO -->
+  <main class="flex-grow">
+    <section class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 flex flex-col items-center justify-center text-center min-h-[70vh]">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full matrix-border bg-obsidian mb-8">
+        <span class="w-2 h-2 rounded-full bg-matrix animate-pulse"></span>
+        <span class="font-mono text-xs text-matrix tracking-widest uppercase">System Online</span>
+      </div>
+      
+      <h1 class="font-mono font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight text-white mb-8 min-h-[120px] md:min-h-[160px] flex flex-col justify-center">
+        <span id="hero-line1"></span>
+        <span id="hero-line2"></span>
+      </h1>
+      
+      <p class="mt-4 max-w-2xl text-lg sm:text-xl text-gray-400 font-sans mb-12">
+        The municipal battle engine for action sports. Discover spots, challenge riders, and turn your solo sessions into a territorial takeover.
+      </p>
+      
+      <div class="mt-8 flex justify-center gap-4">
+        <a href="beta-onboarding.html" class="bg-matrix text-black font-mono font-bold text-sm tracking-widest uppercase px-8 py-4 rounded hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)]">
+          Join_Beta
+        </a>
       </div>
     </section>
 
-    <section id="features">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-label">CORE SYSTEMS</span>
-          <h2 class="section-title">Everything you need to own the city.</h2>
+    <!-- CORE SYSTEMS -->
+    <section id="features" class="py-24 bg-obsidian matrix-border border-y border-x-0">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-16 text-center md:text-left">
+          <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-2">// Core Systems</h2>
+          <p class="font-sans text-3xl font-semibold text-white">Everything you need to own the city.</p>
         </div>
-        
-        <div class="grid">
-          <div class="card glass reveal">
-            <span class="section-label">01</span>
-            <h3>The Borough Battle Engine</h3>
-            <p>Challenge local riders to timed trick battles and S.K.A.T.E. matchups. Win battles to capture legally recognized municipal boundaries and stamp the map with your crew's colors.</p>
-          </div>
-          <div class="card glass reveal">
-            <span class="section-label">02</span>
-            <h3>Geospatial Intelligence</h3>
-            <p>Explore a live map powered by real-time environmental logging. Get active intelligence on pavement quality, lingering rain, and current spot viability.</p>
-          </div>
-          <div class="card glass reveal">
-            <span class="section-label">03</span>
-            <h3>The Solo Destabilizer</h3>
-            <p>Operate as an independent ghost. Your incognito skate clips carry structural weight, destabilizing rival territories and signaling that a neighborhood is ready for takeover.</p>
-          </div>
-          <div class="card glass reveal">
-            <span class="section-label">04</span>
-            <h3>The Grind Archive</h3>
-            <p>An immutable ledger of street history. See the tricks that went down at every map node, preserving the heritage of the streets for the next generation.</p>
-          </div>
-          <div class="card glass reveal">
-            <span class="section-label">05</span>
-            <h3>The Scouting Dashboard</h3>
-            <p>Verified brands and shops use your dynamic player card to scout talent, issue gear stipends, and recruit riders based on objective skill and territorial dominance.</p>
-          </div>
-          <div class="card glass reveal">
-            <span class="section-label">06</span>
-            <h3>Location Privacy</h3>
-            <p>Granular control over your data. Choose exactly how much location data to reveal, from full coordinates to controlled or anonymous sharing.</p>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <section id="onboarding-cta" style="background: var(--secondary);">
-      <div class="container reveal" style="text-align: center;">
-        <h2 class="section-title">Ready to transmit?</h2>
-        <p style="margin-bottom: 3rem; color: var(--text-secondary);">Secure your spot in the early access launch and start mapping your territory.</p>
-        <a href="beta-onboarding.html" class="btn-main">GET_ACCESS_TOKEN</a>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <!-- Card 1 -->
+          <div class="bg-surface matrix-border p-8 rounded-lg matrix-hover transition-all duration-300 group">
+            <div class="font-mono text-matrix text-xl mb-4 opacity-40 group-hover:opacity-100 transition-opacity">01</div>
+            <h3 class="font-mono font-bold text-xl text-white mb-3">Borough Battle Engine</h3>
+            <p class="font-sans text-gray-400 leading-relaxed text-sm">Challenge local riders to timed trick battles and S.K.A.T.E. matchups. Win battles to capture legally recognized municipal boundaries and stamp the map with your crew's colors.</p>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-surface matrix-border p-8 rounded-lg matrix-hover transition-all duration-300 group">
+            <div class="font-mono text-matrix text-xl mb-4 opacity-40 group-hover:opacity-100 transition-opacity">02</div>
+            <h3 class="font-mono font-bold text-xl text-white mb-3">Geospatial Intelligence</h3>
+            <p class="font-sans text-gray-400 leading-relaxed text-sm">Explore a live map powered by real-time environmental logging. Get active intelligence on pavement quality, lingering rain, and current spot viability.</p>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="bg-surface matrix-border p-8 rounded-lg matrix-hover transition-all duration-300 group">
+            <div class="font-mono text-matrix text-xl mb-4 opacity-40 group-hover:opacity-100 transition-opacity">03</div>
+            <h3 class="font-mono font-bold text-xl text-white mb-3">The Solo Destabilizer</h3>
+            <p class="font-sans text-gray-400 leading-relaxed text-sm">Operate as an independent ghost. Your incognito skate clips carry structural weight, destabilizing rival territories and signaling that a neighborhood is ready for takeover.</p>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="bg-surface matrix-border p-8 rounded-lg matrix-hover transition-all duration-300 group">
+            <div class="font-mono text-matrix text-xl mb-4 opacity-40 group-hover:opacity-100 transition-opacity">04</div>
+            <h3 class="font-mono font-bold text-xl text-white mb-3">The Grind Archive</h3>
+            <p class="font-sans text-gray-400 leading-relaxed text-sm">An immutable ledger of street history. See the tricks that went down at every map node, preserving the heritage of the streets for the next generation.</p>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="bg-surface matrix-border p-8 rounded-lg matrix-hover transition-all duration-300 group">
+            <div class="font-mono text-matrix text-xl mb-4 opacity-40 group-hover:opacity-100 transition-opacity">05</div>
+            <h3 class="font-mono font-bold text-xl text-white mb-3">The Scouting Dashboard</h3>
+            <p class="font-sans text-gray-400 leading-relaxed text-sm">Verified brands and shops use your dynamic player card to scout talent, issue gear stipends, and recruit riders based on objective skill and territorial dominance.</p>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="bg-surface matrix-border p-8 rounded-lg matrix-hover transition-all duration-300 group">
+            <div class="font-mono text-matrix text-xl mb-4 opacity-40 group-hover:opacity-100 transition-opacity">06</div>
+            <h3 class="font-mono font-bold text-xl text-white mb-3">Location Privacy</h3>
+            <p class="font-sans text-gray-400 leading-relaxed text-sm">Granular control over your data. Choose exactly how much location data to reveal, from full coordinates to controlled or anonymous sharing.</p>
+          </div>
+
+        </div>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <h2>PUSHINN</h2>
-          <p>The professional social layer for London's urban skateboarding subculture.</p>
+  <!-- FOOTER -->
+  <footer class="bg-black py-16 border-t matrix-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div class="md:col-span-1">
+          <h2 class="font-mono font-bold text-2xl text-matrix tracking-widest mb-4">PUSHINN</h2>
+          <p class="text-gray-500 text-sm font-sans pr-4">The professional social layer for London's urban skateboarding subculture.</p>
         </div>
-        <div class="footer-col">
-          <h4>SYSTEMS</h4>
-          <ul>
-            <li><a href="index.html#features">FEATURES</a></li>
-            <li><a href="missions.html">MISSIONS</a></li>
-            <li><a href="business.html">BUSINESS_PORTAL</a></li>
+        
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6">SYSTEMS</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="#features" class="hover:text-matrix transition-colors">Features</a></li>
+            <li><a href="missions.html" class="hover:text-matrix transition-colors">Missions</a></li>
+            <li><a href="business.html" class="hover:text-matrix transition-colors">Business Portal</a></li>
           </ul>
         </div>
-        <div class="footer-col">
-          <h4>RESOURCES</h4>
-          <ul>
-            <li><a href="resources.html">DOCUMENTATION</a></li>
-            <li><a href="support.html">SUPPORT_DESK</a></li>
-            <li><a href="beta-onboarding.html">BETA_ACCESS</a></li>
+
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6">RESOURCES</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="resources.html" class="hover:text-matrix transition-colors">Documentation</a></li>
+            <li><a href="support.html" class="hover:text-matrix transition-colors">Support Desk</a></li>
+            <li><a href="beta-onboarding.html" class="hover:text-matrix transition-colors">Beta Access</a></li>
           </ul>
         </div>
-        <div class="footer-col">
-          <h4>LEGAL</h4>
-          <ul>
-            <li><a href="legal-privacy.html">PRIVACY_POLICY</a></li>
-            <li><a href="legal-terms.html">TERMS_OF_SERVICE</a></li>
-            <li><a href="support.html#delete">DELETE_ACCOUNT</a></li>
+
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6">LEGAL</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="legal-privacy.html" class="hover:text-matrix transition-colors">Privacy Policy</a></li>
+            <li><a href="legal-terms.html" class="hover:text-matrix transition-colors">Terms of Service</a></li>
+            <li><a href="support.html#delete" class="hover:text-red-500 transition-colors text-gray-400">Delete Account</a></li>
           </ul>
         </div>
       </div>
-      <div class="footer-bottom">
-        <span>&copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
-        <div style="display: flex; gap: 2rem;">
-          <span>STATUS: [ACTIVE]</span>
+      
+      <div class="pt-8 border-t matrix-border flex flex-col md:flex-row justify-between items-center gap-6">
+        <p class="text-gray-600 text-xs font-mono">&copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.</p>
+        <div class="flex flex-wrap items-center gap-4 md:gap-8 font-mono text-xs text-gray-500">
+          <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-matrix animate-pulse shadow-[0_0_8px_#00FF41]"></span> STATUS: [ACTIVE]</span>
           <span>UP-LINK: [STABLE]</span>
-          <span>CONTACT: admin@pushinn.app</span>
+          <a href="mailto:admin@pushinn.app" class="hover:text-matrix transition-colors">admin@pushinn.app</a>
         </div>
       </div>
     </div>
   </footer>
 
   <script>
-    // Simple reveal animation on scroll
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
+    // Professional Typewriter Effect
+    document.addEventListener('DOMContentLoaded', () => {
+      const line1 = "Capture the Borough.";
+      const line2 = "Own the Streets.";
+      const el1 = document.getElementById('hero-line1');
+      const el2 = document.getElementById('hero-line2');
+      
+      let i = 0;
+      let j = 0;
+      
+      function typeLine2() {
+        if (j < line2.length) {
+          el2.innerHTML += line2.charAt(j);
+          j++;
+          setTimeout(typeLine2, 50);
+        } else {
+          el2.classList.add('typewriter-cursor');
         }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      }
+      
+      function typeLine1() {
+        if (i < line1.length) {
+          el1.innerHTML += line1.charAt(i);
+          i++;
+          setTimeout(typeLine1, 50);
+        } else {
+          el1.classList.remove('typewriter-cursor');
+          setTimeout(typeLine2, 150);
+        }
+      }
+      
+      el1.classList.add('typewriter-cursor');
+      setTimeout(typeLine1, 200);
+    });
   </script>
 </body>
 </html>
