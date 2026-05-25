@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support Desk | Pushinn Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo">PUSHINN</a>
+      <ul class="nav-links">
+        <li><a href="missions.html">MISSIONS</a></li>
+        <li><a href="business.html">BUSINESS</a></li>
+        <li><a href="resources.html">RESOURCES</a></li>
+        <li><a href="support.html">SUPPORT</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" style="min-height: 60vh;">
+      <div class="container reveal">
+        <span class="section-label">COMMUNICATION_LINK</span>
+        <h1>Support Desk.</h1>
+        <p>Direct access to the core team. For technical issues, partnership inquiries, or data requests.</p>
+      </div>
+    </section>
+
+    <section id="contact-info">
+      <div class="container">
+        <div class="grid">
+          <div class="card glass reveal">
+            <span class="section-label">GENERAL_INQUIRIES</span>
+            <h3>Connect with us.</h3>
+            <p style="margin-bottom: 2rem;">Use the form below or reach us directly at <a href="mailto:admin@pushinn.app" style="color: var(--accent); font-weight: bold;">admin@pushinn.app</a>.</p>
+            
+            <form action="https://formspree.io/f/xoqgylje" method="POST" style="display: grid; gap: 1.5rem;">
+              <input type="text" name="name" placeholder="YOUR_NAME" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 1rem; color: #fff; border-radius: 8px;" required>
+              <input type="email" name="email" placeholder="EMAIL_ADDRESS" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 1rem; color: #fff; border-radius: 8px;" required>
+              <textarea name="message" rows="5" placeholder="TRANSMISSION_CONTENT" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 1rem; color: #fff; border-radius: 8px;" required></textarea>
+              <button type="submit" class="btn-main" style="width: 100%; border: none; cursor: pointer;">SEND_TRANSMISSION</button>
+            </form>
+          </div>
+
+          <div class="card glass reveal" id="delete">
+            <span class="section-label">ACCOUNT_SECURITY</span>
+            <h3>Data & Privacy.</h3>
+            <p style="margin-bottom: 2rem;">We respect your autonomy. If you wish to permanently purge your data from the network, click the button below to initiate account deletion.</p>
+            <a href="mailto:admin@pushinn.app?subject=Account%20Deletion%20Request" class="btn-main" style="background: var(--error); color: white;">DELETE_ACCOUNT</a>
+            <p style="margin-top: 1.5rem; font-size: 0.75rem; color: var(--text-muted);">Please include your username and the email associated with your account. Deletion is irreversible once processed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h2>PUSHINN</h2>
+          <p>The professional social layer for London's urban skateboarding subculture.</p>
+        </div>
+        <div class="footer-col">
+          <h4>SYSTEMS</h4>
+          <ul>
+            <li><a href="index.html#features">FEATURES</a></li>
+            <li><a href="missions.html">MISSIONS</a></li>
+            <li><a href="business.html">BUSINESS_PORTAL</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>RESOURCES</h4>
+          <ul>
+            <li><a href="resources.html">DOCUMENTATION</a></li>
+            <li><a href="support.html">SUPPORT_DESK</a></li>
+            <li><a href="beta-onboarding.html">BETA_ACCESS</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>LEGAL</h4>
+          <ul>
+            <li><a href="legal-privacy.html">PRIVACY_POLICY</a></li>
+            <li><a href="legal-terms.html">TERMS_OF_SERVICE</a></li>
+            <li><a href="#delete">DELETE_ACCOUNT</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
+        <div style="display: flex; gap: 2rem;">
+          <span>STATUS: [ACTIVE]</span>
+          <span>UP-LINK: [STABLE]</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

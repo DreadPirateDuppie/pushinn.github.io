@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service | Pushinn Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo">PUSHINN</a>
+      <ul class="nav-links">
+        <li><a href="missions.html">MISSIONS</a></li>
+        <li><a href="business.html">BUSINESS</a></li>
+        <li><a href="resources.html">RESOURCES</a></li>
+        <li><a href="support.html">SUPPORT</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" style="min-height: 40vh;">
+      <div class="container reveal">
+        <span class="section-label">USER_AGREEMENT</span>
+        <h1>Terms of Service.</h1>
+        <p>Operating Guidelines for the Municipal Battle Engine.</p>
+      </div>
+    </section>
+
+    <section id="terms-content">
+      <div class="container glass card reveal" style="padding: 4rem; text-align: left;">
+        <div style="max-width: 800px; margin: 0 auto; display: grid; gap: 2.5rem;">
+          <div>
+            <h3 style="color: var(--accent); margin-bottom: 1rem;">01 | Acceptance of Terms</h3>
+            <p>By accessing the Pushinn network, you agree to abide by the community standards and trustless verification protocols. Harassment, misleading data logs, and unverified performance claims are grounds for decommissioning.</p>
+          </div>
+
+          <div>
+            <h3 style="color: var(--accent); margin-bottom: 1rem;">02 | User Conduct & Safety</h3>
+            <p>PushInn does **not** encourage illegal activity, trespassing, or reckless behavior. Users are responsible for their own physical safety and compliance with local municipal laws. Spot viability logging is for informational purposes only.</p>
+          </div>
+
+          <div>
+            <h3 style="color: var(--accent); margin-bottom: 1rem;">03 | Intellectual Property</h3>
+            <p>While you own your media clips, by uploading to the network, you grant PushInn a license to feature your content within the Battle Engine rankings and community feeds.</p>
+          </div>
+
+          <div>
+            <h3 style="color: var(--accent); margin-bottom: 1rem;">04 | Limitation of Liability</h3>
+            <p>PushInn is a platform for verified performance. We are not liable for physical injuries sustained during sessions or battles. Proceed at your own risk.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h2>PUSHINN</h2>
+          <p>The professional social layer for London's urban skateboarding subculture.</p>
+        </div>
+        <div class="footer-col">
+          <h4>SYSTEMS</h4>
+          <ul>
+            <li><a href="index.html#features">FEATURES</a></li>
+            <li><a href="missions.html">MISSIONS</a></li>
+            <li><a href="business.html">BUSINESS_PORTAL</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>RESOURCES</h4>
+          <ul>
+            <li><a href="resources.html">DOCUMENTATION</a></li>
+            <li><a href="support.html">SUPPORT_DESK</a></li>
+            <li><a href="beta-onboarding.html">BETA_ACCESS</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>LEGAL</h4>
+          <ul>
+            <li><a href="legal-privacy.html">PRIVACY_POLICY</a></li>
+            <li><a href="legal-terms.html">TERMS_OF_SERVICE</a></li>
+            <li><a href="support.html#delete">DELETE_ACCOUNT</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
+        <div style="display: flex; gap: 2rem;">
+          <span>STATUS: [ACTIVE]</span>
+          <span>UP-LINK: [STABLE]</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

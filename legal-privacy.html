@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy | Pushinn Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo">PUSHINN</a>
+      <ul class="nav-links">
+        <li><a href="missions.html">MISSIONS</a></li>
+        <li><a href="business.html">BUSINESS</a></li>
+        <li><a href="resources.html">RESOURCES</a></li>
+        <li><a href="support.html">SUPPORT</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" style="min-height: 40vh;">
+      <div class="container reveal">
+        <span class="section-label">LEGAL_FRAMEWORK</span>
+        <h1>Privacy Policy.</h1>
+        <p>Last Updated: May 2026. Your data autonomy is a core protocol requirement.</p>
+      </div>
+    </section>
+
+    <section id="policy-content">
+      <div class="container glass card reveal" style="padding: 4rem; text-align: left;">
+        <div style="max-width: 800px; margin: 0 auto; display: grid; gap: 2.5rem;">
+          <div>
+            <h3 style="color: var(--accent); margin-bottom: 1rem;">01 | Data Autonomy</h3>
+            <p>We collect only the data necessary to verify trick performance and spot heat. You maintain full ownership of your media uploads.</p>
+          </div>
+
+          <div>
+            <h3 style="color: var(--accent); margin-bottom: 1rem;">02 | Location Privacy (Compliance Clause)</h3>
+            <p>PushInn uses background location data for **Geospatial Verification**—confirming your presence at a map node during a battle or spot log. 
+            <br/><br/>
+            - Location data is encrypted in transit and at rest.
+            - We do not sell your location history to third parties.
+            - You can choose 'Incognito Mode' to destabilize territories without revealing your precise GPS coordinates to other users.</p>
+          </div>
+
+          <div>
+            <h3 style="color: var(--accent); margin-bottom: 1rem;">03 | Community Moderation</h3>
+            <p>UGC (User Generated Content) is monitored by the community ledger. Misleading, harassing, or illegal content is flagged and purged. Accounts associated with such content will be decommissioned.</p>
+          </div>
+
+          <div>
+            <h3 style="color: var(--accent); margin-bottom: 1rem;">04 | Account Deletion</h3>
+            <p>Users can request immediate and permanent data purging via the <a href="support.html#delete" style="color: var(--accent); text-decoration: underline;">Account Deletion tool</a>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h2>PUSHINN</h2>
+          <p>The professional social layer for London's urban skateboarding subculture.</p>
+        </div>
+        <div class="footer-col">
+          <h4>SYSTEMS</h4>
+          <ul>
+            <li><a href="index.html#features">FEATURES</a></li>
+            <li><a href="missions.html">MISSIONS</a></li>
+            <li><a href="business.html">BUSINESS_PORTAL</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>RESOURCES</h4>
+          <ul>
+            <li><a href="resources.html">DOCUMENTATION</a></li>
+            <li><a href="support.html">SUPPORT_DESK</a></li>
+            <li><a href="beta-onboarding.html">BETA_ACCESS</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>LEGAL</h4>
+          <ul>
+            <li><a href="legal-privacy.html">PRIVACY_POLICY</a></li>
+            <li><a href="legal-terms.html">TERMS_OF_SERVICE</a></li>
+            <li><a href="support.html#delete">DELETE_ACCOUNT</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
+        <div style="display: flex; gap: 2rem;">
+          <span>STATUS: [ACTIVE]</span>
+          <span>UP-LINK: [STABLE]</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

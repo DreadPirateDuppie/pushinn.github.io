@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resources & Documentation | Pushinn Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo">PUSHINN</a>
+      <ul class="nav-links">
+        <li><a href="missions.html">MISSIONS</a></li>
+        <li><a href="business.html">BUSINESS</a></li>
+        <li><a href="resources.html">RESOURCES</a></li>
+        <li><a href="support.html">SUPPORT</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" style="min-height: 50vh;">
+      <div class="container reveal">
+        <span class="section-label">PROTOCOL_INTEL</span>
+        <h1>Resources.</h1>
+        <p>Technical documentation, brand assets, and developer guidelines for the PushInn ecosystem.</p>
+      </div>
+    </section>
+
+    <section id="docs">
+      <div class="container">
+        <div class="grid">
+          <div class="card glass reveal">
+            <span class="section-label">DOC_01</span>
+            <h3>Municipal Boundaries</h3>
+            <p>Understand how borough territory is calculated using geospatial node weighting and verified battle outcomes.</p>
+          </div>
+          <div class="card glass reveal">
+            <span class="section-label">DOC_02</span>
+            <h3>The Triple-Score</h3>
+            <p>Deep dive into the algorithm behind Map Score, Player Score, and Ranking Score—the objective metrics of the street.</p>
+          </div>
+          <div class="card glass reveal">
+            <span class="section-label">DEV_ACCESS</span>
+            <h3>API Documentation</h3>
+            <p>Information on integrating your shop or brand with the PushInn Talent Scouting API. [COMING_SOON]</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h2>PUSHINN</h2>
+          <p>The professional social layer for London's urban skateboarding subculture.</p>
+        </div>
+        <div class="footer-col">
+          <h4>SYSTEMS</h4>
+          <ul>
+            <li><a href="index.html#features">FEATURES</a></li>
+            <li><a href="missions.html">MISSIONS</a></li>
+            <li><a href="business.html">BUSINESS_PORTAL</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>RESOURCES</h4>
+          <ul>
+            <li><a href="resources.html">DOCUMENTATION</a></li>
+            <li><a href="support.html">SUPPORT_DESK</a></li>
+            <li><a href="beta-onboarding.html">BETA_ACCESS</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>LEGAL</h4>
+          <ul>
+            <li><a href="legal-privacy.html">PRIVACY_POLICY</a></li>
+            <li><a href="legal-terms.html">TERMS_OF_SERVICE</a></li>
+            <li><a href="support.html#delete">DELETE_ACCOUNT</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
+        <div style="display: flex; gap: 2rem;">
+          <span>STATUS: [ACTIVE]</span>
+          <span>UP-LINK: [STABLE]</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

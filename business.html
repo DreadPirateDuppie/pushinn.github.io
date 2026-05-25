@@ -3,17 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pushinn Pro | Municipal Battle Engine</title>
-  <meta name="description" content="Capture the Borough. Own the Streets. The ultimate social platform for skateboarders and BMX riders." />
-  
+  <title>Business Portal | Pushinn Pro</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet" />
-  
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <nav>
     <div class="container nav-inner">
       <a href="index.html" class="nav-logo">PUSHINN</a>
@@ -27,63 +23,66 @@
   </nav>
 
   <main>
-    <section class="hero">
+    <section class="hero" style="min-height: 70vh;">
       <div class="container reveal">
-        <h1>Capture the Borough.<br/>Own the Streets.</h1>
-        <p>The municipal battle engine for action sports. Discover spots, challenge riders, and turn your solo sessions into a territorial takeover.</p>
-        <div class="hero-actions">
-          <a href="beta-onboarding.html" class="btn-main">JOIN_BETA</a>
-        </div>
+        <span class="section-label">PARTNER_PROTOCOL_v1</span>
+        <h1>Work With PushInn.</h1>
+        <p>Access trustless rider data, geospatial session heat, and a talent pipeline that runs on proof — not politics. Built for brands, shops, and agencies.</p>
+        <a href="mailto:admin@pushinn.app?subject=Business%20Partnership" class="btn-main">APPLY_FOR_ACCESS</a>
       </div>
     </section>
 
-    <section id="features">
+    <section id="partner-unlocks">
       <div class="container">
         <div class="section-header reveal">
-          <span class="section-label">CORE SYSTEMS</span>
-          <h2 class="section-title">Everything you need to own the city.</h2>
+          <span class="section-label">THE_STACK</span>
+          <h2 class="section-title">What You Unlock.</h2>
         </div>
         
         <div class="grid">
           <div class="card glass reveal">
             <span class="section-label">01</span>
-            <h3>The Borough Battle Engine</h3>
-            <p>Challenge local riders to timed trick battles and S.K.A.T.E. matchups. Win battles to capture legally recognized municipal boundaries and stamp the map with your crew's colors.</p>
+            <h3>Verified Talent</h3>
+            <p>Filter riders by Triple-Score to shortlist consistent performers with an unbroken verification trail — no guesswork, no DMs, no wasted outreach.</p>
           </div>
           <div class="card glass reveal">
             <span class="section-label">02</span>
-            <h3>Geospatial Intelligence</h3>
-            <p>Explore a live map powered by real-time environmental logging. Get active intelligence on pavement quality, lingering rain, and current spot viability.</p>
+            <h3>Session Intel</h3>
+            <p>See where skill is concentrating in real time. Heat-map data lets you plan activations and campaigns against actual session patterns.</p>
           </div>
           <div class="card glass reveal">
             <span class="section-label">03</span>
-            <h3>The Solo Destabilizer</h3>
-            <p>Operate as an independent ghost. Your incognito skate clips carry structural weight, destabilizing rival territories and signaling that a neighborhood is ready for takeover.</p>
-          </div>
-          <div class="card glass reveal">
-            <span class="section-label">04</span>
-            <h3>The Grind Archive</h3>
-            <p>An immutable ledger of street history. See the tricks that went down at every map node, preserving the heritage of the streets for the next generation.</p>
-          </div>
-          <div class="card glass reveal">
-            <span class="section-label">05</span>
-            <h3>The Scouting Dashboard</h3>
-            <p>Verified brands and shops use your dynamic player card to scout talent, issue gear stipends, and recruit riders based on objective skill and territorial dominance.</p>
-          </div>
-          <div class="card glass reveal">
-            <span class="section-label">06</span>
-            <h3>Location Privacy</h3>
-            <p>Granular control over your data. Choose exactly how much location data to reveal, from full coordinates to controlled or anonymous sharing.</p>
+            <h3>Direct Campaigns</h3>
+            <p>Run structured Sponsor Me programs tied to rider metrics. Athletes apply through a trust-weighted submission flow.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="onboarding-cta" style="background: var(--secondary);">
-      <div class="container reveal" style="text-align: center;">
-        <h2 class="section-title">Ready to transmit?</h2>
-        <p style="margin-bottom: 3rem; color: var(--text-secondary);">Secure your spot in the early access launch and start mapping your territory.</p>
-        <a href="beta-onboarding.html" class="btn-main">GET_ACCESS_TOKEN</a>
+    <section id="onboarding" style="background: var(--secondary);">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">SEQUENCE</span>
+          <h2 class="section-title">How It Works.</h2>
+        </div>
+        
+        <div class="grid">
+          <div class="card glass reveal">
+            <span class="section-label">STEP_01</span>
+            <h3>Submit Brief</h3>
+            <p>Tell us your goals and focus. Takes under five minutes.</p>
+          </div>
+          <div class="card glass reveal">
+            <span class="section-label">STEP_02</span>
+            <h3>Ops Review</h3>
+            <p>We review manually and respond within 3 business days.</p>
+          </div>
+          <div class="card glass reveal">
+            <span class="section-label">STEP_03</span>
+            <h3>Activation</h3>
+            <p>Align on scope and deploy fast. Performance is the receipt.</p>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -125,22 +124,17 @@
         <div style="display: flex; gap: 2rem;">
           <span>STATUS: [ACTIVE]</span>
           <span>UP-LINK: [STABLE]</span>
-          <span>CONTACT: admin@pushinn.app</span>
         </div>
       </div>
     </div>
   </footer>
 
   <script>
-    // Simple reveal animation on scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('active');
       });
     }, { threshold: 0.1 });
-
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   </script>
 </body>

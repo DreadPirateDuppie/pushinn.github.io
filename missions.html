@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Missions | Pushinn Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo">PUSHINN</a>
+      <ul class="nav-links">
+        <li><a href="missions.html">MISSIONS</a></li>
+        <li><a href="business.html">BUSINESS</a></li>
+        <li><a href="resources.html">RESOURCES</a></li>
+        <li><a href="support.html">SUPPORT</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" style="min-height: 50vh;">
+      <div class="container reveal">
+        <span class="section-label">OPERATIONAL_QUEUE</span>
+        <h1>Athlete Missions.</h1>
+        <p>Run tactical missions to increase your Triple-Score. Verified performance is the only metric that matters.</p>
+      </div>
+    </section>
+
+    <section id="missions-list">
+      <div class="container">
+        <div id="mission-container" class="grid" style="grid-template-columns: 1fr;">
+          <!-- Missions will be injected here -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h2>PUSHINN</h2>
+          <p>The professional social layer for London's urban skateboarding subculture.</p>
+        </div>
+        <div class="footer-col">
+          <h4>SYSTEMS</h4>
+          <ul>
+            <li><a href="index.html#features">FEATURES</a></li>
+            <li><a href="missions.html">MISSIONS</a></li>
+            <li><a href="business.html">BUSINESS_PORTAL</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>RESOURCES</h4>
+          <ul>
+            <li><a href="resources.html">DOCUMENTATION</a></li>
+            <li><a href="support.html">SUPPORT_DESK</a></li>
+            <li><a href="beta-onboarding.html">BETA_ACCESS</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>LEGAL</h4>
+          <ul>
+            <li><a href="legal-privacy.html">PRIVACY_POLICY</a></li>
+            <li><a href="legal-terms.html">TERMS_OF_SERVICE</a></li>
+            <li><a href="support.html#delete">DELETE_ACCOUNT</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
+        <div style="display: flex; gap: 2rem;">
+          <span>STATUS: [ACTIVE]</span>
+          <span>UP-LINK: [STABLE]</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    async function loadMissions() {
+      const container = document.getElementById('mission-container');
+      try {
+        const response = await fetch('missions.json');
+        const missions = await response.json();
+        container.innerHTML = missions.map(m => `
+          <div class="card glass reveal">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+              <span class="section-label">// ${m.id}</span>
+              <span class="section-label" style="color: #fff; background: rgba(0,255,157,0.1); padding: 2px 8px; border-radius: 4px;">REWARD: ${m.reward}</span>
+            </div>
+            <h3>${m.title}</h3>
+            <p style="margin-bottom: 2rem;">${m.description}</p>
+            <a href="${m.link}" class="btn-main" style="padding: 0.75rem 2rem; font-size: 0.8rem;">${m.buttonText}</a>
+          </div>
+        `).join('');
+        
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      } catch (err) {
+        container.innerHTML = '<p style="color: var(--error);">ERROR: FAILED_TO_LOAD_DATA</p>';
+      }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+      });
+    }, { threshold: 0.1 });
+
+    document.addEventListener('DOMContentLoaded', loadMissions);
+  </script>
+</body>
+</html>

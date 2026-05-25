@@ -1,26 +1,26 @@
 [
   {
-    "id": "MS-01: ASYNC_SKATE_QUEUE",
-    "reward": "PLAYER_SCORE",
-    "title": "Start an Asynchronous S.K.A.T.E. Battle",
-    "description": "Submit your battle profile and preferred game mode (S.K.A.T.E., S.K.8, or custom) to join current challenge queues and improve your win-rate metrics.",
-    "buttonText": "START_BATTLE",
-    "link": "contact.html"
+    "id": "MS-01",
+    "title": "Spot Scout: Southbank",
+    "description": "Log current pavement quality and security heat at Southbank. High rewards for video verification.",
+    "reward": "250_MAP_SCORE",
+    "link": "index.html#features",
+    "buttonText": "VIEW_INTEL"
   },
   {
-    "id": "MS-02: HEAT_ALERT_SCOUT",
-    "reward": "MAP_SCORE",
-    "title": "Deploy Spot Heat Alerts",
-    "description": "Report verified map status intel (Wet, Dry, Locked Off, Security Active, Session Alive) so riders can session safer and brands can track reliable activity zones.",
-    "buttonText": "EXPLORE_MAP",
-    "link": "contact.html"
+    "id": "MS-02",
+    "title": "Borough Battle: Hackney",
+    "description": "Hackney is currently contested. Join the asynchronous battle queue to defend your territory.",
+    "reward": "500_RANKING_SCORE",
+    "link": "beta-onboarding.html",
+    "buttonText": "JOIN_BATTLE"
   },
   {
-    "id": "MS-03: TRIBAL_GATEKEEPER",
-    "reward": "RANKING_SCORE",
-    "title": "Run Tribal Verification Ops",
-    "description": "Help validate onboarding clips and contested battle submissions through weighted voting. High-trust reviewers gain stronger verification influence.",
-    "buttonText": "JOIN_TRIBE",
-    "link": "contact.html"
+    "id": "MS-03",
+    "title": "Brand Brief: Sponsor Me",
+    "description": "A verified apparel brand is scouting talent in London. Submit your Triple-Score player card.",
+    "reward": "SPONSOR_CONTRACT",
+    "link": "business.html",
+    "buttonText": "APPLY_NOW"
   }
 ]

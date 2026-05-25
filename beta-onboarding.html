@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beta Onboarding | Pushinn Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo">PUSHINN</a>
+      <ul class="nav-links">
+        <li><a href="missions.html">MISSIONS</a></li>
+        <li><a href="business.html">BUSINESS</a></li>
+        <li><a href="resources.html">RESOURCES</a></li>
+        <li><a href="support.html">SUPPORT</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" style="min-height: 80vh;">
+      <div class="container reveal">
+        <span class="section-label">BETA_PROTOCOL_v1</span>
+        <h1>Join the Resistance.</h1>
+        <p>You are applying for early access to the municipal battle engine. We are currently onboarding selective crews in key London boroughs.</p>
+        
+        <div class="glass card" style="max-width: 600px; margin: 3rem auto; text-align: left;">
+          <form action="https://formspree.io/f/xoqgylje" method="POST" style="display: grid; gap: 1.5rem;">
+            <div style="display: grid; gap: 0.5rem;">
+              <label style="font-size: 0.7rem; color: var(--accent); font-family: monospace;">// USERNAME_PREFERENCE</label>
+              <input type="text" name="username" placeholder="@handle" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 1rem; color: #fff; border-radius: 8px;" required>
+            </div>
+            <div style="display: grid; gap: 0.5rem;">
+              <label style="font-size: 0.7rem; color: var(--accent); font-family: monospace;">// CONTACT_DATA</label>
+              <input type="email" name="email" placeholder="email@example.com" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 1rem; color: #fff; border-radius: 8px;" required>
+            </div>
+            <div style="display: grid; gap: 0.5rem;">
+              <label style="font-size: 0.7rem; color: var(--accent); font-family: monospace;">// PRIMARY_BOROUGH</label>
+              <select name="borough" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 1rem; color: #fff; border-radius: 8px;">
+                <option value="hackney">Hackney</option>
+                <option value="southwark">Southwark</option>
+                <option value="camden">Camden</option>
+                <option value="tower-hamlets">Tower Hamlets</option>
+                <option value="other">Other / Digital</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-main" style="width: 100%; border: none; cursor: pointer;">REQUEST_ENROLLMENT</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h2>PUSHINN</h2>
+          <p>The professional social layer for London's urban skateboarding subculture.</p>
+        </div>
+        <div class="footer-col">
+          <h4>SYSTEMS</h4>
+          <ul>
+            <li><a href="index.html#features">FEATURES</a></li>
+            <li><a href="missions.html">MISSIONS</a></li>
+            <li><a href="business.html">BUSINESS_PORTAL</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>RESOURCES</h4>
+          <ul>
+            <li><a href="resources.html">DOCUMENTATION</a></li>
+            <li><a href="support.html">SUPPORT_DESK</a></li>
+            <li><a href="beta-onboarding.html">BETA_ACCESS</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>LEGAL</h4>
+          <ul>
+            <li><a href="legal-privacy.html">PRIVACY_POLICY</a></li>
+            <li><a href="legal-terms.html">TERMS_OF_SERVICE</a></li>
+            <li><a href="support.html#delete">DELETE_ACCOUNT</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
+        <div style="display: flex; gap: 2rem;">
+          <span>STATUS: [ACTIVE]</span>
+          <span>UP-LINK: [STABLE]</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
