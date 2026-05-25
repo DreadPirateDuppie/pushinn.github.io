@@ -1,141 +1,116 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Business Portal | Pushinn Pro</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { matrix: '#00FF41', obsidian: '#0A0A0A', surface: '#111111' }, fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } }
+    }
+  </script>
+  <style>
+    body { background-color: #000; color: #fff; }
+    .matrix-border { border: 1px solid rgba(0, 255, 65, 0.2); }
+    .matrix-hover:hover { border-color: rgba(0, 255, 65, 0.8); box-shadow: 0 0 15px rgba(0, 255, 65, 0.15); transform: translateY(-2px); }
+  </style>
 </head>
-<body>
-  <nav>
-    <div class="container nav-inner">
-      <a href="index.html" class="nav-logo">PUSHINN</a>
-      <ul class="nav-links">
-        <li><a href="missions.html">MISSIONS</a></li>
-        <li><a href="business.html">BUSINESS</a></li>
-        <li><a href="resources.html">RESOURCES</a></li>
-        <li><a href="support.html">SUPPORT</a></li>
-      </ul>
+<body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <div class="flex-shrink-0">
+          <a href="index.html" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
+        </div>
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-baseline space-x-8">
+            <a href="missions.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">MISSIONS</a>
+            <a href="business.html" class="text-matrix font-mono text-sm tracking-wider transition-colors duration-200">BUSINESS</a>
+            <a href="resources.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">RESOURCES</a>
+            <a href="support.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
 
-  <main>
-    <section class="hero" style="min-height: 70vh;">
-      <div class="container reveal">
-        <span class="section-label">PARTNER_PROTOCOL_v1</span>
-        <h1>Work With PushInn.</h1>
-        <p>Access trustless rider data, geospatial session heat, and a talent pipeline that runs on proof — not politics. Built for brands, shops, and agencies.</p>
-        <a href="mailto:admin@pushinn.app?subject=Business%20Partnership" class="btn-main">APPLY_FOR_ACCESS</a>
-      </div>
+  <main class="flex-grow">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+      <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-4">// PARTNER_PROTOCOL_v1</h2>
+      <h1 class="font-mono font-extrabold text-4xl sm:text-5xl tracking-tight text-white mb-6">Work With PushInn.</h1>
+      <p class="max-w-3xl mx-auto text-lg text-gray-400 font-sans mb-10">Access trustless rider data, geospatial session heat, and a talent pipeline that runs on proof — not politics. Built for brands, shops, and agencies.</p>
+      <a href="mailto:admin@pushinn.app?subject=Business%20Partnership" class="bg-matrix text-black font-mono font-bold text-sm tracking-widest uppercase px-8 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)] inline-block">APPLY_FOR_ACCESS</a>
     </section>
 
-    <section id="partner-unlocks">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-label">THE_STACK</span>
-          <h2 class="section-title">What You Unlock.</h2>
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-8">// WHAT_YOU_UNLOCK</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-surface matrix-border p-8 rounded-lg matrix-hover transition-all duration-300 group">
+          <div class="font-mono text-matrix text-xl mb-4 opacity-40 group-hover:opacity-100 transition-opacity">01</div>
+          <h3 class="font-mono font-bold text-xl text-white mb-3">Verified Talent</h3>
+          <p class="font-sans text-gray-400 leading-relaxed text-sm">Filter riders by Triple-Score to shortlist consistent performers with an unbroken verification trail — no guesswork, no DMs, no wasted outreach.</p>
         </div>
-        
-        <div class="grid">
-          <div class="card glass reveal">
-            <span class="section-label">01</span>
-            <h3>Verified Talent</h3>
-            <p>Filter riders by Triple-Score to shortlist consistent performers with an unbroken verification trail — no guesswork, no DMs, no wasted outreach.</p>
-          </div>
-          <div class="card glass reveal">
-            <span class="section-label">02</span>
-            <h3>Session Intel</h3>
-            <p>See where skill is concentrating in real time. Heat-map data lets you plan activations and campaigns against actual session patterns.</p>
-          </div>
-          <div class="card glass reveal">
-            <span class="section-label">03</span>
-            <h3>Direct Campaigns</h3>
-            <p>Run structured Sponsor Me programs tied to rider metrics. Athletes apply through a trust-weighted submission flow.</p>
-          </div>
+        <div class="bg-surface matrix-border p-8 rounded-lg matrix-hover transition-all duration-300 group">
+          <div class="font-mono text-matrix text-xl mb-4 opacity-40 group-hover:opacity-100 transition-opacity">02</div>
+          <h3 class="font-mono font-bold text-xl text-white mb-3">Session Intel</h3>
+          <p class="font-sans text-gray-400 leading-relaxed text-sm">See where skill is concentrating in real time. Heat-map data lets you plan activations and campaigns against actual session patterns.</p>
         </div>
-      </div>
-    </section>
-
-    <section id="onboarding" style="background: var(--secondary);">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-label">SEQUENCE</span>
-          <h2 class="section-title">How It Works.</h2>
-        </div>
-        
-        <div class="grid">
-          <div class="card glass reveal">
-            <span class="section-label">STEP_01</span>
-            <h3>Submit Brief</h3>
-            <p>Tell us your goals and focus. Takes under five minutes.</p>
-          </div>
-          <div class="card glass reveal">
-            <span class="section-label">STEP_02</span>
-            <h3>Ops Review</h3>
-            <p>We review manually and respond within 3 business days.</p>
-          </div>
-          <div class="card glass reveal">
-            <span class="section-label">STEP_03</span>
-            <h3>Activation</h3>
-            <p>Align on scope and deploy fast. Performance is the receipt.</p>
-          </div>
+        <div class="bg-surface matrix-border p-8 rounded-lg matrix-hover transition-all duration-300 group">
+          <div class="font-mono text-matrix text-xl mb-4 opacity-40 group-hover:opacity-100 transition-opacity">03</div>
+          <h3 class="font-mono font-bold text-xl text-white mb-3">Direct Campaigns</h3>
+          <p class="font-sans text-gray-400 leading-relaxed text-sm">Run structured Sponsor Me programs tied to rider metrics. Athletes apply through a trust-weighted submission flow.</p>
         </div>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <h2>PUSHINN</h2>
-          <p>The professional social layer for London's urban skateboarding subculture.</p>
+  <!-- FOOTER -->
+  <footer class="bg-black py-16 border-t matrix-border mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div class="md:col-span-1">
+          <h2 class="font-mono font-bold text-2xl text-matrix tracking-widest mb-4">PUSHINN</h2>
+          <p class="text-gray-500 text-sm font-sans pr-4">The professional social layer for London's urban skateboarding subculture.</p>
         </div>
-        <div class="footer-col">
-          <h4>SYSTEMS</h4>
-          <ul>
-            <li><a href="index.html#features">FEATURES</a></li>
-            <li><a href="missions.html">MISSIONS</a></li>
-            <li><a href="business.html">BUSINESS_PORTAL</a></li>
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6">SYSTEMS</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="index.html#features" class="hover:text-matrix transition-colors">Features</a></li>
+            <li><a href="missions.html" class="hover:text-matrix transition-colors">Missions</a></li>
+            <li><a href="business.html" class="text-matrix transition-colors">Business Portal</a></li>
           </ul>
         </div>
-        <div class="footer-col">
-          <h4>RESOURCES</h4>
-          <ul>
-            <li><a href="resources.html">DOCUMENTATION</a></li>
-            <li><a href="support.html">SUPPORT_DESK</a></li>
-            <li><a href="beta-onboarding.html">BETA_ACCESS</a></li>
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6">RESOURCES</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="resources.html" class="hover:text-matrix transition-colors">Documentation</a></li>
+            <li><a href="support.html" class="hover:text-matrix transition-colors">Support Desk</a></li>
+            <li><a href="beta-onboarding.html" class="hover:text-matrix transition-colors">Beta Access</a></li>
           </ul>
         </div>
-        <div class="footer-col">
-          <h4>LEGAL</h4>
-          <ul>
-            <li><a href="legal-privacy.html">PRIVACY_POLICY</a></li>
-            <li><a href="legal-terms.html">TERMS_OF_SERVICE</a></li>
-            <li><a href="support.html#delete">DELETE_ACCOUNT</a></li>
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6">LEGAL</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="legal-privacy.html" class="hover:text-matrix transition-colors">Privacy Policy</a></li>
+            <li><a href="legal-terms.html" class="hover:text-matrix transition-colors">Terms of Service</a></li>
+            <li><a href="support.html#delete" class="hover:text-error transition-colors text-red-500">Delete Account</a></li>
           </ul>
         </div>
       </div>
-      <div class="footer-bottom">
-        <span>&copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.</span>
-        <div style="display: flex; gap: 2rem;">
-          <span>STATUS: [ACTIVE]</span>
+      <div class="pt-8 border-t matrix-border flex flex-col md:flex-row justify-between items-center gap-6">
+        <p class="text-gray-600 text-xs font-mono">&copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.</p>
+        <div class="flex flex-wrap items-center gap-4 md:gap-8 font-mono text-xs text-gray-500">
+          <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-matrix animate-pulse shadow-[0_0_8px_#00FF41]"></span> STATUS: [ACTIVE]</span>
           <span>UP-LINK: [STABLE]</span>
+          <a href="mailto:admin@pushinn.app" class="hover:text-matrix transition-colors">admin@pushinn.app</a>
         </div>
       </div>
     </div>
   </footer>
-
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('active');
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  </script>
 </body>
 </html>
