@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Missions | Pushinn Pro</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Terminal | Restricted Feed | Pushinn Pro</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
@@ -29,8 +29,8 @@
         </div>
         <div class="hidden md:block">
           <div class="ml-10 flex items-baseline space-x-8">
-            <a href="index.html" class="text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
-            <a href="missions.html" class="text-matrix font-mono text-sm tracking-wider transition-colors duration-200">MISSIONS</a>
+            <a href="index.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
+            <a href="terminal.html" class="text-matrix font-mono text-sm tracking-wider transition-colors duration-200">TERMINAL</a>
             <a href="business.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">BUSINESS</a>
             <a href="support.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
           </div>
@@ -40,49 +40,52 @@
   </nav>
 
   <main class="flex-grow">
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
-      <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-4">// OPERATIONAL_QUEUE</h2>
-      <h1 class="font-mono font-extrabold text-4xl sm:text-5xl tracking-tight text-white mb-6">Athlete Missions.</h1>
-      <p class="max-w-3xl mx-auto text-lg text-gray-400 font-sans mb-12">Run tactical missions to increase your Triple-Score. Verified performance is the only metric that matters.</p>
-    </section>
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+        <div class="text-center md:text-left">
+          <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-4">// LIVE_COMMAND_FEED</h2>
+          <h1 class="font-mono font-extrabold text-4xl sm:text-5xl tracking-tight text-white uppercase">The Terminal.</h1>
+        </div>
+        <div class="bg-matrix/10 border border-matrix px-4 py-2 rounded">
+          <span class="font-mono text-xs text-matrix tracking-widest uppercase">Clearance: Level_01 (Member)</span>
+        </div>
+      </div>
 
-    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-      <div id="mission-container" class="space-y-6">
-        <!-- Missions will be injected here via JS -->
+      <div class="grid grid-cols-1 gap-6" id="intel-container">
+        <!-- Intel cards will be injected here -->
       </div>
     </section>
   </main>
 
   <!-- FOOTER -->
   <footer class="bg-black py-16 border-t matrix-border mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
         <div class="md:col-span-1">
           <h2 class="font-mono font-bold text-2xl text-matrix tracking-widest mb-4">PUSHINN</h2>
           <p class="text-gray-500 text-sm font-sans pr-4">The professional social layer for London's urban skateboarding subculture.</p>
         </div>
         <div>
-          <h4 class="font-mono text-white text-sm tracking-widest mb-6">SYSTEMS</h4>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6 text-center md:text-left">SYSTEMS</h4>
           <ul class="space-y-4 font-sans text-sm text-gray-400">
             <li><a href="index.html#features" class="hover:text-matrix transition-colors">Features</a></li>
-            <li><a href="missions.html" class="text-matrix transition-colors">Missions</a></li>
+            <li><a href="terminal.html" class="hover:text-matrix transition-colors">The Terminal</a></li>
             <li><a href="business.html" class="hover:text-matrix transition-colors">Business Portal</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-mono text-white text-sm tracking-widest mb-6">RESOURCES</h4>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6 text-center md:text-left">RESOURCES</h4>
           <ul class="space-y-4 font-sans text-sm text-gray-400">
-            <li><a href="resources.html" class="hover:text-matrix transition-colors">Documentation</a></li>
             <li><a href="support.html" class="hover:text-matrix transition-colors">Support Desk</a></li>
             <li><a href="beta-onboarding.html" class="hover:text-matrix transition-colors">Beta Access</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-mono text-white text-sm tracking-widest mb-6">LEGAL</h4>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6 text-center md:text-left">LEGAL</h4>
           <ul class="space-y-4 font-sans text-sm text-gray-400">
             <li><a href="legal-privacy.html" class="hover:text-matrix transition-colors">Privacy Policy</a></li>
             <li><a href="legal-terms.html" class="hover:text-matrix transition-colors">Terms of Service</a></li>
-            <li><a href="support.html#delete" class="hover:text-error transition-colors text-red-500">Delete Account</a></li>
+            <li><a href="support.html#delete" class="hover:text-red-500 transition-colors text-gray-400">Delete Account</a></li>
           </ul>
         </div>
       </div>
@@ -98,27 +101,33 @@
   </footer>
 
   <script>
-    async function loadMissions() {
-      const container = document.getElementById('mission-container');
+    async function loadIntel() {
+      const container = document.getElementById('intel-container');
       try {
-        const response = await fetch('missions.json');
-        const missions = await response.json();
-        container.innerHTML = missions.map(m => `
-          <div class="bg-surface matrix-border p-8 rounded-lg matrix-hover transition-all duration-300">
-            <div class="flex justify-between items-center mb-4">
-              <span class="font-mono text-matrix text-xs tracking-widest">// ${m.id}</span>
-              <span class="font-mono text-xs text-black bg-matrix px-3 py-1 rounded">REWARD: ${m.reward}</span>
+        const response = await fetch('intel.json');
+        const data = await response.json();
+        container.innerHTML = data.map(item => `
+          <div class="bg-surface border border-white/5 p-8 rounded-lg matrix-hover transition-all duration-300">
+            <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-[10px] text-matrix px-2 py-1 border border-matrix/30 rounded uppercase tracking-tighter">[${item.type}]</span>
+                <h3 class="font-mono font-bold text-white tracking-widest text-lg">${item.location}</h3>
+              </div>
+              <span class="font-mono text-[10px] text-gray-500 uppercase tracking-widest">Priority: ${item.priority}</span>
             </div>
-            <h3 class="font-mono font-bold text-xl text-white mb-3">${m.title}</h3>
-            <p class="font-sans text-gray-400 text-sm mb-6">${m.description}</p>
-            <a href="${m.link}" class="inline-block bg-transparent border border-matrix text-matrix font-mono font-bold text-xs tracking-widest uppercase px-6 py-3 rounded hover:bg-matrix hover:text-black transition-all duration-300">${m.buttonText}</a>
+            <p class="font-sans text-gray-400 text-sm mb-8 leading-relaxed max-w-3xl border-l-2 border-matrix/20 pl-6 italic">"${item.intel}"</p>
+            <div class="flex justify-end">
+              <a href="${item.link}" class="font-mono font-bold text-xs text-matrix tracking-widest hover:text-white transition-colors">
+                > ${item.cta}
+              </a>
+            </div>
           </div>
         `).join('');
       } catch (err) {
-        container.innerHTML = '<p class="text-red-500 font-mono text-sm">ERROR: FAILED_TO_LOAD_DATA</p>';
+        container.innerHTML = '<p class="text-red-500 font-mono text-sm">ERROR: ENCRYPTION_FAILURE_CANNOT_READ_FEED</p>';
       }
     }
-    document.addEventListener('DOMContentLoaded', loadMissions);
+    document.addEventListener('DOMContentLoaded', loadIntel);
   </script>
 </body>
 </html>

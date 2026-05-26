@@ -1,0 +1,26 @@
+[
+  {
+    "type": "CONTESTED",
+    "location": "HACKNEY_NORTH",
+    "intel": "High Solo Activity detected in Broadway Market area. Territory opacity reduced to 15%. Local dominance threatened.",
+    "cta": "VIEW_FIELD_LOG",
+    "link": "index.html#features",
+    "priority": "HIGH"
+  },
+  {
+    "type": "DE-STABILIZED",
+    "location": "CAMDEN_CENTRAL",
+    "intel": "Rider @chief_beef just posted a 4-clip burner at the Cantelowes bowl. Borough defense is wavering.",
+    "cta": "INTERCEPT_TRANSMISSION",
+    "link": "beta-onboarding.html",
+    "priority": "MEDIUM"
+  },
+  {
+    "type": "DOMINANCE",
+    "location": "SOUTHWARK_LEDGE",
+    "intel": "Rekordbox Crew has achieved a 7-day hold on the Southbank ledge. 500 Reputation Points awarded to lead rider.",
+    "cta": "VIEW_PLAYER_CARD",
+    "link": "business.html",
+    "priority": "STABLE"
+  }
+]
