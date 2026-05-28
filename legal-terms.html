@@ -1,35 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terms of Service | Pushinn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { matrix: '#00FF41', obsidian: '#0A0A0A', surface: '#111111' }, fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } }
+    }
+  </script>
   <style>
-    body { font-family: sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 20px; color: #333; }
-    h1 { color: #000; }
-    h2 { margin-top: 30px; }
+    body { background-color: #000; color: #fff; }
+    .matrix-border { border: 1px solid rgba(0, 255, 65, 0.2); }
   </style>
 </head>
-<body>
-  <h1>Terms of Service</h1>
-  <p>Effective Date: May 2026</p>
+<body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
+  <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <div class="flex-shrink-0"><a href="index.html" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a></div>
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-baseline space-x-8">
+            <a href="index.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
+            <a href="terminal.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">THE TERMINAL</a>
+            <a href="business.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">BUSINESS</a>
+            <a href="support.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
 
-  <h2>1. Agreement to Terms</h2>
-  <p>By accessing or using the Pushinn application, you agree to these Terms of Service. If you do not agree, please do not use the service.</p>
+  <main class="flex-grow max-w-4xl mx-auto px-4 py-24">
+    <h1 class="font-mono font-bold text-3xl text-white mb-12 uppercase tracking-tighter">TERMS_OF_SERVICE</h1>
+    <div class="space-y-8 font-sans text-gray-300 text-sm leading-relaxed">
+      <section>
+        <h2 class="font-bold text-white text-base mb-2">1. Agreement to Terms</h2>
+        <p>By accessing or using the Pushinn application, you agree to these Terms of Service. If you do not agree, please do not use the service.</p>
+      </section>
+      <section>
+        <h2 class="font-bold text-white text-base mb-2">2. User Conduct</h2>
+        <p>Users are expected to adhere to all community standards. The platform is intended for legitimate action sports performance. Misleading session data, fraudulent uploads, or deceptive behavior may result in account termination.</p>
+      </section>
+      <section>
+        <h2 class="font-bold text-white text-base mb-2">3. Safety and Responsibility</h2>
+        <p>Pushinn is a platform for recording performance and spot data. Pushinn does not condone or encourage trespassing, illegal activity, or reckless behavior. Users participate at their own risk and are solely responsible for their physical safety and compliance with local municipal laws.</p>
+      </section>
+      <section>
+        <h2 class="font-bold text-white text-base mb-2">4. Intellectual Property</h2>
+        <p>While users retain ownership of their uploaded media, by uploading to the network, you grant Pushinn a non-exclusive license to use, display, and promote such content within the platform's social feeds and battle rankings.</p>
+      </section>
+      <section>
+        <h2 class="font-bold text-white text-base mb-2">5. Limitation of Liability</h2>
+        <p>Pushinn provides a platform for verified performance metrics. The company assumes no liability for physical injury, property damage, or legal issues arising from the use of the platform. Use at your own risk.</p>
+      </section>
+    </div>
+  </main>
 
-  <h2>2. User Conduct</h2>
-  <p>Users are expected to adhere to all community standards. The platform is intended for legitimate action sports performance. Misleading session data, fraudulent uploads, or deceptive behavior may result in account termination.</p>
-
-  <h2>3. Safety and Responsibility</h2>
-  <p>Pushinn is a platform for recording performance and spot data. Pushinn does not condone or encourage trespassing, illegal activity, or reckless behavior. Users participate at their own risk and are solely responsible for their physical safety and compliance with local municipal laws.</p>
-
-  <h2>4. Intellectual Property</h2>
-  <p>While users retain ownership of their uploaded media, by uploading to the network, you grant Pushinn a non-exclusive license to use, display, and promote such content within the platform's social feeds and battle rankings.</p>
-
-  <h2>5. Limitation of Liability</h2>
-  <p>Pushinn provides a platform for verified performance metrics. The company assumes no liability for physical injury, property damage, or legal issues arising from the use of the platform. Use at your own risk.</p>
-
-  <hr>
-  <p><a href="index.html">Return to Home</a></p>
+  <footer class="bg-black py-16 border-t matrix-border mt-auto font-mono text-xs text-gray-600 text-center">
+    &copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.
+  </footer>
 </body>
 </html>
