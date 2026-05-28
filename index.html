@@ -87,29 +87,29 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="flex items-center justify-center md:justify-start gap-6">
           <div class="w-16 h-16 flex items-center justify-center rounded-lg bg-surface matrix-border">
-            <span class="text-matrix font-mono font-bold text-xl">--</span>
+            <span id="stat-cities" class="text-matrix font-mono font-bold text-xl">--</span>
           </div>
           <div>
-            <div class="font-mono text-xs text-gray-500 uppercase tracking-widest">System Intel</div>
-            <div class="font-mono text-white font-bold tracking-tight text-lg">SYSTEMS_OFFLINE</div>
+            <div class="font-mono text-xs text-gray-500 uppercase tracking-widest">Active Cities</div>
+            <div id="stat-cities-val" class="font-mono text-white font-bold tracking-tight text-lg">SYNCING...</div>
           </div>
         </div>
         <div class="flex items-center justify-center gap-6 border-l border-r matrix-border">
           <div class="w-16 h-16 flex items-center justify-center rounded-lg bg-surface matrix-border">
-            <span class="text-matrix font-mono font-bold text-xl">--</span>
+            <span id="stat-stability" class="text-matrix font-mono font-bold text-xl">--</span>
           </div>
           <div>
             <div class="font-mono text-xs text-gray-500 uppercase tracking-widest">Network Stability</div>
-            <div class="font-mono text-white font-bold tracking-tight text-lg">SYNC_PENDING</div>
+            <div id="stat-stability-val" class="font-mono text-white font-bold tracking-tight text-lg">SYNCING...</div>
           </div>
         </div>
         <div class="flex items-center justify-center md:justify-end gap-6">
           <div class="w-16 h-16 flex items-center justify-center rounded-lg bg-surface matrix-border">
-            <span class="text-matrix font-mono font-bold text-xl">--</span>
+            <span id="stat-battles" class="text-matrix font-mono font-bold text-xl">--</span>
           </div>
           <div>
             <div class="font-mono text-xs text-gray-500 uppercase tracking-widest">Active Battles</div>
-            <div class="font-mono text-white font-bold tracking-tight text-lg">OFFLINE_MODE</div>
+            <div id="stat-battles-val" class="font-mono text-white font-bold tracking-tight text-lg">SYNCING...</div>
           </div>
         </div>
       </div>
@@ -253,6 +253,22 @@
       
       el1.classList.add('typewriter-cursor');
       setTimeout(typeLine1, 200);
+
+      // Live Dashboard Polling
+      async function updateDashboard() {
+        try {
+          const res = await fetch('live-stats.json');
+          const data = await res.json();
+          document.getElementById('stat-cities').textContent = data.active_cities.split(',').length;
+          document.getElementById('stat-cities-val').textContent = data.active_cities;
+          document.getElementById('stat-stability').textContent = 'OK';
+          document.getElementById('stat-stability-val').textContent = data.network_stability;
+          document.getElementById('stat-battles').textContent = data.active_battles;
+          document.getElementById('stat-battles-val').textContent = 'LIVE_ACTIVE';
+        } catch(e) { console.error('Dashboard sync error'); }
+      }
+      setInterval(updateDashboard, 60000);
+      updateDashboard();
     });
   </script>
 </body>
