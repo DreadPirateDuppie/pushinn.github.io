@@ -22,7 +22,9 @@
   <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
-        <div class="flex-shrink-0"><a href="index.html" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a></div>
+        <div class="flex-shrink-0">
+          <a href="index.html" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
+        </div>
         <div class="hidden md:block">
           <div class="ml-10 flex items-baseline space-x-8">
             <a href="index.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
@@ -31,6 +33,30 @@
             <a href="support.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
           </div>
         </div>
+        <div class="-mr-2 flex md:hidden">
+          <!-- Mobile menu button -->
+          <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-matrix hover:text-white hover:bg-obsidian focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-obsidian focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <!-- Icon when menu is closed. -->
+            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <!-- Icon when menu is open. -->
+            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu, show/hide based on menu state. -->
+    <div class="md:hidden" id="mobile-menu">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <a href="index.html" class="bg-obsidian text-matrix block px-3 py-2 rounded-md text-base font-medium">HOME</a>
+        <a href="terminal.html" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-medium">THE TERMINAL</a>
+        <a href="business.html" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-medium">BUSINESS</a>
+        <a href="support.html" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-medium">SUPPORT</a>
       </div>
     </div>
   </nav>
@@ -62,5 +88,20 @@
       &copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.
     </div>
   </footer>
+  <script>
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIconOpen = mobileMenuButton.querySelector('svg:first-child');
+    const menuIconClose = mobileMenuButton.querySelector('svg:last-child');
+
+    mobileMenuButton.addEventListener('click', () => {
+      const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+      mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+      mobileMenu.classList.toggle('hidden');
+      menuIconOpen.classList.toggle('hidden');
+      menuIconClose.classList.toggle('hidden');
+    });
+  </script>
 </body>
 </html>
