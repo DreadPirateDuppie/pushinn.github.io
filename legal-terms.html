@@ -3,26 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terms of Service | Pushinn</title>
+  <title>Terms of Service | Pushinn Pro</title>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.png">
+  <meta name="msapplication-TileColor" content="#00FF41">
+  <meta name="theme-color" content="#000000">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+  
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- TODO: For production, implement a Tailwind CSS build process to purge and bundle CSS, rather than loading from CDN and configuring in-browser. -->
   <script>
     tailwind.config = {
-      theme: { extend: { colors: { matrix: '#00FF41', obsidian: '#0A0A0A', surface: '#111111' }, fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } }
+      theme: {
+        extend: {
+          colors: {
+            matrix: '#00FF41',
+            obsidian: '#0A0A0A',
+            surface: '#111111',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
     }
   </script>
   <style>
     body { background-color: #000; color: #fff; }
     .matrix-border { border: 1px solid rgba(0, 255, 65, 0.2); }
+    .matrix-hover:hover { border-color: rgba(0, 255, 65, 0.8); box-shadow: 0 0 15px rgba(0, 255, 65, 0.15); transform: translateY(-2px); }
   </style>
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
+
+  <!-- NAVIGATION -->
   <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
-        <div class="flex-shrink-0"><a href="index.html" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a></div>
+        <div class="flex-shrink-0">
+          <a href="index.html" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
+        </div>
         <div class="hidden md:block">
           <div class="ml-10 flex items-baseline space-x-8">
             <a href="index.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
@@ -35,23 +62,16 @@
           <!-- Mobile menu button -->
           <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-matrix hover:text-white hover:bg-obsidian focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-obsidian focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
             <span class="sr-only">Open main menu</span>
-            <!-- Icon when menu is closed. -->
-            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-            <!-- Icon when menu is open. -->
-            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
         </div>
       </div>
     </div>
-
-    <!-- Mobile menu, show/hide based on menu state. -->
-    <div class="md:hidden" id="mobile-menu">
+    <!-- Mobile menu -->
+    <div class="hidden md:hidden" id="mobile-menu">
       <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-        <a href="index.html" class="bg-obsidian text-matrix block px-3 py-2 rounded-md text-base font-medium">HOME</a>
+        <a href="index.html" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-medium">HOME</a>
         <a href="terminal.html" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-medium">THE TERMINAL</a>
         <a href="business.html" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-medium">BUSINESS</a>
         <a href="support.html" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-medium">SUPPORT</a>
@@ -62,39 +82,146 @@
   <main class="flex-grow max-w-4xl mx-auto px-4 py-24">
     <h1 class="font-mono font-bold text-3xl text-white mb-12 uppercase tracking-tighter">TERMS_OF_SERVICE</h1>
     <div class="space-y-8 font-sans text-gray-300 text-sm leading-relaxed">
+      
+      <p><strong>Last Updated:</strong> 29 May 2026</p>
+
+      <p>These Terms of Service ("Terms") govern your access to and use of the services provided by Pushinn Labs LTD ("we," "our," or "us"), a company incorporated in the United Kingdom (Company Number: 17046072), with our registered office at 27 Old Gloucester Street, London, United Kingdom, WC1N 3AX. By accessing or using our Pushinn Pro app and pushinn.app website (collectively, "Services"), you agree to be bound by these Terms. If you disagree with any part of the Terms, then you may not access the Services.</p>
+
       <section>
-        <h2 class="font-bold text-white text-base mb-2">1. Agreement to Terms</h2>
-        <p>By accessing or using the Pushinn application, you agree to these Terms of Service. If you do not agree, please do not use the service.</p>
+        <h2 class="font-bold text-white text-xl mb-4">1. Acceptance of Terms</h2>
+        <p>By creating an account, accessing, or using our Services, you confirm that you have read, understood, and agree to be bound by these Terms, as well as our Privacy Policy. If you are using the Services on behalf of an organization, you are agreeing to these Terms for that organization and promising that you have the authority to bind that organization to these Terms. In that case, "you" and "your" will refer to that organization.</p>
       </section>
+
       <section>
-        <h2 class="font-bold text-white text-base mb-2">2. User Conduct</h2>
-        <p>Users are expected to adhere to all community standards. The platform is intended for legitimate action sports performance. Misleading session data, fraudulent uploads, or deceptive behavior may result in account termination.</p>
+        <h2 class="font-bold text-white text-xl mb-4">2. Description of Services</h2>
+        <p class="mb-4">Pushinn Labs LTD provides Pushinn Pro, a location-based social and competitive mobile application for skateboarders and BMX riders, and its associated pushinn.app website. Our Services include, but are not limited to, real-time spot intelligence, user-generated content (skate clips), competitive battles, territorial claiming, and a community archive.</p>
+        <p>We reserve the right to modify or discontinue, temporarily or permanently, the Services (or any part thereof) with or without notice. You agree that we shall not be liable to you or to any third party for any modification, suspension, or discontinuance of the Services.</p>
       </section>
+
       <section>
-        <h2 class="font-bold text-white text-base mb-2">3. Safety and Responsibility</h2>
-        <p>Pushinn is a platform for recording performance and spot data. Pushinn does not condone or encourage trespassing, illegal activity, or reckless behavior. Users participate at their own risk and are solely responsible for their physical safety and compliance with local municipal laws.</p>
+        <h2 class="font-bold text-white text-xl mb-4">3. User Obligations</h2>
+        <p class="mb-4">As a user of our Services, you agree to:</p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>Provide accurate, current, and complete information as may be required for the use of our Services.</li>
+          <li>Maintain the confidentiality of your account login information and be responsible for all activities that occur under your account.</li>
+          <li>Use the Services only for lawful purposes and in accordance with these Terms.</li>
+          <li>Not to reproduce, duplicate, copy, sell, resell, or exploit any portion of the Services without our express written permission.</li>
+          <li>Not to engage in any activity that interferes with or disrupts the Services or the servers and networks connected to the Services.</li>
+          <li>Comply with all applicable local, national, and international laws and regulations.</li>
+        </ul>
       </section>
+
       <section>
-        <h2 class="font-bold text-white text-base mb-2">4. Intellectual Property</h2>
-        <p>While users retain ownership of their uploaded media, by uploading to the network, you grant Pushinn a non-exclusive license to use, display, and promote such content within the platform's social feeds and battle rankings.</p>
+        <h2 class="font-bold text-white text-xl mb-4">4. User-Generated Content (UGC) & Intellectual Property</h2>
+        <p class="mb-4">All intellectual property rights in the Services, including but not limited to copyrights, trademarks, trade secrets, and patents, are owned by Pushinn Labs LTD or its licensors. You are granted a limited, non-exclusive, non-transferable, revocable license to use the Services for your personal or internal business use, subject to these Terms.</p>
+        <p class="mb-4">You agree not to copy, modify, distribute, sell, or lease any part of our Services, nor may you reverse engineer or attempt to extract the source code of our software, unless laws prohibit those restrictions or you have our written permission.</p>
+        <p class="mb-4">Any content you upload, submit, or transmit through our Services (including skate clips, photos, text comments, spot reports, and competitive data) remains your intellectual property. However, by submitting content, you grant Pushinn Labs LTD a worldwide, non-exclusive, royalty-free, transferable, sublicensable license to use, reproduce, distribute, prepare derivative works of, display, and perform the content in connection with the Services and our business (including for promotion and marketing) and across any media formats and through any media channels.</p>
+        <p class="mb-4">You represent and warrant that you own or have the necessary licenses, rights, consents, and permissions to publish content you submit. You further agree that your UGC will not violate any third-party right, including any copyright, trademark, privacy right, or other personal or proprietary right.</p>
+        <p>We reserve the right to moderate, remove, or refuse to publish any UGC that violates these Terms or our community guidelines, or for any other reason, at our sole discretion.</p>
       </section>
+
       <section>
-        <h2 class="font-bold text-white text-base mb-2">5. Limitation of Liability</h2>
-        <p>Pushinn provides a platform for verified performance metrics. The company assumes no liability for physical injury, property damage, or legal issues arising from the use of the platform. Use at your own risk.</p>
+        <h2 class="font-bold text-white text-xl mb-4">5. Fair Play & Prohibited Conduct</h2>
+        <p class="mb-4">To maintain the integrity of Pushinn Pro's competitive environment and community, certain conduct is strictly prohibited:</p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>Cheating:</strong> Any attempt to manipulate scores, game mechanics, location data (e.g., GPS spoofing), or battle outcomes through unauthorized means (e.g., bots, hacks, scripts, exploiting glitches).</li>
+          <li><strong>Fraud:</strong> Creating fake accounts, submitting false UGC, or misrepresenting your identity or actions.</li>
+          <li><strong>Abuse & Harassment:</strong> Engaging in any form of harassment, hate speech, discrimination, or abusive behavior towards other users or our staff.</li>
+          <li><strong>Unauthorized Access:</strong> Attempting to gain unauthorized access to our systems, data, or other users' accounts.</li>
+          <li><strong>Commercial Use:</strong> Using the Services for unauthorized commercial purposes (e.g., selling access, promoting unrelated businesses) without our express permission.</li>
+          <li><strong>Violation of Laws:</strong> Any activity that violates local, national, or international laws.</li>
+        </ul>
+        <p class="mt-4">Violation of these rules will result in immediate suspension or termination of your account, and may lead to legal action.</p>
       </section>
+
+      <section>
+        <h2 class="font-bold text-white text-xl mb-4">6. Limitation of Liability</h2>
+        <p class="mb-4">To the maximum extent permitted by law, Pushinn Labs LTD shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses, resulting from (a) your access to or use of or inability to access or use the Services; (b) any conduct or content of any third party on the Services; (c) any content obtained from the Services; and (d) unauthorized access, use, or alteration of your transmissions or content, whether based on warranty, contract, tort (including negligence), or any other legal theory, whether or not we have been informed of the possibility of such damage, and even if a remedy set forth herein is found to have failed of its essential purpose.</p>
+        <p>Our total liability to you for any damages arising out of or related to these Terms or the Services, regardless of the form of the action, will at all times be limited to the amount you paid to us for the Services in the twelve (12) months preceding the claim, or £100, whichever is greater.</p>
+      </section>
+
+      <section>
+        <h2 class="font-bold text-white text-xl mb-4">7. Termination</h2>
+        <p class="mb-4">We may terminate or suspend your access to our Services immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach these Terms or our Fair Play & Prohibited Conduct policies. Upon termination, your right to use the Services will immediately cease.</p>
+        <p>If you wish to terminate your account, you may do so through the in-app settings or by contacting us at <a href="mailto:support@pushinn.app" class="text-matrix hover:underline">support@pushinn.app</a>.</p>
+      </section>
+
+      <section>
+        <h2 class="font-bold text-white text-xl mb-4">8. Governing Law and Dispute Resolution</h2>
+        <p class="mb-4">These Terms shall be governed and construed in accordance with the laws of England and Wales, without regard to its conflict of law provisions.</p>
+        <p>Any dispute, controversy, or claim arising out of or in connection with these Terms, including any question regarding their existence, validity, or termination, shall be referred to and finally resolved by arbitration in London, England, in accordance with the Arbitration Act 1996.</p>
+      </section>
+
+      <section>
+        <h2 class="font-bold text-white text-xl mb-4">9. Changes to Terms</h2>
+        <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will try to provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion. By continuing to access or use our Services after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, in whole or in part, please stop using the website and the Services.</p>
+      </section>
+
+      <section>
+        <h2 class="font-bold text-white text-xl mb-4">10. Contact Information</h2>
+        <p class="mb-4">If you have any questions about these Terms, please contact us:</p>
+        <ul class="list-none space-y-2">
+          <li><strong>Company Name:</strong> Pushinn Labs LTD</li>
+          <li><strong>Contact Email:</strong> <a href="mailto:support@pushinn.app" class="text-matrix hover:underline">support@pushinn.app</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="font-bold text-white text-xl mb-4">11. Complaints</h2>
+        <p>If you have any concerns or complaints regarding our Services or these Terms, please contact us at <a href="mailto:support@pushinn.app" class="text-matrix hover:underline">support@pushinn.app</a>.</p>
+      </section>
+
     </div>
   </main>
 
-  <footer class="bg-black py-16 border-t matrix-border mt-auto font-mono text-xs text-gray-600 text-center">
-    &copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.
+  <!-- FOOTER -->
+  <footer class="bg-black py-16 border-t matrix-border mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div class="md:col-span-1">
+          <h2 class="font-mono font-bold text-2xl text-matrix tracking-widest mb-4">PUSHINN</h2>
+          <p class="text-gray-500 text-sm font-sans pr-4">The professional social layer for London's urban skateboarding subculture.</p>
+        </div>
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6">SYSTEMS</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="index.html#features" class="hover:text-matrix transition-colors">Features</a></li>
+            <li><a href="terminal.html" class="hover:text-matrix transition-colors">The Terminal</a></li>
+            <li><a href="business.html" class="hover:text-matrix transition-colors">Business Portal</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6">RESOURCES</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="support.html" class="hover:text-matrix transition-colors">Support Desk</a></li>
+            <li><a href="beta-onboarding.html" class="hover:text-matrix transition-colors">Beta Access</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6">LEGAL</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="legal-privacy.html" class="hover:text-matrix transition-colors">Privacy Policy</a></li>
+            <li><a href="legal-terms.html" class="text-matrix transition-colors">Terms of Service</a></li>
+            <li><a href="support.html#delete" class="hover:text-red-500 transition-colors text-gray-400">Delete Account</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 border-t matrix-border flex flex-col md:flex-row justify-between items-center gap-6">
+        <p class="text-gray-600 text-xs font-mono">&copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.</p>
+        <div class="flex flex-wrap items-center gap-4 md:gap-8 font-mono text-xs text-gray-500">
+          <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-matrix animate-pulse shadow-[0_0_8px_#00FF41]"></span> STATUS: [ACTIVE]</span>
+          <span>UP-LINK: [STABLE]</span>
+          <a href="mailto:admin@pushinn.app" class="hover:text-matrix transition-colors">admin@pushinn.app</a>
+        </div>
+      </div>
+    </div>
   </footer>
+
   <script>
-    // Mobile menu toggle
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
     const menuIconOpen = mobileMenuButton.querySelector('svg:first-child');
     const menuIconClose = mobileMenuButton.querySelector('svg:last-child');
-
     mobileMenuButton.addEventListener('click', () => {
       const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
       mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
