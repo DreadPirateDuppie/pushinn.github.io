@@ -171,22 +171,48 @@
         </div>
 
         <!-- INTERFACE PREVIEW -->
-        <div class="mt-32 mb-8 max-w-6xl mx-auto">
-          <div class="mb-12 text-center">
-            <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-4">System UI</h2>
-            <p class="font-sans text-3xl font-extrabold text-white tracking-tight">The tool for the trade.</p>
-          </div>
+        <div class="mt-32 mb-16 max-w-6xl mx-auto space-y-32">
           
+          <!-- Feature 1: The Engine -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div class="relative group">
-              <div class="absolute -inset-1 bg-matrix rounded-lg blur opacity-10 group-hover:opacity-30 transition duration-500"></div>
-              <img src="promo1.jpg" alt="Pushinn Interface" class="relative rounded-lg matrix-border w-full object-cover shadow-2xl">
+            <div class="order-2 md:order-1 text-center md:text-left">
+              <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-4">Command Interface</h2>
+              <h3 class="font-sans text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-6">Built for the streets.</h3>
+              <p class="font-sans text-gray-400 leading-relaxed text-lg mb-8">Every feature is designed for rapid deployment. Check spot intel, manage your crew's territory, and challenge rivals without getting bogged down in messy menus.</p>
+              <ul class="space-y-4 text-left inline-block md:block font-mono text-sm text-gray-300">
+                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-matrix shadow-[0_0_8px_#00FF41]"></span> Encrypted Location Data</li>
+                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-matrix shadow-[0_0_8px_#00FF41]"></span> High-Contrast Night Mode</li>
+              </ul>
             </div>
-            <div class="relative group">
-              <div class="absolute -inset-1 bg-matrix rounded-lg blur opacity-10 group-hover:opacity-30 transition duration-500"></div>
-              <img src="promo2.jpg" alt="Pushinn Post Feed" class="relative rounded-lg matrix-border w-full object-cover shadow-2xl">
+            <div class="order-1 md:order-2 relative flex justify-center">
+              <div class="absolute inset-0 bg-gradient-to-tr from-matrix/10 to-transparent rounded-full blur-3xl opacity-50"></div>
+              <!-- Phone Mockup Frame -->
+              <div class="relative rounded-[2.5rem] border-4 border-surface bg-black p-2 shadow-[0_0_40px_rgba(0,255,65,0.15)] max-w-xs w-full mx-auto transform md:rotate-2 hover:rotate-0 transition-all duration-500">
+                <img src="promo1.jpg" alt="Pushinn Interface" class="rounded-[2rem] w-full object-cover">
+              </div>
             </div>
           </div>
+
+          <!-- Feature 2: The Social Ledger -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="relative flex justify-center">
+              <div class="absolute inset-0 bg-gradient-to-tl from-matrix/10 to-transparent rounded-full blur-3xl opacity-50"></div>
+              <!-- Phone Mockup Frame -->
+              <div class="relative rounded-[2.5rem] border-4 border-surface bg-black p-2 shadow-[0_0_40px_rgba(0,255,65,0.15)] max-w-xs w-full mx-auto transform md:-rotate-2 hover:rotate-0 transition-all duration-500">
+                <img src="promo2.jpg" alt="Pushinn Post Feed" class="rounded-[2rem] w-full object-cover">
+              </div>
+            </div>
+            <div class="text-center md:text-left">
+              <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-4">The Community Ledger</h2>
+              <h3 class="font-sans text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-6">Proof over clout.</h3>
+              <p class="font-sans text-gray-400 leading-relaxed text-lg mb-8">Skip the algorithm. The feed is an immutable ledger of verified clips. Filter by specific spots to see who's dominating your local area right now.</p>
+              <ul class="space-y-4 text-left inline-block md:block font-mono text-sm text-gray-300">
+                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-matrix shadow-[0_0_8px_#00FF41]"></span> Verified Peer Review</li>
+                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-matrix shadow-[0_0_8px_#00FF41]"></span> Spot-Specific Filtering</li>
+              </ul>
+            </div>
+          </div>
+
         </div>
 
       </div>
