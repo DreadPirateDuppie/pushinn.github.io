@@ -44,7 +44,7 @@
       <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-6">Partnership Protocol</h2>
       <h1 class="font-mono font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight text-white mb-8 min-h-[120px] md:min-h-[160px] flex flex-col justify-center uppercase">Built for the Culture.</h1>
       <p class="max-w-3xl mx-auto text-lg md:text-xl text-gray-400 font-sans mb-12 leading-relaxed text-center">Stop paying for fake engagement. Pushinn provides raw, verified performance data from the ground up. Capture authentic cultural impact through the lens of the crews actually building the scene.</p>
-      <a href="mailto:admin@pushinn.app?subject=Business%20Partnership" class="bg-matrix text-black font-mono font-black text-lg tracking-wide uppercase px-12 py-5 rounded hover:bg-white transition-all duration-300 shadow-[0_0_30px_rgba(0,255,65,0.4)] inline-block mt-4">Apply for Access</a>
+      <a href="#register" class="bg-matrix text-black font-mono font-black text-lg tracking-wide uppercase px-12 py-5 rounded hover:bg-white transition-all duration-300 shadow-[0_0_30px_rgba(0,255,65,0.4)] inline-block mt-4">Apply for Access</a>
     </section>
 
     <!-- THE COMMITMENT -->
@@ -110,6 +110,43 @@
               <p>A platform that prioritizes the health of the community. We are building systems to uplift riders, facilitate sponsorships, and launch community-led funding in the future.</p>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REGISTRATION FUNNEL -->
+    <section id="register" class="py-32 bg-black matrix-border border-t border-x-0 border-b-0">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-16 text-center">
+          <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-4">Transmission Protocol</h2>
+          <h3 class="font-sans text-3xl md:text-4xl font-extrabold text-white tracking-tight uppercase">Register Interest.</h3>
+          <p class="mt-4 text-gray-400 font-sans">Submit your brand details to initiate the partnership synchronization.</p>
+        </div>
+
+        <div class="bg-surface matrix-border p-8 md:p-12 rounded-2xl shadow-2xl">
+          <form action="https://formspree.io/f/xoqgylje" method="POST" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2">Company Name</label>
+                <input type="text" name="company" placeholder="BRAND_NAME" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix transition-colors" required>
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2">Contact Name</label>
+                <input type="text" name="name" placeholder="REPRESENTATIVE" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix transition-colors" required>
+              </div>
+            </div>
+            <div>
+              <label class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2">Business Email</label>
+              <input type="email" name="email" placeholder="ADMIN@COMPANY.COM" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix transition-colors" required>
+            </div>
+            <div>
+              <label class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2">Activation Goals</label>
+              <textarea name="goals" rows="4" placeholder="Briefly describe your interest (e.g., Sponsored Manifests, Scouting, Geo-Activations)" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix transition-colors" required></textarea>
+            </div>
+            <button type="submit" class="w-full bg-matrix text-black font-mono font-black text-lg tracking-wide uppercase px-8 py-5 rounded hover:bg-white transition-all duration-300 shadow-[0_0_30px_rgba(0,255,65,0.4)]">
+              Send Transmission
+            </button>
+          </form>
         </div>
       </div>
     </section>
