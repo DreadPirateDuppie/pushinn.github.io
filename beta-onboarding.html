@@ -77,15 +77,15 @@
       <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 mb-14">
         <div class="bg-surface matrix-border rounded-lg p-5">
           <p class="font-mono text-matrix text-xs tracking-widest uppercase mb-2">01 / SIGN UP</p>
-          <p class="text-gray-400 text-sm font-sans">Drop your email below. Takes twenty seconds.</p>
+          <p class="text-gray-200 text-sm font-sans">Drop your email below. Takes twenty seconds.</p>
         </div>
         <div class="bg-surface matrix-border rounded-lg p-5">
           <p class="font-mono text-matrix text-xs tracking-widest uppercase mb-2">02 / GET THE LINK</p>
-          <p class="text-gray-400 text-sm font-sans">I email you an install link when your platform's build is ready.</p>
+          <p class="text-gray-200 text-sm font-sans">I email you an install link when your platform's build is ready.</p>
         </div>
         <div class="bg-surface matrix-border rounded-lg p-5">
           <p class="font-mono text-matrix text-xs tracking-widest uppercase mb-2">03 / RIDE IT</p>
-          <p class="text-gray-400 text-sm font-sans">Use it, break it, tell me. That's the whole job.</p>
+          <p class="text-gray-200 text-sm font-sans">Use it, break it, tell me. That's the whole job.</p>
         </div>
       </div>
 
@@ -97,7 +97,7 @@
 
           <!-- PLATFORM — the one that decides which build you get -->
           <div>
-            <label class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2">// DEVICE <span class="text-gray-600">(required)</span></label>
+            <label class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">// DEVICE <span class="text-gray-300">(required)</span></label>
             <div class="grid grid-cols-3 gap-3">
               <label class="platform-tile">
                 <input type="radio" name="platform" value="iPhone (iOS)" required>
@@ -112,42 +112,42 @@
                 <span>Both</span>
               </label>
             </div>
-            <p class="text-gray-600 text-xs font-sans mt-2">iPhone testers go through TestFlight. Android testers go through Google Play.</p>
+            <p class="text-gray-300 text-sm font-sans mt-2">iPhone testers go through TestFlight. Android testers go through Google Play.</p>
           </div>
 
           <!-- DEVICE MODEL -->
           <div>
-            <label for="device_model" class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2">// DEVICE_MODEL <span class="text-gray-600">(optional)</span></label>
+            <label for="device_model" class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">// DEVICE_MODEL <span class="text-gray-300">(optional)</span></label>
             <input id="device_model" type="text" name="device_model" placeholder="e.g. iPhone 15 Pro, Samsung Z Fold 4" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors">
-            <p class="text-gray-600 text-xs font-sans mt-2">Helps me chase down layout bugs on your exact screen.</p>
+            <p class="text-gray-300 text-sm font-sans mt-2">Helps me chase down layout bugs on your exact screen.</p>
           </div>
 
           <!-- EMAIL -->
           <div>
-            <label for="email" class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2">// EMAIL <span class="text-gray-600">(required)</span></label>
+            <label for="email" class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">// EMAIL <span class="text-gray-300">(required)</span></label>
             <input id="email" type="email" name="email" placeholder="email@example.com" autocomplete="email" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
-            <p class="text-gray-600 text-xs font-sans mt-2">
-              <strong class="text-gray-500">Important:</strong> use the email attached to your
-              <span class="text-gray-500">Google Play account</span> (Android) or your
-              <span class="text-gray-500">Apple ID</span> (iPhone). The invite won't work on any other address.
+            <p class="text-gray-300 text-sm font-sans mt-2">
+              <strong class="text-white">Important:</strong> use the email attached to your
+              <span class="text-gray-100">Google Play account</span> (Android) or your
+              <span class="text-gray-100">Apple ID</span> (iPhone). The invite won't work on any other address.
             </p>
           </div>
 
           <!-- USERNAME -->
           <div>
-            <label for="username" class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2">// USERNAME_PREFERENCE</label>
+            <label for="username" class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">// USERNAME_PREFERENCE</label>
             <input id="username" type="text" name="username" placeholder="@handle" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
           </div>
 
           <!-- INSTAGRAM -->
           <div>
-            <label for="instagram" class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2">// INSTAGRAM <span class="text-gray-600">(optional)</span></label>
+            <label for="instagram" class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">// INSTAGRAM <span class="text-gray-300">(optional)</span></label>
             <input id="instagram" type="text" name="instagram" placeholder="@yourhandle" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors">
           </div>
 
           <!-- BOROUGH -->
           <div>
-            <label for="borough" class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2">// PRIMARY_BOROUGH</label>
+            <label for="borough" class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">// PRIMARY_BOROUGH</label>
             <select id="borough" name="borough" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors">
               <option value="southwark">Southwark</option>
               <option value="hackney">Hackney</option>
@@ -165,18 +165,18 @@
           <div class="space-y-4 pt-2 border-t matrix-border">
             <label class="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" name="age_confirmed" value="Yes — confirmed 18+" required class="mt-1 w-4 h-4 shrink-0 accent-[#00FF41] bg-black">
-              <span class="text-gray-400 text-sm font-sans">I'm <strong class="text-white">18 or over</strong>. Pushinn is an 18+ app.</span>
+              <span class="text-gray-200 text-sm font-sans">I'm <strong class="text-white">18 or over</strong>. Pushinn is an 18+ app.</span>
             </label>
             <label class="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" name="email_consent" value="Yes — consented to beta emails" required class="mt-1 w-4 h-4 shrink-0 accent-[#00FF41] bg-black">
-              <span class="text-gray-400 text-sm font-sans">
+              <span class="text-gray-200 text-sm font-sans">
                 Email me about the Pushinn beta. Nothing else, no selling your details on,
                 unsubscribe any time. See the <a href="legal-privacy.html" class="text-matrix hover:underline">Privacy Policy</a>.
               </span>
             </label>
             <label class="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" name="feedback_commit" value="Yes — agreed to test and give feedback" required class="mt-1 w-4 h-4 shrink-0 accent-[#00FF41] bg-black">
-              <span class="text-gray-400 text-sm font-sans">I agree to actively test the app and provide feedback on bugs and features.</span>
+              <span class="text-gray-200 text-sm font-sans">I agree to actively test the app and provide feedback on bugs and features.</span>
             </label>
           </div>
 
@@ -186,7 +186,7 @@
             JOIN BETA &amp; CLAIM PREMIUM
           </button>
 
-          <p class="text-gray-600 text-xs font-sans text-center">
+          <p class="text-gray-300 text-sm font-sans text-center">
             Beta places are limited. Testers get in first and stay free.
           </p>
         </form>
