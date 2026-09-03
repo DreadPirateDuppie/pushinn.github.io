@@ -129,7 +129,7 @@
           <div class="space-y-4 pt-2 border-t matrix-border">
             <label class="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" name="age_confirmed" value="Yes — confirmed 18+" required class="mt-1 w-4 h-4 shrink-0 accent-[#00FF41] bg-black">
-              <span class="text-gray-200 text-sm font-sans">I'm <strong class="text-white">18 or over</strong>. Pushinn is an 18+ app.</span>
+              <span class="text-gray-200 text-sm font-sans">I confirm I'm <strong class="text-white">18 or over</strong>. Pushinn is strictly 18+ &mdash; under-18s can't join the beta.</span>
             </label>
             <label class="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" name="email_consent" value="Yes — consented to beta emails" required class="mt-1 w-4 h-4 shrink-0 accent-[#00FF41] bg-black">
@@ -180,6 +180,12 @@
         // Honeypot tripped — silently pretend it worked
         if (form.elements['company'] && form.elements['company'].value) {
           window.location.href = 'thank-you.html';
+          return;
+        }
+
+        // Age gate — hard stop, no submission for under-18s
+        if (!form.elements['age_confirmed'].checked) {
+          showError('You must be 18 or over to join the Pushinn beta.');
           return;
         }
 
