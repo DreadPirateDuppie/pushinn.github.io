@@ -65,7 +65,7 @@
   <main class="flex-grow">
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
       <div class="text-center mb-14">
-        <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-4">// BETA_PROTOCOL_v1</h2>
+        <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-4">Closed Beta</h2>
         <h1 class="font-mono font-extrabold text-4xl sm:text-5xl tracking-tight text-white mb-6">Get on the tester list.</h1>
         <p class="max-w-2xl mx-auto text-lg text-gray-400 font-sans">
           Pushinn goes out to a closed group first. Map spots, battle locals, put your ends on the board
@@ -76,15 +76,15 @@
       <!-- WHAT SIGNING UP ACTUALLY MEANS -->
       <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 mb-14">
         <div class="bg-surface matrix-border rounded-lg p-5">
-          <p class="font-mono text-matrix text-xs tracking-widest uppercase mb-2">01 / SIGN UP</p>
+          <p class="font-mono text-matrix text-xs tracking-widest uppercase mb-2">01 &mdash; Sign up</p>
           <p class="text-gray-200 text-sm font-sans">Drop your email below. Takes twenty seconds.</p>
         </div>
         <div class="bg-surface matrix-border rounded-lg p-5">
-          <p class="font-mono text-matrix text-xs tracking-widest uppercase mb-2">02 / GET THE LINK</p>
+          <p class="font-mono text-matrix text-xs tracking-widest uppercase mb-2">02 &mdash; Get the link</p>
           <p class="text-gray-200 text-sm font-sans">I email you an install link when your platform's build is ready.</p>
         </div>
         <div class="bg-surface matrix-border rounded-lg p-5">
-          <p class="font-mono text-matrix text-xs tracking-widest uppercase mb-2">03 / RIDE IT</p>
+          <p class="font-mono text-matrix text-xs tracking-widest uppercase mb-2">03 &mdash; Ride it</p>
           <p class="text-gray-200 text-sm font-sans">Use it, break it, tell me. That's the whole job.</p>
         </div>
       </div>
@@ -97,7 +97,7 @@
 
           <!-- PLATFORM — the one that decides which build you get -->
           <div>
-            <label class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">// DEVICE <span class="text-gray-300">(required)</span></label>
+            <label class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">Device <span class="text-gray-300">(required)</span></label>
             <div class="grid grid-cols-3 gap-3">
               <label class="platform-tile">
                 <input type="radio" name="platform" value="iPhone (iOS)" required>
@@ -117,14 +117,14 @@
 
           <!-- DEVICE MODEL -->
           <div>
-            <label for="device_model" class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">// DEVICE_MODEL <span class="text-gray-300">(optional)</span></label>
+            <label for="device_model" class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">Phone model <span class="text-gray-300">(optional)</span></label>
             <input id="device_model" type="text" name="device_model" placeholder="e.g. iPhone 15 Pro, Samsung Z Fold 4" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors">
             <p class="text-gray-300 text-sm font-sans mt-2">Helps me chase down layout bugs on your exact screen.</p>
           </div>
 
           <!-- EMAIL -->
           <div>
-            <label for="email" class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">// EMAIL <span class="text-gray-300">(required)</span></label>
+            <label for="email" class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">Email <span class="text-gray-300">(required)</span></label>
             <input id="email" type="email" name="email" placeholder="email@example.com" autocomplete="email" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
             <p class="text-gray-300 text-sm font-sans mt-2">
               <strong class="text-white">Important:</strong> use the email attached to your
@@ -133,32 +133,10 @@
             </p>
           </div>
 
-          <!-- USERNAME -->
-          <div>
-            <label for="username" class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">// USERNAME_PREFERENCE</label>
-            <input id="username" type="text" name="username" placeholder="@handle" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
-          </div>
-
           <!-- INSTAGRAM -->
           <div>
-            <label for="instagram" class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">// INSTAGRAM <span class="text-gray-300">(optional)</span></label>
+            <label for="instagram" class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">Instagram <span class="text-gray-300">(optional)</span></label>
             <input id="instagram" type="text" name="instagram" placeholder="@yourhandle" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors">
-          </div>
-
-          <!-- BOROUGH -->
-          <div>
-            <label for="borough" class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">// PRIMARY_BOROUGH</label>
-            <select id="borough" name="borough" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors">
-              <option value="southwark">Southwark</option>
-              <option value="hackney">Hackney</option>
-              <option value="lambeth">Lambeth</option>
-              <option value="camden">Camden</option>
-              <option value="tower-hamlets">Tower Hamlets</option>
-              <option value="lewisham">Lewisham</option>
-              <option value="westminster">Westminster</option>
-              <option value="other-london">Other London borough</option>
-              <option value="outside-london">Outside London</option>
-            </select>
           </div>
 
           <!-- CONSENT -->
@@ -221,11 +199,9 @@
 
         var payload = {
           email:           (form.elements['email'].value || '').trim(),
-          username:         (form.elements['username'].value || '').trim() || null,
           platform:         form.elements['platform'].value || null,
           device_model:     (form.elements['device_model'].value || '').trim() || null,
           instagram:        (form.elements['instagram'].value || '').trim() || null,
-          borough:          form.elements['borough'].value || null,
           age_confirmed:    form.elements['age_confirmed'].checked,
           email_consent:    form.elements['email_consent'].checked,
           feedback_commit:  form.elements['feedback_commit'].checked
