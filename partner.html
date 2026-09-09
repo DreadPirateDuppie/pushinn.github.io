@@ -124,7 +124,7 @@
         </div>
 
         <div class="bg-surface matrix-border p-8 md:p-12 rounded-2xl shadow-2xl">
-          <form action="https://formspree.io/f/xoqgylje" method="POST" class="space-y-6">
+          <form id="partner-form" class="space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2">Company Name</label>
@@ -143,9 +143,15 @@
               <label class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2">Activation Goals</label>
               <textarea name="goals" rows="4" placeholder="Briefly describe your interest (e.g., Sponsored Manifests, Scouting, Geo-Activations)" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix transition-colors" required></textarea>
             </div>
-            <button type="submit" class="w-full bg-matrix text-black font-mono font-black text-lg tracking-wide uppercase px-8 py-5 rounded hover:bg-white transition-all duration-300 shadow-[0_0_30px_rgba(0,255,65,0.4)]">
+            <button type="submit" id="partner-submit-btn" class="w-full bg-matrix text-black font-mono font-black text-lg tracking-wide uppercase px-8 py-5 rounded hover:bg-white transition-all duration-300 shadow-[0_0_30px_rgba(0,255,65,0.4)]">
               Register Interest
             </button>
+            <div id="partner-success-msg" style="display:none; color: #00FF41; font-family: monospace; font-size: 0.9rem; margin-top: 1rem; text-align: center;">
+              > PARTNERSHIP_REQUEST_LOGGED. WE_WILL_CONTACT_YOU_SHORTLY.
+            </div>
+            <div id="partner-error-msg" style="display:none; color: #ff3333; font-family: monospace; font-size: 0.9rem; margin-top: 1rem; text-align: center;">
+              > SYSTEM_ERROR. PLEASE_TRY_AGAIN.
+            </div>
           </form>
         </div>
       </div>
@@ -193,5 +199,47 @@
       </div>
     </div>
   </footer>
+
+  <!-- Supabase Integration -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const _supabaseUrl = 'https://hbwycwbmkarztmodssyc.supabase.co';
+    const _supabaseKey = 'sb_publishable_l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg';
+    const supabase = supabase.createClient(_supabaseUrl, _supabaseKey);
+
+    const partnerForm = document.getElementById('partner-form');
+    if (partnerForm) {
+      partnerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('partner-submit-btn');
+        const company = partnerForm.elements['company'].value;
+        const name = partnerForm.elements['name'].value;
+        const email = partnerForm.elements['email'].value;
+        const goals = partnerForm.elements['goals'].value;
+        const successMsg = document.getElementById('partner-success-msg');
+        const errorMsg = document.getElementById('partner-error-msg');
+        
+        btn.textContent = 'TRANSMITTING...';
+        btn.disabled = true;
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
+
+        const { error } = await supabase
+          .from('partner_applications')
+          .insert([{ company: company, contact_name: name, email: email, goals: goals }]);
+
+        btn.disabled = false;
+        btn.textContent = 'Register Interest';
+
+        if (error) {
+          errorMsg.style.display = 'block';
+          console.error('Supabase error:', error);
+        } else {
+          successMsg.style.display = 'block';
+          partnerForm.reset();
+        }
+      });
+    }
+  </script>
 </body>
-</html>>
+</html>
