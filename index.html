@@ -117,24 +117,24 @@
     <section class="py-20 bg-black matrix-border border-y border-x-0">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-5 gap-y-12 gap-x-4">
         <div class="text-center">
-          <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase">00</div>
-          <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">Areas</div>
+          <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-clips">00</div>
+          <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">Clips</div>
         </div>
         <div class="text-center md:border-l matrix-border">
-          <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase">000</div>
+          <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-spots">000</div>
           <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">Spots Logged</div>
         </div>
         <div class="text-center md:border-l matrix-border col-span-2 md:col-span-1">
-          <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase">OFFLINE</div>
+          <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-status">OFFLINE</div>
           <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">System Status</div>
         </div>
         <div class="text-center md:border-l matrix-border">
-          <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase">000</div>
+          <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-users">000</div>
           <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">User Count</div>
         </div>
         <div class="text-center md:border-l matrix-border">
-          <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase">00</div>
-          <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">Live Battles</div>
+          <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-battles">00</div>
+          <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">Battles Fought</div>
         </div>
       </div>
     </section>
@@ -327,18 +327,34 @@
       el1.classList.add('typewriter-cursor');
       setTimeout(typeLine1, 200);
 
-      // Live Dashboard Polling
+      // Status strip: live counts from the app database. site_stats() returns
+      // only totals (no rows), so the publishable key can call it. If it fails
+      // the strip stays on its OFFLINE placeholders.
       async function updateDashboard() {
         try {
-          const res = await fetch('live-stats.json');
+          const res = await fetch('https://hbwycwbmkarztmodssyc.supabase.co/rest/v1/rpc/site_stats', {
+            method: 'POST',
+            headers: {
+              'apikey': 'sb_publishable_l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg', // gitleaks:allow — Supabase publishable key, safe for client code
+              'Content-Type': 'application/json',
+            },
+            body: '{}',
+          });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
           const data = await res.json();
-          document.getElementById('stat-cities').textContent = data.active_cities.split(',').length;
-          document.getElementById('stat-cities-val').textContent = data.active_cities;
-          document.getElementById('stat-stability').textContent = 'OK';
-          document.getElementById('stat-stability-val').textContent = data.network_stability;
-          document.getElementById('stat-battles').textContent = data.active_battles;
-          document.getElementById('stat-battles-val').textContent = 'LIVE_ACTIVE';
-        } catch(e) { console.error('Dashboard sync error'); }
+          const pad = (n, w) => String(n).padStart(w, '0');
+          const set = (id, text) => {
+            const el = document.getElementById(id);
+            el.textContent = text;
+            el.classList.replace('text-gray-500', 'text-white');
+          };
+          set('stat-clips', pad(data.clips, 2));
+          set('stat-spots', pad(data.spots, 3));
+          set('stat-users', pad(data.users, 3));
+          set('stat-battles', pad(data.battles, 2));
+          set('stat-status', 'ONLINE');
+          document.getElementById('stat-status').classList.replace('text-white', 'text-matrix');
+        } catch (e) { console.error('Status strip unavailable:', e); }
       }
       setInterval(updateDashboard, 60000);
       updateDashboard();
