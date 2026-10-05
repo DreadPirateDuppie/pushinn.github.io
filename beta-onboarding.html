@@ -103,9 +103,11 @@
 
           <!-- DEVICE MODEL -->
           <div>
-            <label for="device_model" class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">Phone model <span class="text-gray-300">(required)</span></label>
-            <input id="device_model" type="text" name="device_model" placeholder="e.g. iPhone 15 Pro, Samsung Z Fold 4" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
-            <p class="text-gray-300 text-sm font-sans mt-2">Helps me chase down layout bugs on your exact screen.</p>
+            <!-- Label avoids the word "phone" on its own: browsers read that as a
+                 phone-number field and autofill people's numbers into it. -->
+            <label for="device_model" class="block font-mono text-sm text-matrix tracking-widest uppercase mb-2">Device make &amp; model <span class="text-gray-300">(required)</span></label>
+            <input id="device_model" type="text" name="device_model" placeholder="e.g. iPhone 13, Galaxy S23, Pixel 8" autocomplete="off" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
+            <p class="text-gray-300 text-sm font-sans mt-2">The model, not your number. Helps me chase down layout bugs on your exact screen.</p>
           </div>
 
           <!-- EMAIL -->
@@ -189,10 +191,23 @@
           return;
         }
 
+        // People keep typing their phone number here. A model always has letters.
+        var model = (form.elements['device_model'].value || '').trim();
+        if (!/[a-z]/i.test(model)) {
+          showError('That looks like a phone number. Put your device model instead, e.g. iPhone 13.');
+          form.elements['device_model'].focus();
+          return;
+        }
+
+        // ?ref=blog (or any ref) on the link records where the signup came from
+        var ref = (new URLSearchParams(window.location.search).get('ref') || '')
+          .toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40);
+
         var payload = {
+          source:          ref ? 'beta-onboarding:' + ref : 'beta-onboarding',
           email:           (form.elements['email'].value || '').trim(),
           platform:         form.elements['platform'].value || null,
-          device_model:     (form.elements['device_model'].value || '').trim() || 'Unknown',
+          device_model:     model,
           instagram:        (form.elements['instagram'].value || '').trim() || null,
           age_confirmed:    form.elements['age_confirmed'].checked,
           email_consent:    form.elements['email_consent'].checked,
