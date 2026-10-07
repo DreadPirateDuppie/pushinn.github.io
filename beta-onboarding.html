@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Join the Pushinn closed beta. Map spots, battle locals, put your ends on the board before anyone else.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://pushinn.app/beta-onboarding.html">
+  <meta property="og:url" content="https://pushinn.app/beta-onboarding">
   <meta property="og:title" content="Pushinn | Beta Access">
   <meta property="og:description" content="Early access is open. Get on the tester list for iOS and Android.">
   <meta property="og:image" content="https://pushinn.app/og-image.png">
@@ -49,13 +49,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         <div class="flex-shrink-0">
-          <a href="index.html" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
+          <a href="/" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
         </div>
         <div class="hidden md:block">
           <div class="ml-10 flex items-baseline space-x-8">
-            <a href="index.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
-            <a href="partner.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">PARTNER WITH US</a>
-            <a href="support.html" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
+            <a href="/" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
+            <a href="/partner" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">PARTNER WITH US</a>
+            <a href="/support" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
           </div>
         </div>
       </div>
@@ -137,7 +137,7 @@
               <input type="checkbox" name="email_consent" value="Yes — consented to beta emails" required class="mt-1 w-4 h-4 shrink-0 accent-[#00FF41] bg-black">
               <span class="text-gray-200 text-sm font-sans">
                 Email me about the Pushinn beta. Nothing else, no selling your details on,
-                unsubscribe any time. See the <a href="legal-privacy.html" class="text-matrix hover:underline">Privacy Policy</a>.
+                unsubscribe any time. See the <a href="/legal-privacy" class="text-matrix hover:underline">Privacy Policy</a>.
               </span>
             </label>
             <label class="flex items-start gap-3 cursor-pointer">
@@ -181,7 +181,7 @@
 
         // Honeypot tripped — silently pretend it worked
         if (form.elements['company'] && form.elements['company'].value) {
-          window.location.href = 'thank-you.html';
+          window.location.href = '/thank-you';
           return;
         }
 
@@ -228,12 +228,12 @@
           body: JSON.stringify(payload)
         }).then(function (res) {
           if (res.ok) {
-            window.location.href = 'thank-you.html';
+            window.location.href = '/thank-you';
             return;
           }
           if (res.status === 409) {
             // Duplicate email — already on the list, that's fine
-            window.location.href = 'thank-you.html';
+            window.location.href = '/thank-you';
             return;
           }
           return res.text().then(function (t) {
@@ -260,23 +260,23 @@
         <div>
           <h4 class="font-mono text-white text-sm tracking-widest mb-6">SYSTEMS</h4>
           <ul class="space-y-4 font-sans text-sm text-gray-400">
-            <li><a href="index.html#features" class="hover:text-matrix transition-colors">Features</a></li>
-            <li><a href="partner.html" class="hover:text-matrix transition-colors">Partner With Us</a></li>
+            <li><a href="/#features" class="hover:text-matrix transition-colors">Features</a></li>
+            <li><a href="/partner" class="hover:text-matrix transition-colors">Partner With Us</a></li>
           </ul>
         </div>
         <div>
           <h4 class="font-mono text-white text-sm tracking-widest mb-6">RESOURCES</h4>
           <ul class="space-y-4 font-sans text-sm text-gray-400">
-            <li><a href="support.html" class="hover:text-matrix transition-colors">Support Desk</a></li>
-            <li><a href="beta-onboarding.html" class="hover:text-matrix transition-colors">Beta Access</a></li>
+            <li><a href="/support" class="hover:text-matrix transition-colors">Support Desk</a></li>
+            <li><a href="/beta-onboarding" class="hover:text-matrix transition-colors">Beta Access</a></li>
           </ul>
         </div>
         <div>
           <h4 class="font-mono text-white text-sm tracking-widest mb-6">LEGAL</h4>
           <ul class="space-y-4 font-sans text-sm text-gray-400">
-            <li><a href="legal-privacy.html" class="hover:text-matrix transition-colors">Privacy Policy</a></li>
-            <li><a href="legal-terms.html" class="hover:text-matrix transition-colors">Terms of Service</a></li>
-            <li><a href="support.html#delete" class="hover:text-red-500 transition-colors text-gray-400">Delete Account</a></li>
+            <li><a href="/legal-privacy" class="hover:text-matrix transition-colors">Privacy Policy</a></li>
+            <li><a href="/legal-terms" class="hover:text-matrix transition-colors">Terms of Service</a></li>
+            <li><a href="/support#delete" class="hover:text-red-500 transition-colors text-gray-400">Delete Account</a></li>
           </ul>
         </div>
       </div>
