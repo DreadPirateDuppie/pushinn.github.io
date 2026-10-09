@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Roadmap & Vision | Pushinn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { 
+        extend: { 
+          colors: { 
+            matrix: '#00FF41', 
+            obsidian: '#0A0A0A', 
+            surface: '#111111',
+            card: '#161616'
+          }, 
+          fontFamily: { 
+            sans: ['Inter', 'sans-serif'], 
+            mono: ['JetBrains Mono', 'monospace'] 
+          } 
+        } 
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #000; color: #fff; }
+    .matrix-border { border: 1px solid rgba(0, 255, 65, 0.2); }
+    .matrix-border-glow { border: 1px solid rgba(0, 255, 65, 0.5); box-shadow: 0 0 15px rgba(0, 255, 65, 0.15); }
+  </style>
+</head>
+<body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <div class="flex items-center gap-4">
+          <a href="/" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
+          <span class="hidden sm:inline-block px-2.5 py-0.5 text-[10px] font-mono tracking-widest uppercase bg-matrix/10 text-matrix border border-matrix/30 rounded">
+            UNLISTED SPEC
+          </span>
+        </div>
+        <div>
+          <a href="/" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200 uppercase">
+            &larr; BACK TO HOME
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
+    <!-- HEADER -->
+    <header class="mb-14 text-center sm:text-left">
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-matrix/10 border border-matrix/30 rounded font-mono text-xs text-matrix tracking-widest uppercase mb-4">
+        <span class="w-2 h-2 rounded-full bg-matrix animate-pulse"></span>
+        PROTOCOL ROADMAP
+      </div>
+      <h1 class="font-mono font-extrabold text-3xl sm:text-5xl text-white tracking-tight uppercase mb-4">
+        Architecture & Vision.
+      </h1>
+      <p class="font-sans text-gray-400 text-sm sm:text-base max-w-3xl leading-relaxed">
+        The phased operational plan for Pushinn: bridging London street skateboarding culture with decentralized civic ownership and community-voted public goods funding.
+      </p>
+    </header>
+
+    <!-- ROADMAP PHASES -->
+    <div class="space-y-10">
+      
+      <!-- PHASE 1 -->
+      <section class="bg-surface matrix-border p-6 sm:p-8 rounded-lg relative overflow-hidden">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-6 border-b border-white/10">
+          <div>
+            <span class="font-mono text-matrix text-xs uppercase tracking-widest block mb-1">MILESTONE 01</span>
+            <h2 class="font-mono text-2xl text-white font-bold uppercase">Phase 1: Street Foundation</h2>
+          </div>
+          <div>
+            <span class="inline-flex items-center gap-2 px-3 py-1 bg-matrix/10 border border-matrix/30 rounded font-mono text-xs text-matrix tracking-wider uppercase">
+              <span class="w-1.5 h-1.5 rounded-full bg-matrix animate-pulse"></span>
+              Live Beta
+            </span>
+          </div>
+        </div>
+
+        <p class="font-sans text-gray-300 text-sm leading-relaxed mb-6">
+          Establishing the primary consumer mobile app, skater discovery loops, and local community interaction across London.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-black/60 p-4 rounded border border-white/5">
+            <h3 class="font-mono text-sm text-white font-semibold uppercase mb-2 flex items-center gap-2">
+              <span class="text-matrix">&gt;</span> Spot Discovery Engine
+            </h3>
+            <p class="font-sans text-xs text-gray-400 leading-relaxed">
+              Curated, skater-mapped database of street spots, parks, and DIY terrain with granular media verification and anti-duplicate coordinates.
+            </p>
+          </div>
+
+          <div class="bg-black/60 p-4 rounded border border-white/5">
+            <h3 class="font-mono text-sm text-white font-semibold uppercase mb-2 flex items-center gap-2">
+              <span class="text-matrix">&gt;</span> Territorial Heat
+            </h3>
+            <p class="font-sans text-xs text-gray-400 leading-relaxed">
+              Live London borough activity monitoring, trackable session frequency, and localized skater turf engagement.
+            </p>
+          </div>
+
+          <div class="bg-black/60 p-4 rounded border border-white/5">
+            <h3 class="font-mono text-sm text-white font-semibold uppercase mb-2 flex items-center gap-2">
+              <span class="text-matrix">&gt;</span> P2P Versus Battles
+            </h3>
+            <p class="font-sans text-xs text-gray-400 leading-relaxed">
+              Server-authoritative game of S.K.A.T.E. wagering engine protected by atomic database row locks and community dispute review.
+            </p>
+          </div>
+
+          <div class="bg-black/60 p-4 rounded border border-white/5">
+            <h3 class="font-mono text-sm text-white font-semibold uppercase mb-2 flex items-center gap-2">
+              <span class="text-matrix">&gt;</span> Anti-Inflation Rewards
+            </h3>
+            <p class="font-sans text-xs text-gray-400 leading-relaxed">
+              Controlled in-app economy replacing infinite point printing with daily streak Loot Boxes and tiered probability payouts.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHASE 2 -->
+      <section class="bg-surface matrix-border p-6 sm:p-8 rounded-lg relative overflow-hidden">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-6 border-b border-white/10">
+          <div>
+            <span class="font-mono text-gray-500 text-xs uppercase tracking-widest block mb-1">MILESTONE 02</span>
+            <h2 class="font-mono text-2xl text-white font-bold uppercase">Phase 2: Subculture & Commerce</h2>
+          </div>
+          <div>
+            <span class="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded font-mono text-xs text-gray-400 tracking-wider uppercase">
+              Upcoming
+            </span>
+          </div>
+        </div>
+
+        <p class="font-sans text-gray-300 text-sm leading-relaxed mb-6">
+          Deepening integration with London’s independent retail network and physical skate institutions.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-black/60 p-4 rounded border border-white/5">
+            <h3 class="font-mono text-sm text-white font-semibold uppercase mb-2 flex items-center gap-2">
+              <span class="text-matrix">&gt;</span> Independent Skate Shop Network
+            </h3>
+            <p class="font-sans text-xs text-gray-400 leading-relaxed">
+              Merchant portal connecting independent brick-and-mortar skate shops directly into the app ecosystem for foot-traffic activation.
+            </p>
+          </div>
+
+          <div class="bg-black/60 p-4 rounded border border-white/5">
+            <h3 class="font-mono text-sm text-white font-semibold uppercase mb-2 flex items-center gap-2">
+              <span class="text-matrix">&gt;</span> Spot Sponsorships & Bounties
+            </h3>
+            <p class="font-sans text-xs text-gray-400 leading-relaxed">
+              Local shops and brands sponsoring specific spots, trick bounties, and community sessions with tangible physical rewards.
+            </p>
+          </div>
+
+          <div class="bg-black/60 p-4 rounded border border-white/5">
+            <h3 class="font-mono text-sm text-white font-semibold uppercase mb-2 flex items-center gap-2">
+              <span class="text-matrix">&gt;</span> Gear & Hardware Perks
+            </h3>
+            <p class="font-sans text-xs text-gray-400 leading-relaxed">
+              Redeeming in-app progress for local shop discounts, hardware restocks, and exclusive event access.
+            </p>
+          </div>
+
+          <div class="bg-black/60 p-4 rounded border border-white/5">
+            <h3 class="font-mono text-sm text-white font-semibold uppercase mb-2 flex items-center gap-2">
+              <span class="text-matrix">&gt;</span> Community Media Showcases
+            </h3>
+            <p class="font-sans text-xs text-gray-400 leading-relaxed">
+              Integrated municipal video premieres and skater spotlight clips verified directly on the platform feed.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHASE 3 -->
+      <section class="bg-surface matrix-border-glow p-6 sm:p-8 rounded-lg relative overflow-hidden">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-6 border-b border-white/10">
+          <div>
+            <span class="font-mono text-matrix text-xs uppercase tracking-widest block mb-1">MILESTONE 03</span>
+            <h2 class="font-mono text-2xl text-white font-bold uppercase">Phase 3: The Protocol & Civic Treasury</h2>
+          </div>
+          <div>
+            <span class="inline-flex items-center gap-2 px-3 py-1 bg-matrix/20 border border-matrix/50 rounded font-mono text-xs text-matrix tracking-wider uppercase">
+              Web3 Protocol Spec
+            </span>
+          </div>
+        </div>
+
+        <p class="font-sans text-gray-300 text-sm leading-relaxed mb-6">
+          Transitioning the validated mobile ecosystem into a sovereign token economy designed to fund real-world skateboarding infrastructure.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-black/60 p-4 rounded border border-matrix/20">
+            <h3 class="font-mono text-sm text-matrix font-semibold uppercase mb-2 flex items-center gap-2">
+              <span>&gt;</span> Fixed Supply & Proof-of-Skate
+            </h3>
+            <p class="font-sans text-xs text-gray-400 leading-relaxed">
+              Sovereign cryptographic token deployment with 60%+ allocation reserved strictly for verified skaters discovering spots, logging sessions, and winning battles.
+            </p>
+          </div>
+
+          <div class="bg-black/60 p-4 rounded border border-matrix/20">
+            <h3 class="font-mono text-sm text-matrix font-semibold uppercase mb-2 flex items-center gap-2">
+              <span>&gt;</span> The Community Treasury (Civic Pot)
+            </h3>
+            <p class="font-sans text-xs text-gray-400 leading-relaxed">
+              Instead of discarding battle fees via artificial deflationary token burns, transaction fees flow into an accumulated community treasury pool.
+            </p>
+          </div>
+
+          <div class="bg-black/60 p-4 rounded border border-matrix/20">
+            <h3 class="font-mono text-sm text-matrix font-semibold uppercase mb-2 flex items-center gap-2">
+              <span>&gt;</span> DIY Skatepark Repairs & Upkeep
+            </h3>
+            <p class="font-sans text-xs text-gray-400 leading-relaxed">
+              Decentralized treasury capital mobilized directly to pay for concrete repairs, DIY obstacle builds, and upkeep at local London skate parks.
+            </p>
+          </div>
+
+          <div class="bg-black/60 p-4 rounded border border-matrix/20">
+            <h3 class="font-mono text-sm text-matrix font-semibold uppercase mb-2 flex items-center gap-2">
+              <span>&gt;</span> Grassroots Creative Voting
+            </h3>
+            <p class="font-sans text-xs text-gray-400 leading-relaxed">
+              Community governance enabling token holders to vote on funding independent video parts, skate zines, photo exhibitions, and artist collaborations.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- NOTE SECTION -->
+    <div class="mt-12 p-6 bg-black border border-white/10 rounded-lg text-center">
+      <p class="font-mono text-xs text-gray-500 uppercase tracking-widest mb-2">
+        // UNLISTED SPECIFICATION //
+      </p>
+      <p class="font-sans text-xs text-gray-400 max-w-xl mx-auto leading-relaxed">
+        This document represents internal architectural strategy. Implementation timelines for Phase 3 are contingent on regulatory alignment and subsequent token deployment.
+      </p>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-black py-16 border-t matrix-border mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div class="md:col-span-1">
+          <h2 class="font-mono font-bold text-2xl text-matrix tracking-widest mb-4 uppercase">PUSHINN</h2>
+          <p class="text-gray-500 text-sm font-sans pr-4">The professional social layer for London's urban skateboarding subculture.</p>
+        </div>
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6 uppercase">Systems</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="/#experience" class="hover:text-matrix transition-colors">Features</a></li>
+            <li><a href="/terminal" class="hover:text-matrix transition-colors">The Terminal</a></li>
+            <li><a href="/partner" class="hover:text-matrix transition-colors">Partner With Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6 uppercase">Resources</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="/support" class="hover:text-matrix transition-colors">Support Desk</a></li>
+            <li><a href="/beta-onboarding" class="hover:text-matrix transition-colors">Beta Access</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6 uppercase">Legal</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="/legal-privacy" class="hover:text-matrix transition-colors">Privacy Policy</a></li>
+            <li><a href="/legal-terms" class="hover:text-matrix transition-colors">Terms of Service</a></li>
+            <li><a href="/support#delete" class="hover:text-red-500 transition-colors text-gray-400">Delete Account</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 border-t matrix-border flex flex-col md:flex-row justify-between items-center gap-6">
+        <p class="text-gray-600 text-xs font-mono uppercase">&copy; 2026 PUSHINN. ALL_SYSTEMS_OPERATIONAL.</p>
+        <div class="flex flex-wrap items-center gap-8 font-mono text-xs text-gray-500">
+          <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-matrix animate-pulse shadow-[0_0_8px_#00FF41]"></span> STATUS: [ACTIVE]</span>
+          <span>UP-LINK: [STABLE]</span>
+          <a href="mailto:admin@pushinn.app" class="hover:text-matrix transition-colors">admin@pushinn.app</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
