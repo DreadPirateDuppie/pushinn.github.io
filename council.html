@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Syndicate Council | Pushinn Beta</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            matrix: '#00FF41',
+            obsidian: '#0A0A0A',
+            surface: '#111111'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #000; color: #fff; }
+    .matrix-border { border: 1px solid rgba(0, 255, 65, 0.2); }
+    .matrix-glow { box-shadow: 0 0 20px rgba(0, 255, 65, 0.15); }
+    .matrix-hover:hover { border-color: rgba(0, 255, 65, 0.8); box-shadow: 0 0 15px rgba(0, 255, 65, 0.2); }
+    .poll-option input[type="radio"]:checked + div {
+      border-color: #00FF41;
+      background: rgba(0, 255, 65, 0.08);
+      color: #fff;
+    }
+    .poll-option input[type="radio"]:checked + div .radio-dot {
+      background-color: #00FF41;
+      border-color: #00FF41;
+      box-shadow: 0 0 8px #00FF41;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col font-sans">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <div class="flex items-center gap-3">
+          <a href="/" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-matrix/10 text-matrix border border-matrix/30">COUNCIL</span>
+        </div>
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-baseline space-x-8">
+            <a href="/" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
+            <a href="/beta-onboarding" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">BETA</a>
+            <a href="/support" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-grow">
+    <!-- HERO HEADER -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-matrix/10 border border-matrix/30 font-mono text-xs text-matrix mb-6">
+        <span class="w-2 h-2 rounded-full bg-matrix animate-pulse"></span>
+        CLOSED_BETA_TELEMETRY // SYNDICATE_COUNCIL
+      </div>
+      <h1 class="font-mono font-extrabold text-4xl sm:text-5xl tracking-tight text-white mb-6">
+        The Syndicate Council.
+      </h1>
+      <p class="max-w-2xl mx-auto text-base sm:text-lg text-gray-400 font-sans leading-relaxed">
+        Closed beta direct line. Squash bugs in the build and shape skate culture governance before London goes public.
+      </p>
+    </section>
+
+    <!-- TESTER GATE (ACTIVE WHEN NOT AUTHENTICATED) -->
+    <section id="gate-section" class="max-w-md mx-auto px-4 pb-24">
+      <div class="bg-surface matrix-border p-8 rounded-lg matrix-glow text-center">
+        <div class="font-mono text-matrix text-xs tracking-widest uppercase mb-2">ACCESS_GATE</div>
+        <h2 class="font-mono font-bold text-xl text-white mb-3">Tester Verification</h2>
+        <p class="text-gray-400 text-sm mb-6 font-sans">
+          Enter the email address you registered for the Pushinn closed beta to access Council controls.
+        </p>
+        <form id="gate-form" class="space-y-4">
+          <input 
+            type="email" 
+            id="gate-email" 
+            placeholder="tester@domain.com" 
+            class="w-full bg-black matrix-border rounded p-4 text-white font-mono text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors"
+            required
+          >
+          <button 
+            type="submit" 
+            class="w-full bg-matrix text-black font-mono font-bold text-sm tracking-widest uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)]"
+          >
+            VERIFY_COUNCIL_ACCESS
+          </button>
+        </form>
+        <p class="text-gray-600 font-mono text-xs mt-4">
+          Need an invite? <a href="/beta-onboarding" class="text-matrix hover:underline">Apply here</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- COUNCIL CONTENT (REVEALED AFTER GATE) -->
+    <section id="council-content" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 hidden">
+      <!-- TESTER STATUS BAR -->
+      <div class="bg-surface matrix-border p-4 rounded-lg mb-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3">
+          <span class="w-2.5 h-2.5 rounded-full bg-matrix shadow-[0_0_8px_#00FF41]"></span>
+          <span class="font-mono text-xs text-gray-300">AUTHENTICATED_TESTER: <span id="authenticated-email" class="text-matrix font-bold"></span></span>
+        </div>
+        <button id="gate-logout-btn" class="font-mono text-xs text-gray-500 hover:text-white transition-colors underline">
+          Switch Account
+        </button>
+      </div>
+
+      <!-- TABS: BUG REPORT vs CULTURE GOVERNANCE -->
+      <div class="flex border-b matrix-border mb-8">
+        <button id="tab-bugs-btn" class="flex-1 py-4 text-center font-mono text-sm font-bold tracking-wider border-b-2 border-matrix text-matrix transition-all">
+          [ 01 // REPORT A BUG ]
+        </button>
+        <button id="tab-governance-btn" class="flex-1 py-4 text-center font-mono text-sm font-bold tracking-wider border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition-all">
+          [ 02 // CULTURE BALLOT ]
+        </button>
+      </div>
+
+      <!-- TAB 1: BUG REPORTING -->
+      <div id="tab-bugs" class="bg-surface matrix-border p-6 sm:p-8 rounded-lg">
+        <div class="mb-6">
+          <div class="font-mono text-matrix text-xs tracking-widest uppercase mb-1">TELEMETRY_INTAKE</div>
+          <h2 class="font-mono font-bold text-2xl text-white">Squash a Bug</h2>
+          <p class="text-gray-400 text-sm mt-1">Found a glitch, broken spot pin, or crash in Build 103? Log it directly for the dev mechanoids.</p>
+        </div>
+
+        <form id="bug-form" class="space-y-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-mono text-xs text-gray-400 uppercase mb-2">Category</label>
+              <select name="category" class="w-full bg-black matrix-border rounded p-3.5 text-white font-mono text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix" required>
+                <option value="Spots & Map">📍 Spots & Map Pinning</option>
+                <option value="Spot Battles">⚔️ Spot Battles & Clips</option>
+                <option value="Wallet & Points">💰 Wallet, Points & Rewards</option>
+                <option value="Auth & Profile">👤 Login, Profile & Settings</option>
+                <option value="App Crash">💥 Full App Crash / Freeze</option>
+                <option value="UI & Performance">📱 Visual Glitch / Lag</option>
+                <option value="Other">🛠️ Other Feedback</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-mono text-xs text-gray-400 uppercase mb-2">Device & OS</label>
+              <input type="text" name="device" placeholder="e.g. iPhone 15 Pro, iOS 18" class="w-full bg-black matrix-border rounded p-3.5 text-white font-mono text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix" required>
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-mono text-xs text-gray-400 uppercase mb-2">Bug Summary</label>
+            <input type="text" name="summary" placeholder="e.g. Map markers disappear after pinching zoom" maxlength="150" class="w-full bg-black matrix-border rounded p-3.5 text-white font-sans text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix" required>
+          </div>
+
+          <div>
+            <label class="block font-mono text-xs text-gray-400 uppercase mb-2">Steps to Reproduce & Expected Behaviour</label>
+            <textarea name="details" rows="5" placeholder="1. Open app&#10;2. Tap on Southbank spot pin&#10;3. App freezes on camera permissions" maxlength="4000" class="w-full bg-black matrix-border rounded p-3.5 text-white font-sans text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix" required></textarea>
+          </div>
+
+          <button type="submit" id="bug-submit-btn" class="w-full bg-matrix text-black font-mono font-bold text-sm tracking-widest uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)]">
+            TRANSMIT_BUG_TELEMETRY
+          </button>
+
+          <div id="bug-success-msg" style="display:none;" class="p-4 rounded bg-matrix/10 border border-matrix text-matrix font-mono text-sm text-center">
+            > TELEMETRY_RECEIVED. Issue logged into core queue. Respect, tester.
+          </div>
+          <div id="bug-error-msg" style="display:none;" class="p-4 rounded bg-red-950/40 border border-red-500 text-red-400 font-mono text-sm text-center">
+            > FAILED_TO_TRANSMIT. Check connection or email admin@pushinn.app.
+          </div>
+        </form>
+      </div>
+
+      <!-- TAB 2: CULTURE GOVERNANCE BALLOT -->
+      <div id="tab-governance" class="bg-surface matrix-border p-6 sm:p-8 rounded-lg hidden">
+        <div class="mb-8">
+          <div class="font-mono text-matrix text-xs tracking-widest uppercase mb-1">DEMOCRATIC_VOTE // ROUND_01</div>
+          <h2 class="font-mono font-bold text-2xl text-white">Culture Governance Ballot</h2>
+          <p class="text-gray-400 text-sm mt-1">Pushinn belongs to the streets. Help us lock down game rules so the culture isn't diluted.</p>
+        </div>
+
+        <form id="governance-form" class="space-y-8">
+          <!-- QUESTION 1 -->
+          <div class="space-y-3">
+            <h3 class="font-mono font-bold text-sm sm:text-base text-white">
+              01 // Secret Spot Protection: How should hidden spots be handled on the map?
+            </h3>
+            <div class="space-y-2">
+              <label class="poll-option block cursor-pointer">
+                <input type="radio" name="q1_secret_spots" value="Strict Fog-of-War (50m proximity unlock)" class="hidden" required>
+                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
+                  <div class="text-sm font-sans text-gray-300">
+                    <strong class="text-white block font-mono text-xs mb-0.5">Strict Fog-of-War:</strong>
+                    Hide precise GPS coordinates until a skater is physically within 50m of the spot.
+                  </div>
+                </div>
+              </label>
+
+              <label class="poll-option block cursor-pointer">
+                <input type="radio" name="q1_secret_spots" value="Reputation Gated (Verified Locals only)" class="hidden">
+                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
+                  <div class="text-sm font-sans text-gray-300">
+                    <strong class="text-white block font-mono text-xs mb-0.5">Reputation Gated:</strong>
+                    Only unlock secret spot coordinates for skaters who have earned "Verified Local" status.
+                  </div>
+                </div>
+              </label>
+
+              <label class="poll-option block cursor-pointer">
+                <input type="radio" name="q1_secret_spots" value="Open Map (Visible to all discovered spots)" class="hidden">
+                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
+                  <div class="text-sm font-sans text-gray-300">
+                    <strong class="text-white block font-mono text-xs mb-0.5">Open Map:</strong>
+                    Show all verified spots openly to anyone logged in on Pushinn.
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- QUESTION 2 -->
+          <div class="space-y-3">
+            <h3 class="font-mono font-bold text-sm sm:text-base text-white">
+              02 // Spot Battle Judging: How should disputed trick clips be resolved?
+            </h3>
+            <div class="space-y-2">
+              <label class="poll-option block cursor-pointer">
+                <input type="radio" name="q2_battle_disputes" value="Local Jury (Top 3 spot holders vote)" class="hidden" required>
+                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
+                  <div class="text-sm font-sans text-gray-300">
+                    <strong class="text-white block font-mono text-xs mb-0.5">Local Jury:</strong>
+                    The top 3 skaters on that spot's leaderboard cast the deciding votes on line validity.
+                  </div>
+                </div>
+              </label>
+
+              <label class="poll-option block cursor-pointer">
+                <input type="radio" name="q2_battle_disputes" value="Borough Ballot (24h open community vote)" class="hidden">
+                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
+                  <div class="text-sm font-sans text-gray-300">
+                    <strong class="text-white block font-mono text-xs mb-0.5">Borough Ballot:</strong>
+                    A 24-hour public vote open to all active skaters within that London borough.
+                  </div>
+                </div>
+              </label>
+
+              <label class="poll-option block cursor-pointer">
+                <input type="radio" name="q2_battle_disputes" value="Re-Match Required (Dispute triggers sudden-death)" class="hidden">
+                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
+                  <div class="text-sm font-sans text-gray-300">
+                    <strong class="text-white block font-mono text-xs mb-0.5">Sudden-Death Re-Match:</strong>
+                    Disputes automatically void points until both skaters post fresh runs.
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- QUESTION 3 -->
+          <div class="space-y-3">
+            <h3 class="font-mono font-bold text-sm sm:text-base text-white">
+              03 // Local Royalty: What qualifies a skater for "Verified Local" at a spot?
+            </h3>
+            <div class="space-y-2">
+              <label class="poll-option block cursor-pointer">
+                <input type="radio" name="q3_local_criteria" value="Clip Consistency (5+ verified sessions filmed there)" class="hidden" required>
+                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
+                  <div class="text-sm font-sans text-gray-300">
+                    <strong class="text-white block font-mono text-xs mb-0.5">Clip Consistency:</strong>
+                    At least 5 separate filmed sessions logged at the spot over 30 days.
+                  </div>
+                </div>
+              </label>
+
+              <label class="poll-option block cursor-pointer">
+                <input type="radio" name="q3_local_criteria" value="Community Vouching (Vouched by existing borough locals)" class="hidden">
+                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
+                  <div class="text-sm font-sans text-gray-300">
+                    <strong class="text-white block font-mono text-xs mb-0.5">Community Vouching:</strong>
+                    Must be vouched for by 3 existing verified skaters from that spot.
+                  </div>
+                </div>
+              </label>
+
+              <label class="poll-option block cursor-pointer">
+                <input type="radio" name="q3_local_criteria" value="Spot Crown (Current highest score holder)" class="hidden">
+                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
+                  <div class="text-sm font-sans text-gray-300">
+                    <strong class="text-white block font-mono text-xs mb-0.5">Leaderboard Crown:</strong>
+                    Hold the number one trick rank or spot score at the time of calculation.
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- RAW CULTURE FEEDBACK -->
+          <div>
+            <label class="block font-mono text-xs text-gray-400 uppercase mb-2">Raw Street Feedback & Culture Directives</label>
+            <textarea name="culture_notes" rows="4" placeholder="What else should we never compromise on? Spot ethics, filming, or etiquette?" maxlength="2000" class="w-full bg-black matrix-border rounded p-3.5 text-white font-sans text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix"></textarea>
+          </div>
+
+          <button type="submit" id="governance-submit-btn" class="w-full bg-matrix text-black font-mono font-bold text-sm tracking-widest uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)]">
+            CAST_COUNCIL_VOTES
+          </button>
+
+          <div id="gov-success-msg" style="display:none;" class="p-4 rounded bg-matrix/10 border border-matrix text-matrix font-mono text-sm text-center">
+            > BALLOT_RECORDED. Your vote has been logged into the Syndicate archive.
+          </div>
+          <div id="gov-error-msg" style="display:none;" class="p-4 rounded bg-red-950/40 border border-red-500 text-red-400 font-mono text-sm text-center">
+            > TRANSMISSION_FAILED. Please try again or ping admin@pushinn.app.
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-black py-12 border-t matrix-border mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-mono text-gray-500">
+        <p>&copy; 2026 PUSHINN LABS LTD. THE_SYNDICATE_COUNCIL.</p>
+        <div class="flex items-center gap-6">
+          <a href="/beta-onboarding" class="hover:text-matrix transition-colors">BETA ACCESS</a>
+          <a href="/support" class="hover:text-matrix transition-colors">SUPPORT</a>
+          <a href="/legal-privacy" class="hover:text-matrix transition-colors">PRIVACY</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SUPABASE INTEGRATION & CLIENT LOGIC -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const _supabaseUrl = 'https://hbwycwbmkarztmodssyc.supabase.co';
+    const _supabaseKey = ['sb_publishable', 'l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg'].join('_');
+    const db = window.supabase.createClient(_supabaseUrl, _supabaseKey);
+
+    // GATE LOGIC
+    const gateSection = document.getElementById('gate-section');
+    const councilContent = document.getElementById('council-content');
+    const gateForm = document.getElementById('gate-form');
+    const gateEmailInput = document.getElementById('gate-email');
+    const authEmailSpan = document.getElementById('authenticated-email');
+    const logoutBtn = document.getElementById('gate-logout-btn');
+
+    function checkAuth() {
+      const savedEmail = sessionStorage.getItem('pushinn_council_tester_email');
+      if (savedEmail) {
+        authEmailSpan.textContent = savedEmail;
+        gateSection.classList.add('hidden');
+        councilContent.classList.remove('hidden');
+      } else {
+        gateSection.classList.remove('hidden');
+        councilContent.classList.add('hidden');
+      }
+    }
+
+    if (gateForm) {
+      gateForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = gateEmailInput.value.trim().toLowerCase();
+        if (email) {
+          sessionStorage.setItem('pushinn_council_tester_email', email);
+          checkAuth();
+        }
+      });
+    }
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        sessionStorage.removeItem('pushinn_council_tester_email');
+        checkAuth();
+      });
+    }
+
+    // TAB SWITCHING
+    const tabBugsBtn = document.getElementById('tab-bugs-btn');
+    const tabGovBtn = document.getElementById('tab-governance-btn');
+    const tabBugs = document.getElementById('tab-bugs');
+    const tabGov = document.getElementById('tab-governance');
+
+    tabBugsBtn.addEventListener('click', () => {
+      tabBugs.classList.remove('hidden');
+      tabGov.classList.add('hidden');
+      tabBugsBtn.classList.add('border-matrix', 'text-matrix');
+      tabBugsBtn.classList.remove('border-transparent', 'text-gray-400');
+      tabGovBtn.classList.remove('border-matrix', 'text-matrix');
+      tabGovBtn.classList.add('border-transparent', 'text-gray-400');
+    });
+
+    tabGovBtn.addEventListener('click', () => {
+      tabGov.classList.remove('hidden');
+      tabBugs.classList.add('hidden');
+      tabGovBtn.classList.add('border-matrix', 'text-matrix');
+      tabGovBtn.classList.remove('border-transparent', 'text-gray-400');
+      tabBugsBtn.classList.remove('border-matrix', 'text-matrix');
+      tabBugsBtn.classList.add('border-transparent', 'text-gray-400');
+    });
+
+    // BUG FORM SUBMISSION
+    const bugForm = document.getElementById('bug-form');
+    if (bugForm) {
+      bugForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('bug-submit-btn');
+        const successMsg = document.getElementById('bug-success-msg');
+        const errorMsg = document.getElementById('bug-error-msg');
+        const testerEmail = sessionStorage.getItem('pushinn_council_tester_email') || 'anonymous_tester';
+
+        const category = bugForm.elements['category'].value;
+        const device = bugForm.elements['device'].value;
+        const summary = bugForm.elements['summary'].value;
+        const details = bugForm.elements['details'].value;
+
+        btn.disabled = true;
+        btn.textContent = 'TRANSMITTING...';
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
+
+        const subject = `[BUG: ${category}] ${summary.slice(0, 80)}`;
+        const messagePayload = `DEVICE: ${device}\nCATEGORY: ${category}\nSUMMARY: ${summary}\n\nDETAILS & STEPS:\n${details}`;
+
+        const { error } = await db
+          .from('contact_messages')
+          .insert([{
+            username: `Tester: ${testerEmail.split('@')[0]}`,
+            email: testerEmail,
+            subject: subject,
+            message: messagePayload
+          }]);
+
+        btn.disabled = false;
+        btn.textContent = 'TRANSMIT_BUG_TELEMETRY';
+
+        if (error) {
+          console.error('Supabase error:', error);
+          errorMsg.style.display = 'block';
+        } else {
+          successMsg.style.display = 'block';
+          bugForm.reset();
+        }
+      });
+    }
+
+    // GOVERNANCE FORM SUBMISSION
+    const govForm = document.getElementById('governance-form');
+    if (govForm) {
+      govForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('governance-submit-btn');
+        const successMsg = document.getElementById('gov-success-msg');
+        const errorMsg = document.getElementById('gov-error-msg');
+        const testerEmail = sessionStorage.getItem('pushinn_council_tester_email') || 'anonymous_tester';
+
+        const q1 = govForm.elements['q1_secret_spots'].value;
+        const q2 = govForm.elements['q2_battle_disputes'].value;
+        const q3 = govForm.elements['q3_local_criteria'].value;
+        const notes = govForm.elements['culture_notes'].value || 'None provided.';
+
+        btn.disabled = true;
+        btn.textContent = 'RECORDING_BALLOT...';
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
+
+        const subject = `[COUNCIL: Vote] Street Governance Ballot`;
+        const ballotPayload = `TESTER: ${testerEmail}\n\nQ1 SECRET SPOTS: ${q1}\nQ2 BATTLE DISPUTES: ${q2}\nQ3 LOCAL CRITERIA: ${q3}\n\nRAW NOTES:\n${notes}`;
+
+        const { error } = await db
+          .from('contact_messages')
+          .insert([{
+            username: `Council: ${testerEmail.split('@')[0]}`,
+            email: testerEmail,
+            subject: subject,
+            message: ballotPayload
+          }]);
+
+        btn.disabled = false;
+        btn.textContent = 'CAST_COUNCIL_VOTES';
+
+        if (error) {
+          console.error('Supabase error:', error);
+          errorMsg.style.display = 'block';
+        } else {
+          successMsg.style.display = 'block';
+          govForm.reset();
+        }
+      });
+    }
+
+    // INITIALIZE
+    checkAuth();
+  </script>
+</body>
+</html>
