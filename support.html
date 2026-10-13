@@ -69,13 +69,24 @@
           </form>
         </div>
 
-        <div id="delete" class="bg-surface matrix-border p-8 rounded-lg flex flex-col justify-center">
-          <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-4">ACCOUNT_SECURITY</h2>
-          <h3 class="font-mono font-bold text-xl text-white mb-4">Data & Privacy.</h3>
-          <p class="font-sans text-gray-400 text-sm mb-8 leading-relaxed">We respect your autonomy. If you wish to permanently purge your data from the network, click the button below to initiate account deletion. Please include your username and the email associated with your account. Deletion is irreversible once processed.</p>
-          <a href="mailto:admin@pushinn.app?subject=Account%20Deletion%20Request" class="inline-block text-center bg-red-600 text-white font-mono font-bold text-sm tracking-widest uppercase px-6 py-4 rounded hover:bg-red-500 transition-colors shadow-[0_0_20px_rgba(220,38,38,0.2)]">
-            DELETE_ACCOUNT
-          </a>
+        <div class="space-y-8 flex flex-col justify-between">
+          <div id="takedown" class="bg-surface matrix-border p-8 rounded-lg flex flex-col justify-center">
+            <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-4">PROPERTY_TAKEDOWN</h2>
+            <h3 class="font-mono font-bold text-xl text-white mb-4">Landowner & Resident Inquiries.</h3>
+            <p class="font-sans text-gray-400 text-sm mb-8 leading-relaxed">If a private residence or restricted property has been pinned without authorization, landowners or residents can request spot removal. We aim to review verified requests promptly.</p>
+            <a href="mailto:admin@pushinn.app?subject=Property%20Takedown%20Request" class="inline-block text-center bg-matrix text-black font-mono font-bold text-sm tracking-widest uppercase px-6 py-4 rounded hover:bg-white transition-colors">
+              REQUEST_TAKEDOWN
+            </a>
+          </div>
+
+          <div id="delete" class="bg-surface matrix-border p-8 rounded-lg flex flex-col justify-center">
+            <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-4">ACCOUNT_SECURITY</h2>
+            <h3 class="font-mono font-bold text-xl text-white mb-4">Data & Privacy.</h3>
+            <p class="font-sans text-gray-400 text-sm mb-8 leading-relaxed">We respect your autonomy. If you wish to permanently purge your data from the network, click the button below to initiate account deletion. Please include your username and the email associated with your account. Deletion is irreversible once processed.</p>
+            <a href="mailto:admin@pushinn.app?subject=Account%20Deletion%20Request" class="inline-block text-center bg-red-600 text-white font-mono font-bold text-sm tracking-widest uppercase px-6 py-4 rounded hover:bg-red-500 transition-colors shadow-[0_0_20px_rgba(220,38,38,0.2)]">
+              DELETE_ACCOUNT
+            </a>
+          </div>
         </div>
 
       </div>
@@ -108,6 +119,7 @@
           <ul class="space-y-4 font-sans text-sm text-gray-400">
             <li><a href="/legal-privacy" class="hover:text-matrix transition-colors">Privacy Policy</a></li>
             <li><a href="/legal-terms" class="hover:text-matrix transition-colors">Terms of Service</a></li>
+            <li><a href="/support#takedown" class="hover:text-matrix transition-colors">Property Takedown</a></li>
             <li><a href="/support#delete" class="hover:text-red-500 transition-colors text-gray-400">Delete Account</a></li>
           </ul>
         </div>
