@@ -54,9 +54,10 @@
           <p class="font-sans text-gray-400 text-sm mb-6">Use the form below or reach us directly at <a href="mailto:admin@pushinn.app" class="text-matrix font-semibold hover:underline">admin@pushinn.app</a>.</p>
           
           <form id="support-form" class="space-y-4">
-            <input type="text" name="name" placeholder="YOUR_NAME" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
-            <input type="email" name="email" placeholder="EMAIL_ADDRESS" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
-            <textarea name="message" rows="5" placeholder="TRANSMISSION_CONTENT" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required></textarea>
+            <input type="text" name="name" placeholder="YOUR_NAME" maxlength="100" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
+            <input type="email" name="email" placeholder="EMAIL_ADDRESS" maxlength="320" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
+            <input type="text" name="subject" placeholder="SUBJECT" maxlength="150" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
+            <textarea name="message" rows="5" placeholder="TRANSMISSION_CONTENT" maxlength="5000" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required></textarea>
             <button type="submit" id="support-submit-btn" class="w-full bg-matrix text-black font-mono font-bold text-sm tracking-widest uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)]">
               SEND_TRANSMISSION
             </button>
@@ -64,7 +65,7 @@
               > TRANSMISSION_SUCCESSFUL. WE_WILL_RESPOND_SHORTLY.
             </div>
             <div id="support-error-msg" style="display:none; color: #ff3333; font-family: monospace; font-size: 0.9rem; margin-top: 1rem; text-align: center;">
-              > SYSTEM_ERROR. PLEASE_TRY_AGAIN.
+              > NOT_SENT. Please email admin@pushinn.app instead.
             </div>
           </form>
         </div>
@@ -140,7 +141,8 @@
   <script>
     const _supabaseUrl = 'https://hbwycwbmkarztmodssyc.supabase.co';
     const _supabaseKey = 'sb_publishable_l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg';
-    const supabase = supabase.createClient(_supabaseUrl, _supabaseKey);
+    // The library is on the page as `supabase`, so the client needs a name of its own.
+    const db = window.supabase.createClient(_supabaseUrl, _supabaseKey);
 
     const supportForm = document.getElementById('support-form');
     if (supportForm) {
@@ -149,6 +151,7 @@
         const btn = document.getElementById('support-submit-btn');
         const name = supportForm.elements['name'].value;
         const email = supportForm.elements['email'].value;
+        const subject = supportForm.elements['subject'].value;
         const message = supportForm.elements['message'].value;
         const successMsg = document.getElementById('support-success-msg');
         const errorMsg = document.getElementById('support-error-msg');
@@ -159,9 +162,9 @@
         errorMsg.style.display = 'none';
 
         // using contact_messages table for general support inquiries
-        const { error } = await supabase
+        const { error } = await db
           .from('contact_messages')
-          .insert([{ username: name, email: email, message: message }]);
+          .insert([{ username: name, email: email, subject: subject, message: message }]);
 
         btn.disabled = false;
         btn.textContent = 'SEND_TRANSMISSION';

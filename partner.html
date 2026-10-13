@@ -150,7 +150,7 @@
               > PARTNERSHIP_REQUEST_LOGGED. WE_WILL_CONTACT_YOU_SHORTLY.
             </div>
             <div id="partner-error-msg" style="display:none; color: #ff3333; font-family: monospace; font-size: 0.9rem; margin-top: 1rem; text-align: center;">
-              > SYSTEM_ERROR. PLEASE_TRY_AGAIN.
+              > NOT_SENT. Please email admin@pushinn.app instead.
             </div>
           </form>
         </div>
@@ -205,7 +205,8 @@
   <script>
     const _supabaseUrl = 'https://hbwycwbmkarztmodssyc.supabase.co';
     const _supabaseKey = 'sb_publishable_l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg';
-    const supabase = supabase.createClient(_supabaseUrl, _supabaseKey);
+    // The library is on the page as `supabase`, so the client needs a name of its own.
+    const db = window.supabase.createClient(_supabaseUrl, _supabaseKey);
 
     const partnerForm = document.getElementById('partner-form');
     if (partnerForm) {
@@ -224,7 +225,7 @@
         successMsg.style.display = 'none';
         errorMsg.style.display = 'none';
 
-        const { error } = await supabase
+        const { error } = await db
           .from('partner_applications')
           .insert([{ company: company, contact_name: name, email: email, goals: goals }]);
 
