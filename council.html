@@ -82,28 +82,19 @@
     <!-- TESTER GATE (ACTIVE WHEN NOT AUTHENTICATED) -->
     <section id="gate-section" class="max-w-md mx-auto px-4 pb-24">
       <div class="bg-surface matrix-border p-8 rounded-lg matrix-glow text-center">
-        <div class="font-mono text-matrix text-xs tracking-widest uppercase mb-2">ACCESS_GATE</div>
-        <h2 class="font-mono font-bold text-xl text-white mb-3">Tester Verification</h2>
+        <div class="font-mono text-matrix text-xs tracking-widest uppercase mb-2">ACCESS_RESTRICTED // AUTH_REQUIRED</div>
+        <h2 class="font-mono font-bold text-xl text-white mb-3">Authentication Required</h2>
         <p class="text-gray-400 text-sm mb-6 font-sans">
-          Enter the email address you registered for the Pushinn closed beta to access Council controls.
+          The Syndicate Council is restricted to verified Pushinn accounts. Sign in with your mobile credentials to submit telemetry or participate in culture ballots.
         </p>
-        <form id="gate-form" class="space-y-4">
-          <input 
-            type="email" 
-            id="gate-email" 
-            placeholder="tester@domain.com" 
-            class="w-full bg-black matrix-border rounded p-4 text-white font-mono text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors"
-            required
-          >
-          <button 
-            type="submit" 
-            class="w-full bg-matrix text-black font-mono font-bold text-sm tracking-widest uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)]"
-          >
-            VERIFY_COUNCIL_ACCESS
-          </button>
-        </form>
+        <a 
+          href="/login?redirect=/council" 
+          class="block w-full bg-matrix text-black font-mono font-bold text-sm tracking-widest uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)]"
+        >
+          SIGN_IN_TO_COUNCIL
+        </a>
         <p class="text-gray-600 font-mono text-xs mt-4">
-          Need an invite? <a href="/beta-onboarding" class="text-matrix hover:underline">Apply here</a>.
+          Need access? <a href="/beta-onboarding" class="text-matrix hover:underline">Apply for closed beta</a>.
         </p>
       </div>
     </section>
@@ -353,44 +344,40 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const _supabaseUrl = 'https://hbwycwbmkarztmodssyc.supabase.co';
-    const _supabaseKey = ['sb_publishable', 'l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg'].join('_');
+    const _supabaseKey = ['sb_publishable', 'l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg'].join('_'); // gitleaks:allow — Supabase publishable key, safe for client code
     const db = window.supabase.createClient(_supabaseUrl, _supabaseKey);
 
-    // GATE LOGIC
+    // GATE & SESSION LOGIC
     const gateSection = document.getElementById('gate-section');
     const councilContent = document.getElementById('council-content');
-    const gateForm = document.getElementById('gate-form');
-    const gateEmailInput = document.getElementById('gate-email');
     const authEmailSpan = document.getElementById('authenticated-email');
     const logoutBtn = document.getElementById('gate-logout-btn');
 
-    function checkAuth() {
-      const savedEmail = sessionStorage.getItem('pushinn_council_tester_email');
-      if (savedEmail) {
-        authEmailSpan.textContent = savedEmail;
-        gateSection.classList.add('hidden');
-        councilContent.classList.remove('hidden');
-      } else {
+    async function checkAuth() {
+      try {
+        const { data: { session } } = await db.auth.getSession();
+        if (session && session.user && session.user.email) {
+          authEmailSpan.textContent = session.user.email;
+          gateSection.classList.add('hidden');
+          councilContent.classList.remove('hidden');
+          return session.user;
+        } else {
+          gateSection.classList.remove('hidden');
+          councilContent.classList.add('hidden');
+          return null;
+        }
+      } catch (err) {
+        console.error('Auth verification error:', err);
         gateSection.classList.remove('hidden');
         councilContent.classList.add('hidden');
+        return null;
       }
     }
 
-    if (gateForm) {
-      gateForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = gateEmailInput.value.trim().toLowerCase();
-        if (email) {
-          sessionStorage.setItem('pushinn_council_tester_email', email);
-          checkAuth();
-        }
-      });
-    }
-
     if (logoutBtn) {
-      logoutBtn.addEventListener('click', () => {
-        sessionStorage.removeItem('pushinn_council_tester_email');
-        checkAuth();
+      logoutBtn.addEventListener('click', async () => {
+        await db.auth.signOut();
+        window.location.href = '/login?redirect=/council';
       });
     }
 
@@ -423,10 +410,17 @@
     if (bugForm) {
       bugForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const user = await checkAuth();
+        if (!user) {
+          alert('Session expired. Please sign in to submit telemetry.');
+          window.location.href = '/login?redirect=/council';
+          return;
+        }
+
         const btn = document.getElementById('bug-submit-btn');
         const successMsg = document.getElementById('bug-success-msg');
         const errorMsg = document.getElementById('bug-error-msg');
-        const testerEmail = sessionStorage.getItem('pushinn_council_tester_email') || 'anonymous_tester';
+        const testerEmail = user.email;
 
         const category = bugForm.elements['category'].value;
         const device = bugForm.elements['device'].value;
@@ -468,10 +462,17 @@
     if (govForm) {
       govForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const user = await checkAuth();
+        if (!user) {
+          alert('Session expired. Please sign in to cast votes.');
+          window.location.href = '/login?redirect=/council';
+          return;
+        }
+
         const btn = document.getElementById('governance-submit-btn');
         const successMsg = document.getElementById('gov-success-msg');
         const errorMsg = document.getElementById('gov-error-msg');
-        const testerEmail = sessionStorage.getItem('pushinn_council_tester_email') || 'anonymous_tester';
+        const testerEmail = user.email;
 
         const q1 = govForm.elements['q1_secret_spots'].value;
         const q2 = govForm.elements['q2_battle_disputes'].value;

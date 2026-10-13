@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sign in to your Pushinn account to access the Syndicate Council and beta telemetry.">
+  <meta name="robots" content="noindex">
+  <title>Sign In | Pushinn</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            matrix: '#00FF41',
+            obsidian: '#0A0A0A',
+            surface: '#111111'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #000; color: #fff; }
+    .matrix-border { border: 1px solid rgba(0, 255, 65, 0.2); }
+    .matrix-glow { box-shadow: 0 0 20px rgba(0, 255, 65, 0.15); }
+    .matrix-hover:hover { border-color: rgba(0, 255, 65, 0.8); box-shadow: 0 0 15px rgba(0, 255, 65, 0.2); }
+  </style>
+</head>
+<body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col font-sans">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <div class="flex items-center gap-3">
+          <a href="/" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
+        </div>
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-baseline space-x-8">
+            <a href="/" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
+            <a href="/beta-onboarding" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">BETA</a>
+            <a href="/council" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">COUNCIL</a>
+            <a href="/support" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN LOGIN FORM -->
+  <main class="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8 py-20">
+    <div class="w-full max-w-md mx-auto">
+      <div class="bg-surface matrix-border p-8 rounded-lg matrix-glow">
+        <div class="font-mono text-matrix text-xs tracking-widest uppercase mb-2">ACCESS_CONTROL // AUTH</div>
+        <h1 class="font-mono font-extrabold text-3xl tracking-tight text-white mb-2">Sign In</h1>
+        <p class="text-gray-400 text-sm mb-6 font-sans">
+          Log in with your Pushinn account to access the Syndicate Council and report telemetry.
+        </p>
+
+        <!-- ALREADY LOGGED IN NOTICE -->
+        <div id="already-logged-in" class="hidden space-y-4 mb-6 p-4 rounded bg-matrix/10 border border-matrix text-matrix font-mono text-sm text-center">
+          <p>> ACTIVE_SESSION_FOUND.</p>
+          <p id="current-user-email" class="text-xs text-white"></p>
+          <div class="flex gap-3 pt-2">
+            <a href="/council" class="flex-1 bg-matrix text-black font-bold py-2 px-3 rounded text-xs uppercase hover:bg-white transition-colors">
+              Go to Council
+            </a>
+            <button id="signout-btn" class="flex-1 bg-black text-gray-300 border border-gray-700 py-2 px-3 rounded text-xs uppercase hover:text-white transition-colors">
+              Sign Out
+            </button>
+          </div>
+        </div>
+
+        <form id="login-form" class="space-y-5">
+          <div>
+            <label for="email" class="block font-mono text-xs tracking-widest uppercase text-gray-400 mb-2">
+              Email Address
+            </label>
+            <input 
+              id="email" 
+              type="email" 
+              name="email" 
+              autocomplete="username" 
+              placeholder="rider@domain.com" 
+              required
+              class="w-full bg-black matrix-border rounded p-3.5 text-white font-mono text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors"
+            >
+          </div>
+
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <label for="password" class="block font-mono text-xs tracking-widest uppercase text-gray-400">
+                Password
+              </label>
+              <a href="/reset-password" class="font-mono text-xs text-gray-400 hover:text-matrix transition-colors">
+                Forgot password?
+              </a>
+            </div>
+            <input 
+              id="password" 
+              type="password" 
+              name="password" 
+              autocomplete="current-password" 
+              placeholder="••••••••••••" 
+              required
+              class="w-full bg-black matrix-border rounded p-3.5 text-white font-mono text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors"
+            >
+          </div>
+
+          <p id="error-msg" class="hidden text-red-400 font-mono text-xs p-3 rounded bg-red-950/40 border border-red-500/50" role="alert"></p>
+          <p id="success-msg" class="hidden text-matrix font-mono text-xs p-3 rounded bg-matrix/10 border border-matrix text-center" role="status">> AUTH_CONFIRMED. REDIRECTING...</p>
+
+          <button 
+            type="submit" 
+            id="login-btn"
+            class="w-full bg-matrix text-black font-mono font-bold text-sm tracking-widest uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)] disabled:opacity-50"
+          >
+            AUTHENTICATE_SESSION
+          </button>
+        </form>
+
+        <div class="mt-8 pt-6 border-t matrix-border text-center">
+          <p class="text-gray-500 font-mono text-xs">
+            Don't have an account yet? 
+            <a href="/beta-onboarding" class="text-matrix hover:underline block sm:inline mt-1 sm:mt-0 font-bold">
+              Join the Closed Beta
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-black py-8 border-t matrix-border mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-gray-600 text-xs font-mono">&copy; 2026 PUSHINN LABS LTD. SECURE_ACCESS_TERMINAL.</p>
+    </div>
+  </footer>
+
+  <!-- SUPABASE INTEGRATION -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    (function () {
+      const _supabaseUrl = 'https://hbwycwbmkarztmodssyc.supabase.co';
+      const _supabaseKey = ['sb_publishable', 'l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg'].join('_'); // gitleaks:allow — Supabase publishable key, safe for client code
+      const db = window.supabase.createClient(_supabaseUrl, _supabaseKey);
+
+      const loginForm = document.getElementById('login-form');
+      const loginBtn = document.getElementById('login-btn');
+      const errorMsg = document.getElementById('error-msg');
+      const successMsg = document.getElementById('success-msg');
+      const alreadyLoggedIn = document.getElementById('already-logged-in');
+      const currentUserEmail = document.getElementById('current-user-email');
+      const signoutBtn = document.getElementById('signout-btn');
+
+      // Check destination query param
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirectTarget = urlParams.get('redirect') || '/council';
+
+      // Check current session
+      async function initSession() {
+        try {
+          const { data: { session } } = await db.auth.getSession();
+          if (session && session.user) {
+            currentUserEmail.textContent = `Signed in as: ${session.user.email}`;
+            alreadyLoggedIn.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+          }
+        } catch (err) {
+          console.error('Session check error:', err);
+        }
+      }
+
+      initSession();
+
+      if (signoutBtn) {
+        signoutBtn.addEventListener('click', async () => {
+          await db.auth.signOut();
+          alreadyLoggedIn.classList.add('hidden');
+          loginForm.classList.remove('hidden');
+        });
+      }
+
+      if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          errorMsg.classList.add('hidden');
+          successMsg.classList.add('hidden');
+
+          const email = loginForm.elements['email'].value.trim();
+          const password = loginForm.elements['password'].value;
+
+          loginBtn.disabled = true;
+          loginBtn.textContent = 'AUTHENTICATING...';
+
+          try {
+            const { data, error } = await db.auth.signInWithPassword({
+              email: email,
+              password: password
+            });
+
+            if (error) {
+              errorMsg.textContent = `> AUTH_FAILED: ${error.message}`;
+              errorMsg.classList.remove('hidden');
+              loginBtn.disabled = false;
+              loginBtn.textContent = 'AUTHENTICATE_SESSION';
+            } else if (data && data.session) {
+              successMsg.classList.remove('hidden');
+              loginBtn.textContent = 'AUTHENTICATED';
+              setTimeout(() => {
+                window.location.href = redirectTarget;
+              }, 800);
+            }
+          } catch (err) {
+            errorMsg.textContent = '> NETWORK_ERROR: Transmission failed.';
+            errorMsg.classList.remove('hidden');
+            loginBtn.disabled = false;
+            loginBtn.textContent = 'AUTHENTICATE_SESSION';
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
