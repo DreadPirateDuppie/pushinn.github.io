@@ -53,11 +53,22 @@
           <a href="/" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
           <span class="text-xs font-mono px-2 py-0.5 rounded bg-matrix/10 text-matrix border border-matrix/30">COUNCIL</span>
         </div>
-        <div class="hidden md:block">
-          <div class="ml-10 flex items-baseline space-x-8">
+        <div class="flex items-center space-x-4">
+          <div class="hidden md:flex items-baseline space-x-6">
             <a href="/" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
             <a href="/beta-onboarding" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">BETA</a>
             <a href="/support" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
+          </div>
+          <div id="nav-auth-container" class="flex items-center gap-2">
+            <a id="nav-login-link" href="/login?redirect=/council" class="hidden text-xs font-mono font-bold px-3 py-1.5 rounded bg-matrix text-black hover:bg-white uppercase transition-colors">
+              Sign In
+            </a>
+            <div id="nav-user-badge" class="hidden flex items-center gap-2">
+              <span id="nav-user-email" class="hidden sm:inline font-mono text-xs text-matrix"></span>
+              <button id="nav-logout-btn" type="button" class="text-xs font-mono px-2.5 py-1 rounded border border-gray-700 bg-surface text-gray-300 hover:text-white hover:border-gray-500 uppercase transition-colors">
+                Sign Out
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -80,7 +91,7 @@
     </section>
 
     <!-- TESTER GATE (ACTIVE WHEN NOT AUTHENTICATED) -->
-    <section id="gate-section" class="max-w-md mx-auto px-4 pb-24">
+    <section id="gate-section" class="max-w-md mx-auto px-4 pb-24 hidden">
       <div class="bg-surface matrix-border p-8 rounded-lg matrix-glow text-center">
         <div class="font-mono text-matrix text-xs tracking-widest uppercase mb-2">ACCESS_RESTRICTED // AUTH_REQUIRED</div>
         <h2 class="font-mono font-bold text-xl text-white mb-3">Authentication Required</h2>
@@ -352,6 +363,21 @@
     const councilContent = document.getElementById('council-content');
     const authEmailSpan = document.getElementById('authenticated-email');
     const logoutBtn = document.getElementById('gate-logout-btn');
+    const navLoginLink = document.getElementById('nav-login-link');
+    const navUserBadge = document.getElementById('nav-user-badge');
+    const navUserEmail = document.getElementById('nav-user-email');
+    const navLogoutBtn = document.getElementById('nav-logout-btn');
+
+    function updateNavAuth(user) {
+      if (user && user.email) {
+        if (navLoginLink) navLoginLink.classList.add('hidden');
+        if (navUserBadge) navUserBadge.classList.remove('hidden');
+        if (navUserEmail) navUserEmail.textContent = user.email.split('@')[0];
+      } else {
+        if (navLoginLink) navLoginLink.classList.remove('hidden');
+        if (navUserBadge) navUserBadge.classList.add('hidden');
+      }
+    }
 
     async function checkAuth() {
       try {
@@ -360,26 +386,40 @@
           authEmailSpan.textContent = session.user.email;
           gateSection.classList.add('hidden');
           councilContent.classList.remove('hidden');
+          updateNavAuth(session.user);
           return session.user;
         } else {
           gateSection.classList.remove('hidden');
           councilContent.classList.add('hidden');
+          updateNavAuth(null);
           return null;
         }
       } catch (err) {
         console.error('Auth verification error:', err);
         gateSection.classList.remove('hidden');
         councilContent.classList.add('hidden');
+        updateNavAuth(null);
         return null;
       }
     }
 
-    if (logoutBtn) {
-      logoutBtn.addEventListener('click', async () => {
-        await db.auth.signOut();
-        window.location.href = '/login?redirect=/council';
-      });
+    async function handleSignOut() {
+      await db.auth.signOut();
+      window.location.href = '/login?redirect=/council';
     }
+
+    if (logoutBtn) logoutBtn.addEventListener('click', handleSignOut);
+    if (navLogoutBtn) navLogoutBtn.addEventListener('click', handleSignOut);
+
+    db.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') {
+        gateSection.classList.remove('hidden');
+        councilContent.classList.add('hidden');
+        updateNavAuth(null);
+      } else if (session && session.user) {
+        checkAuth();
+      }
+    });
 
     // TAB SWITCHING
     const tabBugsBtn = document.getElementById('tab-bugs-btn');
