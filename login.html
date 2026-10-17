@@ -71,16 +71,16 @@
   <main class="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8 py-20">
     <div class="w-full max-w-md mx-auto">
       <div class="bg-surface matrix-border p-8 rounded-lg matrix-glow">
-        <div class="font-mono text-matrix text-xs tracking-widest uppercase mb-2">ACCESS_CONTROL // AUTH</div>
-        <h1 class="font-mono font-extrabold text-3xl tracking-tight text-white mb-2">Sign In</h1>
-        <p class="text-gray-400 text-sm mb-6 font-sans">
+        <div class="text-matrix text-xs font-semibold tracking-wider uppercase mb-2">Account</div>
+        <h1 class="font-extrabold text-3xl tracking-tight text-white mb-2">Sign In</h1>
+        <p class="text-gray-400 text-sm mb-6">
           Log in with your Pushinn account to access the Pushinn Council and submit beta feedback.
         </p>
 
         <!-- ALREADY LOGGED IN NOTICE -->
-        <div id="already-logged-in" class="hidden space-y-4 mb-6 p-4 rounded bg-matrix/10 border border-matrix text-matrix font-mono text-sm text-center">
-          <p>> ACTIVE_SESSION_FOUND.</p>
-          <p id="current-user-email" class="text-xs text-white"></p>
+        <div id="already-logged-in" class="hidden space-y-4 mb-6 p-4 rounded bg-matrix/10 border border-matrix text-matrix text-sm text-center">
+          <p class="font-semibold text-white">You are already signed in.</p>
+          <p id="current-user-email" class="text-xs text-gray-300"></p>
           <div class="flex gap-3 pt-2">
             <a href="/council" class="flex-1 bg-matrix text-black font-bold py-2 px-3 rounded text-xs uppercase hover:bg-white transition-colors">
               Go to Council
@@ -93,7 +93,7 @@
 
         <form id="login-form" class="space-y-5">
           <div>
-            <label for="email" class="block font-mono text-xs tracking-widest uppercase text-gray-400 mb-2">
+            <label for="email" class="block text-xs font-medium tracking-wide uppercase text-gray-400 mb-2">
               Email Address
             </label>
             <input 
@@ -103,16 +103,16 @@
               autocomplete="username" 
               placeholder="rider@domain.com" 
               required
-              class="w-full bg-black matrix-border rounded p-3.5 text-white font-mono text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors"
+              class="w-full bg-black matrix-border rounded p-3.5 text-white text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors"
             >
           </div>
 
           <div>
             <div class="flex justify-between items-center mb-2">
-              <label for="password" class="block font-mono text-xs tracking-widest uppercase text-gray-400">
+              <label for="password" class="block text-xs font-medium tracking-wide uppercase text-gray-400">
                 Password
               </label>
-              <a href="/reset-password" class="font-mono text-xs text-gray-400 hover:text-matrix transition-colors">
+              <a href="/reset-password" class="text-xs text-gray-400 hover:text-matrix transition-colors">
                 Forgot password?
               </a>
             </div>
@@ -123,24 +123,24 @@
               autocomplete="current-password" 
               placeholder="••••••••••••" 
               required
-              class="w-full bg-black matrix-border rounded p-3.5 text-white font-mono text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors"
+              class="w-full bg-black matrix-border rounded p-3.5 text-white text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors"
             >
           </div>
 
-          <p id="error-msg" class="hidden text-red-400 font-mono text-xs p-3 rounded bg-red-950/40 border border-red-500/50" role="alert"></p>
-          <p id="success-msg" class="hidden text-matrix font-mono text-xs p-3 rounded bg-matrix/10 border border-matrix text-center" role="status">> AUTH_CONFIRMED. REDIRECTING...</p>
+          <p id="error-msg" class="hidden text-red-400 text-xs p-3 rounded bg-red-950/40 border border-red-500/50" role="alert"></p>
+          <p id="success-msg" class="hidden text-matrix text-xs p-3 rounded bg-matrix/10 border border-matrix text-center" role="status">Signed in successfully. Redirecting...</p>
 
           <button 
             type="submit" 
             id="login-btn"
-            class="w-full bg-matrix text-black font-mono font-bold text-sm tracking-widest uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)] disabled:opacity-50"
+            class="w-full bg-matrix text-black font-bold text-sm tracking-wider uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)] disabled:opacity-50"
           >
-            AUTHENTICATE_SESSION
+            Sign In
           </button>
         </form>
 
         <div class="mt-8 pt-6 border-t matrix-border text-center">
-          <p class="text-gray-500 font-mono text-xs">
+          <p class="text-gray-500 text-xs">
             Don't have an account yet? 
             <a href="/beta-onboarding" class="text-matrix hover:underline block sm:inline mt-1 sm:mt-0 font-bold">
               Join the Closed Beta
@@ -154,7 +154,7 @@
   <!-- FOOTER -->
   <footer class="bg-black py-8 border-t matrix-border mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p class="text-gray-600 text-xs font-mono">&copy; 2026 PUSHINN LABS LTD. SECURE_ACCESS_TERMINAL.</p>
+      <p class="text-gray-600 text-xs">&copy; 2026 Pushinn Labs LTD. All rights reserved.</p>
     </div>
   </footer>
 
@@ -243,7 +243,7 @@
           const password = loginForm.elements['password'].value;
 
           loginBtn.disabled = true;
-          loginBtn.textContent = 'AUTHENTICATING...';
+          loginBtn.textContent = 'Signing in...';
 
           try {
             const { data, error } = await db.auth.signInWithPassword({
@@ -252,22 +252,22 @@
             });
 
             if (error) {
-              errorMsg.textContent = `> AUTH_FAILED: ${error.message}`;
+              errorMsg.textContent = error.message;
               errorMsg.classList.remove('hidden');
               loginBtn.disabled = false;
-              loginBtn.textContent = 'AUTHENTICATE_SESSION';
+              loginBtn.textContent = 'Sign In';
             } else if (data && data.session) {
               successMsg.classList.remove('hidden');
-              loginBtn.textContent = 'AUTHENTICATED';
+              loginBtn.textContent = 'Signed In';
               setTimeout(() => {
                 window.location.href = redirectTarget;
               }, 800);
             }
           } catch (err) {
-            errorMsg.textContent = '> NETWORK_ERROR: Transmission failed.';
+            errorMsg.textContent = 'Network error. Please check your connection and try again.';
             errorMsg.classList.remove('hidden');
             loginBtn.disabled = false;
-            loginBtn.textContent = 'AUTHENTICATE_SESSION';
+            loginBtn.textContent = 'Sign In';
           }
         });
       }
