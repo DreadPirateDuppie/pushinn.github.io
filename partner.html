@@ -132,25 +132,25 @@
               </div>
               <div>
                 <label class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2">Contact Name</label>
-                <input type="text" name="name" placeholder="REPRESENTATIVE" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix transition-colors" required>
+                <input type="text" name="name" placeholder="Representative name" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix transition-colors" required>
               </div>
             </div>
             <div>
               <label class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2">Business Email</label>
-              <input type="email" name="email" placeholder="ADMIN@COMPANY.COM" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix transition-colors" required>
+              <input type="email" name="email" placeholder="contact@company.com" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix transition-colors" required>
             </div>
             <div>
               <label class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2">Activation Goals</label>
-              <textarea name="goals" rows="4" placeholder="Briefly describe your interest (e.g., Sponsored Manifests, Scouting, Geo-Activations)" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix transition-colors" required></textarea>
+              <textarea name="goals" rows="4" placeholder="Briefly describe your interest (e.g., Sponsored Events, Scouting, Collaborations)" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix transition-colors" required></textarea>
             </div>
             <button type="submit" id="partner-submit-btn" class="w-full bg-matrix text-black font-mono font-black text-lg tracking-wide uppercase px-8 py-5 rounded hover:bg-white transition-all duration-300 shadow-[0_0_30px_rgba(0,255,65,0.4)]">
               Register Interest
             </button>
-            <div id="partner-success-msg" style="display:none; color: #00FF41; font-family: monospace; font-size: 0.9rem; margin-top: 1rem; text-align: center;">
-              > PARTNERSHIP_REQUEST_LOGGED. WE_WILL_CONTACT_YOU_SHORTLY.
+            <div id="partner-success-msg" style="display:none; color: #00FF41; font-family: sans-serif; font-size: 0.9rem; margin-top: 1rem; text-align: center;">
+              Partnership request received. We will contact you shortly.
             </div>
-            <div id="partner-error-msg" style="display:none; color: #ff3333; font-family: monospace; font-size: 0.9rem; margin-top: 1rem; text-align: center;">
-              > NOT_SENT. Please email admin@pushinn.app instead.
+            <div id="partner-error-msg" style="display:none; color: #ff3333; font-family: sans-serif; font-size: 0.9rem; margin-top: 1rem; text-align: center;">
+              Could not send request. Please email admin@pushinn.app directly.
             </div>
           </form>
         </div>
@@ -220,7 +220,7 @@
         const successMsg = document.getElementById('partner-success-msg');
         const errorMsg = document.getElementById('partner-error-msg');
         
-        btn.textContent = 'TRANSMITTING...';
+        btn.textContent = 'Submitting...';
         btn.disabled = true;
         successMsg.style.display = 'none';
         errorMsg.style.display = 'none';
