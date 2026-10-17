@@ -51,12 +51,15 @@
         <div class="flex-shrink-0">
           <a href="/" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
         </div>
-        <div class="hidden md:block">
-          <div class="ml-10 flex items-baseline space-x-8">
+        <div class="flex items-center space-x-6">
+          <div class="hidden md:flex items-baseline space-x-6">
             <a href="/" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
-            <a href="/partner" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">PARTNER WITH US</a>
+            <a href="/council" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">COUNCIL</a>
             <a href="/support" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
           </div>
+          <a href="/login" class="text-xs font-mono font-bold px-3 py-1.5 rounded bg-matrix/20 text-matrix border border-matrix/40 uppercase">
+            Sign In
+          </a>
         </div>
       </div>
     </div>
@@ -75,7 +78,55 @@
         </div>
       </div>
 
-      <div class="w-full max-w-lg mx-auto bg-surface matrix-border p-8 rounded-lg text-left">
+      <!-- INVITE CODE GATE (ACTIVE BY DEFAULT) -->
+      <div id="invite-gate-section" class="w-full max-w-lg mx-auto bg-surface matrix-border p-8 rounded-lg text-center shadow-2xl mb-8">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-matrix/40 bg-matrix/10 mb-5">
+          <span class="w-2 h-2 rounded-full bg-matrix animate-pulse"></span>
+          <span class="font-mono text-xs text-matrix tracking-widest uppercase">Closed Beta // Invite Only</span>
+        </div>
+        <h2 class="font-mono font-bold text-2xl text-white mb-3">Enter Invite Code</h2>
+        <p class="text-gray-300 text-sm font-sans mb-6 leading-relaxed">
+          The Pushinn closed beta is strictly invite-only. If you were invited by Lord DPD or received an access code, enter it below to unlock registration.
+        </p>
+
+        <form id="invite-form" class="space-y-4 text-left">
+          <div>
+            <label for="invite-code-input" class="block font-mono text-xs text-matrix tracking-widest uppercase mb-2 text-center">
+              Invite Code
+            </label>
+            <input 
+              id="invite-code-input" 
+              type="text" 
+              placeholder="ENTER INVITE CODE" 
+              autocomplete="off" 
+              required
+              class="w-full bg-black matrix-border rounded p-4 text-white font-mono text-center tracking-widest uppercase text-base focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors"
+            >
+          </div>
+          <p id="invite-error" class="hidden text-red-400 font-mono text-xs p-3 rounded bg-red-950/40 border border-red-500/50 text-center" role="alert"></p>
+          <button 
+            type="submit" 
+            id="invite-submit"
+            class="w-full bg-matrix text-black font-mono font-bold text-sm tracking-widest uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)]"
+          >
+            Unlock Registration
+          </button>
+        </form>
+
+        <div class="mt-6 pt-6 border-t matrix-border text-center">
+          <p class="text-gray-500 font-sans text-xs">
+            Don't have an invite code? Access is currently reserved for verified testers. Invites are distributed at street sessions.
+          </p>
+        </div>
+      </div>
+
+      <!-- ONBOARDING FORM SECTION (UNLOCKED ONLY WITH VALID CODE) -->
+      <div id="onboarding-form-section" class="hidden w-full max-w-lg mx-auto bg-surface matrix-border p-8 rounded-lg text-left">
+        <div id="verified-code-banner" class="mb-6 p-3 rounded bg-matrix/10 border border-matrix text-matrix font-mono text-xs text-center flex items-center justify-between">
+          <span>&#x2713; INVITE CODE VERIFIED: <strong id="verified-code-text"></strong></span>
+          <button type="button" id="change-code-btn" class="text-gray-400 hover:text-white underline uppercase text-[10px]">Change Code</button>
+        </div>
+
         <form id="beta-form" class="space-y-7">
 
           <!-- Honeypot — real people never fill this; bots do -->
@@ -170,6 +221,77 @@
       var btn = document.getElementById('beta-submit');
       var errBox = document.getElementById('beta-error');
 
+      // INVITE CODE GATE LOGIC
+      var VALID_INVITE_CODES = [
+        'PUSHINN2026',
+        'PUSHINN-BETA',
+        'CREW-BETA',
+        'RYAN-VIP',
+        'COUNCIL-BETA',
+        'STAGE1-UK',
+        'PECKHAM-BETA',
+        'TESTFLIGHT-2026'
+      ];
+
+      var inviteGateSection = document.getElementById('invite-gate-section');
+      var onboardingFormSection = document.getElementById('onboarding-form-section');
+      var inviteForm = document.getElementById('invite-form');
+      var inviteInput = document.getElementById('invite-code-input');
+      var inviteError = document.getElementById('invite-error');
+      var verifiedCodeText = document.getElementById('verified-code-text');
+      var changeCodeBtn = document.getElementById('change-code-btn');
+      var activeInviteCode = '';
+
+      function unlockWithCode(code) {
+        activeInviteCode = code.toUpperCase().trim();
+        try { localStorage.setItem('pushinn_invite_code', activeInviteCode); } catch (e) {}
+        if (verifiedCodeText) verifiedCodeText.textContent = activeInviteCode;
+        if (inviteGateSection) inviteGateSection.classList.add('hidden');
+        if (onboardingFormSection) onboardingFormSection.classList.remove('hidden');
+      }
+
+      function lockGate() {
+        activeInviteCode = '';
+        try { localStorage.removeItem('pushinn_invite_code'); } catch (e) {}
+        if (onboardingFormSection) onboardingFormSection.classList.add('hidden');
+        if (inviteGateSection) inviteGateSection.classList.remove('hidden');
+        if (inviteInput) {
+          inviteInput.value = '';
+          inviteInput.focus();
+        }
+      }
+
+      if (changeCodeBtn) {
+        changeCodeBtn.addEventListener('click', lockGate);
+      }
+
+      // Check URL parameters ?code= or ?invite=, or saved valid code in localStorage
+      var urlParams = new URLSearchParams(window.location.search);
+      var queryCode = (urlParams.get('code') || urlParams.get('invite') || '').toUpperCase().trim();
+      var savedCode = '';
+      try { savedCode = (localStorage.getItem('pushinn_invite_code') || '').toUpperCase().trim(); } catch (e) {}
+
+      var codeToCheck = queryCode || savedCode;
+      if (codeToCheck && VALID_INVITE_CODES.indexOf(codeToCheck) !== -1) {
+        unlockWithCode(codeToCheck);
+      }
+
+      if (inviteForm) {
+        inviteForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (inviteError) inviteError.classList.add('hidden');
+          var entered = (inviteInput.value || '').toUpperCase().trim();
+          if (VALID_INVITE_CODES.indexOf(entered) !== -1) {
+            unlockWithCode(entered);
+          } else {
+            if (inviteError) {
+              inviteError.textContent = 'Invalid invite code. Access restricted to invited testers only.';
+              inviteError.classList.remove('hidden');
+            }
+          }
+        });
+      }
+
       function showError(msg) {
         errBox.textContent = msg;
         errBox.classList.remove('hidden');
@@ -182,6 +304,16 @@
         // Honeypot tripped — silently pretend it worked
         if (form.elements['company'] && form.elements['company'].value) {
           window.location.href = '/thank-you';
+          return;
+        }
+
+        // Hard gate check: submission blocked if invite code not verified
+        if (!activeInviteCode || VALID_INVITE_CODES.indexOf(activeInviteCode) === -1) {
+          lockGate();
+          if (inviteError) {
+            inviteError.textContent = 'Valid invite code required to submit.';
+            inviteError.classList.remove('hidden');
+          }
           return;
         }
 
@@ -204,7 +336,7 @@
           .toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40);
 
         var payload = {
-          source:          ref ? 'beta-onboarding:' + ref : 'beta-onboarding',
+          source:          'beta-invite:' + activeInviteCode + (ref ? ':' + ref : ''),
           email:           (form.elements['email'].value || '').trim(),
           platform:         form.elements['platform'].value || null,
           device_model:     model,
