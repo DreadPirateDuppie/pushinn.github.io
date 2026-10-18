@@ -21,17 +21,62 @@
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
   <!-- NAVIGATION -->
-  <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
+  <nav class="sticky top-0 z-50 bg-black matrix-border border-b border-t-0 border-x-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         <div class="flex-shrink-0">
           <a href="/" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
         </div>
-        <div class="hidden md:block">
-          <div class="ml-10 flex items-baseline space-x-8">
+        <div class="hidden md:flex items-center space-x-6">
+          <div class="flex items-baseline space-x-6">
             <a href="/" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
             <a href="/council" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">COUNCIL</a>
             <a href="/support" class="text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
+          </div>
+          <div id="nav-auth-container" class="flex items-center gap-2">
+            <a id="nav-login-link" href="/login" class="text-xs font-mono font-bold px-3 py-1.5 rounded bg-matrix/20 text-matrix border border-matrix/40 uppercase">
+              Sign In
+            </a>
+            <div id="nav-user-badge" class="hidden flex items-center gap-2">
+              <span id="nav-user-email" class="hidden sm:inline font-mono text-xs text-matrix"></span>
+              <button id="nav-logout-btn" type="button" class="text-xs font-mono px-2.5 py-1 rounded border border-gray-700 bg-surface text-gray-300 hover:text-white hover:border-gray-500 uppercase transition-colors">
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="-mr-2 flex md:hidden">
+          <!-- Mobile menu button -->
+          <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-matrix hover:text-white hover:bg-obsidian focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-obsidian focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <!-- Icon when menu is closed. -->
+            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <!-- Icon when menu is open. -->
+            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="hidden md:hidden bg-black border-b matrix-border shadow-2xl" id="mobile-menu">
+      <div class="px-4 pt-3 pb-5 space-y-2">
+        <a href="/" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-mono">HOME</a>
+        <a href="/council" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-mono">COUNCIL</a>
+        <a href="/support" class="bg-obsidian text-matrix block px-3 py-2 rounded-md text-base font-mono">SUPPORT</a>
+        <div id="mobile-auth-container" class="pt-2 border-t border-gray-800">
+          <a id="mobile-login-link" href="/login" class="bg-matrix/10 text-matrix border border-matrix/30 block text-center px-3 py-2 rounded-md text-base font-mono font-bold uppercase">
+            Sign In / Account
+          </a>
+          <div id="mobile-user-badge" class="hidden flex items-center justify-between px-3 py-2 rounded-md bg-surface border border-gray-800">
+            <span id="mobile-user-email" class="font-mono text-xs text-matrix"></span>
+            <button id="mobile-logout-btn" type="button" class="text-xs font-mono px-2 py-1 rounded border border-gray-700 text-gray-300 hover:text-white uppercase">
+              Sign Out
+            </button>
           </div>
         </div>
       </div>
@@ -176,6 +221,88 @@
         }
       });
     }
+
+    // Mobile menu toggle & close on link tap
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenuButton && mobileMenu) {
+      const menuIconOpen = mobileMenuButton.querySelector('svg:first-child');
+      const menuIconClose = mobileMenuButton.querySelector('svg:last-child');
+
+      function toggleMenu(show) {
+        const isExpanded = typeof show === 'boolean' ? show : mobileMenu.classList.contains('hidden');
+        mobileMenuButton.setAttribute('aria-expanded', isExpanded);
+        if (isExpanded) {
+          mobileMenu.classList.remove('hidden');
+          menuIconOpen.classList.add('hidden');
+          menuIconClose.classList.remove('hidden');
+        } else {
+          mobileMenu.classList.add('hidden');
+          menuIconOpen.classList.remove('hidden');
+          menuIconClose.classList.add('hidden');
+        }
+      }
+
+      mobileMenuButton.addEventListener('click', () => toggleMenu());
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => toggleMenu(false));
+      });
+    }
+
+    // Navbar session management
+    (function() {
+      const navLoginLink = document.getElementById('nav-login-link');
+      const navUserBadge = document.getElementById('nav-user-badge');
+      const navUserEmail = document.getElementById('nav-user-email');
+      const navLogoutBtn = document.getElementById('nav-logout-btn');
+
+      const mobileLoginLink = document.getElementById('mobile-login-link');
+      const mobileUserBadge = document.getElementById('mobile-user-badge');
+      const mobileUserEmail = document.getElementById('mobile-user-email');
+      const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+
+      function updateNav(user) {
+        if (user && user.email) {
+          const handle = user.email.split('@')[0];
+          if (navLoginLink) navLoginLink.classList.add('hidden');
+          if (navUserBadge) navUserBadge.classList.remove('hidden');
+          if (navUserEmail) navUserEmail.textContent = handle;
+
+          if (mobileLoginLink) mobileLoginLink.classList.add('hidden');
+          if (mobileUserBadge) mobileUserBadge.classList.remove('hidden');
+          if (mobileUserEmail) mobileUserEmail.textContent = handle;
+        } else {
+          if (navLoginLink) navLoginLink.classList.remove('hidden');
+          if (navUserBadge) navUserBadge.classList.add('hidden');
+
+          if (mobileLoginLink) mobileLoginLink.classList.remove('hidden');
+          if (mobileUserBadge) mobileUserBadge.classList.add('hidden');
+        }
+      }
+
+      async function checkSession() {
+        try {
+          const { data: { session } } = await db.auth.getSession();
+          updateNav(session ? session.user : null);
+        } catch (e) {
+          console.error('Session error:', e);
+        }
+      }
+
+      checkSession();
+
+      async function handleSignOut() {
+        await db.auth.signOut();
+        window.location.reload();
+      }
+
+      if (navLogoutBtn) navLogoutBtn.addEventListener('click', handleSignOut);
+      if (mobileLogoutBtn) mobileLogoutBtn.addEventListener('click', handleSignOut);
+
+      db.auth.onAuthStateChange((event, session) => {
+        updateNav(session ? session.user : null);
+      });
+    })();
   </script>
 </body>
 </html>
