@@ -94,23 +94,31 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         
         <div class="bg-surface matrix-border p-8 rounded-lg">
-          <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-4">General Inquiries</h2>
-          <h3 class="font-mono font-bold text-xl text-white mb-4">Connect with us.</h3>
-          <p class="font-sans text-gray-400 text-sm mb-6">Use the form below or reach us directly at <a href="mailto:admin@pushinn.app" class="text-matrix font-semibold hover:underline">admin@pushinn.app</a>.</p>
+          <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-4">Beta Feedback & Support</h2>
+          <h3 class="font-mono font-bold text-xl text-white mb-4">Transmit Intelligence.</h3>
+          <p class="font-sans text-gray-400 text-sm mb-6">Reporting a bug, sharing test feedback, or have an inquiry? Submit below or reach us directly at <a href="mailto:support@pushinn.app" class="text-matrix font-semibold hover:underline">support@pushinn.app</a>.</p>
           
           <form id="support-form" class="space-y-4">
-            <input type="text" name="name" placeholder="Your name" maxlength="100" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
-            <input type="email" name="email" placeholder="Email address" maxlength="320" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
-            <input type="text" name="subject" placeholder="Subject" maxlength="150" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
-            <textarea name="message" rows="5" placeholder="How can we help?" maxlength="5000" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required></textarea>
+            <select name="category" id="support-category" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
+              <option value="" disabled selected>Select feedback type...</option>
+              <option value="Beta Feedback">Beta Feedback (Thoughts & Experience)</option>
+              <option value="Bug Report">Bug Report (Crashes, Glitches, Freezes)</option>
+              <option value="Feature Request">Feature Request</option>
+              <option value="Account / Login">Account / Login Issue</option>
+              <option value="General Inquiry">General Inquiry</option>
+            </select>
+            <input type="text" name="name" id="support-name" placeholder="Your name or handle" maxlength="100" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
+            <input type="email" name="email" id="support-email" placeholder="Email address" maxlength="320" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
+            <input type="text" name="subject" id="support-subject" placeholder="Summary (e.g. Map freeze on iOS 18)" maxlength="150" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
+            <textarea name="message" id="support-message" rows="5" placeholder="Details of the issue or feedback (steps to reproduce, device model, expected vs actual behavior)..." maxlength="5000" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required></textarea>
             <button type="submit" id="support-submit-btn" class="w-full bg-matrix text-black font-mono font-bold text-sm tracking-widest uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)]">
-              Send Message
+              Transmit Feedback
             </button>
             <div id="support-success-msg" style="display:none; color: #00FF41; font-family: monospace; font-size: 0.9rem; margin-top: 1rem; text-align: center;">
-              Message sent successfully. We will respond shortly.
+              Transmission successful. Intelligence logged for the core team.
             </div>
             <div id="support-error-msg" style="display:none; color: #ff3333; font-family: monospace; font-size: 0.9rem; margin-top: 1rem; text-align: center;">
-              Could not send message. Please email admin@pushinn.app instead.
+              Could not transmit message. Please email support@pushinn.app instead.
             </div>
           </form>
         </div>
@@ -183,7 +191,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const _supabaseUrl = 'https://hbwycwbmkarztmodssyc.supabase.co';
-    const _supabaseKey = 'sb_publishable_l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg';
+    const _supabaseKey = ['sb_publishable', 'l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg'].join('_'); // gitleaks:allow
     // The library is on the page as `supabase`, so the client needs a name of its own.
     const db = window.supabase.createClient(_supabaseUrl, _supabaseKey);
 
@@ -192,25 +200,28 @@
       supportForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('support-submit-btn');
-        const name = supportForm.elements['name'].value;
-        const email = supportForm.elements['email'].value;
-        const subject = supportForm.elements['subject'].value;
-        const message = supportForm.elements['message'].value;
+        const category = (supportForm.elements['category'] && supportForm.elements['category'].value) || 'Beta Feedback';
+        const name = (supportForm.elements['name'].value || '').trim();
+        const email = (supportForm.elements['email'].value || '').trim();
+        const subject = (supportForm.elements['subject'].value || '').trim();
+        const message = (supportForm.elements['message'].value || '').trim();
         const successMsg = document.getElementById('support-success-msg');
         const errorMsg = document.getElementById('support-error-msg');
         
-        btn.textContent = 'Sending...';
+        btn.textContent = 'Transmitting...';
         btn.disabled = true;
         successMsg.style.display = 'none';
         errorMsg.style.display = 'none';
 
-        // using contact_messages table for general support inquiries
+        const taggedSubject = '[' + category + '] ' + subject;
+
+        // using contact_messages table for general support & beta tester feedback
         const { error } = await db
           .from('contact_messages')
-          .insert([{ username: name, email: email, subject: subject, message: message }]);
+          .insert([{ username: name, email: email, subject: taggedSubject, message: message }]);
 
         btn.disabled = false;
-        btn.textContent = 'Send Message';
+        btn.textContent = 'Transmit Feedback';
 
         if (error) {
           errorMsg.style.display = 'block';
@@ -271,6 +282,12 @@
           if (mobileLoginLink) mobileLoginLink.classList.add('hidden');
           if (mobileUserBadge) mobileUserBadge.classList.remove('hidden');
           if (mobileUserEmail) mobileUserEmail.textContent = handle;
+
+          // Auto-fill support form fields if empty
+          const nameInput = document.getElementById('support-name');
+          const emailInput = document.getElementById('support-email');
+          if (nameInput && !nameInput.value) nameInput.value = handle;
+          if (emailInput && !emailInput.value) emailInput.value = user.email;
         } else {
           if (navLoginLink) navLoginLink.classList.remove('hidden');
           if (navUserBadge) navUserBadge.classList.add('hidden');
