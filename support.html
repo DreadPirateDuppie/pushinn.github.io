@@ -213,7 +213,8 @@
         successMsg.style.display = 'none';
         errorMsg.style.display = 'none';
 
-        const taggedSubject = '[' + category + '] ' + subject;
+        // The database refuses subjects over 150 characters; the tag adds up to 18.
+        const taggedSubject = ('[' + category + '] ' + subject).slice(0, 150);
 
         // using contact_messages table for general support & beta tester feedback
         const { error } = await db
