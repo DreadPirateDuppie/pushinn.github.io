@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sign in to your Pushinn account to access the Pushinn Council and beta feedback.">
+  <meta name="description" content="Sign in to your Pushinn account to access the Pushinn DAO and beta feedback.">
   <meta name="robots" content="noindex">
   <title>Sign In | Pushinn</title>
   <link rel="icon" type="image/png" href="favicon.png">
@@ -47,7 +47,7 @@
         <div class="flex items-center space-x-4">
           <div class="hidden md:flex items-baseline space-x-6">
             <a href="/" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
-            <a href="/council" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">COUNCIL</a>
+            <a href="/dao" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">THE DAO</a>
             <a href="/support" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
           </div>
           <div id="nav-auth-container" class="flex items-center gap-2">
@@ -73,7 +73,7 @@
         <div class="text-matrix text-xs font-semibold tracking-wider uppercase mb-2">Account</div>
         <h1 class="font-extrabold text-3xl tracking-tight text-white mb-2">Sign In</h1>
         <p class="text-gray-400 text-sm mb-6">
-          Log in with your Pushinn account to access the Pushinn Council and submit beta feedback.
+          Log in with your Pushinn account to access the Pushinn DAO and submit beta feedback.
         </p>
 
         <!-- ALREADY LOGGED IN NOTICE -->
@@ -81,8 +81,8 @@
           <p class="font-semibold text-white">You are already signed in.</p>
           <p id="current-user-email" class="text-xs text-gray-300"></p>
           <div class="flex gap-3 pt-2">
-            <a href="/council" class="flex-1 bg-matrix text-black font-bold py-2 px-3 rounded text-xs uppercase hover:bg-white transition-colors">
-              Go to Council
+            <a href="/dao" class="flex-1 bg-matrix text-black font-bold py-2 px-3 rounded text-xs uppercase hover:bg-white transition-colors">
+              Go to the DAO
             </a>
             <button id="signout-btn" class="flex-1 bg-black text-gray-300 border border-gray-700 py-2 px-3 rounded text-xs uppercase hover:text-white transition-colors">
               Sign Out
@@ -190,7 +190,7 @@
 
       // Check destination query param
       const urlParams = new URLSearchParams(window.location.search);
-      const redirectTarget = urlParams.get('redirect') || '/council';
+      const redirectTarget = urlParams.get('redirect') || '/dao';
 
       // Check current session
       async function initSession() {
