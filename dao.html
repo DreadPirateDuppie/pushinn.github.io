@@ -33,14 +33,40 @@
     .matrix-hover:hover { border-color: rgba(0, 255, 65, 0.8); box-shadow: 0 0 15px rgba(0, 255, 65, 0.2); }
     .poll-option input[type="radio"]:checked + div {
       border-color: #00FF41;
-      background: rgba(0, 255, 65, 0.08);
       color: #fff;
     }
     .poll-option input[type="radio"]:checked + div .radio-dot {
       background-color: #00FF41;
       border-color: #00FF41;
-      box-shadow: 0 0 8px #00FF41;
     }
+    /* Pushinn design standard: one green, panels #0D0D0D with a 25% green edge, radius 12, pills for chips and buttons */
+    .p-panel { background: #0D0D0D; border: 1px solid rgba(0, 255, 65, 0.25); border-radius: 12px; }
+    .p-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #00FF41; }
+    .p-field { width: 100%; background: #000; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; padding: 12px 14px; color: #fff; font-size: 14px; }
+    .p-field:focus { outline: none; border-color: #00FF41; }
+    .p-field::placeholder { color: rgba(255, 255, 255, 0.3); }
+    .p-btn { background: #00FF41; color: #000; font-weight: 600; font-size: 14px; padding: 11px 22px; border-radius: 999px; transition: background-color .15s; }
+    .p-btn:hover { background: #fff; }
+    .p-btn:disabled { opacity: .5; }
+    .p-btn-ghost { border: 1px solid rgba(255, 255, 255, 0.2); color: rgba(255, 255, 255, 0.8); font-weight: 600; font-size: 13px; padding: 7px 16px; border-radius: 999px; transition: border-color .15s, color .15s; }
+    .p-btn-ghost:hover { border-color: #fff; color: #fff; }
+    .p-chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(255, 255, 255, 0.15); color: rgba(255, 255, 255, 0.7); font-size: 13px; font-weight: 500; padding: 6px 14px; border-radius: 999px; transition: border-color .15s, color .15s; }
+    .p-chip:hover { border-color: rgba(255, 255, 255, 0.4); color: #fff; }
+    .p-chip-on, .p-chip-on:hover { border-color: #00FF41; color: #00FF41; }
+    .p-chip .admin-count { color: rgba(255, 255, 255, 0.4); font-variant-numeric: tabular-nums; }
+    .p-chip-on .admin-count { color: rgba(0, 255, 65, 0.7); }
+    .p-tab { font-size: 14px; font-weight: 600; padding: 8px 18px; border-radius: 999px; color: rgba(255, 255, 255, 0.5); border: 1px solid transparent; transition: color .15s, border-color .15s; }
+    .p-tab:hover { color: #fff; }
+    .p-tab-on, .p-tab-on:hover { color: #fff; border-color: rgba(255, 255, 255, 0.2); background: #0D0D0D; }
+    .p-status { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+    .p-status .dot { width: 6px; height: 6px; border-radius: 999px; background: currentColor; }
+    .hit-btn { width: 56px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 8px 0; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.15); transition: border-color .15s, background-color .15s; }
+    .hit-btn:hover:not(:disabled) { border-color: #00FF41; }
+    .hit-btn .n { font-size: 20px; font-weight: 600; color: #fff; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .hit-btn .t { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.5); }
+    .hit-btn.on { border-color: #00FF41; }
+    .hit-btn.on .n, .hit-btn.on .t { color: #00FF41; }
+    .hit-btn:disabled { cursor: default; }
   </style>
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col font-sans">
@@ -75,8 +101,8 @@
   </nav>
 
   <main class="flex-grow">
-    <!-- HERO HEADER -->
-    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 text-center">
+    <!-- HERO HEADER (signed-out only; signed-in members get the compact header below) -->
+    <section id="hero" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 text-center">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-matrix/10 border border-matrix/30 font-sans text-xs text-matrix font-medium mb-6">
         <span class="w-2 h-2 rounded-full bg-matrix animate-pulse"></span>
         Pushinn Closed Beta Community
@@ -97,8 +123,8 @@
         <p class="text-gray-400 text-sm mb-6 font-sans">
           The DAO is restricted to verified Pushinn accounts. Sign in to report bugs or vote on upcoming community ballots.
         </p>
-        <a 
-          href="/login?redirect=/dao" 
+        <a
+          href="/login?redirect=/dao"
           class="block w-full bg-matrix text-black font-sans font-bold text-sm tracking-wider uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)]"
         >
           Sign In to the DAO
@@ -107,109 +133,109 @@
     </section>
 
     <!-- DAO CONTENT (REVEALED AFTER GATE) -->
-    <section id="dao-content" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 hidden">
-      <!-- TESTER STATUS BAR -->
-      <div class="bg-surface matrix-border p-4 rounded-lg mb-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <div class="flex items-center gap-3">
-          <span class="w-2.5 h-2.5 rounded-full bg-matrix shadow-[0_0_8px_#00FF41]"></span>
-          <span class="font-sans text-xs text-gray-300">Signed in as: <span id="authenticated-email" class="text-matrix font-semibold font-mono"></span></span>
-          <span id="admin-badge" class="hidden text-[11px] font-bold uppercase tracking-wide px-2 py-0.5 rounded bg-matrix text-black">Admin</span>
+    <section id="dao-content" class="max-w-3xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-24 hidden font-sans">
+      <!-- COMPACT HEADER -->
+      <header class="flex items-start justify-between gap-4 mb-8">
+        <div class="min-w-0">
+          <div class="p-label">The Pushinn DAO</div>
+          <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight text-white mt-2">Welcome back<span id="dao-handle"></span></h1>
+          <p class="text-sm text-white/50 mt-2 truncate">Signed in as <span id="authenticated-email" class="text-white/70"></span></p>
         </div>
-        <button id="gate-logout-btn" class="font-sans text-xs text-gray-400 hover:text-white transition-colors underline">
-          Sign Out / Switch Account
-        </button>
+        <span id="admin-badge" class="hidden p-chip p-chip-on shrink-0 mt-1">Admin</span>
+      </header>
+
+      <!-- AT A GLANCE -->
+      <div class="grid grid-cols-3 gap-3 mb-8">
+        <div class="p-panel p-4 sm:p-5">
+          <div class="p-label">Open bugs</div>
+          <div id="stat-open" class="text-3xl sm:text-4xl font-semibold text-white mt-2 tabular-nums">–</div>
+        </div>
+        <div class="p-panel p-4 sm:p-5">
+          <div class="p-label">Fixing</div>
+          <div id="stat-fixing" class="text-3xl sm:text-4xl font-semibold text-white mt-2 tabular-nums">–</div>
+        </div>
+        <div class="p-panel p-4 sm:p-5">
+          <div class="p-label">Fixed</div>
+          <div id="stat-fixed" class="text-3xl sm:text-4xl font-semibold text-matrix mt-2 tabular-nums">–</div>
+        </div>
       </div>
 
-      <!-- TABS: BUGS, COMMUNITY BALLOT, ADMIN (admins only) -->
-      <div class="flex border-b matrix-border mb-8 font-sans">
-        <button data-tab="tab-bugs" class="tab-btn flex-1 py-4 text-center text-sm font-bold tracking-wide border-b-2 border-matrix text-matrix transition-all">
-          Bugs
-        </button>
-        <button data-tab="tab-governance" class="tab-btn flex-1 py-4 text-center text-sm font-bold tracking-wide border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition-all">
-          Community Ballot
-        </button>
-        <button id="tab-admin-btn" data-tab="tab-admin" class="tab-btn hidden flex-1 py-4 text-center text-sm font-bold tracking-wide border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition-all">
-          Admin
-        </button>
-      </div>
+      <!-- TABS: BUGS, BALLOT, ADMIN (admins only) -->
+      <nav class="flex gap-2 mb-6" aria-label="Sections">
+        <button data-tab="tab-bugs" class="tab-btn p-tab p-tab-on">Bugs</button>
+        <button data-tab="tab-governance" class="tab-btn p-tab">Ballot</button>
+        <button id="tab-admin-btn" data-tab="tab-admin" class="tab-btn p-tab hidden">Admin</button>
+      </nav>
 
       <!-- TAB 1: BUG BOARD -->
-      <div id="tab-bugs" class="tab-panel bg-surface matrix-border p-6 sm:p-8 rounded-lg font-sans">
-        <div class="mb-6">
-          <h2 class="font-bold text-2xl text-white">Bugs</h2>
-          <p class="text-gray-400 text-sm mt-1">Start typing what went wrong. If someone has already reported it, tap <span class="text-white font-semibold">I've had this too</span> so we can see how many people it hits.</p>
+      <div id="tab-bugs" class="tab-panel">
+        <div class="p-panel p-2">
+          <label for="bug-summary" class="sr-only">What went wrong?</label>
+          <div class="flex items-center gap-3 px-3">
+            <svg class="w-5 h-5 text-white/40 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input id="bug-summary" type="text" autocomplete="off" placeholder="What went wrong? e.g. markers vanish when I zoom" maxlength="150" class="w-full bg-transparent py-3 text-white text-base placeholder:text-white/40 focus:outline-none">
+          </div>
+          <div class="flex items-center gap-3 px-3 py-2 border-t border-white/5">
+            <label for="bug-device" class="p-label text-white/50 shrink-0">Your phone</label>
+            <input id="bug-device" type="text" placeholder="e.g. iPhone 15 Pro, iOS 18" maxlength="100" class="w-full bg-transparent py-1 text-white/80 text-sm placeholder:text-white/30 focus:outline-none">
+          </div>
         </div>
+        <p class="text-white/50 text-sm mt-3 px-1">If it's already on the board, tap the count to say you've had it too. The more people on a bug, the sooner it gets fixed.</p>
 
-        <div class="space-y-5">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="sm:col-span-2">
-              <label for="bug-summary" class="block text-xs font-semibold text-gray-400 uppercase mb-2">What went wrong?</label>
-              <input id="bug-summary" type="text" autocomplete="off" placeholder="e.g. Map markers disappear after pinching zoom" maxlength="150" class="w-full bg-black matrix-border rounded p-3.5 text-white text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix">
-            </div>
-            <div class="sm:col-span-2">
-              <label for="bug-device" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Your phone and system</label>
-              <input id="bug-device" type="text" placeholder="e.g. iPhone 15 Pro, iOS 18" maxlength="100" class="w-full bg-black matrix-border rounded p-3.5 text-white text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix">
-              <p class="text-gray-600 text-xs mt-1.5">Remembered on this browser. Added to any report you file or join.</p>
+        <div class="flex items-baseline justify-between mt-8 mb-3 px-1">
+          <h3 id="bug-list-title" class="p-label">Most reported</h3>
+          <span id="bug-list-status" class="text-xs text-white/40"></span>
+        </div>
+        <div id="bug-list" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
+
+        <!-- NEW REPORT: appears once something is typed above -->
+        <form id="bug-form" class="p-panel p-5 sm:p-6 mt-6 hidden">
+          <div class="p-label">Not on the board?</div>
+          <h3 class="text-lg font-semibold text-white mt-2 break-words">File “<span id="bug-form-title"></span>” as a new bug</h3>
+          <div class="mt-5">
+            <div class="text-sm text-white/70 mb-2">Where in the app?</div>
+            <div id="bug-category" class="flex flex-wrap gap-2" role="radiogroup">
+              <button type="button" data-value="Spots & Map" class="cat-chip p-chip p-chip-on">Spots &amp; map</button>
+              <button type="button" data-value="Spot Battles" class="cat-chip p-chip">Battles &amp; clips</button>
+              <button type="button" data-value="Wallet & Points" class="cat-chip p-chip">Points &amp; rewards</button>
+              <button type="button" data-value="Auth & Profile" class="cat-chip p-chip">Login &amp; profile</button>
+              <button type="button" data-value="App Crash" class="cat-chip p-chip">Crash or freeze</button>
+              <button type="button" data-value="UI & Performance" class="cat-chip p-chip">Looks wrong or laggy</button>
+              <button type="button" data-value="Other" class="cat-chip p-chip">Something else</button>
             </div>
           </div>
-
-          <div>
-            <div class="flex items-baseline justify-between mb-3">
-              <h3 id="bug-list-title" class="text-xs font-semibold text-gray-400 uppercase">Most reported</h3>
-              <span id="bug-list-status" class="text-xs text-gray-600"></span>
-            </div>
-            <div id="bug-list" class="space-y-3"></div>
+          <div class="mt-5">
+            <label for="bug-details" class="block text-sm text-white/70 mb-2">How do we make it happen?</label>
+            <textarea id="bug-details" rows="4" placeholder="1. Open the map&#10;2. Pinch to zoom in&#10;3. All the markers vanish" maxlength="4000" class="p-field" required></textarea>
           </div>
-
-          <form id="bug-form" class="space-y-5 pt-6 border-t border-matrix/20">
-            <div>
-              <h3 class="font-bold text-lg text-white">Not on the list?</h3>
-              <p class="text-gray-400 text-sm mt-1">File it as a new report. It goes on the board for everyone to see.</p>
-            </div>
-            <div>
-              <label for="bug-category" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Category</label>
-              <select id="bug-category" class="w-full bg-black matrix-border rounded p-3.5 text-white text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix" required>
-                <option value="Spots & Map">📍 Spots & Map Pinning</option>
-                <option value="Spot Battles">⚔️ Spot Battles & Clips</option>
-                <option value="Wallet & Points">💰 Wallet, Points & Rewards</option>
-                <option value="Auth & Profile">👤 Login, Profile & Settings</option>
-                <option value="App Crash">💥 Full App Crash / Freeze</option>
-                <option value="UI & Performance">📱 Visual Glitch / Lag</option>
-                <option value="Other">🛠️ Other Feedback</option>
-              </select>
-            </div>
-            <div>
-              <label for="bug-details" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Steps to reproduce</label>
-              <textarea id="bug-details" rows="5" placeholder="1. Open app&#10;2. Tap on Southbank spot pin&#10;3. App freezes on camera permissions" maxlength="4000" class="w-full bg-black matrix-border rounded p-3.5 text-white text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix" required></textarea>
-            </div>
-            <button type="submit" id="bug-submit-btn" class="w-full bg-matrix text-black font-sans font-bold text-sm tracking-wider uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)] disabled:opacity-50">
-              File New Report
-            </button>
-            <div id="bug-msg" style="display:none;" class="p-4 rounded text-sm text-center"></div>
-          </form>
-        </div>
+          <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3 mt-5">
+            <div id="bug-msg" style="display:none;" class="text-sm sm:mr-auto"></div>
+            <button type="submit" id="bug-submit-btn" class="p-btn">File new bug</button>
+          </div>
+        </form>
       </div>
 
       <!-- TAB 3: ADMIN (shown only when the database says this account is an admin) -->
-      <div id="tab-admin" class="tab-panel hidden bg-surface matrix-border p-6 sm:p-8 rounded-lg font-sans">
-        <div class="mb-6">
-          <h2 class="font-bold text-2xl text-white">Admin: bug reports</h2>
-          <p class="text-gray-400 text-sm mt-1">Who reported each bug, every phone that hit it, and its status. Members see the status and your note on the board.</p>
+      <div id="tab-admin" class="tab-panel hidden">
+        <div class="flex items-baseline justify-between mb-3 px-1">
+          <h3 class="p-label">Bug reports</h3>
+          <span class="text-xs text-white/40">Testers see the status and your note</span>
         </div>
-        <div id="admin-filters" class="flex flex-wrap gap-2 mb-5">
-          <button data-status="" class="admin-filter text-xs font-semibold px-3 py-1.5 rounded border border-matrix text-matrix">All</button>
-          <button data-status="new" class="admin-filter text-xs font-semibold px-3 py-1.5 rounded border border-gray-700 text-gray-400">New</button>
-          <button data-status="seen" class="admin-filter text-xs font-semibold px-3 py-1.5 rounded border border-gray-700 text-gray-400">Seen</button>
-          <button data-status="fixing" class="admin-filter text-xs font-semibold px-3 py-1.5 rounded border border-gray-700 text-gray-400">Fixing</button>
-          <button data-status="fixed" class="admin-filter text-xs font-semibold px-3 py-1.5 rounded border border-gray-700 text-gray-400">Fixed</button>
+        <div id="admin-filters" class="flex flex-wrap gap-2 mb-4">
+          <button data-status="" class="admin-filter p-chip p-chip-on">All <span class="admin-count"></span></button>
+          <button data-status="new" class="admin-filter p-chip">New <span class="admin-count"></span></button>
+          <button data-status="seen" class="admin-filter p-chip">Seen <span class="admin-count"></span></button>
+          <button data-status="fixing" class="admin-filter p-chip">Fixing <span class="admin-count"></span></button>
+          <button data-status="fixed" class="admin-filter p-chip">Fixed <span class="admin-count"></span></button>
         </div>
-        <div id="admin-list" class="space-y-4"></div>
+        <div id="admin-list" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
       </div>
       <!-- TAB 2: COMMUNITY BALLOT -->
-      <div id="tab-governance" class="tab-panel bg-surface matrix-border p-6 sm:p-8 rounded-lg hidden font-sans">
+      <div id="tab-governance" class="tab-panel p-panel p-5 sm:p-8 hidden">
         <div class="mb-8">
-          <h2 class="font-bold text-2xl text-white">Community Ballot</h2>
-          <p class="text-gray-400 text-sm mt-1">Pushinn belongs to the community. Vote on upcoming spot rules and features before London goes public.</p>
+          <div class="p-label">Community ballot</div>
+          <h2 class="text-2xl font-semibold text-white mt-2">Help set the rules</h2>
+          <p class="text-white/70 text-sm mt-2">Vote on spot rules and features before London goes public.</p>
         </div>
 
         <form id="governance-form" class="space-y-8">
@@ -221,7 +247,7 @@
             <div class="space-y-2">
               <label class="poll-option block cursor-pointer">
                 <input type="radio" name="q1_secret_spots" value="Strict Fog-of-War (50m proximity unlock)" class="hidden" required>
-                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
                   <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
                   <div class="text-sm font-sans text-gray-300">
                     <strong class="text-white block font-sans text-xs font-bold mb-0.5">Strict Fog-of-War:</strong>
@@ -232,7 +258,7 @@
 
               <label class="poll-option block cursor-pointer">
                 <input type="radio" name="q1_secret_spots" value="Reputation Gated (Verified Locals only)" class="hidden">
-                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
                   <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
                   <div class="text-sm font-sans text-gray-300">
                     <strong class="text-white block font-sans text-xs font-bold mb-0.5">Reputation Gated:</strong>
@@ -243,7 +269,7 @@
 
               <label class="poll-option block cursor-pointer">
                 <input type="radio" name="q1_secret_spots" value="Open Map (Visible to all discovered spots)" class="hidden">
-                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
                   <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
                   <div class="text-sm font-sans text-gray-300">
                     <strong class="text-white block font-sans text-xs font-bold mb-0.5">Open Map:</strong>
@@ -262,7 +288,7 @@
             <div class="space-y-2">
               <label class="poll-option block cursor-pointer">
                 <input type="radio" name="q2_battle_disputes" value="Local Jury (Top 3 spot holders vote)" class="hidden" required>
-                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
                   <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
                   <div class="text-sm font-sans text-gray-300">
                     <strong class="text-white block font-sans text-xs font-bold mb-0.5">Local Jury:</strong>
@@ -273,7 +299,7 @@
 
               <label class="poll-option block cursor-pointer">
                 <input type="radio" name="q2_battle_disputes" value="Borough Ballot (24h open community vote)" class="hidden">
-                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
                   <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
                   <div class="text-sm font-sans text-gray-300">
                     <strong class="text-white block font-sans text-xs font-bold mb-0.5">Borough Ballot:</strong>
@@ -284,7 +310,7 @@
 
               <label class="poll-option block cursor-pointer">
                 <input type="radio" name="q2_battle_disputes" value="Re-Match Required (Dispute triggers sudden-death)" class="hidden">
-                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
                   <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
                   <div class="text-sm font-sans text-gray-300">
                     <strong class="text-white block font-sans text-xs font-bold mb-0.5">Sudden-Death Re-Match:</strong>
@@ -303,7 +329,7 @@
             <div class="space-y-2">
               <label class="poll-option block cursor-pointer">
                 <input type="radio" name="q3_local_criteria" value="Clip Consistency (5+ verified sessions filmed there)" class="hidden" required>
-                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
                   <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
                   <div class="text-sm font-sans text-gray-300">
                     <strong class="text-white block font-sans text-xs font-bold mb-0.5">Clip Consistency:</strong>
@@ -314,7 +340,7 @@
 
               <label class="poll-option block cursor-pointer">
                 <input type="radio" name="q3_local_criteria" value="Community Vouching (Vouched by existing borough locals)" class="hidden">
-                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
                   <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
                   <div class="text-sm font-sans text-gray-300">
                     <strong class="text-white block font-sans text-xs font-bold mb-0.5">Community Vouching:</strong>
@@ -325,7 +351,7 @@
 
               <label class="poll-option block cursor-pointer">
                 <input type="radio" name="q3_local_criteria" value="Spot Crown (Current highest score holder)" class="hidden">
-                <div class="p-4 bg-black matrix-border rounded-lg flex items-start gap-3 transition-colors">
+                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
                   <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
                   <div class="text-sm font-sans text-gray-300">
                     <strong class="text-white block font-sans text-xs font-bold mb-0.5">Leaderboard Crown:</strong>
@@ -338,12 +364,12 @@
 
           <!-- RAW CULTURE FEEDBACK -->
           <div>
-            <label class="block text-xs font-semibold text-gray-400 uppercase mb-2">Community Feedback & Suggestions</label>
-            <textarea name="culture_notes" rows="4" placeholder="What else should we never compromise on? Spot ethics, filming, or etiquette?" maxlength="2000" class="w-full bg-black matrix-border rounded p-3.5 text-white font-sans text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix"></textarea>
+            <label class="block p-label mb-3">Anything else?</label>
+            <textarea name="culture_notes" rows="4" placeholder="What else should we never compromise on? Spot ethics, filming, or etiquette?" maxlength="2000" class="p-field"></textarea>
           </div>
 
-          <button type="submit" id="governance-submit-btn" class="w-full bg-matrix text-black font-sans font-bold text-sm tracking-wider uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)]">
-            Submit Votes
+          <button type="submit" id="governance-submit-btn" class="p-btn">
+            Submit votes
           </button>
 
           <div id="gov-success-msg" style="display:none;" class="p-4 rounded bg-matrix/10 border border-matrix text-matrix text-sm text-center">
@@ -403,12 +429,15 @@
         const { data: { session } } = await db.auth.getSession();
         if (session && session.user && session.user.email) {
           authEmailSpan.textContent = session.user.email;
+          document.getElementById('dao-handle').textContent = ', ' + session.user.email.split('@')[0];
+          document.getElementById('hero').classList.add('hidden');
           gateSection.classList.add('hidden');
           daoContent.classList.remove('hidden');
           updateNavAuth(session.user);
           onSignedIn();
           return session.user;
         } else {
+          document.getElementById('hero').classList.remove('hidden');
           gateSection.classList.remove('hidden');
           daoContent.classList.add('hidden');
           updateNavAuth(null);
@@ -416,6 +445,7 @@
         }
       } catch (err) {
         console.error('Auth verification error:', err);
+        document.getElementById('hero').classList.remove('hidden');
         gateSection.classList.remove('hidden');
         daoContent.classList.add('hidden');
         updateNavAuth(null);
@@ -433,6 +463,7 @@
 
     db.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') {
+        document.getElementById('hero').classList.remove('hidden');
         gateSection.classList.remove('hidden');
         daoContent.classList.add('hidden');
         updateNavAuth(null);
@@ -445,13 +476,7 @@
     const tabButtons = document.querySelectorAll('.tab-btn');
     function showTab(id) {
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('hidden', p.id !== id));
-      tabButtons.forEach(b => {
-        const on = b.dataset.tab === id;
-        b.classList.toggle('border-matrix', on);
-        b.classList.toggle('text-matrix', on);
-        b.classList.toggle('border-transparent', !on);
-        b.classList.toggle('text-gray-400', !on);
-      });
+      tabButtons.forEach(b => b.classList.toggle('p-tab-on', b.dataset.tab === id));
       if (id === 'tab-admin') loadAdminList();
     }
     tabButtons.forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
@@ -464,14 +489,18 @@
       return n;
     }
     const STATUS = {
-      new:    { label: 'New',    cls: 'border-gray-600 text-gray-300' },
-      seen:   { label: 'Seen',   cls: 'border-sky-500/60 text-sky-300' },
-      fixing: { label: 'Fixing', cls: 'border-amber-500/60 text-amber-300' },
-      fixed:  { label: 'Fixed',  cls: 'border-matrix/60 text-matrix' }
+      new:    { label: 'New',    cls: 'border-white/15 text-white/50' },
+      seen:   { label: 'Seen',   cls: 'border-white/30 text-white/80' },
+      fixing: { label: 'Fixing', cls: 'border-matrix/40 text-matrix' },
+      fixed:  { label: 'Fixed',  cls: 'border-matrix text-matrix' }
     };
     function statusPill(s) {
       const st = STATUS[s] || STATUS.new;
-      return el('span', 'text-[11px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded border ' + st.cls, st.label);
+      const pill = el('span', 'p-status ' + st.cls);
+      const dot = el('span', 'dot' + (s === 'fixing' ? ' animate-pulse' : ''));
+      pill.append(dot, document.createTextNode(s === 'fixed' ? '✓ ' + st.label : st.label));
+      if (s === 'fixed') dot.remove();
+      return pill;
     }
     function ago(iso) {
       const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
@@ -496,65 +525,52 @@
     const bugListTitle = document.getElementById('bug-list-title');
     const bugListStatus = document.getElementById('bug-list-status');
     const bugForm = document.getElementById('bug-form');
+    const bugFormTitle = document.getElementById('bug-form-title');
     const bugMsg = document.getElementById('bug-msg');
     const DEVICE_KEY = 'pushinn_dao_device';
+    let bugCategory = 'Spots & Map';
 
     bugDevice.value = localStorage.getItem(DEVICE_KEY) || '';
     bugDevice.addEventListener('change', () => localStorage.setItem(DEVICE_KEY, bugDevice.value.trim()));
 
+    document.querySelectorAll('.cat-chip').forEach(c => c.addEventListener('click', () => {
+      bugCategory = c.dataset.value;
+      document.querySelectorAll('.cat-chip').forEach(x => x.classList.toggle('p-chip-on', x === c));
+    }));
+
     function needDevice() {
       if (bugDevice.value.trim()) return false;
       bugDevice.focus();
-      bugDevice.classList.add('border-red-500');
-      setTimeout(() => bugDevice.classList.remove('border-red-500'), 2500);
+      bugDevice.placeholder = 'Add your phone first, e.g. iPhone 15 Pro, iOS 18';
+      bugDevice.parentElement.classList.add('bg-red-500/10');
+      setTimeout(() => bugDevice.parentElement.classList.remove('bg-red-500/10'), 2500);
       return true;
     }
 
     function showBugMsg(text, ok) {
       bugMsg.textContent = text;
-      bugMsg.className = 'p-4 rounded text-sm text-center ' + (ok
-        ? 'bg-matrix/10 border border-matrix text-matrix'
-        : 'bg-red-900/20 border border-red-500 text-red-400');
+      bugMsg.className = 'text-sm sm:mr-auto ' + (ok ? 'text-matrix' : 'text-red-400');
       bugMsg.style.display = 'block';
     }
 
     function renderReport(r) {
-      const card = el('div', 'bg-black matrix-border rounded p-4');
-      const top = el('div', 'flex items-start justify-between gap-3');
-      const left = el('div', 'min-w-0');
-      left.appendChild(el('div', 'text-white text-sm font-semibold break-words', r.summary));
-      left.appendChild(el('div', 'text-gray-500 text-xs mt-1', r.category + ' · ' + ago(r.created_at)));
-      top.appendChild(left);
-      top.appendChild(statusPill(r.status));
-      card.appendChild(top);
+      const row = el('div', 'flex gap-4 p-4 sm:p-5' + (r.status === 'fixed' && !r.i_hit ? ' opacity-60 hover:opacity-100 transition-opacity' : ''));
 
-      const details = el('details', 'mt-2');
-      details.appendChild(el('summary', 'text-xs text-gray-500 cursor-pointer hover:text-gray-300', 'Steps'));
-      details.appendChild(el('p', 'text-gray-400 text-xs mt-2 whitespace-pre-line break-words', r.details));
-      card.appendChild(details);
-
-      if (r.admin_note) {
-        card.appendChild(el('p', 'text-xs mt-2 text-gray-300 border-l-2 border-matrix pl-2', 'Team: ' + r.admin_note));
-      }
-
-      const row = el('div', 'flex items-center justify-between gap-3 mt-3');
-      const count = el('span', 'text-xs text-gray-400', peopleText(r.hits) + ' had this');
-      row.appendChild(count);
-      const btn = el('button', 'text-xs font-bold px-3 py-1.5 rounded transition-colors disabled:opacity-50');
+      // The count is the button: tap it to add yourself to the bug.
+      const btn = el('button', 'hit-btn');
       btn.type = 'button';
+      const n = el('span', 'n');
+      const t = el('span', 't');
+      btn.append(n, t);
       function paint() {
-        count.textContent = peopleText(r.hits) + ' had this';
-        if (r.mine) {
-          btn.textContent = 'You reported this';
-          btn.disabled = true;
-          btn.className = 'text-xs font-semibold px-3 py-1.5 rounded border border-gray-700 text-gray-500';
-        } else if (r.i_hit) {
-          btn.textContent = '✓ You had this · Undo';
-          btn.className = 'text-xs font-semibold px-3 py-1.5 rounded border border-matrix text-matrix hover:bg-matrix/10 transition-colors';
-        } else {
-          btn.textContent = "I've had this too";
-          btn.className = 'text-xs font-bold px-3 py-1.5 rounded bg-matrix text-black hover:bg-white transition-colors';
-        }
+        n.textContent = r.hits;
+        btn.classList.toggle('on', r.i_hit || r.mine);
+        btn.disabled = r.mine;
+        if (r.mine) { t.textContent = 'Yours'; btn.title = 'You reported this'; }
+        else if (r.i_hit) { t.textContent = '✓ You'; btn.title = 'Tap to take yourself off'; }
+        else if (r.status === 'fixed') { t.textContent = 'Still?'; btn.title = 'Still happening to you? Tap to say so'; }
+        else { t.textContent = 'Me too'; btn.title = "Tap if you've had this too"; }
+        btn.setAttribute('aria-label', peopleText(r.hits) + ' had this. ' + btn.title);
       }
       btn.addEventListener('click', async () => {
         if (r.mine) return;
@@ -565,15 +581,45 @@
           : db.rpc('add_bug_hit', { p_report: r.id, p_device: bugDevice.value.trim() });
         const { data, error } = await call;
         btn.disabled = false;
-        if (error) { showBugMsg(friendlyError(error), false); return; }
+        if (error) { bugListStatus.textContent = friendlyError(error); return; }
         r.i_hit = !r.i_hit;
         r.hits = data;
         paint();
       });
       paint();
       row.appendChild(btn);
-      card.appendChild(row);
-      return card;
+
+      const body = el('div', 'min-w-0 flex-1');
+      const top = el('div', 'flex items-start justify-between gap-3');
+      const title = el('button', 'text-left text-white font-semibold leading-snug break-words hover:text-matrix transition-colors', r.summary);
+      title.type = 'button';
+      top.append(title, statusPill(r.status));
+      body.appendChild(top);
+      const meta = el('div', 'flex items-center gap-2 mt-1.5 text-xs text-white/50');
+      meta.append(el('span', 'font-mono uppercase tracking-wider text-[10px] text-white/60', r.category), el('span', null, '·'), el('span', null, ago(r.created_at)));
+      body.appendChild(meta);
+
+      if (r.admin_note) {
+        const note = el('div', 'mt-3 text-sm text-white/80 flex gap-2');
+        note.append(el('span', 'p-label pt-0.5 shrink-0', 'Team'), el('span', 'break-words', r.admin_note));
+        body.appendChild(note);
+      }
+      const steps = el('p', 'hidden mt-3 text-sm text-white/60 whitespace-pre-line break-words border-l border-white/10 pl-3', r.details);
+      body.appendChild(steps);
+      title.addEventListener('click', () => steps.classList.toggle('hidden'));
+      row.appendChild(body);
+      return row;
+    }
+
+    async function loadStats() {
+      const { data, error } = await db.rpc('bug_board', { p_query: null, p_limit: 100 });
+      if (!error && data) renderStats(data);
+    }
+    function renderStats(rows) {
+      const open = rows.filter(r => r.status !== 'fixed').length;
+      document.getElementById('stat-open').textContent = open;
+      document.getElementById('stat-fixing').textContent = rows.filter(r => r.status === 'fixing').length;
+      document.getElementById('stat-fixed').textContent = rows.filter(r => r.status === 'fixed').length;
     }
 
     let searchSeq = 0;
@@ -581,19 +627,21 @@
       const q = bugSummary.value.trim();
       const seq = ++searchSeq;
       bugListStatus.textContent = 'Loading…';
-      const { data, error } = await db.rpc('bug_board', { p_query: q || null, p_limit: q ? 8 : 20 });
+      const { data, error } = await db.rpc('bug_board', { p_query: q || null, p_limit: q ? 8 : 100 });
       if (seq !== searchSeq) return; // a newer search has started
       bugList.replaceChildren();
       bugListStatus.textContent = '';
-      bugListTitle.textContent = q ? 'Already reported? Is it one of these?' : 'Most reported';
+      bugListTitle.textContent = q ? 'Is it one of these?' : 'Most reported';
+      bugForm.classList.toggle('hidden', q.length < 5);
+      bugFormTitle.textContent = q;
       if (error) {
-        bugList.appendChild(el('p', 'text-red-400 text-sm', friendlyError(error)));
+        bugList.appendChild(el('p', 'p-5 text-red-400 text-sm', friendlyError(error)));
         return;
       }
       if (!data || data.length === 0) {
-        bugList.appendChild(el('p', 'text-gray-500 text-sm', q
-          ? 'No matching reports. Add the steps below to file it as new.'
-          : 'No bugs reported yet.'));
+        bugList.appendChild(el('p', 'p-5 text-white/50 text-sm', q
+          ? 'Nobody has reported this yet. File it below.'
+          : 'No bugs reported yet. Type what went wrong above to file the first one.'));
         return;
       }
       data.forEach(r => bugList.appendChild(renderReport(r)));
@@ -619,83 +667,110 @@
       btn.disabled = true;
       btn.textContent = 'Filing…';
       const { error } = await db.rpc('file_bug_report', {
-        p_category: document.getElementById('bug-category').value,
+        p_category: bugCategory,
         p_summary: bugSummary.value.trim(),
         p_details: document.getElementById('bug-details').value.trim(),
         p_device: bugDevice.value.trim()
       });
       btn.disabled = false;
-      btn.textContent = 'File New Report';
+      btn.textContent = 'File new bug';
       if (error) { console.error('file_bug_report:', error); showBugMsg(friendlyError(error), false); return; }
-      showBugMsg('Filed. It\'s on the board now. Thanks for helping fix the build.', true);
       document.getElementById('bug-details').value = '';
-      loadBoard();
+      bugSummary.value = '';
+      await loadBoard();
+      loadStats();
+      bugListStatus.textContent = 'Filed. It\'s on the board now.';
     });
 
     // ADMIN (the database decides; hiding the tab is only for tidiness)
     const adminList = document.getElementById('admin-list');
     let adminStatus = '';
+    let adminRows = [];
     document.querySelectorAll('.admin-filter').forEach(b => b.addEventListener('click', () => {
       adminStatus = b.dataset.status;
-      document.querySelectorAll('.admin-filter').forEach(x => {
-        const on = x === b;
-        x.classList.toggle('border-matrix', on);
-        x.classList.toggle('text-matrix', on);
-        x.classList.toggle('border-gray-700', !on);
-        x.classList.toggle('text-gray-400', !on);
-      });
-      loadAdminList();
+      document.querySelectorAll('.admin-filter').forEach(x => x.classList.toggle('p-chip-on', x === b));
+      drawAdminList();
     }));
 
     function renderAdminReport(r) {
-      const card = el('div', 'bg-black matrix-border rounded p-4');
+      const row = el('div', 'p-4 sm:p-5');
       const top = el('div', 'flex items-start justify-between gap-3');
       const left = el('div', 'min-w-0');
-      left.appendChild(el('div', 'text-white text-sm font-semibold break-words', r.summary));
-      left.appendChild(el('div', 'text-gray-500 text-xs mt-1',
-        r.category + ' · by ' + (r.reporter || 'deleted account') + ' · ' + ago(r.created_at) + ' · ' + peopleText(r.hits) + ' had this'));
-      top.appendChild(left);
-      top.appendChild(statusPill(r.status));
-      card.appendChild(top);
-      card.appendChild(el('p', 'text-gray-400 text-xs mt-3 whitespace-pre-line break-words', r.details));
-      card.appendChild(el('p', 'text-gray-500 text-xs mt-2 break-words', 'Phones: ' + (r.devices || []).join(' · ')));
+      left.appendChild(el('div', 'text-white font-semibold leading-snug break-words', r.summary));
+      const meta = el('div', 'flex flex-wrap items-center gap-x-2 gap-y-1 mt-1.5 text-xs text-white/50');
+      meta.append(
+        el('span', 'font-mono uppercase tracking-wider text-[10px] text-white/60', r.category), el('span', null, '·'),
+        el('span', null, '@' + (r.reporter || 'deleted account')), el('span', null, '·'),
+        el('span', null, ago(r.created_at)), el('span', null, '·'),
+        el('span', 'text-white font-semibold', peopleText(r.hits) + ' had this'));
+      left.appendChild(meta);
+      top.append(left, statusPill(r.status));
+      row.appendChild(top);
 
-      const form = el('div', 'grid grid-cols-1 sm:grid-cols-[140px_1fr_auto] gap-2 mt-4');
-      const sel = el('select', 'bg-black matrix-border rounded p-2 text-white text-xs');
-      Object.keys(STATUS).forEach(k => {
-        const o = el('option', null, STATUS[k].label);
-        o.value = k;
-        if (k === r.status) o.selected = true;
-        sel.appendChild(o);
-      });
-      const note = el('input', 'bg-black matrix-border rounded p-2 text-white text-xs');
-      note.placeholder = 'Note members will see (optional)';
+      row.appendChild(el('p', 'mt-3 text-sm text-white/70 whitespace-pre-line break-words border-l border-white/10 pl-3', r.details));
+      const phones = el('div', 'flex flex-wrap gap-1.5 mt-3');
+      (r.devices || []).forEach(d => phones.appendChild(el('span', 'text-[11px] text-white/60 border border-white/10 rounded-full px-2 py-0.5', d)));
+      row.appendChild(phones);
+
+      // Status saves the moment you tap it; the note saves with its button or Enter.
+      const controls = el('div', 'flex flex-col sm:flex-row gap-3 mt-4');
+      const seg = el('div', 'flex gap-1.5 shrink-0');
+      const note = el('input', 'p-field !py-2 !text-sm flex-1');
+      note.placeholder = 'Note testers will see (optional)';
       note.maxLength = 1000;
       note.value = r.admin_note || '';
-      const save = el('button', 'text-xs font-bold px-4 py-2 rounded bg-matrix text-black hover:bg-white disabled:opacity-50', 'Save');
-      save.type = 'button';
-      const msg = el('p', 'text-xs mt-2 hidden');
-      save.addEventListener('click', async () => {
-        save.disabled = true;
-        const { error } = await db.rpc('admin_set_bug_status', { p_report: r.id, p_status: sel.value, p_note: note.value });
-        save.disabled = false;
-        msg.classList.remove('hidden');
-        msg.className = 'text-xs mt-2 ' + (error ? 'text-red-400' : 'text-matrix');
-        msg.textContent = error ? friendlyError(error) : 'Saved.';
-        if (!error) { r.status = sel.value; top.replaceChild(statusPill(r.status), top.lastChild); }
+      const saveNote = el('button', 'p-btn-ghost shrink-0', 'Save note');
+      saveNote.type = 'button';
+      const msg = el('span', 'text-xs text-white/40 self-center');
+      async function save(status) {
+        msg.textContent = 'Saving…';
+        const { error } = await db.rpc('admin_set_bug_status', { p_report: r.id, p_status: status, p_note: note.value });
+        if (error) { msg.className = 'text-xs text-red-400 self-center'; msg.textContent = friendlyError(error); return; }
+        r.status = status;
+        r.admin_note = note.value;
+        top.replaceChild(statusPill(r.status), top.lastChild);
+        seg.querySelectorAll('button').forEach(b => b.classList.toggle('p-chip-on', b.dataset.status === status));
+        msg.className = 'text-xs text-matrix self-center';
+        msg.textContent = 'Saved';
+        updateAdminCounts();
+      }
+      Object.keys(STATUS).forEach(k => {
+        const b = el('button', 'p-chip !px-3 !py-1.5 !text-xs' + (k === r.status ? ' p-chip-on' : ''), STATUS[k].label);
+        b.type = 'button';
+        b.dataset.status = k;
+        b.addEventListener('click', () => { if (k !== r.status) save(k); });
+        seg.appendChild(b);
       });
-      form.append(sel, note, save);
-      card.append(form, msg);
-      return card;
+      saveNote.addEventListener('click', () => save(r.status));
+      note.addEventListener('keydown', e => { if (e.key === 'Enter') save(r.status); });
+      const noteRow = el('div', 'flex gap-2 flex-1 min-w-0');
+      noteRow.append(note, saveNote);
+      controls.append(seg, noteRow);
+      row.append(controls, msg);
+      return row;
+    }
+
+    function updateAdminCounts() {
+      document.querySelectorAll('.admin-filter').forEach(b => {
+        const s = b.dataset.status;
+        b.querySelector('.admin-count').textContent = adminRows.filter(r => !s || r.status === s).length;
+      });
+    }
+
+    function drawAdminList() {
+      adminList.replaceChildren();
+      const rows = adminRows.filter(r => !adminStatus || r.status === adminStatus);
+      if (rows.length === 0) { adminList.appendChild(el('p', 'p-5 text-white/50 text-sm', 'Nothing here.')); return; }
+      rows.forEach(r => adminList.appendChild(renderAdminReport(r)));
     }
 
     async function loadAdminList() {
-      adminList.replaceChildren(el('p', 'text-gray-500 text-sm', 'Loading…'));
-      const { data, error } = await db.rpc('admin_bug_reports', { p_status: adminStatus || null });
-      adminList.replaceChildren();
-      if (error) { adminList.appendChild(el('p', 'text-red-400 text-sm', 'Could not load: ' + (error.message || 'unknown error'))); return; }
-      if (!data || data.length === 0) { adminList.appendChild(el('p', 'text-gray-500 text-sm', 'Nothing here.')); return; }
-      data.forEach(r => adminList.appendChild(renderAdminReport(r)));
+      adminList.replaceChildren(el('p', 'p-5 text-white/50 text-sm', 'Loading…'));
+      const { data, error } = await db.rpc('admin_bug_reports', { p_status: null });
+      if (error) { adminList.replaceChildren(el('p', 'p-5 text-red-400 text-sm', 'Could not load: ' + (error.message || 'unknown error'))); return; }
+      adminRows = data || [];
+      updateAdminCounts();
+      drawAdminList();
     }
 
     let boardStarted = false;
@@ -703,6 +778,7 @@
       if (boardStarted) return;
       boardStarted = true;
       loadBoard();
+      loadStats();
       const { data: isAdmin } = await db.rpc('is_admin');
       if (isAdmin === true) {
         document.getElementById('tab-admin-btn').classList.remove('hidden');
@@ -749,7 +825,7 @@
           }]);
 
         btn.disabled = false;
-        btn.textContent = 'Submit Votes';
+        btn.textContent = 'Submit votes';
 
         if (error) {
           console.error('Supabase error:', error);
