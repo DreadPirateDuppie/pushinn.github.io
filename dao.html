@@ -113,34 +113,62 @@
         <div class="flex items-center gap-3">
           <span class="w-2.5 h-2.5 rounded-full bg-matrix shadow-[0_0_8px_#00FF41]"></span>
           <span class="font-sans text-xs text-gray-300">Signed in as: <span id="authenticated-email" class="text-matrix font-semibold font-mono"></span></span>
+          <span id="admin-badge" class="hidden text-[11px] font-bold uppercase tracking-wide px-2 py-0.5 rounded bg-matrix text-black">Admin</span>
         </div>
         <button id="gate-logout-btn" class="font-sans text-xs text-gray-400 hover:text-white transition-colors underline">
           Sign Out / Switch Account
         </button>
       </div>
 
-      <!-- TABS: BUG REPORT vs COMMUNITY BALLOT -->
+      <!-- TABS: BUGS, COMMUNITY BALLOT, ADMIN (admins only) -->
       <div class="flex border-b matrix-border mb-8 font-sans">
-        <button id="tab-bugs-btn" class="flex-1 py-4 text-center text-sm font-bold tracking-wide border-b-2 border-matrix text-matrix transition-all">
-          Report an Issue
+        <button data-tab="tab-bugs" class="tab-btn flex-1 py-4 text-center text-sm font-bold tracking-wide border-b-2 border-matrix text-matrix transition-all">
+          Bugs
         </button>
-        <button id="tab-governance-btn" class="flex-1 py-4 text-center text-sm font-bold tracking-wide border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition-all">
+        <button data-tab="tab-governance" class="tab-btn flex-1 py-4 text-center text-sm font-bold tracking-wide border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition-all">
           Community Ballot
+        </button>
+        <button id="tab-admin-btn" data-tab="tab-admin" class="tab-btn hidden flex-1 py-4 text-center text-sm font-bold tracking-wide border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition-all">
+          Admin
         </button>
       </div>
 
-      <!-- TAB 1: BUG REPORTING -->
-      <div id="tab-bugs" class="bg-surface matrix-border p-6 sm:p-8 rounded-lg">
-        <div class="mb-6 font-sans">
-          <h2 class="font-bold text-2xl text-white">Report an Issue</h2>
-          <p class="text-gray-400 text-sm mt-1">Found a bug, broken spot pin, or app crash? Send it straight to the team.</p>
+      <!-- TAB 1: BUG BOARD -->
+      <div id="tab-bugs" class="tab-panel bg-surface matrix-border p-6 sm:p-8 rounded-lg font-sans">
+        <div class="mb-6">
+          <h2 class="font-bold text-2xl text-white">Bugs</h2>
+          <p class="text-gray-400 text-sm mt-1">Start typing what went wrong. If someone has already reported it, tap <span class="text-white font-semibold">I've had this too</span> so we can see how many people it hits.</p>
         </div>
 
-        <form id="bug-form" class="space-y-5 font-sans">
+        <div class="space-y-5">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="sm:col-span-2">
+              <label for="bug-summary" class="block text-xs font-semibold text-gray-400 uppercase mb-2">What went wrong?</label>
+              <input id="bug-summary" type="text" autocomplete="off" placeholder="e.g. Map markers disappear after pinching zoom" maxlength="150" class="w-full bg-black matrix-border rounded p-3.5 text-white text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix">
+            </div>
+            <div class="sm:col-span-2">
+              <label for="bug-device" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Your phone and system</label>
+              <input id="bug-device" type="text" placeholder="e.g. iPhone 15 Pro, iOS 18" maxlength="100" class="w-full bg-black matrix-border rounded p-3.5 text-white text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix">
+              <p class="text-gray-600 text-xs mt-1.5">Remembered on this browser. Added to any report you file or join.</p>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-baseline justify-between mb-3">
+              <h3 id="bug-list-title" class="text-xs font-semibold text-gray-400 uppercase">Most reported</h3>
+              <span id="bug-list-status" class="text-xs text-gray-600"></span>
+            </div>
+            <div id="bug-list" class="space-y-3"></div>
+          </div>
+
+          <form id="bug-form" class="space-y-5 pt-6 border-t border-matrix/20">
             <div>
-              <label class="block text-xs font-semibold text-gray-400 uppercase mb-2">Category</label>
-              <select name="category" class="w-full bg-black matrix-border rounded p-3.5 text-white text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix" required>
+              <h3 class="font-bold text-lg text-white">Not on the list?</h3>
+              <p class="text-gray-400 text-sm mt-1">File it as a new report. It goes on the board for everyone to see.</p>
+            </div>
+            <div>
+              <label for="bug-category" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Category</label>
+              <select id="bug-category" class="w-full bg-black matrix-border rounded p-3.5 text-white text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix" required>
                 <option value="Spots & Map">📍 Spots & Map Pinning</option>
                 <option value="Spot Battles">⚔️ Spot Battles & Clips</option>
                 <option value="Wallet & Points">💰 Wallet, Points & Rewards</option>
@@ -151,36 +179,34 @@
               </select>
             </div>
             <div>
-              <label class="block text-xs font-semibold text-gray-400 uppercase mb-2">Device & OS</label>
-              <input type="text" name="device" placeholder="e.g. iPhone 15 Pro, iOS 18" class="w-full bg-black matrix-border rounded p-3.5 text-white text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix" required>
+              <label for="bug-details" class="block text-xs font-semibold text-gray-400 uppercase mb-2">Steps to reproduce</label>
+              <textarea id="bug-details" rows="5" placeholder="1. Open app&#10;2. Tap on Southbank spot pin&#10;3. App freezes on camera permissions" maxlength="4000" class="w-full bg-black matrix-border rounded p-3.5 text-white text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix" required></textarea>
             </div>
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold text-gray-400 uppercase mb-2">Issue Summary</label>
-            <input type="text" name="summary" placeholder="e.g. Map markers disappear after pinching zoom" maxlength="150" class="w-full bg-black matrix-border rounded p-3.5 text-white text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix" required>
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold text-gray-400 uppercase mb-2">Steps to Reproduce</label>
-            <textarea name="details" rows="5" placeholder="1. Open app&#10;2. Tap on Southbank spot pin&#10;3. App freezes on camera permissions" maxlength="4000" class="w-full bg-black matrix-border rounded p-3.5 text-white text-sm focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix" required></textarea>
-          </div>
-
-          <button type="submit" id="bug-submit-btn" class="w-full bg-matrix text-black font-sans font-bold text-sm tracking-wider uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)]">
-            Submit Bug Report
-          </button>
-
-          <div id="bug-success-msg" style="display:none;" class="p-4 rounded bg-matrix/10 border border-matrix text-matrix text-sm text-center">
-            Bug report received. Thank you for helping improve the build.
-          </div>
-          <div id="bug-error-msg" style="display:none;" class="p-4 rounded bg-red-950/40 border border-red-500 text-red-400 text-sm text-center">
-            Submission failed. Check connection or email admin@pushinn.app.
-          </div>
-        </form>
+            <button type="submit" id="bug-submit-btn" class="w-full bg-matrix text-black font-sans font-bold text-sm tracking-wider uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)] disabled:opacity-50">
+              File New Report
+            </button>
+            <div id="bug-msg" style="display:none;" class="p-4 rounded text-sm text-center"></div>
+          </form>
+        </div>
       </div>
 
+      <!-- TAB 3: ADMIN (shown only when the database says this account is an admin) -->
+      <div id="tab-admin" class="tab-panel hidden bg-surface matrix-border p-6 sm:p-8 rounded-lg font-sans">
+        <div class="mb-6">
+          <h2 class="font-bold text-2xl text-white">Admin: bug reports</h2>
+          <p class="text-gray-400 text-sm mt-1">Who reported each bug, every phone that hit it, and its status. Members see the status and your note on the board.</p>
+        </div>
+        <div id="admin-filters" class="flex flex-wrap gap-2 mb-5">
+          <button data-status="" class="admin-filter text-xs font-semibold px-3 py-1.5 rounded border border-matrix text-matrix">All</button>
+          <button data-status="new" class="admin-filter text-xs font-semibold px-3 py-1.5 rounded border border-gray-700 text-gray-400">New</button>
+          <button data-status="seen" class="admin-filter text-xs font-semibold px-3 py-1.5 rounded border border-gray-700 text-gray-400">Seen</button>
+          <button data-status="fixing" class="admin-filter text-xs font-semibold px-3 py-1.5 rounded border border-gray-700 text-gray-400">Fixing</button>
+          <button data-status="fixed" class="admin-filter text-xs font-semibold px-3 py-1.5 rounded border border-gray-700 text-gray-400">Fixed</button>
+        </div>
+        <div id="admin-list" class="space-y-4"></div>
+      </div>
       <!-- TAB 2: COMMUNITY BALLOT -->
-      <div id="tab-governance" class="bg-surface matrix-border p-6 sm:p-8 rounded-lg hidden font-sans">
+      <div id="tab-governance" class="tab-panel bg-surface matrix-border p-6 sm:p-8 rounded-lg hidden font-sans">
         <div class="mb-8">
           <h2 class="font-bold text-2xl text-white">Community Ballot</h2>
           <p class="text-gray-400 text-sm mt-1">Pushinn belongs to the community. Vote on upcoming spot rules and features before London goes public.</p>
@@ -380,6 +406,7 @@
           gateSection.classList.add('hidden');
           daoContent.classList.remove('hidden');
           updateNavAuth(session.user);
+          onSignedIn();
           return session.user;
         } else {
           gateSection.classList.remove('hidden');
@@ -415,81 +442,273 @@
     });
 
     // TAB SWITCHING
-    const tabBugsBtn = document.getElementById('tab-bugs-btn');
-    const tabGovBtn = document.getElementById('tab-governance-btn');
-    const tabBugs = document.getElementById('tab-bugs');
-    const tabGov = document.getElementById('tab-governance');
-
-    tabBugsBtn.addEventListener('click', () => {
-      tabBugs.classList.remove('hidden');
-      tabGov.classList.add('hidden');
-      tabBugsBtn.classList.add('border-matrix', 'text-matrix');
-      tabBugsBtn.classList.remove('border-transparent', 'text-gray-400');
-      tabGovBtn.classList.remove('border-matrix', 'text-matrix');
-      tabGovBtn.classList.add('border-transparent', 'text-gray-400');
-    });
-
-    tabGovBtn.addEventListener('click', () => {
-      tabGov.classList.remove('hidden');
-      tabBugs.classList.add('hidden');
-      tabGovBtn.classList.add('border-matrix', 'text-matrix');
-      tabGovBtn.classList.remove('border-transparent', 'text-gray-400');
-      tabBugsBtn.classList.remove('border-matrix', 'text-matrix');
-      tabBugsBtn.classList.add('border-transparent', 'text-gray-400');
-    });
-
-    // BUG FORM SUBMISSION
-    const bugForm = document.getElementById('bug-form');
-    if (bugForm) {
-      bugForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const user = await checkAuth();
-        if (!user) {
-          alert('Session expired. Please sign in to submit an issue.');
-          window.location.href = '/login?redirect=/dao';
-          return;
-        }
-
-        const btn = document.getElementById('bug-submit-btn');
-        const successMsg = document.getElementById('bug-success-msg');
-        const errorMsg = document.getElementById('bug-error-msg');
-        const testerEmail = user.email;
-
-        const category = bugForm.elements['category'].value;
-        const device = bugForm.elements['device'].value;
-        const summary = bugForm.elements['summary'].value;
-        const details = bugForm.elements['details'].value;
-
-        btn.disabled = true;
-        btn.textContent = 'Submitting...';
-        successMsg.style.display = 'none';
-        errorMsg.style.display = 'none';
-
-        const subject = `[BUG: ${category}] ${summary.slice(0, 80)}`;
-        const messagePayload = `DEVICE: ${device}\nCATEGORY: ${category}\nSUMMARY: ${summary}\n\nDETAILS & STEPS:\n${details}`;
-
-        const { error } = await db
-          .from('contact_messages')
-          .insert([{
-            username: `Tester: ${testerEmail.split('@')[0]}`,
-            email: testerEmail,
-            subject: subject,
-            message: messagePayload
-          }]);
-
-        btn.disabled = false;
-        btn.textContent = 'Submit Bug Report';
-
-        if (error) {
-          console.error('Supabase error:', error);
-          errorMsg.style.display = 'block';
-        } else {
-          successMsg.style.display = 'block';
-          bugForm.reset();
-        }
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    function showTab(id) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('hidden', p.id !== id));
+      tabButtons.forEach(b => {
+        const on = b.dataset.tab === id;
+        b.classList.toggle('border-matrix', on);
+        b.classList.toggle('text-matrix', on);
+        b.classList.toggle('border-transparent', !on);
+        b.classList.toggle('text-gray-400', !on);
       });
+      if (id === 'tab-admin') loadAdminList();
+    }
+    tabButtons.forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
+
+    // SHARED HELPERS (all text goes in through textContent, never as HTML)
+    function el(tag, cls, text) {
+      const n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text !== undefined && text !== null) n.textContent = text;
+      return n;
+    }
+    const STATUS = {
+      new:    { label: 'New',    cls: 'border-gray-600 text-gray-300' },
+      seen:   { label: 'Seen',   cls: 'border-sky-500/60 text-sky-300' },
+      fixing: { label: 'Fixing', cls: 'border-amber-500/60 text-amber-300' },
+      fixed:  { label: 'Fixed',  cls: 'border-matrix/60 text-matrix' }
+    };
+    function statusPill(s) {
+      const st = STATUS[s] || STATUS.new;
+      return el('span', 'text-[11px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded border ' + st.cls, st.label);
+    }
+    function ago(iso) {
+      const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+      if (s < 3600) return Math.max(1, Math.round(s / 60)) + 'm ago';
+      if (s < 86400) return Math.round(s / 3600) + 'h ago';
+      return Math.round(s / 86400) + 'd ago';
+    }
+    function peopleText(n) { return n === 1 ? '1 person' : n + ' people'; }
+    function friendlyError(error) {
+      const m = (error && error.message) || '';
+      if (m.includes('TOO_MANY_REPORTS')) return "You've filed 10 reports today. Add to an existing one, or try again tomorrow.";
+      if (m.includes('ACCOUNT_SUSPENDED')) return "This account can't post right now. Contact admin@pushinn.app.";
+      if (m.includes('SIGN_IN_REQUIRED')) return 'Your session ended. Sign in again.';
+      if (m.includes('bug_reports_shape')) return 'Check the fields: the summary needs at least 5 characters.';
+      return 'That didn\'t go through. Check your connection, or email admin@pushinn.app.';
     }
 
+    // BUG BOARD
+    const bugSummary = document.getElementById('bug-summary');
+    const bugDevice = document.getElementById('bug-device');
+    const bugList = document.getElementById('bug-list');
+    const bugListTitle = document.getElementById('bug-list-title');
+    const bugListStatus = document.getElementById('bug-list-status');
+    const bugForm = document.getElementById('bug-form');
+    const bugMsg = document.getElementById('bug-msg');
+    const DEVICE_KEY = 'pushinn_dao_device';
+
+    bugDevice.value = localStorage.getItem(DEVICE_KEY) || '';
+    bugDevice.addEventListener('change', () => localStorage.setItem(DEVICE_KEY, bugDevice.value.trim()));
+
+    function needDevice() {
+      if (bugDevice.value.trim()) return false;
+      bugDevice.focus();
+      bugDevice.classList.add('border-red-500');
+      setTimeout(() => bugDevice.classList.remove('border-red-500'), 2500);
+      return true;
+    }
+
+    function showBugMsg(text, ok) {
+      bugMsg.textContent = text;
+      bugMsg.className = 'p-4 rounded text-sm text-center ' + (ok
+        ? 'bg-matrix/10 border border-matrix text-matrix'
+        : 'bg-red-900/20 border border-red-500 text-red-400');
+      bugMsg.style.display = 'block';
+    }
+
+    function renderReport(r) {
+      const card = el('div', 'bg-black matrix-border rounded p-4');
+      const top = el('div', 'flex items-start justify-between gap-3');
+      const left = el('div', 'min-w-0');
+      left.appendChild(el('div', 'text-white text-sm font-semibold break-words', r.summary));
+      left.appendChild(el('div', 'text-gray-500 text-xs mt-1', r.category + ' · ' + ago(r.created_at)));
+      top.appendChild(left);
+      top.appendChild(statusPill(r.status));
+      card.appendChild(top);
+
+      const details = el('details', 'mt-2');
+      details.appendChild(el('summary', 'text-xs text-gray-500 cursor-pointer hover:text-gray-300', 'Steps'));
+      details.appendChild(el('p', 'text-gray-400 text-xs mt-2 whitespace-pre-line break-words', r.details));
+      card.appendChild(details);
+
+      if (r.admin_note) {
+        card.appendChild(el('p', 'text-xs mt-2 text-gray-300 border-l-2 border-matrix pl-2', 'Team: ' + r.admin_note));
+      }
+
+      const row = el('div', 'flex items-center justify-between gap-3 mt-3');
+      const count = el('span', 'text-xs text-gray-400', peopleText(r.hits) + ' had this');
+      row.appendChild(count);
+      const btn = el('button', 'text-xs font-bold px-3 py-1.5 rounded transition-colors disabled:opacity-50');
+      btn.type = 'button';
+      function paint() {
+        count.textContent = peopleText(r.hits) + ' had this';
+        if (r.mine) {
+          btn.textContent = 'You reported this';
+          btn.disabled = true;
+          btn.className = 'text-xs font-semibold px-3 py-1.5 rounded border border-gray-700 text-gray-500';
+        } else if (r.i_hit) {
+          btn.textContent = '✓ You had this · Undo';
+          btn.className = 'text-xs font-semibold px-3 py-1.5 rounded border border-matrix text-matrix hover:bg-matrix/10 transition-colors';
+        } else {
+          btn.textContent = "I've had this too";
+          btn.className = 'text-xs font-bold px-3 py-1.5 rounded bg-matrix text-black hover:bg-white transition-colors';
+        }
+      }
+      btn.addEventListener('click', async () => {
+        if (r.mine) return;
+        if (!r.i_hit && needDevice()) return;
+        btn.disabled = true;
+        const call = r.i_hit
+          ? db.rpc('remove_bug_hit', { p_report: r.id })
+          : db.rpc('add_bug_hit', { p_report: r.id, p_device: bugDevice.value.trim() });
+        const { data, error } = await call;
+        btn.disabled = false;
+        if (error) { showBugMsg(friendlyError(error), false); return; }
+        r.i_hit = !r.i_hit;
+        r.hits = data;
+        paint();
+      });
+      paint();
+      row.appendChild(btn);
+      card.appendChild(row);
+      return card;
+    }
+
+    let searchSeq = 0;
+    async function loadBoard() {
+      const q = bugSummary.value.trim();
+      const seq = ++searchSeq;
+      bugListStatus.textContent = 'Loading…';
+      const { data, error } = await db.rpc('bug_board', { p_query: q || null, p_limit: q ? 8 : 20 });
+      if (seq !== searchSeq) return; // a newer search has started
+      bugList.replaceChildren();
+      bugListStatus.textContent = '';
+      bugListTitle.textContent = q ? 'Already reported? Is it one of these?' : 'Most reported';
+      if (error) {
+        bugList.appendChild(el('p', 'text-red-400 text-sm', friendlyError(error)));
+        return;
+      }
+      if (!data || data.length === 0) {
+        bugList.appendChild(el('p', 'text-gray-500 text-sm', q
+          ? 'No matching reports. Add the steps below to file it as new.'
+          : 'No bugs reported yet.'));
+        return;
+      }
+      data.forEach(r => bugList.appendChild(renderReport(r)));
+    }
+
+    let searchTimer = null;
+    bugSummary.addEventListener('input', () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(loadBoard, 300);
+    });
+
+    bugForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      bugMsg.style.display = 'none';
+      if (bugSummary.value.trim().length < 5) {
+        bugSummary.focus();
+        showBugMsg('Write what went wrong at the top first (5 characters or more).', false);
+        return;
+      }
+      if (needDevice()) return;
+      localStorage.setItem(DEVICE_KEY, bugDevice.value.trim());
+      const btn = document.getElementById('bug-submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Filing…';
+      const { error } = await db.rpc('file_bug_report', {
+        p_category: document.getElementById('bug-category').value,
+        p_summary: bugSummary.value.trim(),
+        p_details: document.getElementById('bug-details').value.trim(),
+        p_device: bugDevice.value.trim()
+      });
+      btn.disabled = false;
+      btn.textContent = 'File New Report';
+      if (error) { console.error('file_bug_report:', error); showBugMsg(friendlyError(error), false); return; }
+      showBugMsg('Filed. It\'s on the board now. Thanks for helping fix the build.', true);
+      document.getElementById('bug-details').value = '';
+      loadBoard();
+    });
+
+    // ADMIN (the database decides; hiding the tab is only for tidiness)
+    const adminList = document.getElementById('admin-list');
+    let adminStatus = '';
+    document.querySelectorAll('.admin-filter').forEach(b => b.addEventListener('click', () => {
+      adminStatus = b.dataset.status;
+      document.querySelectorAll('.admin-filter').forEach(x => {
+        const on = x === b;
+        x.classList.toggle('border-matrix', on);
+        x.classList.toggle('text-matrix', on);
+        x.classList.toggle('border-gray-700', !on);
+        x.classList.toggle('text-gray-400', !on);
+      });
+      loadAdminList();
+    }));
+
+    function renderAdminReport(r) {
+      const card = el('div', 'bg-black matrix-border rounded p-4');
+      const top = el('div', 'flex items-start justify-between gap-3');
+      const left = el('div', 'min-w-0');
+      left.appendChild(el('div', 'text-white text-sm font-semibold break-words', r.summary));
+      left.appendChild(el('div', 'text-gray-500 text-xs mt-1',
+        r.category + ' · by ' + (r.reporter || 'deleted account') + ' · ' + ago(r.created_at) + ' · ' + peopleText(r.hits) + ' had this'));
+      top.appendChild(left);
+      top.appendChild(statusPill(r.status));
+      card.appendChild(top);
+      card.appendChild(el('p', 'text-gray-400 text-xs mt-3 whitespace-pre-line break-words', r.details));
+      card.appendChild(el('p', 'text-gray-500 text-xs mt-2 break-words', 'Phones: ' + (r.devices || []).join(' · ')));
+
+      const form = el('div', 'grid grid-cols-1 sm:grid-cols-[140px_1fr_auto] gap-2 mt-4');
+      const sel = el('select', 'bg-black matrix-border rounded p-2 text-white text-xs');
+      Object.keys(STATUS).forEach(k => {
+        const o = el('option', null, STATUS[k].label);
+        o.value = k;
+        if (k === r.status) o.selected = true;
+        sel.appendChild(o);
+      });
+      const note = el('input', 'bg-black matrix-border rounded p-2 text-white text-xs');
+      note.placeholder = 'Note members will see (optional)';
+      note.maxLength = 1000;
+      note.value = r.admin_note || '';
+      const save = el('button', 'text-xs font-bold px-4 py-2 rounded bg-matrix text-black hover:bg-white disabled:opacity-50', 'Save');
+      save.type = 'button';
+      const msg = el('p', 'text-xs mt-2 hidden');
+      save.addEventListener('click', async () => {
+        save.disabled = true;
+        const { error } = await db.rpc('admin_set_bug_status', { p_report: r.id, p_status: sel.value, p_note: note.value });
+        save.disabled = false;
+        msg.classList.remove('hidden');
+        msg.className = 'text-xs mt-2 ' + (error ? 'text-red-400' : 'text-matrix');
+        msg.textContent = error ? friendlyError(error) : 'Saved.';
+        if (!error) { r.status = sel.value; top.replaceChild(statusPill(r.status), top.lastChild); }
+      });
+      form.append(sel, note, save);
+      card.append(form, msg);
+      return card;
+    }
+
+    async function loadAdminList() {
+      adminList.replaceChildren(el('p', 'text-gray-500 text-sm', 'Loading…'));
+      const { data, error } = await db.rpc('admin_bug_reports', { p_status: adminStatus || null });
+      adminList.replaceChildren();
+      if (error) { adminList.appendChild(el('p', 'text-red-400 text-sm', 'Could not load: ' + (error.message || 'unknown error'))); return; }
+      if (!data || data.length === 0) { adminList.appendChild(el('p', 'text-gray-500 text-sm', 'Nothing here.')); return; }
+      data.forEach(r => adminList.appendChild(renderAdminReport(r)));
+    }
+
+    let boardStarted = false;
+    async function onSignedIn() {
+      if (boardStarted) return;
+      boardStarted = true;
+      loadBoard();
+      const { data: isAdmin } = await db.rpc('is_admin');
+      if (isAdmin === true) {
+        document.getElementById('tab-admin-btn').classList.remove('hidden');
+        document.getElementById('admin-badge').classList.remove('hidden');
+      }
+    }
     // GOVERNANCE FORM SUBMISSION
     const govForm = document.getElementById('governance-form');
     if (govForm) {
