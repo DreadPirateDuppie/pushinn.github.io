@@ -179,6 +179,7 @@
             <label for="bug-device" class="p-label text-white/50 shrink-0">Your phone</label>
             <input id="bug-device" type="text" placeholder="e.g. iPhone 15 Pro, iOS 18" maxlength="100" class="w-full bg-transparent py-1 text-white/80 text-sm placeholder:text-white/30 focus:outline-none">
           </div>
+          <p id="app-context" class="hidden px-3 pb-2 text-xs text-white/40"></p>
         </div>
         <p class="text-white/50 text-sm mt-3 px-1">If it's already on the board, tap the count to say you've had it too. The more people on a bug, the sooner it gets fixed.</p>
 
@@ -403,6 +404,28 @@
     const _supabaseKey = ['sb_publishable', 'l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg'].join('_'); // gitleaks:allow — Supabase publishable key, safe for client code
     const db = window.supabase.createClient(_supabaseUrl, _supabaseKey);
 
+    // APP CONTEXT: the app's "Report a bug" opens /dao?from=app&app=…&os=….
+    // Keep the version and system in this browser (they survive signing in)
+    // and send them with each report. Labels only; the database trims them.
+    const APP_KEY = 'pushinn_dao_app';
+    (function captureAppContext() {
+      const q = new URLSearchParams(location.search);
+      if (q.get('from') !== 'app') return;
+      const clean = (v, n) => (v || '').replace(/[^\w .()\-]/g, '').trim().slice(0, n);
+      try {
+        localStorage.setItem(APP_KEY, JSON.stringify({ app: clean(q.get('app'), 40), os: clean(q.get('os'), 60), at: Date.now() }));
+      } catch (e) { /* private mode: carry on without it */ }
+      ['from', 'app', 'os'].forEach(k => q.delete(k));
+      history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : '') + location.hash);
+    })();
+    function appContext() {
+      try {
+        const c = JSON.parse(localStorage.getItem(APP_KEY) || 'null');
+        if (!c || Date.now() - c.at > 30 * 86400000) return {};
+        return { app: c.app || null, os: c.os || null };
+      } catch (e) { return {}; }
+    }
+
     // GATE & SESSION LOGIC
     const gateSection = document.getElementById('gate-section');
     const daoContent = document.getElementById('dao-content');
@@ -531,6 +554,15 @@
     let bugCategory = 'Spots & Map';
 
     bugDevice.value = localStorage.getItem(DEVICE_KEY) || '';
+    (function showAppContext() {
+      const c = appContext();
+      const parts = [c.app && 'v' + c.app, c.os].filter(Boolean);
+      if (parts.length === 0) return;
+      const line = document.getElementById('app-context');
+      line.textContent = 'From the app: ' + parts.join(' · ') + '. Sent with your report.';
+      line.classList.remove('hidden');
+      bugDevice.placeholder = 'Phone model, e.g. iPhone 15 Pro';
+    })();
     bugDevice.addEventListener('change', () => localStorage.setItem(DEVICE_KEY, bugDevice.value.trim()));
 
     document.querySelectorAll('.cat-chip').forEach(c => c.addEventListener('click', () => {
@@ -578,7 +610,7 @@
         btn.disabled = true;
         const call = r.i_hit
           ? db.rpc('remove_bug_hit', { p_report: r.id })
-          : db.rpc('add_bug_hit', { p_report: r.id, p_device: bugDevice.value.trim() });
+          : db.rpc('add_bug_hit', { p_report: r.id, p_device: bugDevice.value.trim(), p_app_version: appContext().app || null, p_os: appContext().os || null });
         const { data, error } = await call;
         btn.disabled = false;
         if (error) { bugListStatus.textContent = friendlyError(error); return; }
@@ -670,7 +702,9 @@
         p_category: bugCategory,
         p_summary: bugSummary.value.trim(),
         p_details: document.getElementById('bug-details').value.trim(),
-        p_device: bugDevice.value.trim()
+        p_device: bugDevice.value.trim(),
+        p_app_version: appContext().app || null,
+        p_os: appContext().os || null
       });
       btn.disabled = false;
       btn.textContent = 'File new bug';
@@ -711,6 +745,7 @@
       const phones = el('div', 'flex flex-wrap gap-1.5 mt-3');
       (r.devices || []).forEach(d => phones.appendChild(el('span', 'text-[11px] text-white/60 border border-white/10 rounded-full px-2 py-0.5', d)));
       row.appendChild(phones);
+      row.appendChild(renderNearbyErrors(r));
 
       // Status saves the moment you tap it; the note saves with its button or Enter.
       const controls = el('div', 'flex flex-col sm:flex-row gap-3 mt-4');
@@ -748,6 +783,45 @@
       controls.append(seg, noteRow);
       row.append(controls, msg);
       return row;
+    }
+
+    // The app's own error log around this report: what the people on it hit
+    // from a day before they reported it to an hour after. Loaded on tap.
+    function whenText(min) {
+      const a = Math.abs(min);
+      const span = a < 60 ? a + ' min' : a < 1440 ? Math.round(a / 60) + 'h' : Math.round(a / 1440) + 'd';
+      return min < 0 ? span + ' before' : min === 0 ? 'same minute' : span + ' after';
+    }
+    function renderNearbyErrors(r) {
+      const box = el('div', 'mt-3');
+      const n = r.error_count || 0;
+      if (n === 0) { box.appendChild(el('p', 'text-xs text-white/40', 'No app errors around this report.')); return box; }
+      const toggle = el('button', 'text-xs text-matrix hover:underline', 'Show ' + n + ' app error' + (n === 1 ? '' : 's') + ' around this report');
+      toggle.type = 'button';
+      const list = el('div', 'hidden mt-2 border border-white/10 rounded-lg divide-y divide-white/5 overflow-hidden');
+      let loaded = false;
+      toggle.addEventListener('click', async () => {
+        const open = list.classList.toggle('hidden') === false;
+        toggle.textContent = (open ? 'Hide ' : 'Show ') + n + ' app error' + (n === 1 ? '' : 's') + ' around this report';
+        if (!open || loaded) return;
+        list.replaceChildren(el('p', 'p-3 text-xs text-white/50', 'Loading…'));
+        const { data, error } = await db.rpc('admin_bug_report_errors', { p_report: r.id });
+        if (error) { list.replaceChildren(el('p', 'p-3 text-xs text-red-400', 'Could not load: ' + (error.message || 'unknown error'))); return; }
+        loaded = true;
+        list.replaceChildren();
+        (data || []).forEach(e => {
+          const item = el('div', 'p-3');
+          const meta = el('div', 'flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-white/50');
+          if (e.is_crash) meta.appendChild(el('span', 'font-mono uppercase tracking-wider text-[10px] text-red-400', 'Crash'));
+          meta.appendChild(el('span', null, [e.screen, e.app_version && 'v' + e.app_version, e.platform].filter(Boolean).join(' · ')));
+          meta.appendChild(el('span', 'ml-auto', '@' + (e.username || 'deleted account') + ' · ' + whenText(e.minutes_after)));
+          item.append(meta, el('p', 'mt-1 font-mono text-xs text-white/70 break-words line-clamp-3', e.error_message || e.error_type || ''));
+          list.appendChild(item);
+        });
+        if (n > (data || []).length) list.appendChild(el('p', 'p-3 text-xs text-white/40', 'Showing the newest ' + data.length + '. The rest are in the app\'s Errors tab.'));
+      });
+      box.append(toggle, list);
+      return box;
     }
 
     function updateAdminCounts() {
