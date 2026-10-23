@@ -160,15 +160,24 @@
         </div>
       </div>
 
-      <!-- TABS: BUGS, BALLOT, ADMIN (admins only) -->
-      <nav class="flex gap-2 mb-6" aria-label="Sections">
+      <!-- TABS: BUGS, IDEAS, BALLOT, ADMIN (admins only) -->
+      <nav class="flex gap-2 mb-6 overflow-x-auto pb-1" aria-label="Sections">
         <button data-tab="tab-bugs" class="tab-btn p-tab p-tab-on">Bugs</button>
+        <button data-tab="tab-suggestions" class="tab-btn p-tab">Ideas</button>
         <button data-tab="tab-governance" class="tab-btn p-tab">Ballot</button>
         <button id="tab-admin-btn" data-tab="tab-admin" class="tab-btn p-tab hidden">Admin</button>
       </nav>
 
       <!-- TAB 1: BUG BOARD -->
       <div id="tab-bugs" class="tab-panel">
+        <!-- TELEMETRY NOTICE -->
+        <div class="p-panel p-4 mb-4 flex items-start gap-3 bg-matrix/5">
+          <div class="w-2 h-2 rounded-full bg-matrix shrink-0 mt-1.5 animate-pulse"></div>
+          <div class="text-xs leading-relaxed text-white/70 font-sans">
+            <span class="text-matrix font-mono font-semibold uppercase tracking-wider block mb-1">Automatic Telemetry Active</span>
+            The app logs crashes and technical diagnostics in the background. No essays needed—just a quick note of what broke, or tap <span class="text-white font-medium">“I’ve had this too”</span> if it’s already listed below.
+          </div>
+        </div>
         <div class="p-panel p-2">
           <label for="bug-summary" class="sr-only">What went wrong?</label>
           <div class="flex items-center gap-3 px-3">
@@ -231,6 +240,51 @@
         </div>
         <div id="admin-list" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
       </div>
+      <!-- TAB: SUGGESTIONS / COMMUNITY IDEAS -->
+      <div id="tab-suggestions" class="tab-panel space-y-6 hidden">
+        <!-- DROP AN IDEA FORM -->
+        <div class="p-panel p-5 sm:p-6">
+          <div class="p-label mb-2">Feature Request</div>
+          <h2 class="text-xl font-semibold text-white">Drop an idea</h2>
+          <p class="text-white/60 text-xs sm:text-sm mt-1">Submit feature ideas, spot map enhancements, or skate tweaks. The community upvotes what matters.</p>
+          
+          <form id="suggestion-form" class="mt-4 space-y-4">
+            <div>
+              <label for="suggestion-title" class="sr-only">Idea title</label>
+              <input id="suggestion-title" type="text" maxlength="120" placeholder="Idea in one line (e.g. Filter spots by ground smoothness)" required class="w-full bg-black/60 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-matrix font-sans transition-colors">
+            </div>
+            
+            <div>
+              <label for="suggestion-details" class="sr-only">Details</label>
+              <textarea id="suggestion-details" rows="3" maxlength="4000" placeholder="Explain why it helps riders or how it should work..." required class="w-full bg-black/60 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-matrix font-sans transition-colors"></textarea>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-xs text-white/50 mr-1">Category:</span>
+              <button type="button" data-val="Spots & Map" class="sug-cat-chip p-chip p-chip-on">Spots & Map</button>
+              <button type="button" data-val="Features" class="sug-cat-chip p-chip">Features</button>
+              <button type="button" data-val="Video & Media" class="sug-cat-chip p-chip">Video & Media</button>
+              <button type="button" data-val="Profile" class="sug-cat-chip p-chip">Profile</button>
+              <button type="button" data-val="General" class="sug-cat-chip p-chip">General</button>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+              <span id="suggestion-msg" class="text-xs text-white/60"></span>
+              <button type="submit" id="suggestion-submit-btn" class="p-btn-matrix py-2 px-4 text-xs font-semibold">Post idea</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- SUGGESTIONS LIST -->
+        <div class="p-panel divide-y divide-white/5 overflow-hidden">
+          <div class="p-4 sm:p-5 flex items-center justify-between gap-4 bg-white/[0.02]">
+            <h3 class="text-sm font-semibold text-white uppercase font-mono tracking-wider">Community ideas</h3>
+            <span id="suggestion-status" class="text-xs text-white/50 font-mono"></span>
+          </div>
+          <div id="suggestion-list" class="divide-y divide-white/5"></div>
+        </div>
+      </div>
+
       <!-- TAB 2: COMMUNITY BALLOT -->
       <div id="tab-governance" class="tab-panel p-panel p-5 sm:p-8 hidden">
         <div class="mb-8">
@@ -501,6 +555,7 @@
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('hidden', p.id !== id));
       tabButtons.forEach(b => b.classList.toggle('p-tab-on', b.dataset.tab === id));
       if (id === 'tab-admin') loadAdminList();
+      if (id === 'tab-suggestions') loadSuggestions();
     }
     tabButtons.forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
 
@@ -855,10 +910,206 @@
       loadStats();
       const { data: isAdmin } = await db.rpc('is_admin');
       if (isAdmin === true) {
+        userIsAdmin = true;
         document.getElementById('tab-admin-btn').classList.remove('hidden');
         document.getElementById('admin-badge').classList.remove('hidden');
       }
     }
+    // -------------------------------------------------------------
+    // SUGGESTIONS / COMMUNITY IDEAS BOARD
+    // -------------------------------------------------------------
+    let userIsAdmin = false;
+    let selectedSugCategory = 'Spots & Map';
+    let suggestionRows = [];
+
+    const sugForm = document.getElementById('suggestion-form');
+    const sugTitle = document.getElementById('suggestion-title');
+    const sugDetails = document.getElementById('suggestion-details');
+    const sugMsg = document.getElementById('suggestion-msg');
+    const sugSubmitBtn = document.getElementById('suggestion-submit-btn');
+    const sugList = document.getElementById('suggestion-list');
+    const sugStatus = document.getElementById('suggestion-status');
+
+    document.querySelectorAll('.sug-cat-chip').forEach(c => c.addEventListener('click', () => {
+      selectedSugCategory = c.dataset.val;
+      document.querySelectorAll('.sug-cat-chip').forEach(x => x.classList.toggle('p-chip-on', x === c));
+    }));
+
+    const SUG_STATUS = {
+      exploring: { label: 'Exploring', cls: 'border-amber-400/40 text-amber-400' },
+      planned:   { label: 'Planned',   cls: 'border-matrix/40 text-matrix' },
+      completed: { label: 'Completed', cls: 'border-cyan-400/40 text-cyan-400' },
+      closed:    { label: 'Closed',    cls: 'border-white/20 text-white/40' }
+    };
+
+    function sugStatusPill(s) {
+      const st = SUG_STATUS[s] || SUG_STATUS.exploring;
+      const pill = el('span', 'p-status ' + st.cls);
+      const dot = el('span', 'dot' + (s === 'planned' ? ' animate-pulse' : ''));
+      pill.append(dot, document.createTextNode(st.label));
+      return pill;
+    }
+
+    function renderSuggestion(sug) {
+      const row = el('div', 'flex gap-4 p-4 sm:p-5' + (sug.status === 'closed' ? ' opacity-50 hover:opacity-100 transition-opacity' : ''));
+
+      // Upvote Button
+      const btn = el('button', 'hit-btn');
+      btn.type = 'button';
+      const n = el('span', 'n', sug.votes);
+      const t = el('span', 't');
+      btn.append(n, t);
+
+      function paintBtn() {
+        n.textContent = sug.votes;
+        btn.classList.toggle('on', sug.i_voted || sug.mine);
+        if (sug.mine) { t.textContent = 'Yours'; btn.title = 'You proposed this idea'; }
+        else if (sug.i_voted) { t.textContent = '✓ Voted'; btn.title = 'Tap to take vote back'; }
+        else { t.textContent = 'Vote'; btn.title = 'Upvote this idea'; }
+        btn.setAttribute('aria-label', sug.votes + ' votes. ' + btn.title);
+      }
+      paintBtn();
+
+      btn.addEventListener('click', async () => {
+        btn.disabled = true;
+        const { data, error } = await db.rpc('vote_suggestion', { p_suggestion_id: sug.id });
+        btn.disabled = false;
+        if (error) {
+          sugStatus.textContent = friendlyError(error);
+          return;
+        }
+        if (data) {
+          sug.i_voted = data.voted;
+          sug.votes = data.votes;
+          paintBtn();
+        }
+      });
+      row.appendChild(btn);
+
+      // Body
+      const body = el('div', 'min-w-0 flex-1');
+      const top = el('div', 'flex items-start justify-between gap-3');
+      const title = el('div', 'text-white font-semibold leading-snug break-words', sug.title);
+      top.append(title, sugStatusPill(sug.status));
+      body.appendChild(top);
+
+      const meta = el('div', 'flex items-center gap-2 mt-1.5 text-xs text-white/50');
+      meta.append(
+        el('span', 'font-mono uppercase tracking-wider text-[10px] text-white/60', sug.category),
+        el('span', null, '·'),
+        el('span', null, ago(sug.created_at))
+      );
+      body.appendChild(meta);
+
+      const details = el('p', 'mt-3 text-sm text-white/70 whitespace-pre-line break-words border-l border-white/10 pl-3', sug.details);
+      body.appendChild(details);
+
+      if (sug.admin_note) {
+        const note = el('div', 'mt-3 text-sm text-white/80 flex gap-2 bg-white/[0.02] p-2.5 rounded border border-white/5');
+        note.append(el('span', 'p-label pt-0.5 shrink-0 text-matrix', 'Dev Note'), el('span', 'break-words', sug.admin_note));
+        body.appendChild(note);
+      }
+
+      // Admin Status & Note Editor (Visible only to admin)
+      if (userIsAdmin) {
+        const adminBar = el('div', 'mt-3 pt-3 border-t border-white/5 flex flex-wrap items-center gap-2');
+        const sel = el('select', 'bg-black border border-white/20 rounded px-2 py-1 text-xs text-white');
+        ['exploring', 'planned', 'completed', 'closed'].forEach(st => {
+          const opt = el('option', null, st.charAt(0).toUpperCase() + st.slice(1));
+          opt.value = st;
+          if (sug.status === st) opt.selected = true;
+          sel.appendChild(opt);
+        });
+
+        const noteInput = el('input', 'bg-black border border-white/20 rounded px-2 py-1 text-xs text-white flex-1 min-w-[140px]');
+        noteInput.placeholder = 'Add dev note...';
+        if (sug.admin_note) noteInput.value = sug.admin_note;
+
+        const saveBtn = el('button', 'p-btn-matrix text-xs py-1 px-3', 'Save');
+        saveBtn.type = 'button';
+        saveBtn.addEventListener('click', async () => {
+          saveBtn.disabled = true;
+          saveBtn.textContent = 'Saving…';
+          const { error } = await db.rpc('admin_set_suggestion_status', {
+            p_suggestion_id: sug.id,
+            p_status: sel.value,
+            p_note: noteInput.value.trim() || null
+          });
+          saveBtn.disabled = false;
+          saveBtn.textContent = 'Save';
+          if (error) {
+            alert('Could not update: ' + error.message);
+          } else {
+            sug.status = sel.value;
+            sug.admin_note = noteInput.value.trim() || null;
+            loadSuggestions();
+          }
+        });
+
+        adminBar.append(sel, noteInput, saveBtn);
+        body.appendChild(adminBar);
+      }
+
+      row.appendChild(body);
+      return row;
+    }
+
+    async function loadSuggestions() {
+      if (!sugList) return;
+      sugStatus.textContent = 'Loading ideas…';
+      const { data, error } = await db.rpc('suggestion_board', { p_category: null, p_status: null, p_limit: 100 });
+      if (error) {
+        sugStatus.textContent = 'Could not load ideas';
+        sugList.replaceChildren(el('p', 'p-5 text-white/50 text-sm', 'Failed to load: ' + friendlyError(error)));
+        return;
+      }
+      suggestionRows = data || [];
+      sugStatus.textContent = suggestionRows.length + ' ideas';
+      sugList.replaceChildren();
+      if (suggestionRows.length === 0) {
+        sugList.appendChild(el('p', 'p-5 text-white/50 text-sm', 'No ideas posted yet. Be the first!'));
+        return;
+      }
+      suggestionRows.forEach(s => sugList.appendChild(renderSuggestion(s)));
+    }
+
+    if (sugForm) {
+      sugForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const title = sugTitle.value.trim();
+        const details = sugDetails.value.trim();
+        if (title.length < 5) {
+          sugMsg.textContent = 'Title needs at least 5 characters.';
+          sugMsg.className = 'text-xs text-red-400';
+          return;
+        }
+
+        sugSubmitBtn.disabled = true;
+        sugSubmitBtn.textContent = 'Posting…';
+        sugMsg.textContent = '';
+
+        const { data, error } = await db.rpc('submit_suggestion', {
+          p_category: selectedSugCategory,
+          p_title: title,
+          p_details: details
+        });
+
+        sugSubmitBtn.disabled = false;
+        sugSubmitBtn.textContent = 'Post idea';
+
+        if (error) {
+          sugMsg.textContent = friendlyError(error);
+          sugMsg.className = 'text-xs text-red-400';
+        } else {
+          sugMsg.textContent = 'Idea posted!';
+          sugMsg.className = 'text-xs text-matrix';
+          sugForm.reset();
+          loadSuggestions();
+          setTimeout(() => { sugMsg.textContent = ''; }, 4000);
+        }
+      });
+    }
+
     // GOVERNANCE FORM SUBMISSION
     const govForm = document.getElementById('governance-form');
     if (govForm) {
