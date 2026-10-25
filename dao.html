@@ -691,10 +691,29 @@
       if (m.includes('BALLOT_NOT_FOUND')) return 'That vote was removed. Refresh the page.';
       if (m.includes('INVALID_OPTIONS')) return 'Give 2 to 6 options, each up to 120 characters.';
       if (m.includes('ADMIN_REQUIRED')) return 'Only admins can do that.';
+      if (m.includes('ADMIN_PROTECTED')) return "Admins can't be banned, and one admin can't remove another. An admin can step down themselves.";
+      if (m.includes('LAST_ADMIN')) return "The last admin can't be removed. Make someone else an admin first.";
       if (m.includes('dao_ballots_shape')) return 'The question needs at least 5 characters.';
       if (m.includes('dao_announcements_shape')) return 'The headline needs at least 3 characters and the update at least 5.';
       if (m.includes('bug_reports_shape')) return 'Check the fields: the summary needs at least 5 characters.';
       return 'That didn\'t go through. Check your connection, or email admin@pushinn.app.';
+    }
+
+    // Plain wording for one admin_audit_list row.
+    function auditText(a) {
+      const d = a.detail || {};
+      switch (a.action) {
+        case 'made_admin': return 'Made admin';
+        case 'removed_admin': return 'Admin rights removed';
+        case 'banned': return 'Banned' + (d.reason ? ': ' + d.reason : '');
+        case 'unbanned': return 'Unbanned';
+        case 'verified': return 'Verified';
+        case 'unverified': return 'Verified badge removed';
+        case 'allowed_posting': return 'Allowed to post';
+        case 'stopped_posting': return 'Stopped from posting';
+        case 'points_changed': return 'Points ' + fmt(Number(d.from) || 0) + ' → ' + fmt(Number(d.to) || 0);
+        default: return a.action;
+      }
     }
 
     // BUG BOARD
@@ -2197,6 +2216,24 @@
             line.appendChild(el('span', 'text-white/75 flex-1 min-w-0 truncate', t.description || (t.transaction_type || '').replace(/_/g, ' ')));
             line.appendChild(el('span', 'tabular-nums font-semibold shrink-0 ' + (n >= 0 ? 'text-matrix' : 'text-red-400'), (n > 0 ? '+' : '') + fmt(n)));
             histList.appendChild(line);
+          });
+        });
+      // Admin history: who changed this user's admin, ban, verified, posting or points.
+      const adminHist = el('div', 'mt-4');
+      adminHist.appendChild(el('div', 'p-label mb-2', 'Admin history'));
+      const adminHistList = el('div', 'text-sm', null);
+      adminHistList.appendChild(el('p', 'text-white/40 text-xs', 'Loading…'));
+      adminHist.appendChild(adminHistList);
+      box.appendChild(adminHist);
+      db.rpc('admin_audit_list', { p_target: u.id, p_limit: 50 }).then(({ data, error }) => {
+          adminHistList.replaceChildren();
+          if (error) { adminHistList.appendChild(el('p', 'text-red-400 text-xs', 'Could not load: ' + (error.message || 'unknown error'))); return; }
+          if (!data || !data.length) { adminHistList.appendChild(el('p', 'text-white/40 text-xs', 'No admin changes yet.')); return; }
+          data.forEach(a => {
+            const line = el('div', 'py-1.5 border-b border-white/5 last:border-0');
+            line.appendChild(el('div', 'text-white/75', auditText(a)));
+            line.appendChild(el('div', 'text-white/40 text-xs', shortDate(a.created_at) + ' · by ' + (a.actor_username ? '@' + a.actor_username : 'the database')));
+            adminHistList.appendChild(line);
           });
         });
       return box;
