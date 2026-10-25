@@ -31,14 +31,6 @@
     .matrix-border { border: 1px solid rgba(0, 255, 65, 0.2); }
     .matrix-glow { box-shadow: 0 0 20px rgba(0, 255, 65, 0.15); }
     .matrix-hover:hover { border-color: rgba(0, 255, 65, 0.8); box-shadow: 0 0 15px rgba(0, 255, 65, 0.2); }
-    .poll-option input[type="radio"]:checked + div {
-      border-color: #00FF41;
-      color: #fff;
-    }
-    .poll-option input[type="radio"]:checked + div .radio-dot {
-      background-color: #00FF41;
-      border-color: #00FF41;
-    }
     /* Pushinn design standard: one green, panels #0D0D0D with a 25% green edge, radius 12, pills for chips and buttons */
     .p-panel { background: #0D0D0D; border: 1px solid rgba(0, 255, 65, 0.25); border-radius: 12px; }
     .p-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #00FF41; }
@@ -70,6 +62,15 @@
     .hit-btn.on { border-color: #00FF41; }
     .hit-btn.on .n, .hit-btn.on .t { color: #00FF41; }
     .hit-btn:disabled { cursor: default; }
+    .vote-opt { position: relative; overflow: hidden; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left; padding: 11px 16px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.15); color: #fff; font-size: 14px; font-weight: 500; transition: border-color .15s; }
+    button.vote-opt:hover:not(:disabled) { border-color: #00FF41; }
+    .vote-opt.mine { border-color: #00FF41; color: #00FF41; }
+    .vote-opt.result { border-radius: 12px; cursor: default; }
+    .vote-opt .bar { position: absolute; inset: 0 auto 0 0; background: rgba(255, 255, 255, 0.08); }
+    .vote-opt.lead .bar { background: rgba(0, 255, 65, 0.18); }
+    .vote-opt .lbl, .vote-opt .pct { position: relative; }
+    .vote-opt .pct { font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, 0.7); }
+    .vote-opt.lead .lbl { font-weight: 700; }
   </style>
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col font-sans">
@@ -163,6 +164,22 @@
         </button>
       </div>
 
+      <!-- PINNED UPDATE FROM THE TEAM (newest pinned post) -->
+      <article id="announcement" class="hidden p-panel p-5 sm:p-6 mb-8">
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="p-label">Pinned update</span>
+            <span id="announcement-tag" class="hidden p-status border-white/20 text-white/70"></span>
+          </div>
+          <div class="flex items-center gap-3 shrink-0">
+            <span id="announcement-date" class="text-xs text-white/40"></span>
+            <button id="announcement-delete" type="button" class="hidden text-xs text-red-400/80 hover:text-red-400">Delete</button>
+          </div>
+        </div>
+        <h2 id="announcement-title" class="text-lg sm:text-xl font-semibold text-white mt-3 break-words"></h2>
+        <p id="announcement-body" class="text-sm sm:text-base text-white/70 mt-2 leading-relaxed whitespace-pre-line break-words"></p>
+      </article>
+
       <!-- TABS: BUGS, IDEAS, VOTE, ADMIN (admins only) -->
       <nav class="flex gap-2 mb-6 overflow-x-auto pb-1" aria-label="Sections">
         <button data-tab="tab-bugs" class="tab-btn p-tab p-tab-on">Bugs</button>
@@ -228,6 +245,45 @@
 
       <!-- TAB 3: ADMIN (shown only when the database says this account is an admin) -->
       <div id="tab-admin" class="tab-panel hidden">
+        <div class="flex flex-wrap gap-2 mb-6">
+          <button type="button" data-form="admin-update-form" class="admin-compose p-btn-ghost">+ Post an update</button>
+          <button type="button" data-form="admin-vote-form" class="admin-compose p-btn-ghost">+ Start a vote</button>
+        </div>
+
+        <form id="admin-update-form" class="hidden p-panel p-5 sm:p-6 mb-8 space-y-4">
+          <div class="p-label">Post an update</div>
+          <p class="text-xs text-white/50 -mt-2">Shows pinned at the top of the DAO for every tester until you post another or delete it.</p>
+          <input id="update-title" type="text" maxlength="150" placeholder="Headline, e.g. Build 141 is out" class="p-field" required>
+          <textarea id="update-body" rows="4" maxlength="5000" placeholder="What changed and what to test" class="p-field" required></textarea>
+          <input id="update-tag" type="text" maxlength="50" placeholder="Build (optional), e.g. Build 141" class="p-field">
+          <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3">
+            <span id="update-msg" class="text-sm sm:mr-auto"></span>
+            <button type="submit" id="update-submit" class="p-btn">Post update</button>
+          </div>
+        </form>
+
+        <form id="admin-vote-form" class="hidden p-panel p-5 sm:p-6 mb-8 space-y-4">
+          <div class="p-label">Start a vote</div>
+          <p class="text-xs text-white/50 -mt-2">Testers see how many people voted, but not the split, until it ends. You can see the split all along.</p>
+          <input id="vote-title" type="text" maxlength="200" placeholder="Ask a question, e.g. Which park should we map next?" class="p-field" required>
+          <textarea id="vote-desc" rows="2" maxlength="4000" placeholder="Context (optional)" class="p-field"></textarea>
+          <div id="vote-options" class="space-y-2"></div>
+          <button type="button" id="vote-add-option" class="text-sm text-matrix hover:text-white">+ Add option</button>
+          <label class="flex items-center gap-3 text-sm text-white/70">Ends after
+            <select id="vote-length" class="bg-black border border-white/20 rounded-full px-3 py-1.5 text-sm text-white">
+              <option value="1">1 day</option>
+              <option value="3">3 days</option>
+              <option value="7" selected>7 days</option>
+              <option value="14">14 days</option>
+              <option value="">No end (close it yourself)</option>
+            </select>
+          </label>
+          <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3">
+            <span id="vote-msg" class="text-sm sm:mr-auto"></span>
+            <button type="submit" id="vote-submit" class="p-btn">Start vote</button>
+          </div>
+        </form>
+
         <div class="flex items-baseline justify-between mb-3 px-1">
           <h3 class="p-label">Bug reports</h3>
           <span class="text-xs text-white/40">Testers see the status and your note</span>
@@ -291,155 +347,13 @@
         </div>
       </div>
 
-      <!-- TAB 2: COMMUNITY BALLOT -->
-      <div id="tab-governance" class="tab-panel p-panel p-5 sm:p-8 hidden">
-        <div class="mb-8">
-          <div class="p-label">Community ballot</div>
-          <h2 class="text-2xl font-semibold text-white mt-2">Help set the rules</h2>
-          <p class="text-white/70 text-sm mt-2">Vote on spot rules and features before London goes public.</p>
+      <!-- TAB: COMMUNITY VOTES (made by admins, X-poll style) -->
+      <div id="tab-governance" class="tab-panel hidden">
+        <div class="flex items-baseline justify-between mb-3 px-1">
+          <h3 class="p-label">Community votes</h3>
+          <span class="text-xs text-white/40">One vote each · results when it ends</span>
         </div>
-
-        <form id="governance-form" class="space-y-8">
-          <!-- QUESTION 1 -->
-          <div class="space-y-3">
-            <h3 class="font-bold text-base text-white">
-              1. Secret Spot Protection: How should hidden spots be handled on the map?
-            </h3>
-            <div class="space-y-2">
-              <label class="poll-option block cursor-pointer">
-                <input type="radio" name="q1_secret_spots" value="Strict Fog-of-War (50m proximity unlock)" class="hidden" required>
-                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
-                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
-                  <div class="text-sm font-sans text-gray-300">
-                    <strong class="text-white block font-sans text-xs font-bold mb-0.5">Strict Fog-of-War:</strong>
-                    Hide precise GPS coordinates until a skater is physically within 50m of the spot.
-                  </div>
-                </div>
-              </label>
-
-              <label class="poll-option block cursor-pointer">
-                <input type="radio" name="q1_secret_spots" value="Reputation Gated (Verified Locals only)" class="hidden">
-                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
-                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
-                  <div class="text-sm font-sans text-gray-300">
-                    <strong class="text-white block font-sans text-xs font-bold mb-0.5">Reputation Gated:</strong>
-                    Only unlock secret spot coordinates for skaters who have earned "Verified Local" status.
-                  </div>
-                </div>
-              </label>
-
-              <label class="poll-option block cursor-pointer">
-                <input type="radio" name="q1_secret_spots" value="Open Map (Visible to all discovered spots)" class="hidden">
-                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
-                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
-                  <div class="text-sm font-sans text-gray-300">
-                    <strong class="text-white block font-sans text-xs font-bold mb-0.5">Open Map:</strong>
-                    Show all verified spots openly to anyone logged in on Pushinn.
-                  </div>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <!-- QUESTION 2 -->
-          <div class="space-y-3">
-            <h3 class="font-bold text-base text-white">
-              2. Spot Battle Judging: How should disputed trick clips be resolved?
-            </h3>
-            <div class="space-y-2">
-              <label class="poll-option block cursor-pointer">
-                <input type="radio" name="q2_battle_disputes" value="Local Jury (Top 3 spot holders vote)" class="hidden" required>
-                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
-                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
-                  <div class="text-sm font-sans text-gray-300">
-                    <strong class="text-white block font-sans text-xs font-bold mb-0.5">Local Jury:</strong>
-                    The top 3 skaters on that spot's leaderboard cast the deciding votes on line validity.
-                  </div>
-                </div>
-              </label>
-
-              <label class="poll-option block cursor-pointer">
-                <input type="radio" name="q2_battle_disputes" value="Borough Ballot (24h open community vote)" class="hidden">
-                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
-                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
-                  <div class="text-sm font-sans text-gray-300">
-                    <strong class="text-white block font-sans text-xs font-bold mb-0.5">Borough Ballot:</strong>
-                    A 24-hour public vote open to all active skaters within that London borough.
-                  </div>
-                </div>
-              </label>
-
-              <label class="poll-option block cursor-pointer">
-                <input type="radio" name="q2_battle_disputes" value="Re-Match Required (Dispute triggers sudden-death)" class="hidden">
-                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
-                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
-                  <div class="text-sm font-sans text-gray-300">
-                    <strong class="text-white block font-sans text-xs font-bold mb-0.5">Sudden-Death Re-Match:</strong>
-                    Disputes automatically void points until both skaters post fresh runs.
-                  </div>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <!-- QUESTION 3 -->
-          <div class="space-y-3">
-            <h3 class="font-bold text-base text-white">
-              3. Spot Verification: What qualifies a rider as a "Verified Local" at a spot?
-            </h3>
-            <div class="space-y-2">
-              <label class="poll-option block cursor-pointer">
-                <input type="radio" name="q3_local_criteria" value="Clip Consistency (5+ verified sessions filmed there)" class="hidden" required>
-                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
-                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
-                  <div class="text-sm font-sans text-gray-300">
-                    <strong class="text-white block font-sans text-xs font-bold mb-0.5">Clip Consistency:</strong>
-                    At least 5 separate filmed sessions logged at the spot over 30 days.
-                  </div>
-                </div>
-              </label>
-
-              <label class="poll-option block cursor-pointer">
-                <input type="radio" name="q3_local_criteria" value="Community Vouching (Vouched by existing borough locals)" class="hidden">
-                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
-                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
-                  <div class="text-sm font-sans text-gray-300">
-                    <strong class="text-white block font-sans text-xs font-bold mb-0.5">Community Vouching:</strong>
-                    Must be vouched for by 3 existing verified skaters from that spot.
-                  </div>
-                </div>
-              </label>
-
-              <label class="poll-option block cursor-pointer">
-                <input type="radio" name="q3_local_criteria" value="Spot Crown (Current highest score holder)" class="hidden">
-                <div class="p-4 bg-black border border-white/10 rounded-xl flex items-start gap-3 transition-colors hover:border-white/30">
-                  <div class="w-4 h-4 rounded-full border border-gray-600 radio-dot mt-0.5 flex-shrink-0"></div>
-                  <div class="text-sm font-sans text-gray-300">
-                    <strong class="text-white block font-sans text-xs font-bold mb-0.5">Leaderboard Crown:</strong>
-                    Hold the number one trick rank or spot score at the time of calculation.
-                  </div>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <!-- RAW CULTURE FEEDBACK -->
-          <div>
-            <label class="block p-label mb-3">Anything else?</label>
-            <textarea name="culture_notes" rows="4" placeholder="What else should we never compromise on? Spot ethics, filming, or etiquette?" maxlength="2000" class="p-field"></textarea>
-          </div>
-
-          <button type="submit" id="governance-submit-btn" class="p-btn">
-            Submit votes
-          </button>
-
-          <div id="gov-success-msg" style="display:none;" class="p-4 rounded bg-matrix/10 border border-matrix text-matrix text-sm text-center">
-            Your votes have been submitted. Thank you for voting.
-          </div>
-          <div id="gov-error-msg" style="display:none;" class="p-4 rounded bg-red-950/40 border border-red-500 text-red-400 text-sm text-center">
-            Submission failed. Please check your connection or contact admin@pushinn.app.
-          </div>
-        </form>
+        <div id="vote-list" class="space-y-4"></div>
       </div>
     </section>
   </main>
@@ -562,6 +476,7 @@
       tabButtons.forEach(b => b.classList.toggle('p-tab-on', b.dataset.tab === id));
       if (id === 'tab-admin') loadAdminList();
       if (id === 'tab-suggestions') loadSuggestions();
+      if (id === 'tab-governance') loadVotes();
     }
     tabButtons.forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
 
@@ -602,6 +517,12 @@
       if (m.includes('IDEA_CLOSED')) return 'Voting on this idea has finished.';
       if (m.includes('IDEA_NOT_FOUND')) return 'That idea was removed. Refresh the page.';
       if (m.includes('suggestions_shape')) return 'Check the fields: the title needs at least 5 characters.';
+      if (m.includes('BALLOT_CLOSED')) return 'This vote has ended.';
+      if (m.includes('BALLOT_NOT_FOUND')) return 'That vote was removed. Refresh the page.';
+      if (m.includes('INVALID_OPTIONS')) return 'Give 2 to 6 options, each up to 120 characters.';
+      if (m.includes('ADMIN_REQUIRED')) return 'Only admins can do that.';
+      if (m.includes('dao_ballots_shape')) return 'The question needs at least 5 characters.';
+      if (m.includes('dao_announcements_shape')) return 'The headline needs at least 3 characters and the update at least 5.';
       if (m.includes('bug_reports_shape')) return 'Check the fields: the summary needs at least 5 characters.';
       return 'That didn\'t go through. Check your connection, or email admin@pushinn.app.';
     }
@@ -970,6 +891,7 @@
         document.getElementById('tab-admin-btn').classList.remove('hidden');
         document.getElementById('admin-badge').classList.remove('hidden');
       }
+      loadAnnouncement();
     }
     // -------------------------------------------------------------
     // SUGGESTIONS / COMMUNITY IDEAS BOARD
@@ -1196,57 +1118,180 @@
       });
     }
 
-    // GOVERNANCE FORM SUBMISSION
-    const govForm = document.getElementById('governance-form');
-    if (govForm) {
-      govForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const user = await checkAuth();
-        if (!user) {
-          alert('Session expired. Please sign in to cast votes.');
-          window.location.href = '/login?redirect=/dao';
+    // ANNOUNCEMENTS: newest pinned update from the team, shown above the tabs
+    let shownAnnouncement = null;
+    async function loadAnnouncement() {
+      const { data, error } = await db.rpc('dao_get_announcements', { p_limit: 1 });
+      const card = document.getElementById('announcement');
+      const a = !error && data && data[0];
+      shownAnnouncement = a || null;
+      card.classList.toggle('hidden', !a);
+      if (!a) return;
+      document.getElementById('announcement-title').textContent = a.title;
+      document.getElementById('announcement-body').textContent = a.content;
+      document.getElementById('announcement-date').textContent = ago(a.created_at);
+      const tag = document.getElementById('announcement-tag');
+      tag.textContent = a.build_tag || '';
+      tag.classList.toggle('hidden', !a.build_tag);
+      document.getElementById('announcement-delete').classList.toggle('hidden', !userIsAdmin);
+    }
+    document.getElementById('announcement-delete').addEventListener('click', async () => {
+      if (!shownAnnouncement || !confirm('Delete this update for everyone?')) return;
+      const { error } = await db.rpc('dao_admin_delete_announcement', { p_id: shownAnnouncement.id });
+      if (error) { alert(friendlyError(error)); return; }
+      loadAnnouncement();
+    });
+
+    // COMMUNITY VOTES. Tap an option to vote; tap another to change it while the vote is open.
+    // The split stays hidden until it ends (the database only sends it to admins before then).
+    const voteList = document.getElementById('vote-list');
+    function timeLeft(iso) {
+      const ms = new Date(iso) - Date.now();
+      const h = Math.floor(ms / 3600e3);
+      if (h >= 48) return Math.floor(h / 24) + ' days left';
+      if (h >= 1) return h + (h === 1 ? ' hour left' : ' hours left');
+      const m = Math.max(1, Math.floor(ms / 60e3));
+      return m + (m === 1 ? ' minute left' : ' minutes left');
+    }
+    function votesText(n) { return n === 1 ? '1 vote' : n + ' votes'; }
+
+    function renderVote(v) {
+      const card = el('div', 'p-panel p-5 sm:p-6');
+      card.appendChild(el('h3', 'text-base sm:text-lg font-semibold text-white break-words', v.title));
+      if (v.description) card.appendChild(el('p', 'text-sm text-white/60 mt-1.5 whitespace-pre-line break-words', v.description));
+
+      const opts = el('div', 'space-y-2 mt-4');
+      const voted = v.my_vote !== null && v.my_vote !== undefined;
+      const showSplit = Array.isArray(v.results);
+      const max = showSplit ? Math.max(...v.results) : 0;
+      (v.options || []).forEach((label, i) => {
+        if (showSplit && (v.is_closed || voted || userIsAdmin)) {
+          const n = v.results[i] || 0;
+          const pct = v.total_votes ? Math.round(n * 100 / v.total_votes) : 0;
+          const row = el(v.is_closed ? 'div' : 'button', 'vote-opt result' + (n === max && n > 0 ? ' lead' : '') + (v.my_vote === i ? ' mine' : ''));
+          const bar = el('span', 'bar'); bar.style.width = pct + '%';
+          row.append(bar, el('span', 'lbl break-words', (v.my_vote === i ? '✓ ' : '') + label), el('span', 'pct', pct + '%'));
+          if (!v.is_closed) { row.type = 'button'; row.addEventListener('click', () => castVote(v, i, row)); }
+          opts.appendChild(row);
           return;
         }
-
-        const btn = document.getElementById('governance-submit-btn');
-        const successMsg = document.getElementById('gov-success-msg');
-        const errorMsg = document.getElementById('gov-error-msg');
-        const testerEmail = user.email;
-
-        const q1 = govForm.elements['q1_secret_spots'].value;
-        const q2 = govForm.elements['q2_battle_disputes'].value;
-        const q3 = govForm.elements['q3_local_criteria'].value;
-        const notes = govForm.elements['culture_notes'].value || 'None provided.';
-
-        btn.disabled = true;
-        btn.textContent = 'Submitting Votes...';
-        successMsg.style.display = 'none';
-        errorMsg.style.display = 'none';
-
-        const subject = `[DAO: Vote] Street Governance Ballot`;
-        const ballotPayload = `TESTER: ${testerEmail}\n\nQ1 SECRET SPOTS: ${q1}\nQ2 BATTLE DISPUTES: ${q2}\nQ3 LOCAL CRITERIA: ${q3}\n\nRAW NOTES:\n${notes}`;
-
-        const { error } = await db
-          .from('contact_messages')
-          .insert([{
-            username: `DAO: ${testerEmail.split('@')[0]}`,
-            email: testerEmail,
-            subject: subject,
-            message: ballotPayload
-          }]);
-
-        btn.disabled = false;
-        btn.textContent = 'Submit votes';
-
-        if (error) {
-          console.error('Supabase error:', error);
-          errorMsg.style.display = 'block';
-        } else {
-          successMsg.style.display = 'block';
-          govForm.reset();
-        }
+        const b = el('button', 'vote-opt' + (v.my_vote === i ? ' mine' : ''));
+        b.type = 'button';
+        b.append(el('span', 'lbl break-words', (v.my_vote === i ? '✓ ' : '') + label));
+        if (v.is_closed) b.disabled = true;
+        else b.addEventListener('click', () => castVote(v, i, b));
+        opts.appendChild(b);
       });
+      card.appendChild(opts);
+
+      const foot = el('div', 'flex flex-wrap items-center gap-x-2 gap-y-1 mt-4 text-xs text-white/50');
+      const bits = [votesText(v.total_votes)];
+      if (v.is_closed) bits.push('Final results');
+      else if (v.closes_at) bits.push(timeLeft(v.closes_at));
+      if (!v.is_closed && voted && !userIsAdmin) bits.push('You voted · results when it ends');
+      if (!v.is_closed && userIsAdmin) bits.push('Only admins see the split until it ends');
+      bits.forEach((b, k) => { if (k) foot.appendChild(el('span', null, '·')); foot.appendChild(el('span', null, b)); });
+      if (userIsAdmin && !v.is_closed) {
+        const close = el('button', 'ml-auto text-xs text-white/70 hover:text-white border border-white/20 rounded-full px-3 py-1', 'End vote now');
+        close.type = 'button';
+        close.addEventListener('click', async () => {
+          if (!confirm('End this vote now? Everyone will see the results.')) return;
+          const { error } = await db.rpc('dao_admin_close_ballot', { p_ballot_id: v.id });
+          if (error) { alert(friendlyError(error)); return; }
+          loadVotes();
+        });
+        foot.appendChild(close);
+      }
+      card.appendChild(foot);
+      return card;
     }
+
+    async function castVote(v, i, btn) {
+      if (v.my_vote === i) return;
+      btn.disabled = true;
+      const { error } = await db.rpc('dao_cast_vote', { p_ballot_id: v.id, p_option_index: i });
+      if (error) { btn.disabled = false; alert(friendlyError(error)); loadVotes(); return; }
+      loadVotes();
+    }
+
+    async function loadVotes() {
+      const { data, error } = await db.rpc('dao_get_ballots');
+      voteList.replaceChildren();
+      if (error) { voteList.appendChild(el('p', 'p-panel p-5 text-red-400 text-sm', friendlyError(error))); return; }
+      if (!data || data.length === 0) {
+        voteList.appendChild(el('p', 'p-panel p-5 text-white/50 text-sm', 'No votes running right now. When the team asks the community something, it shows up here.'));
+        return;
+      }
+      data.forEach(v => voteList.appendChild(renderVote(v)));
+    }
+
+    // ADMIN: compose an update or a vote
+    document.querySelectorAll('.admin-compose').forEach(b => b.addEventListener('click', () => {
+      const f = document.getElementById(b.dataset.form);
+      const opening = f.classList.contains('hidden');
+      document.querySelectorAll('#admin-update-form, #admin-vote-form').forEach(x => x.classList.add('hidden'));
+      f.classList.toggle('hidden', !opening);
+      if (opening) f.querySelector('input').focus();
+    }));
+    function adminMsg(id, text, ok) {
+      const m = document.getElementById(id);
+      m.textContent = text;
+      m.className = 'text-sm sm:mr-auto ' + (ok ? 'text-matrix' : 'text-red-400');
+    }
+
+    document.getElementById('admin-update-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('update-submit');
+      btn.disabled = true;
+      const { error } = await db.rpc('dao_admin_post_announcement', {
+        p_title: document.getElementById('update-title').value.trim(),
+        p_content: document.getElementById('update-body').value.trim(),
+        p_build_tag: document.getElementById('update-tag').value.trim() || null,
+        p_is_pinned: true
+      });
+      btn.disabled = false;
+      if (error) { adminMsg('update-msg', friendlyError(error), false); return; }
+      e.target.reset();
+      adminMsg('update-msg', 'Posted. It\'s pinned at the top of the DAO.', true);
+      loadAnnouncement();
+    });
+
+    const voteOptions = document.getElementById('vote-options');
+    function addVoteOption() {
+      const n = voteOptions.children.length;
+      if (n >= 6) return;
+      const input = el('input', 'p-field');
+      input.type = 'text';
+      input.maxLength = 120;
+      input.placeholder = 'Option ' + (n + 1) + (n >= 2 ? ' (optional)' : '');
+      voteOptions.appendChild(input);
+      document.getElementById('vote-add-option').classList.toggle('hidden', voteOptions.children.length >= 6);
+    }
+    function resetVoteOptions() { voteOptions.replaceChildren(); addVoteOption(); addVoteOption(); }
+    resetVoteOptions();
+    document.getElementById('vote-add-option').addEventListener('click', addVoteOption);
+
+    document.getElementById('admin-vote-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const options = [...voteOptions.querySelectorAll('input')].map(i => i.value.trim()).filter(Boolean);
+      if (options.length < 2) { adminMsg('vote-msg', 'Give at least 2 options.', false); return; }
+      const days = document.getElementById('vote-length').value;
+      const btn = document.getElementById('vote-submit');
+      btn.disabled = true;
+      const { error } = await db.rpc('dao_admin_create_ballot', {
+        p_title: document.getElementById('vote-title').value.trim(),
+        p_description: document.getElementById('vote-desc').value.trim(),
+        p_category: 'General',
+        p_options: options,
+        p_closes_at: days ? new Date(Date.now() + days * 86400e3).toISOString() : null
+      });
+      btn.disabled = false;
+      if (error) { adminMsg('vote-msg', friendlyError(error), false); return; }
+      e.target.reset();
+      resetVoteOptions();
+      adminMsg('vote-msg', 'Vote started. It\'s on the Vote tab.', true);
+      loadVotes();
+    });
 
     // INITIALIZE
     checkAuth();
