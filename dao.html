@@ -71,6 +71,21 @@
     .vote-opt .lbl, .vote-opt .pct { position: relative; }
     .vote-opt .pct { font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, 0.7); }
     .vote-opt.lead .lbl { font-weight: 700; }
+    .p-subtab { font-size: 14px; font-weight: 600; padding: 10px 0; margin-bottom: -1px; white-space: nowrap; color: rgba(255, 255, 255, 0.5); border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; }
+    .p-subtab:hover { color: #fff; }
+    .p-subtab-on, .p-subtab-on:hover { color: #fff; border-bottom-color: #00FF41; }
+    .sub-count { font-size: 11px; font-weight: 600; color: #000; background: rgba(255, 255, 255, 0.5); border-radius: 999px; padding: 1px 7px; margin-left: 4px; font-variant-numeric: tabular-nums; }
+    .sub-count:empty { display: none; }
+    .kpi { text-align: left; }
+    button.kpi { transition: border-color .15s; }
+    button.kpi:hover { border-color: rgba(0, 255, 65, 0.6); }
+    .bars { display: flex; align-items: flex-end; gap: 2px; height: 96px; }
+    .bars .bar { flex: 1; min-width: 0; height: 100%; display: flex; align-items: flex-end; cursor: default; }
+    .bars .bar i { display: block; width: 100%; background: #00FF41; border-radius: 4px 4px 0 0; min-height: 2px; opacity: .85; }
+    .bars .bar.zero i { background: rgba(255, 255, 255, 0.12); }
+    .bars .bar:hover i, .bars .bar.on i { opacity: 1; background: #fff; }
+    .ret td, .ret th { padding: 6px 5px; text-align: center; font-variant-numeric: tabular-nums; font-size: 12px; white-space: nowrap; }
+    .ret td.c { border-radius: 6px; }
   </style>
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col font-sans">
@@ -245,6 +260,51 @@
 
       <!-- TAB 3: ADMIN (shown only when the database says this account is an admin) -->
       <div id="tab-admin" class="tab-panel hidden">
+        <!-- Admin sections, same order as the app's admin dashboard -->
+        <nav class="flex gap-5 border-b border-white/10 mb-6 overflow-x-auto" aria-label="Admin sections">
+          <button type="button" data-sec="stats" class="admin-sec p-subtab p-subtab-on">Stats</button>
+          <button type="button" data-sec="errors" class="admin-sec p-subtab">Errors <span id="admin-err-badge" class="sub-count"></span></button>
+          <button type="button" data-sec="bugs" class="admin-sec p-subtab">Bug reports</button>
+          <button type="button" data-sec="posts" class="admin-sec p-subtab">Updates &amp; votes</button>
+        </nav>
+
+        <!-- STATS -->
+        <div id="admin-sec-stats" class="admin-sec-panel">
+          <div id="kpi-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6"></div>
+          <div class="grid sm:grid-cols-2 gap-3 mb-6">
+            <div id="chart-spots" class="p-panel p-4 sm:p-5"></div>
+            <div id="chart-users" class="p-panel p-4 sm:p-5"></div>
+          </div>
+          <div class="flex items-baseline justify-between mb-3 px-1">
+            <h3 class="p-label">Who keeps coming back</h3>
+            <span class="text-xs text-white/40">% of each month's sign-ups still active</span>
+          </div>
+          <div id="retention" class="p-panel p-2 sm:p-3 mb-6 overflow-x-auto"></div>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <h3 class="p-label mb-3 px-1">Dropping off this week</h3>
+              <div id="at-risk" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
+            </div>
+            <div>
+              <h3 class="p-label mb-3 px-1">Most fought-over spots</h3>
+              <div id="top-spots" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ERRORS: every app error, grouped by kind (the app's Errors tab) -->
+        <div id="admin-sec-errors" class="admin-sec-panel hidden">
+          <div class="flex flex-wrap items-center gap-2 mb-4">
+            <button data-status="open" class="err-filter p-chip p-chip-on">Open <span class="admin-count"></span></button>
+            <button data-status="fixed" class="err-filter p-chip">Fixed <span class="admin-count"></span></button>
+            <button data-status="ignored" class="err-filter p-chip">Ignored <span class="admin-count"></span></button>
+            <span class="text-xs text-white/40 ml-auto">Newest first</span>
+          </div>
+          <div id="err-list" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
+        </div>
+
+        <!-- UPDATES & VOTES -->
+        <div id="admin-sec-posts" class="admin-sec-panel hidden">
         <div class="flex flex-wrap gap-2 mb-6">
           <button type="button" data-form="admin-update-form" class="admin-compose p-btn-ghost">+ Post an update</button>
           <button type="button" data-form="admin-vote-form" class="admin-compose p-btn-ghost">+ Start a vote</button>
@@ -284,6 +344,10 @@
           </div>
         </form>
 
+        </div>
+
+        <!-- BUG REPORTS -->
+        <div id="admin-sec-bugs" class="admin-sec-panel hidden">
         <div class="flex items-baseline justify-between mb-3 px-1">
           <h3 class="p-label">Bug reports</h3>
           <span class="text-xs text-white/40">Testers see the status and your note</span>
@@ -296,6 +360,7 @@
           <button data-status="fixed" class="admin-filter p-chip">Fixed <span class="admin-count"></span></button>
         </div>
         <div id="admin-list" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
+        </div>
       </div>
       <!-- TAB: SUGGESTIONS / COMMUNITY IDEAS -->
       <div id="tab-suggestions" class="tab-panel space-y-6 hidden">
@@ -474,7 +539,7 @@
     function showTab(id) {
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('hidden', p.id !== id));
       tabButtons.forEach(b => b.classList.toggle('p-tab-on', b.dataset.tab === id));
-      if (id === 'tab-admin') loadAdminList();
+      if (id === 'tab-admin') showAdminSec(adminSec);
       if (id === 'tab-suggestions') loadSuggestions();
       if (id === 'tab-governance') loadVotes();
     }
@@ -890,6 +955,7 @@
         userIsAdmin = true;
         document.getElementById('tab-admin-btn').classList.remove('hidden');
         document.getElementById('admin-badge').classList.remove('hidden');
+        loadErrorCount();
       }
       loadAnnouncement();
     }
@@ -1292,6 +1358,288 @@
       adminMsg('vote-msg', 'Vote started. It\'s on the Vote tab.', true);
       loadVotes();
     });
+
+    // -------------------------------------------------------------
+    // ADMIN: STATS + ERRORS (the app's admin dashboard, on the web).
+    // Every call below refuses non-admins in the database itself.
+    // -------------------------------------------------------------
+    var adminSec = 'stats';
+    const adminLoaded = {};
+    function showAdminSec(sec, force) {
+      adminSec = sec;
+      document.querySelectorAll('.admin-sec').forEach(b => b.classList.toggle('p-subtab-on', b.dataset.sec === sec));
+      document.querySelectorAll('.admin-sec-panel').forEach(p => p.classList.toggle('hidden', p.id !== 'admin-sec-' + sec));
+      if (sec === 'bugs') loadAdminList();
+      if (sec === 'stats' && (force || !adminLoaded.stats)) loadStats();
+      if (sec === 'errors' && (force || !adminLoaded.errors)) loadErrors();
+    }
+    document.querySelectorAll('.admin-sec').forEach(b => b.addEventListener('click', () => showAdminSec(b.dataset.sec, true)));
+
+    const fmt = n => (n === null || n === undefined) ? '–' : Number(n).toLocaleString('en-GB');
+    function shortDate(d) { return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }); }
+
+    function kpi(label, value, sub, onTap) {
+      const box = el(onTap ? 'button' : 'div', 'kpi p-panel p-4');
+      if (onTap) { box.type = 'button'; box.addEventListener('click', onTap); }
+      box.appendChild(el('div', 'p-label', label));
+      box.appendChild(el('div', 'text-2xl sm:text-3xl font-semibold text-white mt-2 tabular-nums', value));
+      if (sub) box.appendChild(el('div', 'text-xs text-white/45 mt-1 leading-snug', sub));
+      return box;
+    }
+
+    // One series per chart, last 30 days, tap or hover a bar to read it.
+    function barChart(box, title, unit, rows) {
+      box.replaceChildren();
+      const byDay = {};
+      (rows || []).forEach(r => { byDay[String(r.day).slice(0, 10)] = Number(r.count) || 0; });
+      const days = [];
+      for (let i = 29; i >= 0; i--) {
+        const d = new Date(Date.now() - i * 86400e3);
+        const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+        days.push({ key, n: byDay[key] || 0 });
+      }
+      const total = days.reduce((a, d) => a + d.n, 0);
+      const max = Math.max(1, ...days.map(d => d.n));
+      const head = el('div', 'flex items-baseline justify-between gap-3');
+      head.appendChild(el('div', 'p-label', title));
+      const read = el('div', 'text-xs text-white/50 tabular-nums', fmt(total) + ' in 30 days');
+      head.appendChild(read);
+      const bars = el('div', 'bars mt-4');
+      days.forEach(d => {
+        const b = el('div', 'bar' + (d.n ? '' : ' zero'));
+        const fill = el('i');
+        fill.style.height = (d.n ? Math.max(4, d.n / max * 100) : 2) + '%';
+        b.appendChild(fill);
+        b.title = shortDate(d.key) + ': ' + d.n + ' ' + unit;
+        const show = () => { bars.querySelectorAll('.bar').forEach(x => x.classList.toggle('on', x === b)); read.textContent = shortDate(d.key) + ': ' + fmt(d.n) + ' ' + unit; };
+        b.addEventListener('mouseenter', show);
+        b.addEventListener('click', show);
+        bars.appendChild(b);
+      });
+      bars.addEventListener('mouseleave', () => { bars.querySelectorAll('.bar').forEach(x => x.classList.remove('on')); read.textContent = fmt(total) + ' in 30 days'; });
+      const axis = el('div', 'flex justify-between text-[10px] text-white/35 mt-1.5 font-mono');
+      axis.append(el('span', null, shortDate(days[0].key)), el('span', null, 'Today'));
+      box.append(head, bars, axis);
+    }
+
+    function retentionTable(box, rows) {
+      box.replaceChildren();
+      if (!rows || rows.length === 0) { box.appendChild(el('p', 'p-3 text-sm text-white/50', 'No sign-ups yet.')); return; }
+      const t = el('table', 'ret w-full');
+      const hr = el('tr');
+      hr.appendChild(el('th', 'text-left text-white/40 font-normal', 'Joined'));
+      hr.appendChild(el('th', 'text-white/40 font-normal', 'People'));
+      for (let m = 0; m <= 6; m++) hr.appendChild(el('th', 'text-white/40 font-normal', m === 0 ? 'Month 1' : '+' + m));
+      t.appendChild(hr);
+      rows.slice().sort((a, b) => String(b.cohort_month).localeCompare(String(a.cohort_month))).forEach(r => {
+        const tr = el('tr');
+        tr.appendChild(el('td', 'text-left text-white/70', new Date(r.cohort_month).toLocaleDateString('en-GB', { month: 'short', year: '2-digit' })));
+        tr.appendChild(el('td', 'text-white/70', fmt(r.cohort_size)));
+        for (let m = 0; m <= 6; m++) {
+          const v = r['month_' + m];
+          const td = el('td', 'c', v === null || v === undefined ? '' : Math.round(v) + '%');
+          if (v !== null && v !== undefined) {
+            td.style.background = 'rgba(0, 255, 65, ' + (0.06 + Math.min(1, v / 100) * 0.55).toFixed(2) + ')';
+            td.style.color = v >= 50 ? '#000' : '#fff';
+          }
+          tr.appendChild(td);
+        }
+        t.appendChild(tr);
+      });
+      box.appendChild(t);
+    }
+
+    function simpleList(box, rows, empty, draw) {
+      box.replaceChildren();
+      if (!rows || rows.length === 0) { box.appendChild(el('p', 'p-4 text-sm text-white/50', empty)); return; }
+      rows.forEach(r => box.appendChild(draw(r)));
+    }
+
+    let openErrorCount = null;
+    function lastDays(rows, n) {
+      const since = Date.now() - n * 86400e3;
+      return (rows || []).filter(r => new Date(r.day).getTime() >= since - 86400e3).reduce((a, r) => a + (Number(r.count) || 0), 0);
+    }
+    async function loadStats() {
+      adminLoaded.stats = true;
+      const grid = document.getElementById('kpi-grid');
+      grid.replaceChildren(el('p', 'col-span-full text-sm text-white/50 px-1', 'Loading…'));
+      const count = q => q.then(r => r.error ? null : r.count);
+      const [users, spots, reports, battles, wager, stick, ttv, posts, growth, cohorts, atRisk, topSpots] = await Promise.all([
+        count(db.from('user_profiles').select('id', { count: 'exact', head: true })),
+        count(db.from('map_posts').select('id', { count: 'exact', head: true }).is('deleted_at', null)),
+        count(db.from('post_reports').select('id', { count: 'exact', head: true }).eq('status', 'pending')),
+        count(db.from('battles').select('id', { count: 'exact', head: true }).not('winner_id', 'is', null)),
+        db.from('battles').select('wager_amount').not('winner_id', 'is', null).order('wager_amount', { ascending: false }).limit(1),
+        db.rpc('get_stickiness_ratio'),
+        db.rpc('get_time_to_value_stats'),
+        db.rpc('get_daily_post_stats', { days_ago: 30 }),
+        db.rpc('get_user_growth_stats', { days_ago: 30 }),
+        db.rpc('get_cohort_retention', { months_back: 12 }),
+        db.rpc('get_at_risk_users', { limit_cnt: 10 }),
+        db.from('map_posts').select('id, title, mvp_score').is('deleted_at', null).not('mvp_score', 'is', null).order('mvp_score', { ascending: false }).limit(5)
+      ]);
+      const st = Array.isArray(stick.data) ? stick.data[0] : stick.data;
+      const maxWager = wager.data && wager.data[0] ? wager.data[0].wager_amount : 0;
+      if (openErrorCount === null) await loadErrorCount();
+      grid.replaceChildren(
+        kpi('Users', fmt(users), 'All accounts'),
+        kpi('Spots', fmt(spots), 'On the map, not deleted'),
+        kpi('Battles settled', fmt(battles), maxWager ? 'Biggest wager ' + fmt(maxWager) + ' pts' : 'No wagers yet'),
+        kpi('Daily / monthly', st ? Math.round(st.ratio || 0) + '%' : '–', st ? fmt(st.dau) + ' active today of ' + fmt(st.mau) + ' this month' : 'Couldn\'t load'),
+        kpi('Hours to first spot', ttv.error || ttv.data === null ? '–' : (Number(ttv.data) || 0).toFixed(1), 'Average, from sign-up'),
+        kpi('Reported posts', fmt(reports), 'Waiting for review'),
+        kpi('Open errors', fmt(openErrorCount), 'Tap to see them', () => showAdminSec('errors')),
+        kpi('New this week', fmt(lastDays(growth.data, 7)), 'Sign-ups in the last 7 days')
+      );
+      barChart(document.getElementById('chart-spots'), 'New spots per day', 'spots', posts.data);
+      barChart(document.getElementById('chart-users'), 'New users per day', 'users', growth.data);
+      retentionTable(document.getElementById('retention'), cohorts.data);
+      simpleList(document.getElementById('at-risk'), atRisk.data, 'Nobody\'s dropped off sharply this week.', u => {
+        const row = el('div', 'flex items-center justify-between gap-3 px-4 py-3');
+        row.appendChild(el('span', 'text-sm text-white truncate', '@' + (u.username || 'deleted account')));
+        row.appendChild(el('span', 'text-xs text-white/50 shrink-0 tabular-nums', fmt(u.activity_last_week) + ' → ' + fmt(u.activity_this_week) + ' actions · −' + Math.round(u.drop_percentage || 0) + '%'));
+        return row;
+      });
+      simpleList(document.getElementById('top-spots'), topSpots.data, 'No battles won at a spot yet.', p => {
+        const row = el('div', 'flex items-center justify-between gap-3 px-4 py-3');
+        row.appendChild(el('span', 'text-sm text-white truncate', p.title || 'Untitled spot'));
+        row.appendChild(el('span', 'text-xs text-white/50 shrink-0 tabular-nums', 'MVP score ' + fmt(p.mvp_score)));
+        return row;
+      });
+      const failed = [users, spots, reports, battles].some(v => v === null) || [stick, ttv, posts, growth, cohorts, atRisk, topSpots, wager].some(r => r.error);
+      if (failed) grid.appendChild(el('p', 'col-span-full text-xs text-red-400 px-1', 'Some numbers couldn\'t load and show as –. Reload to try again.'));
+    }
+
+    // ERRORS
+    const ERR_STATUS = { open: 'Open', fixed: 'Fixed', ignored: 'Ignored' };
+    let errRows = [];
+    let errStatus = 'open';
+    const errList = document.getElementById('err-list');
+    document.querySelectorAll('.err-filter').forEach(b => b.addEventListener('click', () => {
+      errStatus = b.dataset.status;
+      document.querySelectorAll('.err-filter').forEach(x => x.classList.toggle('p-chip-on', x === b));
+      drawErrors();
+    }));
+
+    function updateErrCounts() {
+      document.querySelectorAll('.err-filter').forEach(b => { b.querySelector('.admin-count').textContent = errRows.filter(g => g.status === b.dataset.status).length; });
+      openErrorCount = errRows.filter(g => g.status === 'open').length;
+      document.getElementById('admin-err-badge').textContent = openErrorCount ? (openErrorCount > 99 ? '99+' : openErrorCount) : '';
+    }
+    async function fetchErrors() {
+      const { data, error } = await db.rpc('admin_error_groups', { p_status: null, p_limit: 1000 });
+      if (error) return error;
+      errRows = data || [];
+      updateErrCounts();
+      return null;
+    }
+    async function loadErrorCount() { await fetchErrors(); }
+    async function loadErrors() {
+      adminLoaded.errors = true;
+      errList.replaceChildren(el('p', 'p-5 text-white/50 text-sm', 'Loading…'));
+      const error = await fetchErrors();
+      if (error) { errList.replaceChildren(el('p', 'p-5 text-red-400 text-sm', 'Could not load: ' + (error.message || 'unknown error'))); return; }
+      drawErrors();
+    }
+    function drawErrors() {
+      errList.replaceChildren();
+      const rows = errRows.filter(g => g.status === errStatus);
+      if (rows.length === 0) { errList.appendChild(el('p', 'p-5 text-white/50 text-sm', errStatus === 'open' ? 'No open errors.' : 'Nothing marked ' + ERR_STATUS[errStatus].toLowerCase() + '.')); return; }
+      rows.forEach(g => errList.appendChild(renderErrorGroup(g)));
+    }
+    function errSummary(g) {
+      return [g.total_count === 1 ? 'Once' : fmt(g.total_count) + ' times', peopleText(g.people || 0), 'last seen ' + ago(g.last_seen)].join(' · ');
+    }
+
+    function renderErrorGroup(g) {
+      const row = el('div', 'p-4 sm:p-5');
+      const head = el('button', 'w-full text-left flex items-start gap-3');
+      head.type = 'button';
+      const left = el('div', 'min-w-0 flex-1');
+      const titleRow = el('div', 'flex items-start gap-2');
+      if (g.is_crash) titleRow.appendChild(el('span', 'p-status border-red-400/60 text-red-400 shrink-0', 'Crash'));
+      titleRow.appendChild(el('span', 'text-white font-semibold leading-snug break-words line-clamp-2 font-mono text-sm', g.title || g.error_type || 'Unknown error'));
+      left.appendChild(titleRow);
+      left.appendChild(el('div', 'text-xs text-white/50 mt-1.5', errSummary(g)));
+      if (g.last_hour > 0) left.appendChild(el('div', 'text-xs text-amber-400 mt-1', g.last_hour + ' in the last hour'));
+      const chev = el('span', 'text-white/40 text-sm shrink-0 mt-0.5', '▾');
+      head.append(left, chev);
+      const body = el('div', 'hidden mt-4');
+      let loaded = false;
+      head.addEventListener('click', async () => {
+        const open = body.classList.toggle('hidden') === false;
+        chev.textContent = open ? '▴' : '▾';
+        if (open && !loaded) { loaded = true; fillErrorGroup(g, body); }
+      });
+      row.append(head, body);
+      return row;
+    }
+
+    async function fillErrorGroup(g, body) {
+      body.replaceChildren();
+      body.appendChild(el('p', 'text-xs text-white/50', 'First seen ' + ago(g.first_seen) + (g.error_type ? ' · ' + g.error_type : '')));
+      // Mark fixed / Ignore / Reopen, like the app.
+      const actions = el('div', 'flex flex-wrap items-center gap-2 mt-3');
+      const msg = el('span', 'text-xs text-white/40');
+      function drawActions() {
+        actions.replaceChildren();
+        const opts = g.status === 'open' ? [['fixed', 'Mark fixed'], ['ignored', 'Ignore']] : [['open', 'Reopen']];
+        opts.forEach(([s, label]) => {
+          const b = el('button', 'p-btn-ghost !py-1.5 !text-xs', label);
+          b.type = 'button';
+          b.addEventListener('click', async () => {
+            b.disabled = true;
+            msg.className = 'text-xs text-white/40';
+            msg.textContent = 'Saving…';
+            const { error } = await db.rpc('admin_set_error_status', { p_group_id: g.id, p_status: s });
+            b.disabled = false;
+            if (error) { msg.className = 'text-xs text-red-400'; msg.textContent = friendlyError(error); return; }
+            g.status = s;
+            msg.className = 'text-xs text-matrix';
+            msg.textContent = 'Moved to ' + ERR_STATUS[s] + '.';
+            updateErrCounts();
+            drawActions();
+          });
+          actions.appendChild(b);
+        });
+        actions.appendChild(msg);
+      }
+      drawActions();
+      body.appendChild(actions);
+
+      const list = el('div', 'mt-4 border border-white/10 rounded-lg divide-y divide-white/5 overflow-hidden');
+      list.appendChild(el('p', 'p-3 text-xs text-white/50', 'Loading…'));
+      body.appendChild(list);
+      const { data, error } = await db.from('error_logs')
+        .select('id, created_at, user_id, error_message, stack_trace, error_type, screen, app_version, platform, device_info, is_crash')
+        .eq('group_id', g.id).order('created_at', { ascending: false }).limit(20);
+      if (error) { list.replaceChildren(el('p', 'p-3 text-xs text-red-400', 'Could not load: ' + (error.message || 'unknown error'))); return; }
+      const ids = [...new Set((data || []).map(e => e.user_id).filter(Boolean))];
+      const names = {};
+      if (ids.length) {
+        const { data: profs } = await db.from('user_profiles').select('id, username').in('id', ids);
+        (profs || []).forEach(p => { names[p.id] = p.username; });
+      }
+      list.replaceChildren();
+      list.appendChild(el('p', 'px-3 py-2 text-[11px] font-mono uppercase tracking-wider text-white/40', 'Latest ' + (data || []).length + (g.total_count > (data || []).length ? ' of ' + fmt(g.total_count) : '')));
+      (data || []).forEach(e => {
+        const item = el('div', 'p-3');
+        const meta = el('div', 'flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-white/50');
+        const device = typeof e.device_info === 'object' && e.device_info ? (e.device_info.model || e.device_info.device || '') : (e.device_info || '');
+        meta.appendChild(el('span', null, [e.screen, e.app_version && 'v' + e.app_version, e.platform, device].filter(Boolean).join(' · ')));
+        meta.appendChild(el('span', 'ml-auto', (e.user_id ? '@' + (names[e.user_id] || 'deleted account') : 'signed out') + ' · ' + ago(e.created_at)));
+        item.append(meta, el('p', 'mt-1 font-mono text-xs text-white/75 break-words whitespace-pre-line line-clamp-4', e.error_message || e.error_type || ''));
+        if (e.stack_trace) {
+          const t = el('button', 'mt-1.5 text-[11px] text-matrix hover:underline', 'Show stack trace');
+          t.type = 'button';
+          const pre = el('pre', 'hidden mt-2 p-2 bg-black border border-white/10 rounded text-[10px] leading-relaxed text-white/60 overflow-x-auto max-h-64', e.stack_trace);
+          t.addEventListener('click', () => { const o = pre.classList.toggle('hidden') === false; t.textContent = (o ? 'Hide' : 'Show') + ' stack trace'; });
+          item.append(t, pre);
+        }
+        list.appendChild(item);
+      });
+    }
 
     // INITIALIZE
     checkAuth();
