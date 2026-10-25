@@ -52,6 +52,7 @@
     .stat-btn.on { border-color: #00FF41; }
     .p-tab { font-size: 14px; font-weight: 600; padding: 8px 18px; border-radius: 999px; color: rgba(255, 255, 255, 0.5); border: 1px solid transparent; transition: color .15s, border-color .15s; }
     .p-tab:hover { color: #fff; }
+    @media (max-width: 480px) { .p-tab { font-size: 13px; padding: 7px 11px; white-space: nowrap; } }
     .p-tab-on, .p-tab-on:hover { color: #fff; border-color: rgba(255, 255, 255, 0.2); background: #0D0D0D; }
     .p-status { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
     .p-status .dot { width: 6px; height: 6px; border-radius: 999px; background: currentColor; }
@@ -148,6 +149,8 @@
         >
           Sign In to the DAO
         </a>
+        <p id="gate-deleted" class="hidden mt-5 text-sm text-matrix">Your account has been deleted.</p>
+        <p class="mt-6 pt-4 border-t border-white/10 text-xs text-white/50 leading-relaxed">Want your Pushinn account deleted? Sign in and use the Account tab, or email <a href="mailto:admin@pushinn.app" class="text-matrix underline">admin@pushinn.app</a> from the email you signed up with.</p>
       </div>
     </section>
 
@@ -196,10 +199,11 @@
       </article>
 
       <!-- TABS: BUGS, IDEAS, VOTE, ADMIN (admins only) -->
-      <nav class="flex gap-2 mb-6 overflow-x-auto pb-1" aria-label="Sections">
+      <nav class="flex gap-1 sm:gap-2 mb-6 overflow-x-auto pb-1" aria-label="Sections">
         <button data-tab="tab-bugs" class="tab-btn p-tab p-tab-on">Bugs</button>
         <button data-tab="tab-suggestions" class="tab-btn p-tab">Ideas</button>
         <button data-tab="tab-governance" class="tab-btn p-tab">Vote</button>
+        <button data-tab="tab-account" class="tab-btn p-tab">Account</button>
         <button id="tab-admin-btn" data-tab="tab-admin" class="tab-btn p-tab hidden">Admin</button>
       </nav>
 
@@ -266,6 +270,7 @@
           <button type="button" data-sec="errors" class="admin-sec p-subtab">Errors <span id="admin-err-badge" class="sub-count"></span></button>
           <button type="button" data-sec="mod" class="admin-sec p-subtab">Moderation <span id="admin-mod-badge" class="sub-count"></span></button>
           <button type="button" data-sec="users" class="admin-sec p-subtab">Users</button>
+          <button type="button" data-sec="settings" class="admin-sec p-subtab">Settings</button>
           <button type="button" data-sec="bugs" class="admin-sec p-subtab">Bug reports</button>
           <button type="button" data-sec="posts" class="admin-sec p-subtab">Updates &amp; votes</button>
         </nav>
@@ -329,6 +334,21 @@
           </div>
           <div id="user-list" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
           <div class="flex justify-center mt-4"><button type="button" id="user-more" class="p-btn-ghost hidden">Show more</button></div>
+        </div>
+
+        <!-- SETTINGS: the app's admin Settings tab (points_config) -->
+        <div id="admin-sec-settings" class="admin-sec-panel hidden">
+          <div class="flex items-baseline justify-between mb-3 px-1">
+            <h3 class="p-label">Points &amp; XP</h3>
+            <span id="set-updated" class="text-xs text-white/40"></span>
+          </div>
+          <form id="settings-form" class="p-panel p-5 sm:p-6 space-y-5" novalidate>
+            <div id="settings-fields" class="space-y-5"><p class="text-white/50 text-sm">Loading…</p></div>
+            <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3 pt-1">
+              <span id="settings-msg" class="text-sm sm:mr-auto"></span>
+              <button type="submit" id="settings-save" class="p-btn" disabled>Save changes</button>
+            </div>
+          </form>
         </div>
 
         <!-- UPDATES & VOTES -->
@@ -447,6 +467,62 @@
           <span class="text-xs text-white/40">One vote each · results when it ends</span>
         </div>
         <div id="vote-list" class="space-y-4"></div>
+      </div>
+
+      <!-- TAB: ACCOUNT (username, email, password, delete) -->
+      <div id="tab-account" class="tab-panel hidden space-y-4">
+        <div class="p-panel p-5 sm:p-6">
+          <div class="p-label">Your account</div>
+          <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+            <div class="min-w-0"><dt class="text-xs text-white/50 mb-1">Username</dt><dd id="acct-username" class="text-white font-semibold truncate">–</dd></div>
+            <div class="min-w-0"><dt class="text-xs text-white/50 mb-1">Email</dt><dd id="acct-email" class="text-white truncate">–</dd></div>
+          </dl>
+        </div>
+
+        <form id="acct-username-form" class="p-panel p-5 sm:p-6 space-y-3">
+          <div class="p-label">Change username</div>
+          <p class="text-xs text-white/50">3 to 20 characters: letters, numbers, - and _. It also changes the name on your spots, same as the app.</p>
+          <input id="acct-username-input" type="text" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="New username" class="p-field" required>
+          <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3">
+            <span id="acct-username-msg" class="text-sm sm:mr-auto"></span>
+            <button type="submit" class="p-btn">Save username</button>
+          </div>
+        </form>
+
+        <form id="acct-email-form" class="p-panel p-5 sm:p-6 space-y-3">
+          <div class="p-label">Change email</div>
+          <input id="acct-email-input" type="email" autocomplete="email" placeholder="New email address" class="p-field" required>
+          <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3">
+            <span id="acct-email-msg" class="text-sm sm:mr-auto"></span>
+            <button type="submit" class="p-btn">Change email</button>
+          </div>
+        </form>
+
+        <form id="acct-password-form" class="p-panel p-5 sm:p-6 space-y-3">
+          <div class="p-label">Change password</div>
+          <input id="acct-pw1" type="password" autocomplete="new-password" minlength="6" placeholder="New password (6+ characters)" class="p-field" required>
+          <input id="acct-pw2" type="password" autocomplete="new-password" minlength="6" placeholder="Type it again" class="p-field" required>
+          <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3">
+            <span id="acct-password-msg" class="text-sm sm:mr-auto"></span>
+            <button type="submit" class="p-btn">Change password</button>
+          </div>
+        </form>
+
+        <div class="p-panel p-5 sm:p-6 border-red-500/30">
+          <div class="p-label !text-red-400">Delete account</div>
+          <p class="text-sm text-white/70 mt-3 leading-relaxed">This can't be undone. It removes your sign-in, profile, points, follows, comments and votes. Unfinished battles count as forfeits.</p>
+          <p class="text-sm text-white/50 mt-2 leading-relaxed">What stays, without your name on it: your spots (they move to Pushinn Official), clips you uploaded, messages you sent, and bug reports and ideas you posted. To have clips or photos taken down as well, email <a href="mailto:admin@pushinn.app" class="text-matrix underline">admin@pushinn.app</a>.</p>
+          <button type="button" id="acct-delete-start" class="p-btn-ghost !text-red-400 !border-red-500/40 mt-4">Delete my account…</button>
+          <form id="acct-delete-form" class="hidden mt-4 space-y-3">
+            <label for="acct-delete-input" class="block text-xs text-white/60">Type <span class="font-mono text-white">DELETE</span> to confirm</label>
+            <div class="flex flex-col sm:flex-row gap-2">
+              <input id="acct-delete-input" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" class="p-field flex-1">
+              <button type="submit" id="acct-delete-go" class="p-btn !bg-red-500 !border-red-500 shrink-0" disabled>Delete for good</button>
+              <button type="button" id="acct-delete-cancel" class="p-btn-ghost shrink-0">Cancel</button>
+            </div>
+            <p id="acct-delete-msg" class="text-sm text-red-400"></p>
+          </form>
+        </div>
       </div>
     </section>
   </main>
@@ -570,6 +646,7 @@
       if (id === 'tab-admin') showAdminSec(adminSec);
       if (id === 'tab-suggestions') loadSuggestions();
       if (id === 'tab-governance') loadVotes();
+      if (id === 'tab-account') loadAccount();
     }
     tabButtons.forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
 
@@ -1403,6 +1480,7 @@
       if (sec === 'errors' && (force || !adminLoaded.errors)) loadErrors();
       if (sec === 'mod' && (force || !adminLoaded.mod)) loadModeration();
       if (sec === 'users' && (force || !adminLoaded.users)) loadUsers();
+      if (sec === 'settings' && (force || !adminLoaded.settings)) loadSettings();
     }
     document.querySelectorAll('.admin-sec').forEach(b => b.addEventListener('click', () => showAdminSec(b.dataset.sec, true)));
 
@@ -2139,6 +2217,208 @@
       if (m.includes('Nothing changed')) return m;
       return friendlyError(error);
     }
+
+    // SETTINGS (the app's admin Settings tab). Five numbers in the
+    // points_config row of app_settings; award_points_atomic and
+    // recalculate_map_score read them. Saving re-reads the row and merges
+    // only what changed, so the other keys in it are kept (like the app).
+    const SETTING_KEY = 'points_config';
+    const SETTING_FIELDS = [
+      { group: 'Points', key: 'base_daily_points', label: 'Base daily points', help: 'The baseline points awarded for a daily login.' },
+      { group: 'Points', key: 'streak_bonus_multiplier', label: 'Streak bonus multiplier', help: 'Additional points awarded per day of streak.' },
+      { group: 'Points', key: 'first_login_bonus', label: 'First login bonus', help: 'One-time points awarded to new users.' },
+      { group: 'XP', key: 'post_xp', label: 'XP per post', help: 'XP awarded when a map spot is verified.' },
+      { group: 'XP', key: 'vote_xp', label: 'XP per upvote', help: 'XP awarded to the author when their post is liked.' }
+    ];
+    let settingSaved = {}; // key -> text as loaded, to tell what was edited
+    const settingsSave = document.getElementById('settings-save');
+    async function readSettings() {
+      const { data, error } = await db.from('app_settings').select('value, updated_at').eq('key', SETTING_KEY).maybeSingle();
+      if (error) throw error;
+      return data || { value: {}, updated_at: null };
+    }
+    function showSettingsUpdated(at) {
+      document.getElementById('set-updated').textContent = at ? 'Last saved ' + shortDate(at) + ', ' + new Date(at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : '';
+    }
+    async function loadSettings() {
+      adminLoaded.settings = true;
+      const box = document.getElementById('settings-fields');
+      settingsSave.disabled = true;
+      settingsSave.classList.add('hidden');
+      adminMsg('settings-msg', '', true);
+      box.replaceChildren(el('p', 'text-white/50 text-sm', 'Loading…'));
+      let row;
+      try { row = await readSettings(); } catch (error) {
+        // Never show (or save) the form until the real values are in.
+        box.replaceChildren(el('p', 'text-red-400 text-sm', 'Could not load settings: ' + (error.message || 'unknown error')));
+        const retry = el('button', 'p-btn-ghost mt-3', 'Try again');
+        retry.type = 'button';
+        retry.addEventListener('click', loadSettings);
+        box.appendChild(retry);
+        return;
+      }
+      const v = row.value || {};
+      box.replaceChildren();
+      let group = null;
+      SETTING_FIELDS.forEach(f => {
+        if (f.group !== group) { group = f.group; box.appendChild(el('div', 'p-label pt-1', group)); }
+        const text = v[f.key] === undefined || v[f.key] === null ? '' : String(v[f.key]);
+        settingSaved[f.key] = text;
+        const wrap = el('div');
+        const lab = el('label', 'block text-sm text-white font-semibold', f.label);
+        lab.htmlFor = 'set-' + f.key;
+        const input = el('input', 'p-field mt-2 sm:!w-48 tabular-nums');
+        input.id = 'set-' + f.key; input.type = 'text'; input.inputMode = 'decimal'; input.autocomplete = 'off';
+        input.value = text;
+        if (!text) input.placeholder = 'Not set';
+        input.addEventListener('input', () => { adminMsg('settings-msg', '', true); input.classList.remove('!border-red-500'); });
+        wrap.append(lab, el('p', 'text-xs text-white/45 mt-0.5', f.help), input);
+        box.appendChild(wrap);
+      });
+      showSettingsUpdated(row.updated_at);
+      settingsSave.classList.remove('hidden');
+      settingsSave.disabled = false;
+    }
+    document.getElementById('settings-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const changes = {};
+      let bad = null;
+      SETTING_FIELDS.forEach(f => {
+        const input = document.getElementById('set-' + f.key);
+        const text = input.value.trim();
+        if (text === settingSaved[f.key]) return;
+        // A blank is only fine for a key that was never set.
+        const ok = text !== '' && /^\d+(\.\d+)?$/.test(text) && Number.isFinite(Number(text));
+        if (!ok) { input.classList.add('!border-red-500'); bad = bad || f; return; }
+        changes[f.key] = Number(text);
+      });
+      if (bad) { adminMsg('settings-msg', bad.label + ': enter a number, 0 or more.', false); document.getElementById('set-' + bad.key).focus(); return; }
+      if (!Object.keys(changes).length) { adminMsg('settings-msg', 'No changes.', true); return; }
+      settingsSave.disabled = true;
+      adminMsg('settings-msg', 'Saving…', true);
+      try {
+        const current = await readSettings();
+        const merged = Object.assign({}, current.value || {}, changes);
+        const at = new Date().toISOString();
+        const { data, error } = await db.from('app_settings').upsert({ key: SETTING_KEY, value: merged, updated_at: at }).select('key');
+        if (error) throw error;
+        if (!data || !data.length) throw { message: 'Nothing was saved (not allowed).' };
+        SETTING_FIELDS.forEach(f => { if (f.key in changes) settingSaved[f.key] = String(changes[f.key]); document.getElementById('set-' + f.key).value = settingSaved[f.key]; });
+        showSettingsUpdated(at);
+        adminMsg('settings-msg', 'Saved.', true);
+      } catch (error) {
+        adminMsg('settings-msg', (error && error.message && error.message.startsWith('Nothing')) ? error.message : 'Not saved: ' + friendlyError(error), false);
+      }
+      settingsSave.disabled = false;
+    });
+
+    // ACCOUNT (Stage 5): username, email, password, delete. Same calls as
+    // the app: the username goes on user_profiles (the database checks the
+    // rules and lookalikes) and on the member's spots; delete runs
+    // delete_user_account, which signs the account out everywhere.
+    let acctUser = null;
+    function acctMsg(id, text, ok) {
+      const m = document.getElementById(id);
+      m.textContent = text;
+      m.className = 'text-sm sm:mr-auto ' + (ok ? 'text-matrix' : 'text-red-400');
+    }
+    async function loadAccount() {
+      const { data } = await db.auth.getUser();
+      acctUser = data && data.user;
+      if (!acctUser) return;
+      document.getElementById('acct-email').textContent = acctUser.email || '–';
+      const { data: prof } = await db.from('user_profiles').select('username').eq('id', acctUser.id).maybeSingle();
+      document.getElementById('acct-username').textContent = prof && prof.username ? '@' + prof.username : 'Not set yet';
+    }
+    function usernameProblem(name) {
+      if (name.length < 3 || name.length > 20) return 'Usernames are 3 to 20 characters.';
+      if (!/^[a-z0-9]([a-z0-9_-]*[a-z0-9])?$/.test(name)) return 'Use letters, numbers, - and _ only (not at the start or end).';
+      return null;
+    }
+    document.getElementById('acct-username-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type=submit]');
+      const raw = document.getElementById('acct-username-input').value.trim();
+      const name = raw.toLowerCase();
+      const problem = usernameProblem(name);
+      if (problem) { acctMsg('acct-username-msg', problem, false); return; }
+      if (!acctUser) await loadAccount();
+      btn.disabled = true;
+      acctMsg('acct-username-msg', 'Saving…', true);
+      const res = await db.from('user_profiles').update({ username: name, display_name: raw }).eq('id', acctUser.id).select('id');
+      if (res.error || !res.data || !res.data.length) {
+        btn.disabled = false;
+        const er = res.error || {};
+        acctMsg('acct-username-msg', er.code === '23505' ? 'That username is taken.' : er.code === '23514' ? er.message : res.error ? friendlyError(er) : 'Not saved. Sign in again and retry.', false);
+        return;
+      }
+      const spots = await db.from('map_posts').update({ user_name: raw }).eq('user_id', acctUser.id);
+      btn.disabled = false;
+      e.target.reset();
+      document.getElementById('acct-username').textContent = '@' + name;
+      acctMsg('acct-username-msg', spots.error ? 'Saved, but your spots still show the old name. Try again later.' : 'Saved. You are now @' + name + '.', !spots.error);
+    });
+    document.getElementById('acct-email-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type=submit]');
+      const email = document.getElementById('acct-email-input').value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { acctMsg('acct-email-msg', 'Enter a full email address.', false); return; }
+      if (acctUser && email.toLowerCase() === (acctUser.email || '').toLowerCase()) { acctMsg('acct-email-msg', "That's already your email.", false); return; }
+      btn.disabled = true;
+      acctMsg('acct-email-msg', 'Sending…', true);
+      const { data, error } = await db.auth.updateUser({ email }, { emailRedirectTo: location.origin + '/dao' });
+      btn.disabled = false;
+      if (error) { acctMsg('acct-email-msg', error.message || friendlyError(error), false); return; }
+      e.target.reset();
+      const u = data && data.user;
+      if (u && u.email && u.email.toLowerCase() === email.toLowerCase()) {
+        acctUser = u;
+        document.getElementById('acct-email').textContent = u.email;
+        acctMsg('acct-email-msg', 'Email changed.', true);
+      } else acctMsg('acct-email-msg', 'Check your inbox for a link to confirm the change. Your email stays the same until you tap it.', true);
+    });
+    document.getElementById('acct-password-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type=submit]');
+      const p1 = document.getElementById('acct-pw1').value, p2 = document.getElementById('acct-pw2').value;
+      if (p1.length < 6) { acctMsg('acct-password-msg', 'Use at least 6 characters.', false); return; }
+      if (p1 !== p2) { acctMsg('acct-password-msg', "The two passwords don't match.", false); return; }
+      btn.disabled = true;
+      acctMsg('acct-password-msg', 'Saving…', true);
+      const { error } = await db.auth.updateUser({ password: p1 });
+      btn.disabled = false;
+      if (error) { acctMsg('acct-password-msg', error.message || friendlyError(error), false); return; }
+      e.target.reset();
+      acctMsg('acct-password-msg', 'Password changed.', true);
+    });
+    const delStart = document.getElementById('acct-delete-start');
+    const delForm = document.getElementById('acct-delete-form');
+    const delInput = document.getElementById('acct-delete-input');
+    const delGo = document.getElementById('acct-delete-go');
+    delStart.addEventListener('click', () => { delStart.classList.add('hidden'); delForm.classList.remove('hidden'); delInput.value = ''; delGo.disabled = true; delInput.focus(); });
+    document.getElementById('acct-delete-cancel').addEventListener('click', () => { delForm.classList.add('hidden'); delStart.classList.remove('hidden'); document.getElementById('acct-delete-msg').textContent = ''; });
+    delInput.addEventListener('input', () => { delGo.disabled = delInput.value.trim().toUpperCase() !== 'DELETE'; });
+    delForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (delInput.value.trim().toUpperCase() !== 'DELETE') return;
+      delGo.disabled = true;
+      delGo.textContent = 'Deleting…';
+      const { error } = await db.rpc('delete_user_account');
+      if (error) {
+        delGo.disabled = false;
+        delGo.textContent = 'Delete for good';
+        document.getElementById('acct-delete-msg').textContent = "Couldn't delete it: " + friendlyError(error);
+        return;
+      }
+      try { await db.auth.signOut(); } catch (err) { /* the account is already gone */ }
+      location.replace('/dao?deleted=1');
+    });
+    (function deletedNotice() {
+      const q = new URLSearchParams(location.search);
+      if (q.get('deleted') !== '1') return;
+      document.getElementById('gate-deleted').classList.remove('hidden');
+      history.replaceState(null, '', location.pathname);
+    })();
 
     // INITIALIZE
     checkAuth();
