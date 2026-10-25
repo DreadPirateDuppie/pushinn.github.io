@@ -264,6 +264,7 @@
         <nav class="flex gap-5 border-b border-white/10 mb-6 overflow-x-auto" aria-label="Admin sections">
           <button type="button" data-sec="stats" class="admin-sec p-subtab p-subtab-on">Stats</button>
           <button type="button" data-sec="errors" class="admin-sec p-subtab">Errors <span id="admin-err-badge" class="sub-count"></span></button>
+          <button type="button" data-sec="mod" class="admin-sec p-subtab">Moderation <span id="admin-mod-badge" class="sub-count"></span></button>
           <button type="button" data-sec="bugs" class="admin-sec p-subtab">Bug reports</button>
           <button type="button" data-sec="posts" class="admin-sec p-subtab">Updates &amp; votes</button>
         </nav>
@@ -301,6 +302,22 @@
             <span class="text-xs text-white/40 ml-auto">Newest first</span>
           </div>
           <div id="err-list" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
+        </div>
+
+        <!-- MODERATION: the app's Reports tab (reports, spots, clips, bins, feedback) -->
+        <div id="admin-sec-mod" class="admin-sec-panel hidden">
+          <div class="flex flex-wrap items-center gap-2 mb-4">
+            <button data-q="reports" class="mod-filter p-chip p-chip-on">Reports <span class="admin-count"></span></button>
+            <button data-q="spots" class="mod-filter p-chip">Unverified spots <span class="admin-count"></span></button>
+            <button data-q="clips" class="mod-filter p-chip">Clips to review <span class="admin-count"></span></button>
+            <button data-q="removed" class="mod-filter p-chip">Removed clips <span class="admin-count"></span></button>
+            <button data-q="deleted" class="mod-filter p-chip">Deleted spots <span class="admin-count"></span></button>
+            <button data-q="feedback" class="mod-filter p-chip">Feedback <span class="admin-count"></span></button>
+          </div>
+          <label id="mod-all-wrap" class="flex items-center gap-2 text-xs text-white/50 mb-3 px-1 cursor-pointer select-none">
+            <input id="mod-all" type="checkbox" class="accent-matrix"> Show dismissed reports too
+          </label>
+          <div id="mod-list" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
         </div>
 
         <!-- UPDATES & VOTES -->
@@ -956,6 +973,7 @@
         document.getElementById('tab-admin-btn').classList.remove('hidden');
         document.getElementById('admin-badge').classList.remove('hidden');
         loadErrorCount();
+        loadModeration(true);
       }
       loadAnnouncement();
     }
@@ -1372,6 +1390,7 @@
       if (sec === 'bugs') loadAdminList();
       if (sec === 'stats' && (force || !adminLoaded.stats)) loadStats();
       if (sec === 'errors' && (force || !adminLoaded.errors)) loadErrors();
+      if (sec === 'mod' && (force || !adminLoaded.mod)) loadModeration();
     }
     document.querySelectorAll('.admin-sec').forEach(b => b.addEventListener('click', () => showAdminSec(b.dataset.sec, true)));
 
@@ -1640,6 +1659,243 @@
         list.appendChild(item);
       });
     }
+
+    // MODERATION (the app's Reports tab). Every list reads tables the
+    // database only opens fully to admins; every action is an admin-only
+    // database function, so a tester's page can't do any of this.
+    const MOD_EMPTY = {
+      reports: 'No reports waiting.', spots: 'Every spot is verified.', clips: 'No clips waiting for review.',
+      removed: 'No clips taken down.', deleted: 'No deleted spots.', feedback: 'No feedback yet.'
+    };
+    const mod = { reports: [], spots: [], clips: [], removed: [], deleted: [], feedback: [] };
+    let modQ = 'reports';
+    let modAllReports = false;
+    let modFailed = {};
+    const modList = document.getElementById('mod-list');
+    document.querySelectorAll('.mod-filter').forEach(b => b.addEventListener('click', () => {
+      modQ = b.dataset.q;
+      document.querySelectorAll('.mod-filter').forEach(x => x.classList.toggle('p-chip-on', x === b));
+      document.getElementById('mod-all-wrap').classList.toggle('hidden', modQ !== 'reports');
+      drawModeration();
+    }));
+    document.getElementById('mod-all').addEventListener('change', async e => {
+      modAllReports = e.target.checked;
+      modList.replaceChildren(el('p', 'p-5 text-white/50 text-sm', 'Loading…'));
+      await fetchModeration(['reports']);
+      drawModeration();
+    });
+
+    // Usernames for user ids (these columns point at auth.users, so they
+    // can't be joined to profiles in one query).
+    async function withNames(rows, idKey, nameKey) {
+      const ids = [...new Set(rows.map(r => r[idKey]).filter(Boolean))];
+      if (!ids.length) return rows;
+      const { data } = await db.from('user_profiles').select('id, username').in('id', ids);
+      const names = {};
+      (data || []).forEach(p => { names[p.id] = p.username; });
+      rows.forEach(r => { r[nameKey] = r[idKey] ? (names[r[idKey]] || null) : null; });
+      return rows;
+    }
+    const MOD_FETCH = {
+      async reports() {
+        let q = db.from('post_reports').select('*, map_posts(id, title, description, category, photo_url, photo_urls, deleted_at)');
+        if (!modAllReports) q = q.eq('status', 'pending');
+        const r = await q.order('created_at', { ascending: false }).limit(200);
+        return r.error ? r : { data: await withNames(r.data || [], 'reporter_user_id', 'reporter') };
+      },
+      async spots() {
+        const r = await db.from('map_posts').select('id, title, description, category, photo_url, photo_urls, user_id, created_at')
+          .or('is_verified.eq.false,is_verified.is.null').not('latitude', 'is', null).not('longitude', 'is', null)
+          .is('deleted_at', null).order('created_at', { ascending: false }).limit(200);
+        return r.error ? r : { data: await withNames(r.data || [], 'user_id', 'poster') };
+      },
+      async clips() {
+        const r = await db.from('spot_videos').select('*, map_posts(title)').eq('status', 'pending').order('created_at', { ascending: true }).limit(200);
+        return r.error ? r : { data: await withNames(r.data || [], 'submitted_by', 'submitter') };
+      },
+      async removed() {
+        const r = await db.from('spot_videos').select('*, map_posts(title)').eq('status', 'removed').order('removed_at', { ascending: false }).limit(200);
+        if (r.error) return r;
+        await withNames(r.data || [], 'submitted_by', 'submitter');
+        return { data: await withNames(r.data || [], 'removed_by', 'remover') };
+      },
+      async deleted() {
+        return db.from('map_posts').select('id, title, category, deleted_at').not('deleted_at', 'is', null).order('deleted_at', { ascending: false }).limit(200);
+      },
+      async feedback() {
+        const r = await db.from('user_feedback').select('*').order('created_at', { ascending: false }).limit(200);
+        return r.error ? r : { data: await withNames(r.data || [], 'user_id', 'author') };
+      }
+    };
+    async function fetchModeration(keys) {
+      await Promise.all(keys.map(async k => {
+        const r = await MOD_FETCH[k]();
+        modFailed[k] = r.error ? (r.error.message || 'unknown error') : null;
+        mod[k] = r.error ? [] : (r.data || []);
+      }));
+      updateModCounts();
+    }
+    function updateModCounts() {
+      document.querySelectorAll('.mod-filter').forEach(b => {
+        const n = b.dataset.q === 'reports' ? mod.reports.filter(r => r.status === 'pending').length : mod[b.dataset.q].length;
+        b.querySelector('.admin-count').textContent = n;
+      });
+      // The tab badge counts what's waiting for you: reports, spots, clips.
+      const waiting = mod.reports.filter(r => r.status === 'pending').length + mod.spots.length + mod.clips.length;
+      document.getElementById('admin-mod-badge').textContent = waiting ? (waiting > 99 ? '99+' : waiting) : '';
+    }
+    async function loadModeration(countOnly) {
+      if (!countOnly) {
+        adminLoaded.mod = true;
+        modList.replaceChildren(el('p', 'p-5 text-white/50 text-sm', 'Loading…'));
+      }
+      await fetchModeration(Object.keys(MOD_FETCH));
+      if (!countOnly || adminSec === 'mod') drawModeration();
+    }
+    function drawModeration() {
+      modList.replaceChildren();
+      if (modFailed[modQ]) { modList.appendChild(el('p', 'p-5 text-red-400 text-sm', 'Could not load: ' + modFailed[modQ])); return; }
+      const rows = mod[modQ];
+      if (!rows.length) { modList.appendChild(el('p', 'p-5 text-white/50 text-sm', modAllReports && modQ === 'reports' ? 'No reports yet.' : MOD_EMPTY[modQ])); return; }
+      rows.forEach(r => modList.appendChild(MOD_DRAW[modQ](r)));
+    }
+
+    // One row: optional picture or clip on the left, text, then buttons.
+    function modRow(media) {
+      const row = el('div', 'p-4 sm:p-5 flex gap-3 sm:gap-4');
+      if (media) row.appendChild(media);
+      const main = el('div', 'min-w-0 flex-1');
+      row.appendChild(main);
+      return { row, main };
+    }
+    function spotPhoto(p) {
+      const url = p && ((p.photo_urls && p.photo_urls[0]) || p.photo_url);
+      const box = el('div', 'w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-md border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center text-white/25 text-[10px]');
+      if (url) {
+        const img = el('img', 'w-full h-full object-cover');
+        img.src = url; img.alt = ''; img.loading = 'lazy';
+        img.addEventListener('error', () => { img.remove(); box.textContent = 'No photo'; });
+        box.appendChild(img);
+      } else box.textContent = 'No photo';
+      return box;
+    }
+    function clipPlayer(v) {
+      const box = el('div', 'w-24 sm:w-28 shrink-0');
+      if (!v.url) { box.appendChild(el('div', 'aspect-[9/16] rounded-md border border-white/10 bg-white/5 flex items-center justify-center text-white/25 text-[10px]', 'No video')); return box; }
+      const vid = el('video', 'w-full aspect-[9/16] object-cover rounded-md border border-white/10 bg-black');
+      vid.src = v.url; vid.controls = true; vid.preload = 'none'; vid.playsInline = true;
+      if (v.thumbnail_url) vid.poster = v.thumbnail_url;
+      box.appendChild(vid);
+      return box;
+    }
+    function who(name, id) { return id ? '@' + (name || 'deleted account') : 'deleted account'; }
+    // A button that runs an admin action, shows what happened, then
+    // refreshes the given lists.
+    function modAction(label, cls, run, done, refresh, confirmText) {
+      const b = el('button', cls + ' !py-1.5 !text-xs', label);
+      b.type = 'button';
+      b.addEventListener('click', async () => {
+        if (confirmText && !confirm(confirmText)) return;
+        const wrap = b.parentElement;
+        wrap.querySelectorAll('button').forEach(x => { x.disabled = true; });
+        let msg = wrap.querySelector('.mod-msg');
+        if (!msg) { msg = el('span', 'mod-msg text-xs'); wrap.appendChild(msg); }
+        msg.className = 'mod-msg text-xs text-white/40';
+        msg.textContent = 'Saving…';
+        const { error } = await run();
+        if (error) {
+          wrap.querySelectorAll('button').forEach(x => { x.disabled = false; });
+          msg.className = 'mod-msg text-xs text-red-400';
+          msg.textContent = friendlyError(error);
+          return;
+        }
+        msg.className = 'mod-msg text-xs text-matrix';
+        msg.textContent = done;
+        await fetchModeration(refresh);
+        setTimeout(drawModeration, 900);
+      });
+      return b;
+    }
+    function actions() { return el('div', 'flex flex-wrap items-center gap-2 mt-3'); }
+    const PRIMARY = 'p-btn';
+    const GHOST = 'p-btn-ghost';
+
+    const MOD_DRAW = {
+      reports(r) {
+        const p = r.map_posts;
+        const { row, main } = modRow(spotPhoto(p));
+        const head = el('div', 'flex items-start gap-2');
+        head.appendChild(el('span', 'text-white font-semibold leading-snug break-words', r.reason || 'Report'));
+        if (r.status !== 'pending') head.appendChild(el('span', 'p-status border-white/15 text-white/50 shrink-0', r.status === 'dismissed' ? 'Dismissed' : r.status === 'resolved' ? 'Resolved' : r.status));
+        main.appendChild(head);
+        main.appendChild(el('div', 'text-sm text-white/80 mt-1 truncate', 'Spot: ' + (p ? (p.title || 'Untitled spot') : 'deleted spot') + (p && p.deleted_at ? ' (in the bin)' : '')));
+        main.appendChild(el('div', 'text-xs text-white/50 mt-1', 'Reported by ' + who(r.reporter, r.reporter_user_id) + ' · ' + ago(r.created_at)));
+        if (r.details && r.details.trim()) main.appendChild(el('p', 'text-sm text-white/75 mt-2 break-words whitespace-pre-line', r.details.trim()));
+        if (r.status === 'pending') {
+          const a = actions();
+          a.appendChild(modAction('Dismiss', GHOST,
+            () => db.from('post_reports').update({ status: 'dismissed', resolved_at: new Date().toISOString() }).eq('id', r.id).select('id')
+              .then(res => res.error ? res : (res.data && res.data.length ? res : { error: { message: 'Nothing changed. Reload the page.' } })),
+            'Dismissed.', ['reports']));
+          if (p && !p.deleted_at) a.appendChild(modAction('Delete spot', GHOST + ' !text-red-400',
+            () => db.rpc('admin_delete_spot', { p_post_id: p.id }).then(res => res.error ? res
+              : db.from('post_reports').update({ status: 'resolved', resolved_at: new Date().toISOString() }).eq('post_id', p.id).eq('status', 'pending')),
+            'Spot moved to the bin. You can restore it for 30 days.', ['reports', 'deleted', 'spots'],
+            'Move "' + (p.title || 'this spot') + '" to the bin? It can be restored for 30 days.'));
+          main.appendChild(a);
+        }
+        return row;
+      },
+      spots(p) {
+        const { row, main } = modRow(spotPhoto(p));
+        main.appendChild(el('div', 'text-white font-semibold leading-snug break-words', p.title || 'Untitled spot'));
+        main.appendChild(el('div', 'text-xs text-white/50 mt-1', [p.category, 'by ' + who(p.poster, p.user_id), ago(p.created_at)].filter(Boolean).join(' · ')));
+        if (p.description && p.description.trim()) main.appendChild(el('p', 'text-sm text-white/75 mt-2 break-words line-clamp-3', p.description.trim()));
+        const a = actions();
+        a.appendChild(modAction('Verify', PRIMARY, () => db.rpc('admin_verify_spot', { p_post_id: p.id }),
+          'Verified. The poster got their spot points.', ['spots']));
+        main.appendChild(a);
+        return row;
+      },
+      clips(v) {
+        const { row, main } = modRow(clipPlayer(v));
+        main.appendChild(el('div', 'text-white font-semibold leading-snug break-words', v.trick_name || 'Clip'));
+        main.appendChild(el('div', 'text-sm text-white/80 mt-1 truncate', 'At ' + ((v.map_posts && v.map_posts.title) || 'unknown spot')));
+        main.appendChild(el('div', 'text-xs text-white/50 mt-1', [ 'by ' + who(v.submitter, v.submitted_by), v.skater_name && !v.is_own_clip ? 'skater: ' + v.skater_name : null, ago(v.created_at)].filter(Boolean).join(' · ')));
+        if (v.description && v.description.trim()) main.appendChild(el('p', 'text-sm text-white/75 mt-2 break-words line-clamp-3', v.description.trim()));
+        const a = actions();
+        a.appendChild(modAction('Approve', PRIMARY, () => db.rpc('admin_moderate_video', { p_video_id: v.id, p_status: 'approved' }), 'Approved. It\'s live.', ['clips']));
+        a.appendChild(modAction('Reject', GHOST + ' !text-red-400', () => db.rpc('admin_moderate_video', { p_video_id: v.id, p_status: 'rejected' }), 'Rejected.', ['clips']));
+        main.appendChild(a);
+        return row;
+      },
+      removed(v) {
+        const { row, main } = modRow(clipPlayer(v));
+        main.appendChild(el('div', 'text-white font-semibold leading-snug break-words', (v.trick_name || 'Clip') + ' at ' + ((v.map_posts && v.map_posts.title) || 'unknown spot')));
+        main.appendChild(el('div', 'text-xs text-white/50 mt-1', 'Posted by ' + who(v.submitter, v.submitted_by) + ' · taken down by ' + (v.removed_by ? '@' + (v.remover || 'deleted account') : 'an admin') + (v.removed_at ? ' · ' + ago(v.removed_at) : '')));
+        if (v.removal_reason) main.appendChild(el('p', 'text-sm text-white/75 mt-2 break-words', 'Reason: ' + v.removal_reason));
+        const a = actions();
+        a.appendChild(modAction('Restore', GHOST, () => db.rpc('admin_restore_video', { p_video_id: v.id }), 'Restored. It\'s live again.', ['removed']));
+        main.appendChild(a);
+        return row;
+      },
+      deleted(p) {
+        const { row, main } = modRow(null);
+        const days = Math.max(0, 30 - Math.floor((Date.now() - new Date(p.deleted_at).getTime()) / 86400e3));
+        main.appendChild(el('div', 'text-white font-semibold leading-snug break-words', p.title || 'Untitled spot'));
+        main.appendChild(el('div', 'text-xs text-white/50 mt-1', [p.category, 'deleted ' + shortDate(p.deleted_at), days === 0 ? 'gone for good any time now' : 'gone for good in ' + days + (days === 1 ? ' day' : ' days')].filter(Boolean).join(' · ')));
+        const a = actions();
+        a.appendChild(modAction('Restore', GHOST, () => db.rpc('admin_undelete_spot', { p_post_id: p.id }), 'Restored to the map.', ['deleted', 'spots']));
+        main.appendChild(a);
+        return row;
+      },
+      feedback(f) {
+        const { row, main } = modRow(null);
+        main.appendChild(el('div', 'text-xs text-white/50', who(f.author, f.user_id) + ' · ' + ago(f.created_at)));
+        main.appendChild(el('p', 'text-sm text-white mt-1.5 break-words whitespace-pre-line', f.feedback_text || ''));
+        return row;
+      }
+    };
 
     // INITIALIZE
     checkAuth();
