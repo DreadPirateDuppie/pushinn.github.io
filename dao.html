@@ -53,8 +53,11 @@
     .p-chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(255, 255, 255, 0.15); color: rgba(255, 255, 255, 0.7); font-size: 13px; font-weight: 500; padding: 6px 14px; border-radius: 999px; transition: border-color .15s, color .15s; }
     .p-chip:hover { border-color: rgba(255, 255, 255, 0.4); color: #fff; }
     .p-chip-on, .p-chip-on:hover { border-color: #00FF41; color: #00FF41; }
-    .p-chip .admin-count { color: rgba(255, 255, 255, 0.4); font-variant-numeric: tabular-nums; }
-    .p-chip-on .admin-count { color: rgba(0, 255, 65, 0.7); }
+    .p-chip .admin-count, .p-chip .chip-count { color: rgba(255, 255, 255, 0.4); font-variant-numeric: tabular-nums; }
+    .p-chip-on .admin-count, .p-chip-on .chip-count { color: rgba(0, 255, 65, 0.7); }
+    .stat-btn { text-align: left; transition: border-color .15s; }
+    .stat-btn:hover { border-color: rgba(0, 255, 65, 0.6); }
+    .stat-btn.on { border-color: #00FF41; }
     .p-tab { font-size: 14px; font-weight: 600; padding: 8px 18px; border-radius: 999px; color: rgba(255, 255, 255, 0.5); border: 1px solid transparent; transition: color .15s, border-color .15s; }
     .p-tab:hover { color: #fff; }
     .p-tab-on, .p-tab-on:hover { color: #fff; border-color: rgba(255, 255, 255, 0.2); background: #0D0D0D; }
@@ -146,25 +149,25 @@
 
       <!-- AT A GLANCE -->
       <div class="grid grid-cols-3 gap-3 mb-8">
-        <div class="p-panel p-4 sm:p-5">
+        <button type="button" data-filter="top" class="stat-btn on p-panel p-4 sm:p-5">
           <div class="p-label">Open bugs</div>
           <div id="stat-open" class="text-3xl sm:text-4xl font-semibold text-white mt-2 tabular-nums">–</div>
-        </div>
-        <div class="p-panel p-4 sm:p-5">
+        </button>
+        <button type="button" data-filter="fixing" class="stat-btn p-panel p-4 sm:p-5">
           <div class="p-label">Fixing</div>
           <div id="stat-fixing" class="text-3xl sm:text-4xl font-semibold text-white mt-2 tabular-nums">–</div>
-        </div>
-        <div class="p-panel p-4 sm:p-5">
+        </button>
+        <button type="button" data-filter="fixed" class="stat-btn p-panel p-4 sm:p-5">
           <div class="p-label">Fixed</div>
           <div id="stat-fixed" class="text-3xl sm:text-4xl font-semibold text-matrix mt-2 tabular-nums">–</div>
-        </div>
+        </button>
       </div>
 
-      <!-- TABS: BUGS, IDEAS, BALLOT, ADMIN (admins only) -->
+      <!-- TABS: BUGS, IDEAS, VOTE, ADMIN (admins only) -->
       <nav class="flex gap-2 mb-6 overflow-x-auto pb-1" aria-label="Sections">
         <button data-tab="tab-bugs" class="tab-btn p-tab p-tab-on">Bugs</button>
         <button data-tab="tab-suggestions" class="tab-btn p-tab">Ideas</button>
-        <button data-tab="tab-governance" class="tab-btn p-tab">Ballot</button>
+        <button data-tab="tab-governance" class="tab-btn p-tab">Vote</button>
         <button id="tab-admin-btn" data-tab="tab-admin" class="tab-btn p-tab hidden">Admin</button>
       </nav>
 
@@ -184,8 +187,14 @@
         </div>
         <p class="text-white/50 text-sm mt-3 px-1">If it's already on the board, tap the count to say you've had it too. The more people on a bug, the sooner it gets fixed.</p>
 
-        <div class="flex items-baseline justify-between mt-8 mb-3 px-1">
-          <h3 id="bug-list-title" class="p-label">Most reported</h3>
+        <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mt-8 mb-3 px-1">
+          <h3 id="bug-list-title" class="p-label hidden">Is it one of these?</h3>
+          <div id="bug-filters" class="flex flex-wrap gap-2" role="tablist" aria-label="Sort bugs">
+            <button type="button" data-filter="top" class="bug-filter p-chip p-chip-on">Top <span class="chip-count"></span></button>
+            <button type="button" data-filter="new" class="bug-filter p-chip">New</button>
+            <button type="button" data-filter="mine" class="bug-filter p-chip">Mine <span class="chip-count"></span></button>
+            <button type="button" data-filter="fixed" class="bug-filter p-chip">Fixed <span class="chip-count"></span></button>
+          </div>
           <span id="bug-list-status" class="text-xs text-white/40"></span>
         </div>
         <div id="bug-list" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
@@ -269,8 +278,13 @@
 
         <!-- SUGGESTIONS LIST -->
         <div class="p-panel divide-y divide-white/5 overflow-hidden">
-          <div class="p-4 sm:p-5 flex items-center justify-between gap-4 bg-white/[0.02]">
-            <h3 class="text-sm font-semibold text-white">Community ideas</h3>
+          <div class="p-4 sm:p-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 bg-white/[0.02]">
+            <div id="sug-filters" class="flex flex-wrap gap-2" role="tablist" aria-label="Sort ideas">
+              <button type="button" data-filter="top" class="sug-filter p-chip p-chip-on">Top <span class="chip-count"></span></button>
+              <button type="button" data-filter="new" class="sug-filter p-chip">New</button>
+              <button type="button" data-filter="mine" class="sug-filter p-chip">Mine <span class="chip-count"></span></button>
+              <button type="button" data-filter="planned" class="sug-filter p-chip">Planned <span class="chip-count"></span></button>
+            </div>
             <span id="suggestion-status" class="text-xs text-white/50 font-mono"></span>
           </div>
           <div id="suggestion-list" class="divide-y divide-white/5"></div>
@@ -668,6 +682,7 @@
         r.i_hit = !r.i_hit;
         r.hits = data;
         paint();
+        updateBugCounts();
       });
       paint();
       row.appendChild(btn);
@@ -694,15 +709,55 @@
       return row;
     }
 
-    async function loadStats() {
-      const { data, error } = await db.rpc('bug_board', { p_query: null, p_limit: 100 });
-      if (!error && data) renderStats(data);
-    }
     function renderStats(rows) {
       const open = rows.filter(r => r.status !== 'fixed').length;
       document.getElementById('stat-open').textContent = open;
       document.getElementById('stat-fixing').textContent = rows.filter(r => r.status === 'fixing').length;
       document.getElementById('stat-fixed').textContent = rows.filter(r => r.status === 'fixed').length;
+    }
+
+    // List filters, Reddit/GitHub style: Top (most reported, still open), New, Mine (filed or "me too"), Fixed.
+    // The Open / Fixing / Fixed boxes up top are shortcuts into the same list.
+    const BUG_FILTERS = {
+      top:    { keep: r => r.status !== 'fixed', sort: (a, b) => b.hits - a.hits || byNewest(a, b), empty: 'No open bugs. Type what went wrong above to file one.' },
+      new:    { keep: r => r.status !== 'fixed', sort: byNewest, empty: 'No open bugs. Type what went wrong above to file one.' },
+      mine:   { keep: r => r.mine || r.i_hit, sort: byNewest, empty: "Bugs you file or tap 'Me too' on show up here." },
+      fixing: { keep: r => r.status === 'fixing', sort: (a, b) => b.hits - a.hits || byNewest(a, b), empty: 'Nothing is being fixed right now.' },
+      fixed:  { keep: r => r.status === 'fixed', sort: (a, b) => new Date(b.updated_at) - new Date(a.updated_at), empty: 'Nothing fixed yet.' }
+    };
+    function byNewest(a, b) { return new Date(b.created_at) - new Date(a.created_at); }
+    let bugFilter = 'top';
+    let bugRows = [];
+    function setBugFilter(f) {
+      bugFilter = f;
+      document.querySelectorAll('.bug-filter').forEach(b => b.classList.toggle('p-chip-on', b.dataset.filter === f));
+      document.querySelectorAll('.stat-btn').forEach(b => b.classList.toggle('on', b.dataset.filter === (f === 'new' ? 'top' : f)));
+      drawBugList();
+    }
+    document.querySelectorAll('.bug-filter').forEach(b => b.addEventListener('click', () => setBugFilter(b.dataset.filter)));
+    document.querySelectorAll('.stat-btn').forEach(b => b.addEventListener('click', () => {
+      showTab('tab-bugs');
+      if (bugSummary.value.trim()) { bugSummary.value = ''; loadBoard(); }
+      setBugFilter(b.dataset.filter);
+      document.getElementById('bug-filters').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }));
+    function updateBugCounts() {
+      document.querySelectorAll('.bug-filter').forEach(b => {
+        const c = b.querySelector('.chip-count');
+        if (c) c.textContent = bugRows.filter(BUG_FILTERS[b.dataset.filter].keep).length;
+      });
+    }
+    function drawBugList() {
+      if (bugSummary.value.trim()) return; // search results own the list while typing
+      bugList.replaceChildren();
+      if (bugRows.length === 0) {
+        bugList.appendChild(el('p', 'p-5 text-white/50 text-sm', 'No bugs reported yet. Type what went wrong above to file the first one.'));
+        return;
+      }
+      const f = BUG_FILTERS[bugFilter];
+      const rows = bugRows.filter(f.keep).sort(f.sort);
+      if (rows.length === 0) { bugList.appendChild(el('p', 'p-5 text-white/50 text-sm', f.empty)); return; }
+      rows.forEach(r => bugList.appendChild(renderReport(r)));
     }
 
     let searchSeq = 0;
@@ -714,17 +769,24 @@
       if (seq !== searchSeq) return; // a newer search has started
       bugList.replaceChildren();
       bugListStatus.textContent = '';
-      bugListTitle.textContent = q ? 'Is it one of these?' : 'Most reported';
+      // While typing, the chips give way to "Is it one of these?" matches.
+      bugListTitle.classList.toggle('hidden', !q);
+      document.getElementById('bug-filters').classList.toggle('hidden', !!q);
       bugForm.classList.toggle('hidden', q.length < 5);
       bugFormTitle.textContent = q;
       if (error) {
         bugList.appendChild(el('p', 'p-5 text-red-400 text-sm', friendlyError(error)));
         return;
       }
+      if (!q) {
+        bugRows = data || [];
+        renderStats(bugRows);
+        updateBugCounts();
+        drawBugList();
+        return;
+      }
       if (!data || data.length === 0) {
-        bugList.appendChild(el('p', 'p-5 text-white/50 text-sm', q
-          ? 'Nobody has reported this yet. File it below.'
-          : 'No bugs reported yet. Type what went wrong above to file the first one.'));
+        bugList.appendChild(el('p', 'p-5 text-white/50 text-sm', 'Nobody has reported this yet. File it below.'));
         return;
       }
       data.forEach(r => bugList.appendChild(renderReport(r)));
@@ -763,7 +825,6 @@
       document.getElementById('bug-details').value = '';
       bugSummary.value = '';
       await loadBoard();
-      loadStats();
       bugListStatus.textContent = 'Filed. It\'s on the board now.';
     });
 
@@ -903,7 +964,6 @@
       if (boardStarted) return;
       boardStarted = true;
       loadBoard();
-      loadStats();
       const { data: isAdmin } = await db.rpc('is_admin');
       if (isAdmin === true) {
         userIsAdmin = true;
@@ -982,6 +1042,7 @@
           sug.i_voted = data.voted;
           sug.votes = data.votes;
           paintBtn();
+          updateSugCounts();
         }
       });
       row.appendChild(btn);
@@ -1064,13 +1125,38 @@
         return;
       }
       suggestionRows = data || [];
-      sugStatus.textContent = suggestionRows.length + ' ideas';
+      sugStatus.textContent = '';
+      updateSugCounts();
+      drawSuggestions();
+    }
+
+    // Same chip row as the bug list: Top, New, Mine (posted or voted), Planned.
+    // Finished ideas (Completed / Not doing) sink below open ones in Top and New.
+    const finishedIdea = s => s.status === 'completed' || s.status === 'closed';
+    const SUG_FILTERS = {
+      top:     { keep: () => true, sort: (a, b) => finishedIdea(a) - finishedIdea(b) || b.votes - a.votes || byNewest(a, b), empty: 'No ideas posted yet. Be the first!' },
+      new:     { keep: () => true, sort: (a, b) => finishedIdea(a) - finishedIdea(b) || byNewest(a, b), empty: 'No ideas posted yet. Be the first!' },
+      mine:    { keep: s => s.mine || s.i_voted, sort: byNewest, empty: 'Ideas you post or vote for show up here.' },
+      planned: { keep: s => s.status === 'planned', sort: (a, b) => b.votes - a.votes || byNewest(a, b), empty: 'Nothing planned yet.' }
+    };
+    let sugFilter = 'top';
+    document.querySelectorAll('.sug-filter').forEach(b => b.addEventListener('click', () => {
+      sugFilter = b.dataset.filter;
+      document.querySelectorAll('.sug-filter').forEach(x => x.classList.toggle('p-chip-on', x === b));
+      drawSuggestions();
+    }));
+    function updateSugCounts() {
+      document.querySelectorAll('.sug-filter').forEach(b => {
+        const c = b.querySelector('.chip-count');
+        if (c) c.textContent = suggestionRows.filter(SUG_FILTERS[b.dataset.filter].keep).length;
+      });
+    }
+    function drawSuggestions() {
+      const f = SUG_FILTERS[sugFilter];
+      const rows = suggestionRows.filter(f.keep).sort(f.sort);
       sugList.replaceChildren();
-      if (suggestionRows.length === 0) {
-        sugList.appendChild(el('p', 'p-5 text-white/50 text-sm', 'No ideas posted yet. Be the first!'));
-        return;
-      }
-      suggestionRows.forEach(s => sugList.appendChild(renderSuggestion(s)));
+      if (rows.length === 0) { sugList.appendChild(el('p', 'p-5 text-white/50 text-sm', f.empty)); return; }
+      rows.forEach(s => sugList.appendChild(renderSuggestion(s)));
     }
 
     if (sugForm) {
