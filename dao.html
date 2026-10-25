@@ -170,14 +170,6 @@
 
       <!-- TAB 1: BUG BOARD -->
       <div id="tab-bugs" class="tab-panel">
-        <!-- TELEMETRY NOTICE -->
-        <div class="p-panel p-4 mb-4 flex items-start gap-3 bg-matrix/5">
-          <div class="w-2 h-2 rounded-full bg-matrix shrink-0 mt-1.5 animate-pulse"></div>
-          <div class="text-xs leading-relaxed text-white/70 font-sans">
-            <span class="text-matrix font-mono font-semibold uppercase tracking-wider block mb-1">Automatic Telemetry Active</span>
-            The app logs crashes and technical diagnostics in the background. No essays needed—just a quick note of what broke, or tap <span class="text-white font-medium">“I’ve had this too”</span> if it’s already listed below.
-          </div>
-        </div>
         <div class="p-panel p-2">
           <label for="bug-summary" class="sr-only">What went wrong?</label>
           <div class="flex items-center gap-3 px-3">
@@ -244,7 +236,7 @@
       <div id="tab-suggestions" class="tab-panel space-y-6 hidden">
         <!-- DROP AN IDEA FORM -->
         <div class="p-panel p-5 sm:p-6">
-          <div class="p-label mb-2">Feature Request</div>
+          <div class="p-label mb-2">Ideas</div>
           <h2 class="text-xl font-semibold text-white">Drop an idea</h2>
           <p class="text-white/60 text-xs sm:text-sm mt-1">Submit feature ideas, spot map enhancements, or skate tweaks. The community upvotes what matters.</p>
           
@@ -270,7 +262,7 @@
 
             <div class="flex items-center justify-between pt-2">
               <span id="suggestion-msg" class="text-xs text-white/60"></span>
-              <button type="submit" id="suggestion-submit-btn" class="p-btn-matrix py-2 px-4 text-xs font-semibold">Post idea</button>
+              <button type="submit" id="suggestion-submit-btn" class="p-btn py-2 px-4 text-xs font-semibold">Post idea</button>
             </div>
           </form>
         </div>
@@ -278,7 +270,7 @@
         <!-- SUGGESTIONS LIST -->
         <div class="p-panel divide-y divide-white/5 overflow-hidden">
           <div class="p-4 sm:p-5 flex items-center justify-between gap-4 bg-white/[0.02]">
-            <h3 class="text-sm font-semibold text-white uppercase font-mono tracking-wider">Community ideas</h3>
+            <h3 class="text-sm font-semibold text-white">Community ideas</h3>
             <span id="suggestion-status" class="text-xs text-white/50 font-mono"></span>
           </div>
           <div id="suggestion-list" class="divide-y divide-white/5"></div>
@@ -592,6 +584,10 @@
       if (m.includes('TOO_MANY_REPORTS')) return "You've filed 10 reports today. Add to an existing one, or try again tomorrow.";
       if (m.includes('ACCOUNT_SUSPENDED')) return "This account can't post right now. Contact admin@pushinn.app.";
       if (m.includes('SIGN_IN_REQUIRED')) return 'Your session ended. Sign in again.';
+      if (m.includes('TOO_MANY_IDEAS')) return "You've posted 5 ideas today. Vote on others, or try again tomorrow.";
+      if (m.includes('IDEA_CLOSED')) return 'Voting on this idea has finished.';
+      if (m.includes('IDEA_NOT_FOUND')) return 'That idea was removed. Refresh the page.';
+      if (m.includes('suggestions_shape')) return 'Check the fields: the title needs at least 5 characters.';
       if (m.includes('bug_reports_shape')) return 'Check the fields: the summary needs at least 5 characters.';
       return 'That didn\'t go through. Check your connection, or email admin@pushinn.app.';
     }
@@ -939,7 +935,7 @@
       exploring: { label: 'Exploring', cls: 'border-amber-400/40 text-amber-400' },
       planned:   { label: 'Planned',   cls: 'border-matrix/40 text-matrix' },
       completed: { label: 'Completed', cls: 'border-cyan-400/40 text-cyan-400' },
-      closed:    { label: 'Closed',    cls: 'border-white/20 text-white/40' }
+      closed:    { label: 'Not doing',    cls: 'border-white/20 text-white/40' }
     };
 
     function sugStatusPill(s) {
@@ -954,7 +950,7 @@
       const row = el('div', 'flex gap-4 p-4 sm:p-5' + (sug.status === 'closed' ? ' opacity-50 hover:opacity-100 transition-opacity' : ''));
 
       // Upvote Button
-      const btn = el('button', 'hit-btn');
+      const btn = el('button', 'hit-btn self-start');
       btn.type = 'button';
       const n = el('span', 'n', sug.votes);
       const t = el('span', 't');
@@ -963,8 +959,12 @@
       function paintBtn() {
         n.textContent = sug.votes;
         btn.classList.toggle('on', sug.i_voted || sug.mine);
+        const finished = sug.status === 'completed' || sug.status === 'closed';
+        // Your own idea always carries your vote; a finished idea takes no new votes.
+        btn.disabled = sug.mine || (finished && !sug.i_voted);
         if (sug.mine) { t.textContent = 'Yours'; btn.title = 'You proposed this idea'; }
         else if (sug.i_voted) { t.textContent = '✓ Voted'; btn.title = 'Tap to take vote back'; }
+        else if (finished) { t.textContent = 'Closed'; btn.title = 'Voting on this idea has finished'; }
         else { t.textContent = 'Vote'; btn.title = 'Upvote this idea'; }
         btn.setAttribute('aria-label', sug.votes + ' votes. ' + btn.title);
       }
@@ -973,8 +973,8 @@
       btn.addEventListener('click', async () => {
         btn.disabled = true;
         const { data, error } = await db.rpc('vote_suggestion', { p_suggestion_id: sug.id });
-        btn.disabled = false;
         if (error) {
+          paintBtn();
           sugStatus.textContent = friendlyError(error);
           return;
         }
@@ -1015,7 +1015,7 @@
         const adminBar = el('div', 'mt-3 pt-3 border-t border-white/5 flex flex-wrap items-center gap-2');
         const sel = el('select', 'bg-black border border-white/20 rounded px-2 py-1 text-xs text-white');
         ['exploring', 'planned', 'completed', 'closed'].forEach(st => {
-          const opt = el('option', null, st.charAt(0).toUpperCase() + st.slice(1));
+          const opt = el('option', null, SUG_STATUS[st].label);
           opt.value = st;
           if (sug.status === st) opt.selected = true;
           sel.appendChild(opt);
@@ -1025,7 +1025,7 @@
         noteInput.placeholder = 'Add dev note...';
         if (sug.admin_note) noteInput.value = sug.admin_note;
 
-        const saveBtn = el('button', 'p-btn-matrix text-xs py-1 px-3', 'Save');
+        const saveBtn = el('button', 'p-btn text-xs py-1 px-3', 'Save');
         saveBtn.type = 'button';
         saveBtn.addEventListener('click', async () => {
           saveBtn.disabled = true;
@@ -1033,7 +1033,7 @@
           const { error } = await db.rpc('admin_set_suggestion_status', {
             p_suggestion_id: sug.id,
             p_status: sel.value,
-            p_note: noteInput.value.trim() || null
+            p_note: noteInput.value.trim()
           });
           saveBtn.disabled = false;
           saveBtn.textContent = 'Save';
