@@ -265,6 +265,7 @@
           <button type="button" data-sec="stats" class="admin-sec p-subtab p-subtab-on">Stats</button>
           <button type="button" data-sec="errors" class="admin-sec p-subtab">Errors <span id="admin-err-badge" class="sub-count"></span></button>
           <button type="button" data-sec="mod" class="admin-sec p-subtab">Moderation <span id="admin-mod-badge" class="sub-count"></span></button>
+          <button type="button" data-sec="users" class="admin-sec p-subtab">Users</button>
           <button type="button" data-sec="bugs" class="admin-sec p-subtab">Bug reports</button>
           <button type="button" data-sec="posts" class="admin-sec p-subtab">Updates &amp; votes</button>
         </nav>
@@ -318,6 +319,16 @@
             <input id="mod-all" type="checkbox" class="accent-matrix"> Show dismissed reports too
           </label>
           <div id="mod-list" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
+        </div>
+
+        <!-- USERS -->
+        <div id="admin-sec-users" class="admin-sec-panel hidden">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <input id="user-search" type="search" autocomplete="off" placeholder="Search username or email" class="p-field flex-1 min-w-[12rem]">
+            <span id="user-total" class="text-xs text-white/40 tabular-nums"></span>
+          </div>
+          <div id="user-list" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
+          <div class="flex justify-center mt-4"><button type="button" id="user-more" class="p-btn-ghost hidden">Show more</button></div>
         </div>
 
         <!-- UPDATES & VOTES -->
@@ -1391,6 +1402,7 @@
       if (sec === 'stats' && (force || !adminLoaded.stats)) loadStats();
       if (sec === 'errors' && (force || !adminLoaded.errors)) loadErrors();
       if (sec === 'mod' && (force || !adminLoaded.mod)) loadModeration();
+      if (sec === 'users' && (force || !adminLoaded.users)) loadUsers();
     }
     document.querySelectorAll('.admin-sec').forEach(b => b.addEventListener('click', () => showAdminSec(b.dataset.sec, true)));
 
@@ -1896,6 +1908,237 @@
         return row;
       }
     };
+
+    // USERS (the app's Users tab + user detail). The list comes from
+    // admin_list_users (the only way to read emails); profile changes are
+    // plain updates the database only lets admins make, and points go
+    // through award_points_atomic as 'admin_adjustment' (admin-only).
+    const USER_PAGE = 20;
+    const userList = document.getElementById('user-list');
+    const userMore = document.getElementById('user-more');
+    let users = [];
+    let userTotal = 0;
+    let userQuery = '';
+    let userOpen = null;
+    let myId = null;
+    let userSearchTimer = null;
+    let userFlash = null; // { id, text } shown under a row after it redraws
+    document.getElementById('user-search').addEventListener('input', e => {
+      clearTimeout(userSearchTimer);
+      userSearchTimer = setTimeout(() => { userQuery = e.target.value.trim(); loadUsers(); }, 300);
+    });
+    userMore.addEventListener('click', () => loadUsers(true));
+
+    async function loadUsers(more) {
+      adminLoaded.users = true;
+      if (!myId) { const { data } = await db.auth.getSession(); myId = data.session && data.session.user.id; }
+      if (!more) { users = []; userOpen = null; userList.replaceChildren(el('p', 'p-5 text-white/50 text-sm', 'Loading…')); }
+      userMore.disabled = true;
+      const { data, error } = await db.rpc('admin_list_users', { p_search: userQuery || null, p_limit: USER_PAGE, p_offset: users.length });
+      userMore.disabled = false;
+      if (error) {
+        userList.replaceChildren(el('p', 'p-5 text-red-400 text-sm', 'Could not load users: ' + (error.message || 'unknown error')));
+        userMore.classList.add('hidden');
+        return;
+      }
+      users = users.concat(data || []);
+      if (data && data.length) userTotal = Number(data[0].total_count) || users.length;
+      else if (!more) userTotal = 0;
+      document.getElementById('user-total').textContent = userTotal === 1 ? '1 user' : fmt(userTotal) + ' users';
+      userMore.classList.toggle('hidden', users.length >= userTotal);
+      drawUsers();
+    }
+    function drawUsers() {
+      userList.replaceChildren();
+      if (!users.length) { userList.appendChild(el('p', 'p-5 text-white/50 text-sm', userQuery ? 'Nobody matches "' + userQuery + '".' : 'No users yet.')); return; }
+      users.forEach(u => userList.appendChild(userRow(u)));
+    }
+    function userBadges(u) {
+      const out = [];
+      if (u.is_admin) out.push(el('span', 'p-status border-matrix/40 text-matrix', 'Admin'));
+      if (u.is_verified) out.push(el('span', 'p-status border-sky-400/40 text-sky-300', 'Verified'));
+      if (u.is_banned) out.push(el('span', 'p-status border-red-500/40 text-red-400', 'Banned'));
+      if (u.can_post === false) out.push(el('span', 'p-status border-amber-400/40 text-amber-300', "Can't post"));
+      return out;
+    }
+    function avatar(u) {
+      const box = el('div', 'w-10 h-10 shrink-0 rounded-full border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center text-white/60 text-sm font-semibold');
+      const letter = (u.username || '?').charAt(0).toUpperCase();
+      if (u.avatar_url) {
+        const img = el('img', 'w-full h-full object-cover');
+        img.src = u.avatar_url; img.alt = ''; img.loading = 'lazy';
+        img.addEventListener('error', () => { img.remove(); box.textContent = letter; });
+        box.appendChild(img);
+      } else box.textContent = letter;
+      return box;
+    }
+    function userRow(u) {
+      const wrap = el('div');
+      const head = el('button', 'w-full text-left p-4 sm:p-5 flex items-center gap-3 hover:bg-white/[0.03]');
+      head.type = 'button';
+      head.setAttribute('aria-expanded', userOpen === u.id ? 'true' : 'false');
+      head.appendChild(avatar(u));
+      const main = el('div', 'min-w-0 flex-1');
+      const top = el('div', 'flex flex-wrap items-center gap-2');
+      top.appendChild(el('span', 'text-white font-semibold truncate', '@' + (u.username || 'no username')));
+      if (u.id === myId) top.appendChild(el('span', 'text-xs text-white/40', '(you)'));
+      userBadges(u).forEach(b => top.appendChild(b));
+      main.appendChild(top);
+      main.appendChild(el('div', 'text-xs text-white/50 mt-1 truncate', [u.email || 'no email', u.created_at ? 'joined ' + shortDate(u.created_at) : null].filter(Boolean).join(' · ')));
+      head.appendChild(main);
+      const pts = el('div', 'text-right shrink-0');
+      pts.appendChild(el('div', 'text-white font-semibold tabular-nums', fmt(Math.round(Number(u.points) * 100) / 100)));
+      pts.appendChild(el('div', 'text-[10px] text-white/40 uppercase tracking-wider', 'points'));
+      head.appendChild(pts);
+      head.addEventListener('click', () => { userOpen = userOpen === u.id ? null : u.id; drawUsers(); });
+      wrap.appendChild(head);
+      if (userOpen === u.id) wrap.appendChild(userDetail(u));
+      return wrap;
+    }
+
+    // Updates one profile; RLS turns a forbidden update into "0 rows".
+    async function updateUser(id, values) {
+      const res = await db.from('user_profiles').update(values).eq('id', id).select('id');
+      if (res.error) return res;
+      return res.data && res.data.length ? res : { error: { message: 'Nothing changed (not allowed, or the account is gone).' } };
+    }
+    function userDetail(u) {
+      const box = el('div', 'px-4 sm:px-5 pb-5 sm:pl-[4.25rem]');
+      if (u.is_banned) box.appendChild(el('p', 'text-sm text-red-300/90 mb-3 break-words', 'Banned' + (u.banned_at ? ' ' + shortDate(u.banned_at) : '') + (u.ban_reason ? ': ' + u.ban_reason : '')));
+      if (u.bio && u.bio.trim()) box.appendChild(el('p', 'text-sm text-white/70 mb-3 break-words whitespace-pre-line', u.bio.trim()));
+      const msg = el('p', 'text-xs min-h-[1rem] mt-2');
+      const a = el('div', 'flex flex-wrap items-center gap-2');
+      const run = async (work, done) => {
+        a.querySelectorAll('button').forEach(x => { x.disabled = true; });
+        msg.className = 'text-xs min-h-[1rem] mt-2 text-white/40';
+        msg.textContent = 'Saving…';
+        const { error } = await work();
+        a.querySelectorAll('button').forEach(x => { x.disabled = false; });
+        if (error) { msg.className = 'text-xs min-h-[1rem] mt-2 text-red-400'; msg.textContent = userError(error); return false; }
+        msg.className = 'text-xs min-h-[1rem] mt-2 text-matrix';
+        msg.textContent = done;
+        userFlash = { id: u.id, text: done };
+        await refreshUser(u.id);
+        return true;
+      };
+      const btn = (label, cls, onTap) => {
+        const b = el('button', cls + ' !py-1.5 !text-xs', label);
+        b.type = 'button';
+        b.addEventListener('click', onTap);
+        a.appendChild(b);
+        return b;
+      };
+      const isMe = u.id === myId;
+
+      btn(u.is_verified ? 'Unverify' : 'Verify', u.is_verified ? GHOST : PRIMARY, () =>
+        run(() => updateUser(u.id, { is_verified: !u.is_verified }), u.is_verified ? 'Verified badge removed.' : 'Verified.'));
+      btn(u.can_post === false ? 'Allow posting' : 'Stop posting', GHOST, () =>
+        run(() => updateUser(u.id, { can_post: u.can_post === false }), u.can_post === false ? 'They can post again.' : "They can't post spots or clips now."));
+      btn('Add points', GHOST, () => pointsForm(true));
+      btn('Remove points', GHOST, () => pointsForm(false));
+      if (!isMe) {
+        if (u.is_banned) btn('Unban', GHOST, () => run(() => updateUser(u.id, { is_banned: false, ban_reason: null, banned_at: null }), 'Unbanned.'));
+        else btn('Ban', GHOST + ' !text-red-400', () => banForm());
+        btn(u.is_admin ? 'Remove admin' : 'Make admin', GHOST + (u.is_admin ? ' !text-red-400' : ''), () => {
+          if (!confirm(u.is_admin ? 'Take admin rights away from @' + u.username + '?' : 'Make @' + u.username + ' an admin? They will be able to do everything on this tab.')) return;
+          run(() => updateUser(u.id, { is_admin: !u.is_admin }), u.is_admin ? 'Admin rights removed.' : '@' + u.username + ' is now an admin.');
+        });
+      }
+      box.appendChild(a);
+      const form = el('div');
+      box.append(form, msg);
+      if (userFlash && userFlash.id === u.id) { msg.className = 'text-xs min-h-[1rem] mt-2 text-matrix'; msg.textContent = userFlash.text; userFlash = null; }
+
+      function banForm() {
+        form.replaceChildren();
+        const f = el('form', 'mt-3 flex flex-col sm:flex-row gap-2');
+        const reason = el('input', 'p-field flex-1');
+        reason.type = 'text'; reason.maxLength = 200; reason.required = true; reason.placeholder = 'Reason (they may see this)';
+        const go = el('button', PRIMARY + ' !bg-red-500 !border-red-500 shrink-0', 'Ban @' + (u.username || 'user'));
+        go.type = 'submit';
+        const cancel = el('button', GHOST + ' shrink-0', 'Cancel');
+        cancel.type = 'button';
+        cancel.addEventListener('click', () => form.replaceChildren());
+        f.append(reason, go, cancel);
+        f.addEventListener('submit', async e => {
+          e.preventDefault();
+          const r = reason.value.trim();
+          if (!r) { reason.focus(); return; }
+          go.disabled = true;
+          const ok = await run(() => updateUser(u.id, { is_banned: true, ban_reason: r, banned_at: new Date().toISOString() }), 'Banned.');
+          if (ok) form.replaceChildren(); else go.disabled = false;
+        });
+        form.appendChild(f);
+        reason.focus();
+      }
+      function pointsForm(adding) {
+        form.replaceChildren();
+        const f = el('form', 'mt-3 flex flex-col sm:flex-row gap-2');
+        const amount = el('input', 'p-field sm:!w-32 shrink-0');
+        amount.type = 'number'; amount.min = '0.01'; amount.step = '0.01'; amount.max = '100000'; amount.required = true;
+        amount.placeholder = adding ? 'Add' : 'Remove'; amount.inputMode = 'decimal';
+        const reason = el('input', 'p-field flex-1');
+        reason.type = 'text'; reason.maxLength = 200; reason.required = true; reason.placeholder = 'Reason, shows in their history';
+        const go = el('button', PRIMARY + ' shrink-0', adding ? 'Add points' : 'Remove points');
+        go.type = 'submit';
+        const cancel = el('button', GHOST + ' shrink-0', 'Cancel');
+        cancel.type = 'button';
+        cancel.addEventListener('click', () => form.replaceChildren());
+        f.append(amount, reason, go, cancel);
+        f.addEventListener('submit', async e => {
+          e.preventDefault();
+          const n = Math.round(Number(amount.value) * 100) / 100;
+          if (!(n > 0) || n > 100000) { msg.className = 'text-xs min-h-[1rem] mt-2 text-red-400'; msg.textContent = 'Enter an amount between 0.01 and 100,000.'; return; }
+          const r = reason.value.trim();
+          if (!r) { reason.focus(); return; }
+          const ok = await run(() => db.rpc('award_points_atomic', {
+            p_user_id: u.id, p_amount: adding ? n : -n, p_transaction_type: 'admin_adjustment', p_reference_id: null, p_description: r
+          }), (adding ? 'Added ' : 'Removed ') + fmt(n) + ' points.');
+          if (ok) form.replaceChildren();
+        });
+        form.appendChild(f);
+        amount.focus();
+      }
+
+      // Points history, newest first (the app's Transaction History).
+      const hist = el('div', 'mt-4');
+      hist.appendChild(el('div', 'p-label mb-2', 'Points history'));
+      const histList = el('div', 'text-sm', null);
+      histList.appendChild(el('p', 'text-white/40 text-xs', 'Loading…'));
+      hist.appendChild(histList);
+      box.appendChild(hist);
+      db.from('point_transactions').select('id, amount, transaction_type, description, created_at').eq('user_id', u.id)
+        .order('created_at', { ascending: false }).limit(50).then(({ data, error }) => {
+          histList.replaceChildren();
+          if (error) { histList.appendChild(el('p', 'text-red-400 text-xs', 'Could not load: ' + (error.message || 'unknown error'))); return; }
+          if (!data || !data.length) { histList.appendChild(el('p', 'text-white/40 text-xs', 'No points yet.')); return; }
+          data.forEach(t => {
+            const n = Number(t.amount) || 0;
+            const line = el('div', 'flex items-baseline gap-3 py-1.5 border-b border-white/5 last:border-0');
+            line.appendChild(el('span', 'text-white/40 text-xs tabular-nums w-14 shrink-0', shortDate(t.created_at)));
+            line.appendChild(el('span', 'text-white/75 flex-1 min-w-0 truncate', t.description || (t.transaction_type || '').replace(/_/g, ' ')));
+            line.appendChild(el('span', 'tabular-nums font-semibold shrink-0 ' + (n >= 0 ? 'text-matrix' : 'text-red-400'), (n > 0 ? '+' : '') + fmt(n)));
+            histList.appendChild(line);
+          });
+        });
+      return box;
+    }
+    // Re-reads one user (search by id isn't possible, so re-read the
+    // loaded page range) and keeps their row open.
+    async function refreshUser(id) {
+      const { data, error } = await db.rpc('admin_list_users', { p_search: userQuery || null, p_limit: Math.max(users.length, USER_PAGE), p_offset: 0 });
+      if (error) return;
+      users = data || [];
+      if (users.length) userTotal = Number(users[0].total_count) || users.length;
+      userOpen = users.some(u => u.id === id) ? id : null;
+      drawUsers();
+    }
+    function userError(error) {
+      const m = (error && error.message) || '';
+      if (m.includes('PRIVILEGED_COLUMN') || m.includes('admin only') || m.includes('requires an admin')) return 'Only admins can do that.';
+      if (m.includes('Nothing changed')) return m;
+      return friendlyError(error);
+    }
 
     // INITIALIZE
     checkAuth();
