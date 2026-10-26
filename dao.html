@@ -1867,6 +1867,9 @@
       const rows = mod[modQ];
       if (!rows.length) { modList.appendChild(el('p', 'p-5 text-white/50 text-sm', modAllReports && modQ === 'reports' ? 'No reports yet.' : MOD_EMPTY[modQ])); return; }
       rows.forEach(r => modList.appendChild(MOD_DRAW[modQ](r)));
+      // Each list asks the database for at most 200 rows and has no "more" button yet,
+      // so a full list means older items exist that aren't shown.
+      if (rows.length >= 200) modList.appendChild(el('p', 'p-5 text-amber-300/90 text-sm', 'Showing the newest 200. Older items are not listed here yet.'));
     }
 
     // One row: optional picture or clip on the left, text, then buttons.
@@ -2137,8 +2140,10 @@
         if (u.is_banned) btn('Unban', GHOST, () => run(() => updateUser(u.id, { is_banned: false, ban_reason: null, banned_at: null }), 'Unbanned.'));
         else btn('Ban', GHOST + ' !text-red-400', () => banForm());
         btn(u.is_admin ? 'Remove admin' : 'Make admin', GHOST + (u.is_admin ? ' !text-red-400' : ''), () => {
-          if (!confirm(u.is_admin ? 'Take admin rights away from @' + u.username + '?' : 'Make @' + u.username + ' an admin? They will be able to do everything on this tab.')) return;
-          run(() => updateUser(u.id, { is_admin: !u.is_admin }), u.is_admin ? 'Admin rights removed.' : '@' + u.username + ' is now an admin.');
+          if (u.is_admin) {
+            if (!confirm('Take admin rights away from @' + u.username + '?')) return;
+            run(() => updateUser(u.id, { is_admin: false }), 'Admin rights removed.');
+          } else adminForm();
         });
       }
       box.appendChild(a);
@@ -2167,6 +2172,43 @@
         });
         form.appendChild(f);
         reason.focus();
+      }
+      // Granting admin rights needs the signed-in admin's own password again.
+      // Re-signing in checks it; an account with no password (Google or Apple
+      // only) can't pass, so it's told to set one in Account first.
+      function adminForm() {
+        form.replaceChildren();
+        const f = el('form', 'mt-3 flex flex-col sm:flex-row gap-2');
+        const pw = el('input', 'p-field flex-1');
+        pw.type = 'password'; pw.autocomplete = 'current-password'; pw.required = true; pw.placeholder = 'Your password, to confirm';
+        const go = el('button', PRIMARY + ' shrink-0', 'Make @' + (u.username || 'user') + ' an admin');
+        go.type = 'submit';
+        const cancel = el('button', GHOST + ' shrink-0', 'Cancel');
+        cancel.type = 'button';
+        cancel.addEventListener('click', () => form.replaceChildren());
+        f.append(pw, go, cancel);
+        f.addEventListener('submit', async e => {
+          e.preventDefault();
+          go.disabled = true;
+          msg.className = 'text-xs min-h-[1rem] mt-2 text-white/40';
+          msg.textContent = 'Checking your password…';
+          const { data: sess } = await db.auth.getSession();
+          const email = sess.session && sess.session.user.email;
+          const { error: authError } = email
+            ? await db.auth.signInWithPassword({ email, password: pw.value })
+            : { error: { message: 'no email' } };
+          if (authError) {
+            go.disabled = false;
+            msg.className = 'text-xs min-h-[1rem] mt-2 text-red-400';
+            msg.textContent = "That password isn't right. If you sign in with Google or Apple, set a password in Account first.";
+            pw.focus();
+            return;
+          }
+          const ok = await run(() => updateUser(u.id, { is_admin: true }), '@' + u.username + ' is now an admin.');
+          if (ok) form.replaceChildren(); else go.disabled = false;
+        });
+        form.appendChild(f);
+        pw.focus();
       }
       function pointsForm(adding) {
         form.replaceChildren();
