@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.pushinn.app",
+      "sha256_cert_fingerprints": [
+        "10:EE:BC:23:B6:FB:1C:B1:00:F6:DB:E9:09:08:65:5F:D0:2C:B5:3B:AD:76:95:4F:71:63:13:10:BC:AA:FE:4C"
+      ]
+    }
+  }
+]

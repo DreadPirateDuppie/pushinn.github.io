@@ -1,6 +1,22 @@
 {
   "applinks": {
     "apps": [],
-    "details": []
+    "details": [
+      {
+        "appID": "L5N2XP8WJH.com.pushinn.app",
+        "paths": [
+          "/clip/*",
+          "/spot/*",
+          "/battle/*",
+          "/trick/*",
+          "/join/*"
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "L5N2XP8WJH.com.pushinn.app"
+    ]
   }
 }
