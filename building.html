@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pushinn | What We're Building</title>
+  <meta name="description" content="What we're building at Pushinn: The street skateboarding layer, career engine, and community treasury.">
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.png">
+  <meta name="msapplication-TileColor" content="#00FF41">
+  <meta name="theme-color" content="#000000">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            matrix: '#00FF41',
+            matrixDim: '#00CC33',
+            obsidian: '#0A0A0A',
+            surface: '#111111',
+            card: '#161616',
+            cardBorder: 'rgba(255, 255, 255, 0.08)'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #000; color: #fff; }
+    .matrix-border { border: 1px solid rgba(0, 255, 65, 0.25); }
+    .matrix-border-glow { border: 1px solid rgba(0, 255, 65, 0.6); box-shadow: 0 0 20px rgba(0, 255, 65, 0.15); }
+    .subtle-border { border: 1px solid rgba(255, 255, 255, 0.08); }
+    .card-hover:hover { border-color: rgba(0, 255, 65, 0.4); transform: translateY(-2px); transition: all 0.2s ease; }
+    .phone-shadow { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 255, 65, 0.1); }
+    .tab-active { background-color: rgba(0, 255, 65, 0.15); border-color: #00FF41; color: #00FF41; }
+  </style>
+</head>
+<body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col font-sans">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <div class="flex items-center gap-3">
+          <a href="/" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
+          <span class="px-2 py-0.5 text-[10px] font-mono tracking-widest uppercase bg-matrix/10 text-matrix border border-matrix/30 rounded">
+            THE ROADMAP
+          </span>
+        </div>
+        
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center space-x-6">
+          <a href="/" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200 uppercase">HOME</a>
+          <a href="/building" class="text-matrix font-mono text-sm tracking-wider uppercase font-semibold">WHAT WE'RE BUILDING</a>
+          <a href="/dao" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200 uppercase">THE UNION</a>
+          <a href="/support" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200 uppercase">SUPPORT</a>
+          
+          <!-- Auth container -->
+          <div id="nav-auth-container" class="flex items-center gap-2">
+            <a id="nav-login-link" href="/login" class="text-xs font-mono font-bold px-3 py-1.5 rounded bg-matrix/20 text-matrix border border-matrix/40 uppercase">
+              Sign In
+            </a>
+            <div id="nav-user-badge" class="hidden flex items-center gap-2">
+              <span id="nav-user-email" class="hidden sm:inline font-mono text-xs text-matrix"></span>
+              <button id="nav-logout-btn" type="button" class="text-xs font-mono px-2.5 py-1 rounded border border-gray-700 bg-surface text-gray-300 hover:text-white hover:border-gray-500 uppercase transition-colors">
+                Sign Out
+              </button>
+            </div>
+          </div>
+
+          <a href="/beta-onboarding" class="bg-matrix text-black font-mono font-bold px-4 py-2 text-xs tracking-wider uppercase rounded hover:bg-white transition-all duration-200">
+            JOIN ALPHA
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden flex items-center">
+          <button id="mobile-menu-button" aria-label="Toggle Navigation" class="text-gray-300 hover:text-matrix focus:outline-none p-2">
+            <svg class="h-6 w-6 block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+            <svg class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden bg-surface border-b border-matrix/20 px-4 pt-3 pb-6 space-y-3">
+      <a href="/" class="block text-gray-300 hover:text-matrix font-mono text-sm tracking-wider uppercase py-1">HOME</a>
+      <a href="/building" class="block text-matrix font-mono text-sm tracking-wider uppercase font-bold py-1">THE DECK</a>
+      <a href="/dao" class="block text-gray-300 hover:text-matrix font-mono text-sm tracking-wider uppercase py-1">THE UNION</a>
+      <a href="/support" class="block text-gray-300 hover:text-matrix font-mono text-sm tracking-wider uppercase py-1">SUPPORT</a>
+      
+      <!-- Mobile Auth Container -->
+      <div id="mobile-auth-container" class="pt-2 border-t border-gray-800">
+        <a id="mobile-login-link" href="/login" class="bg-matrix/10 text-matrix border border-matrix/30 block text-center px-3 py-2 rounded-md text-sm font-mono font-bold uppercase">
+          Sign In / Account
+        </a>
+        <div id="mobile-user-badge" class="hidden flex items-center justify-between px-3 py-2 rounded-md bg-black border border-gray-800">
+          <span id="mobile-user-email" class="font-mono text-xs text-matrix"></span>
+          <button id="mobile-logout-btn" type="button" class="text-xs font-mono px-2 py-1 rounded border border-gray-700 bg-surface text-gray-300 hover:text-white uppercase">
+            Sign Out
+          </button>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <a href="/beta-onboarding" class="block text-center bg-matrix text-black font-mono font-bold px-4 py-2.5 text-xs tracking-wider uppercase rounded">
+          JOIN ALPHA
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-grow">
+
+    <!-- HERO / TITLE SECTION -->
+    <section class="relative pt-16 pb-14 px-4 sm:px-6 lg:px-8 border-b border-matrix/20 overflow-hidden">
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-matrix/10 via-black to-black -z-10"></div>
+      
+      <div class="max-w-5xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full bg-matrix/10 border border-matrix/30 text-matrix font-mono text-xs tracking-widest uppercase">
+          <span class="w-2 h-2 rounded-full bg-matrix animate-ping"></span>
+          ROADMAP // 2026-2027
+        </div>
+        
+        <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white uppercase font-mono mb-4 leading-tight">
+          WHAT WE'RE <span class="text-matrix">BUILDING</span>
+        </h1>
+        
+        <p class="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto mb-8 leading-relaxed font-sans">
+          An in-depth breakdown of the Pushinn platform, skater career infrastructure, and community creative treasury.
+        </p>
+
+        <!-- Quick Jump Bar -->
+        <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs font-mono">
+          <a href="#mission" class="px-3 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">01. THE MISSION</a>
+          <a href="#engine" class="px-3 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">02. THE APP ENGINE</a>
+          <a href="#careers" class="px-3 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">03. SKATER CAREERS</a>
+          <a href="#susu" class="px-3 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">04. DIGITAL SUSU</a>
+          <a href="#economy" class="px-3 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">05. THE ECONOMY</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 01. THE MISSION (CULTURE & INFRASTRUCTURE) -->
+    <section id="mission" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-matrix/10">
+      <div class="max-w-5xl mx-auto">
+        <div class="font-mono text-xs text-matrix tracking-widest uppercase mb-2">01 // THE MISSION</div>
+        <h2 class="text-3xl sm:text-4xl font-bold font-mono text-white uppercase mb-4 tracking-tight">
+          BUILT FOR SKATERS. <span class="text-matrix">ROOTED IN THE STREETS.</span>
+        </h2>
+        <p class="text-gray-400 max-w-3xl mb-12 text-base leading-relaxed">
+          Skateboarding drives immense global culture, fashion, and media, but the street scene has never had dedicated digital infrastructure built specifically for the culture. Pushinn gives skaters verified spot radar, permanent progression archives, and community-directed funding.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- The Current Reality -->
+          <div class="bg-surface rounded-xl p-6 sm:p-8 border border-white/10 relative overflow-hidden">
+            <div class="font-mono text-xs text-gray-400 tracking-wider uppercase mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-gray-500"></span> THE CURRENT REALITY
+            </div>
+            <h3 class="text-xl font-mono font-bold text-white mb-4 uppercase">Fragmented &amp; Ephemeral</h3>
+            <ul class="space-y-3 text-sm text-gray-400">
+              <li class="flex items-start gap-2">
+                <span class="text-gray-500 mt-0.5">&bull;</span>
+                <span>Spot knowledge and session meetups live trapped in disappearing group chats and scattered DMs.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-gray-500 mt-0.5">&bull;</span>
+                <span>Raw street clips get lost in algorithmic feeds with zero permanent trick archive or spot leaderboards.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-gray-500 mt-0.5">&bull;</span>
+                <span>Talented street skaters lack verified athlete resumes to showcase battle records and land sponsorship.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- The Pushinn Foundation -->
+          <div class="bg-surface rounded-xl p-6 sm:p-8 matrix-border-glow bg-gradient-to-b from-surface to-black relative overflow-hidden">
+            <div class="font-mono text-xs text-matrix tracking-wider uppercase mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-matrix"></span> THE PUSHINN FOUNDATION
+            </div>
+            <h3 class="text-xl font-mono font-bold text-white mb-4 uppercase">Unified &amp; Permanent</h3>
+            <ul class="space-y-3 text-sm text-gray-300">
+              <li class="flex items-start gap-2">
+                <span class="text-matrix mt-0.5">&check;</span>
+                <span>Real-time spot radar, active session check-ins, and on-site trick clips pinned to exact obstacles.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-matrix mt-0.5">&check;</span>
+                <span>The permanent Trick Archive (NBD records) and verified skater resume cards for industry recognition.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-matrix mt-0.5">&check;</span>
+                <span>The Digital Susu: A creative community treasury funding skater DIY projects, films, and zines directly.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02. THE APP ENGINE (THE 4 CORE LOOPS) -->
+    <section id="engine" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-matrix/10 bg-black">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <div class="font-mono text-xs text-matrix tracking-widest uppercase mb-2">02 // THE PRODUCT ENGINE</div>
+          <h2 class="text-3xl sm:text-5xl font-bold font-mono text-white uppercase tracking-tight mb-4">
+            HOW PUSHINN WORKS
+          </h2>
+          <p class="text-gray-400 text-base">
+            The core mobile application puts raw utility into skaters' pockets through four tightly coupled, authentic loops.
+          </p>
+        </div>
+
+        <!-- Interactive Screen Switcher -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          
+          <!-- Left: Tab Controls & Story Descriptions -->
+          <div class="lg:col-span-7 space-y-4">
+            
+            <!-- Loop 1: Spot Radar -->
+            <button onclick="setScreen(1)" id="tab-btn-1" class="w-full text-left p-5 rounded-xl bg-surface border border-matrix subtle-border card-hover transition-all tab-active">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-mono text-xs text-matrix font-bold tracking-widest uppercase">STAGE 01 // DISCOVERY</span>
+                <span class="font-mono text-[10px] text-gray-400 uppercase">MAP &amp; RADAR</span>
+              </div>
+              <h3 class="text-lg font-mono font-bold text-white uppercase mb-2">Spot Radar: Find the City</h3>
+              <p class="text-sm text-gray-400 leading-relaxed">
+                Discover every hidden ledge, rail, and stair mapped by real skaters. Filter by obstacle specs, check live security bust ratings, and roll straight to the session.
+              </p>
+            </button>
+
+            <!-- Loop 2: Live Sessions -->
+            <button onclick="setScreen(2)" id="tab-btn-2" class="w-full text-left p-5 rounded-xl bg-surface subtle-border card-hover transition-all text-gray-300">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-mono text-xs text-gray-400 font-bold tracking-widest uppercase">STAGE 02 // ACTION</span>
+                <span class="font-mono text-[10px] text-gray-400 uppercase">200M CHECK-IN</span>
+              </div>
+              <h3 class="text-lg font-mono font-bold text-white uppercase mb-2">Live Sessions: Claim the Concrete</h3>
+              <p class="text-sm text-gray-400 leading-relaxed">
+                Pull up to the spot, 200m auto check-in starts the session clock. Film your landed tricks on-site and pin raw clips directly to the location's live feed for the whole scene to see.
+              </p>
+            </button>
+
+            <!-- Loop 3: Versus Mode -->
+            <button onclick="setScreen(3)" id="tab-btn-3" class="w-full text-left p-5 rounded-xl bg-surface subtle-border card-hover transition-all text-gray-300">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-mono text-xs text-gray-400 font-bold tracking-widest uppercase">STAGE 03 // COMPETITION</span>
+                <span class="font-mono text-[10px] text-gray-400 uppercase">S.K.A.T.E. ARENA</span>
+              </div>
+              <h3 class="text-lg font-mono font-bold text-white uppercase mb-2">Versus: Match the Trick</h3>
+              <p class="text-sm text-gray-400 leading-relaxed">
+                High-stakes 1v1 Game of S.K.A.T.E. online or at the spot. Set a trick, challenger films an attempt on the clock. Sealed blind voting, community dispute refereeing, and the winner takes the pot.
+              </p>
+            </button>
+
+            <!-- Loop 4: The Trick Archive -->
+            <button onclick="setScreen(4)" id="tab-btn-4" class="w-full text-left p-5 rounded-xl bg-surface subtle-border card-hover transition-all text-gray-300">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-mono text-xs text-gray-400 font-bold tracking-widest uppercase">STAGE 04 // LEGACY</span>
+                <span class="font-mono text-[10px] text-gray-400 uppercase">HISTORY BOOKS</span>
+              </div>
+              <h3 class="text-lg font-mono font-bold text-white uppercase mb-2">The Trick Archive: Enter History</h3>
+              <p class="text-sm text-gray-400 leading-relaxed">
+                The permanent encyclopedia of landed tricks. Land a first (NBD - Never Been Done) or beat a spot record to get your clip and handle immortalized on that spot's permanent Hall of Fame.
+              </p>
+            </button>
+
+          </div>
+
+          <!-- Right: Visual Device Mockup -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="w-[300px] sm:w-[320px] h-[580px] bg-black rounded-[42px] border-[5px] border-neutral-800 phone-shadow relative overflow-hidden flex flex-col">
+              
+              <!-- Speaker & Dynamic Island -->
+              <div class="h-6 w-full bg-black flex items-center justify-center pt-2">
+                <div class="w-24 h-4 bg-neutral-900 rounded-full border border-neutral-800"></div>
+              </div>
+
+              <!-- SCREEN VIEW CONTAINER -->
+              <div class="flex-grow p-4 flex flex-col text-left relative overflow-hidden">
+                
+                <!-- SCREEN 1: SPOT RADAR -->
+                <div id="screen-1" class="screen-view h-full flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-center justify-between font-mono text-[11px] text-matrix pb-2 border-b border-matrix/20 mb-3">
+                      <span>RADAR // LONDON</span>
+                      <span class="animate-pulse">LIVE (14 SPOTS)</span>
+                    </div>
+                    <!-- Mock Map Graphics -->
+                    <div class="h-44 rounded-xl bg-surface subtle-border p-3 relative overflow-hidden mb-3 flex flex-col justify-between">
+                      <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#00FF41_1px,transparent_1px)] [background-size:12px_12px]"></div>
+                      <div class="relative z-10 flex justify-between items-start">
+                        <span class="font-mono text-[9px] bg-black/80 px-2 py-0.5 rounded text-gray-300 border border-neutral-700">51.5074 N, 0.1278 W</span>
+                        <span class="font-mono text-[9px] bg-matrix/20 text-matrix px-2 py-0.5 rounded border border-matrix/40">LOW BUST</span>
+                      </div>
+                      <div class="relative z-10 space-y-1">
+                        <div class="font-mono font-bold text-xs text-white uppercase">Southbank Undercroft</div>
+                        <div class="font-mono text-[10px] text-gray-400">7-Stair, 2x Ledges, Bank</div>
+                      </div>
+                    </div>
+                    <!-- Spot Details Card -->
+                    <div class="bg-surface rounded-xl p-3 subtle-border">
+                      <div class="font-mono text-[10px] text-gray-400 uppercase mb-1">Active Skaters Now</div>
+                      <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-matrix/20 border border-matrix text-matrix flex items-center justify-center font-mono text-[10px] font-bold">R</div>
+                        <span class="font-mono text-xs text-white">@ryan + 4 others sessioning</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="w-full py-2.5 rounded-lg bg-matrix text-black font-mono font-bold text-xs text-center uppercase tracking-wider">
+                    CHECK IN SPOT (200M)
+                  </div>
+                </div>
+
+                <!-- SCREEN 2: LIVE SESSION (Hidden by default) -->
+                <div id="screen-2" class="screen-view hidden h-full flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-center justify-between font-mono text-[11px] text-matrix pb-2 border-b border-matrix/20 mb-3">
+                      <span>SESSION // ACTIVE</span>
+                      <span class="text-white">01:42:15</span>
+                    </div>
+                    <div class="bg-surface rounded-xl p-3 subtle-border mb-3">
+                      <div class="font-mono text-[10px] text-gray-400 uppercase">Current Spot</div>
+                      <div class="font-mono font-bold text-xs text-white uppercase mb-1">St Paul's 4-Block</div>
+                      <span class="font-mono text-[9px] text-matrix bg-matrix/10 px-2 py-0.5 rounded">TURF REP: +45 XP</span>
+                    </div>
+                    <!-- Clip Upload Preview -->
+                    <div class="h-44 rounded-xl bg-neutral-900 border border-matrix/40 p-3 relative overflow-hidden flex flex-col justify-between">
+                      <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                      <div class="relative z-10 flex justify-between">
+                        <span class="font-mono text-[9px] bg-red-600 text-white px-2 py-0.5 rounded uppercase font-bold">REC CLIP</span>
+                        <span class="font-mono text-[9px] text-gray-300">00:08</span>
+                      </div>
+                      <div class="relative z-10">
+                        <div class="font-mono text-xs font-bold text-white">Fs_Crook_Clean.mp4</div>
+                        <div class="font-mono text-[10px] text-matrix">Pinned to Spot Feed</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="w-full py-2.5 rounded-lg bg-matrix text-black font-mono font-bold text-xs text-center uppercase tracking-wider">
+                    UPLOAD RAW MAKE
+                  </div>
+                </div>
+
+                <!-- SCREEN 3: VERSUS S.K.A.T.E. (Hidden by default) -->
+                <div id="screen-3" class="screen-view hidden h-full flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-center justify-between font-mono text-[11px] text-matrix pb-2 border-b border-matrix/20 mb-3">
+                      <span>VERSUS // S.K.A.T.E.</span>
+                      <span class="text-amber-400 font-bold">POT: 500 PTS</span>
+                    </div>
+                    <!-- Letters Scoreboard -->
+                    <div class="bg-surface rounded-xl p-3 subtle-border mb-3 text-center">
+                      <div class="flex justify-between items-center px-4 font-mono font-black text-xl mb-1">
+                        <span class="text-white">@RYAN</span>
+                        <span class="text-matrix">VS</span>
+                        <span class="text-red-400">@JAX</span>
+                      </div>
+                      <div class="flex justify-between items-center px-4 font-mono text-xs">
+                        <span class="text-matrix font-bold tracking-widest">S - K</span>
+                        <span class="text-red-500 font-bold tracking-widest">S - K - A - T</span>
+                      </div>
+                    </div>
+                    <!-- Quick-Fire Timer & Trick -->
+                    <div class="h-40 rounded-xl bg-surface subtle-border p-3 flex flex-col justify-between">
+                      <div class="font-mono text-[10px] text-gray-400">SET TRICK BY SETTER</div>
+                      <div class="font-mono text-center">
+                        <div class="text-xs text-matrix uppercase">CHALLENGE REQUIRED</div>
+                        <div class="font-bold text-white text-sm uppercase">Switch Heel 360</div>
+                      </div>
+                      <div class="flex justify-between items-center font-mono text-[10px] text-gray-400 pt-2 border-t border-neutral-800">
+                        <span>CLOCK: 03:14</span>
+                        <span class="text-matrix">SEALED VOTE</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="w-full py-2.5 rounded-lg bg-matrix text-black font-mono font-bold text-xs text-center uppercase tracking-wider">
+                    SUBMIT ATTEMPT CLIP
+                  </div>
+                </div>
+
+                <!-- SCREEN 4: TRICK ARCHIVE (Hidden by default) -->
+                <div id="screen-4" class="screen-view hidden h-full flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-center justify-between font-mono text-[11px] text-matrix pb-2 border-b border-matrix/20 mb-3">
+                      <span>ARCHIVE // HALL OF FAME</span>
+                      <span class="text-amber-400">NBD SEAL</span>
+                    </div>
+                    <!-- Archive Card -->
+                    <div class="bg-surface rounded-xl p-4 matrix-border-glow mb-3">
+                      <div class="flex justify-between items-start mb-2">
+                        <span class="font-mono text-[9px] bg-amber-400/20 text-amber-300 border border-amber-400/40 px-2 py-0.5 rounded font-bold uppercase">
+                          FIRST LANDED (NBD)
+                        </span>
+                        <span class="font-mono text-[9px] text-gray-400">2026-10-24</span>
+                      </div>
+                      <div class="font-mono font-bold text-sm text-white uppercase mb-1">Kickflip Backside Tailslide</div>
+                      <div class="font-mono text-xs text-gray-400 mb-3">Southbank 7-Stair Hubba</div>
+                      
+                      <div class="flex items-center gap-2 pt-2 border-t border-neutral-800">
+                        <div class="w-7 h-7 rounded-full bg-matrix/20 border border-matrix text-matrix flex items-center justify-center font-mono text-xs font-bold">R</div>
+                        <div>
+                          <div class="font-mono text-xs text-white font-bold">@Ryan</div>
+                          <div class="font-mono text-[9px] text-matrix">IMMORTALIZED IN SPOT LORE</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="bg-surface rounded-xl p-3 subtle-border text-center font-mono text-[10px] text-gray-400">
+                      Verified by 12 independent scene referees
+                    </div>
+                  </div>
+                  <div class="w-full py-2.5 rounded-lg bg-matrix text-black font-mono font-bold text-xs text-center uppercase tracking-wider">
+                    BROWSE SPOT ARCHIVES
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 03. SKATER CAREERS (THE ATHLETE RESUME) -->
+    <section id="careers" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-matrix/10">
+      <div class="max-w-5xl mx-auto">
+        <div class="font-mono text-xs text-matrix tracking-widest uppercase mb-2">03 // CAREER ENGINE</div>
+        <h2 class="text-3xl sm:text-4xl font-bold font-mono text-white uppercase mb-4 tracking-tight">
+          THE SKATER CARD: <span class="text-matrix">A VERIFIABLE CAREER PASSPORT</span>
+        </h2>
+        <p class="text-gray-400 max-w-3xl mb-12 text-base leading-relaxed">
+          Skaters currently have no formal athlete portfolio. When seeking sponsorships, they send chaotic Instagram DMs with fragmented footage. Pushinn turns your street history into a verified athletic resume.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-surface p-6 rounded-xl subtle-border card-hover">
+            <div class="font-mono text-xs text-matrix uppercase mb-2">01 // VERIFIED TRICK INDEX</div>
+            <h3 class="text-lg font-mono font-bold text-white mb-2 uppercase">Proof of Make</h3>
+            <p class="text-sm text-gray-400">
+              Every landed trick logged, GPS-verified, and peer-reviewed by the community. Zero fake claims or stolen clips.
+            </p>
+          </div>
+
+          <div class="bg-surface p-6 rounded-xl subtle-border card-hover">
+            <div class="font-mono text-xs text-matrix uppercase mb-2">02 // S.K.A.T.E. WIN RECORD</div>
+            <h3 class="text-lg font-mono font-bold text-white mb-2 uppercase">Battle Stats</h3>
+            <p class="text-sm text-gray-400">
+              Public win/loss records, letters defended, and competitive rating so sponsors can see real head-to-head consistency.
+            </p>
+          </div>
+
+          <div class="bg-surface p-6 rounded-xl subtle-border card-hover">
+            <div class="font-mono text-xs text-matrix uppercase mb-2">03 // PRO SCOUTING PORTAL</div>
+            <h3 class="text-lg font-mono font-bold text-white mb-2 uppercase">Industry Outreach</h3>
+            <p class="text-sm text-gray-400">
+              One clean link that brands and local skate shops can audit when signing team riders, dropping product flow, or funding tours.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04. THE DIGITAL SUSU (COMMUNITY TREASURY) -->
+    <section id="susu" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-matrix/10 bg-black">
+      <div class="max-w-5xl mx-auto">
+        <div class="font-mono text-xs text-matrix tracking-widest uppercase mb-2">04 // COMMUNITY CAPITAL</div>
+        <h2 class="text-3xl sm:text-4xl font-bold font-mono text-white uppercase mb-4 tracking-tight">
+          THE DIGITAL SUSU: <span class="text-matrix">MARKETING REINVESTED IN SKATERS</span>
+        </h2>
+        <p class="text-gray-400 max-w-3xl mb-12 text-base leading-relaxed">
+          Inspired by traditional community rotating savings associations (Susu/Pardner), Pushinn treats our growth budget not as ad waste, but as capital to empower the creative ideas of our own scene.
+        </p>
+
+        <div class="bg-surface rounded-2xl p-8 sm:p-10 matrix-border-glow">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="space-y-3">
+              <div class="w-10 h-10 rounded-full bg-matrix/20 border border-matrix text-matrix flex items-center justify-center font-mono font-bold text-sm">
+                01
+              </div>
+              <h3 class="font-mono font-bold text-white uppercase text-base">Community Pitch</h3>
+              <p class="text-sm text-gray-400">
+                Skaters propose creative projects: pouring concrete at a DIY spot, filming an underground street video, or printing a scene zine.
+              </p>
+            </div>
+
+            <div class="space-y-3">
+              <div class="w-10 h-10 rounded-full bg-matrix/20 border border-matrix text-matrix flex items-center justify-center font-mono font-bold text-sm">
+                02
+              </div>
+              <h3 class="font-mono font-bold text-white uppercase text-base">Skaters Deliberate</h3>
+              <p class="text-sm text-gray-400">
+                The community votes transparently on which proposals receive funding. Skaters decide where their scene's capital goes.
+              </p>
+            </div>
+
+            <div class="space-y-3">
+              <div class="w-10 h-10 rounded-full bg-matrix/20 border border-matrix text-matrix flex items-center justify-center font-mono font-bold text-sm">
+                03
+              </div>
+              <h3 class="font-mono font-bold text-white uppercase text-base">Real Cultural Uplift</h3>
+              <p class="text-sm text-gray-400">
+                Pushinn pays the creators and helps execute the project as our authentic marketing spend. Real art is made; real skaters get paid.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05. THE AUTONOMOUS SKATE ECONOMY -->
+    <section id="economy" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-matrix/10">
+      <div class="max-w-5xl mx-auto">
+        <div class="font-mono text-xs text-matrix tracking-widest uppercase mb-2">05 // THE ECONOMIC FLYWHEEL</div>
+        <h2 class="text-3xl sm:text-4xl font-bold font-mono text-white uppercase mb-4 tracking-tight">
+          THE AUTONOMOUS <span class="text-matrix">SKATE ECONOMY</span>
+        </h2>
+        <p class="text-gray-400 max-w-3xl mb-12 text-base leading-relaxed">
+          How Pushinn scales beyond an app into a thriving, self-sustaining financial network for the culture.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-surface p-6 sm:p-8 rounded-xl subtle-border card-hover">
+            <div class="font-mono text-xs text-matrix uppercase mb-2">SPONSORSHIPS REDEFINED</div>
+            <h3 class="text-xl font-mono font-bold text-white mb-3 uppercase">Brand Bounties on Spots</h3>
+            <p class="text-sm text-gray-400 leading-relaxed">
+              Brands and local skate shops drop bounties directly onto spot pins: <em>"Land a switch hardflip down the 5-stair and claim a £250 sponsor bounty or a fresh deck from the local shop."</em> Immediate economic incentive for raw street progression.
+            </p>
+          </div>
+
+          <div class="bg-surface p-6 sm:p-8 rounded-xl subtle-border card-hover">
+            <div class="font-mono text-xs text-matrix uppercase mb-2">SUPPORTING CORE SHOPS</div>
+            <h3 class="text-xl font-mono font-bold text-white mb-3 uppercase">Skate Shop Flywheel</h3>
+            <p class="text-sm text-gray-400 leading-relaxed">
+              Independent core skate shops become physical community hubs where app rep and points redeem for physical decks, wheels, hardware, and shop apparel. Keeping money inside the independent ecosystem.
+            </p>
+          </div>
+
+          <div class="bg-surface p-6 sm:p-8 rounded-xl subtle-border card-hover">
+            <div class="font-mono text-xs text-matrix uppercase mb-2">TERRITORIAL COMPETITION</div>
+            <h3 class="text-xl font-mono font-bold text-white mb-3 uppercase">Borough Turf Wars</h3>
+            <p class="text-sm text-gray-400 leading-relaxed">
+              Crews compete for neighborhood dominance across entire London boroughs (Southwark, Camden, Hackney), claiming spots through session check-ins, battle win streaks, and trick density.
+            </p>
+          </div>
+
+          <div class="bg-surface p-6 sm:p-8 rounded-xl subtle-border card-hover">
+            <div class="font-mono text-xs text-matrix uppercase mb-2">FAN ENGAGEMENT</div>
+            <h3 class="text-xl font-mono font-bold text-white mb-3 uppercase">Fantasy Skate Leagues</h3>
+            <p class="text-sm text-gray-400 leading-relaxed">
+              Followers and fans draft street skaters onto fantasy rosters, earning points based on real-world S.K.A.T.E. battle win rates, NBD archive claims, and session frequency.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06. CALL TO ACTION / BACK PUSHINN -->
+    <section class="py-24 px-4 sm:px-6 lg:px-8 text-center bg-gradient-to-t from-surface via-black to-black">
+      <div class="max-w-4xl mx-auto">
+        <div class="inline-block px-3 py-1 mb-4 rounded-full bg-matrix/10 border border-matrix/30 text-matrix font-mono text-xs tracking-widest uppercase">
+          ALPHA NOW LIVE ON TESTFLIGHT
+        </div>
+        <h2 class="text-4xl sm:text-5xl font-black font-mono text-white uppercase tracking-tight mb-6">
+          BACK THE MOVEMENT.<br>
+          <span class="text-matrix">CLAIM YOUR FOUNDER TAG.</span>
+        </h2>
+        <p class="text-gray-300 max-w-2xl mx-auto mb-10 text-base font-sans">
+          Whether you are a street skater ready to test the live engine, an independent skate shop joining the network, or a backer looking to support digital sovereignty for the culture.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="/beta-onboarding" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-matrix text-black font-mono font-bold text-sm tracking-wider uppercase hover:bg-white transition-all shadow-lg hover:shadow-matrix/20">
+            JOIN ALPHA SYNDICATE
+          </a>
+          <a href="/contact" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-surface border border-neutral-700 text-white font-mono font-bold text-sm tracking-wider uppercase hover:border-matrix hover:text-matrix transition-all">
+            PARTNER &amp; SPONSOR INQUIRIES
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-black border-t border-matrix/20 py-10 px-4 sm:px-6 lg:px-8 text-xs font-mono text-gray-500">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-2">
+        <span class="text-matrix font-bold">PUSHINN LABS LTD</span>
+        <span>&copy; 2026. All rights reserved.</span>
+      </div>
+      <div class="flex space-x-6">
+        <a href="/legal-privacy" class="hover:text-matrix transition-colors">PRIVACY POLICY</a>
+        <a href="/legal-terms" class="hover:text-matrix transition-colors">TERMS OF SERVICE</a>
+        <a href="/contact" class="hover:text-matrix transition-colors">CONTACT</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SIMPLE JAVASCRIPT FOR PHONE SCREEN SWITCHER -->
+  <script>
+    function setScreen(num) {
+      for (let i = 1; i <= 4; i++) {
+        const screen = document.getElementById('screen-' + i);
+        const tab = document.getElementById('tab-btn-' + i);
+        if (screen) screen.classList.add('hidden');
+        if (tab) {
+          tab.classList.remove('tab-active');
+          tab.classList.add('text-gray-300');
+        }
+      }
+      const activeScreen = document.getElementById('screen-' + num);
+      const activeTab = document.getElementById('tab-btn-' + num);
+      if (activeScreen) activeScreen.classList.remove('hidden');
+      if (activeTab) {
+        activeTab.classList.add('tab-active');
+        activeTab.classList.remove('text-gray-300');
+      }
+    }
+  </script>
+
+  <!-- SUPABASE AUTH & NAV SCRIPT -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIconOpen = mobileMenuButton.querySelector('svg:first-child');
+    const menuIconClose = mobileMenuButton.querySelector('svg:last-child');
+
+    function toggleMenu(show) {
+      const isExpanded = typeof show === 'boolean' ? show : mobileMenu.classList.contains('hidden');
+      mobileMenuButton.setAttribute('aria-expanded', isExpanded);
+      if (isExpanded) {
+        mobileMenu.classList.remove('hidden');
+        menuIconOpen.classList.add('hidden');
+        menuIconClose.classList.remove('hidden');
+      } else {
+        mobileMenu.classList.add('hidden');
+        menuIconOpen.classList.remove('hidden');
+        menuIconClose.classList.add('hidden');
+      }
+    }
+
+    mobileMenuButton.addEventListener('click', () => toggleMenu());
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => toggleMenu(false));
+    });
+
+    (function() {
+      const _supabaseUrl = 'https://hbwycwbmkarztmodssyc.supabase.co';
+      const _supabaseKey = ['sb_publishable', 'l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg'].join('_'); // gitleaks:allow
+      const db = window.supabase ? window.supabase.createClient(_supabaseUrl, _supabaseKey) : null;
+      if (!db) return;
+
+      const navLoginLink = document.getElementById('nav-login-link');
+      const navUserBadge = document.getElementById('nav-user-badge');
+      const navUserEmail = document.getElementById('nav-user-email');
+      const navLogoutBtn = document.getElementById('nav-logout-btn');
+
+      const mobileLoginLink = document.getElementById('mobile-login-link');
+      const mobileUserBadge = document.getElementById('mobile-user-badge');
+      const mobileUserEmail = document.getElementById('mobile-user-email');
+      const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+
+      function updateNav(user) {
+        if (user && user.email) {
+          const handle = user.email.split('@')[0];
+          if (navLoginLink) navLoginLink.classList.add('hidden');
+          if (navUserBadge) navUserBadge.classList.remove('hidden');
+          if (navUserEmail) navUserEmail.textContent = handle;
+
+          if (mobileLoginLink) mobileLoginLink.classList.add('hidden');
+          if (mobileUserBadge) mobileUserBadge.classList.remove('hidden');
+          if (mobileUserEmail) mobileUserEmail.textContent = handle;
+        } else {
+          if (navLoginLink) navLoginLink.classList.remove('hidden');
+          if (navUserBadge) navUserBadge.classList.add('hidden');
+
+          if (mobileLoginLink) mobileLoginLink.classList.remove('hidden');
+          if (mobileUserBadge) mobileUserBadge.classList.add('hidden');
+        }
+      }
+
+      async function checkSession() {
+        try {
+          const { data: { session } } = await db.auth.getSession();
+          updateNav(session ? session.user : null);
+        } catch (e) {
+          console.error('Session error:', e);
+        }
+      }
+
+      checkSession();
+
+      async function handleSignOut() {
+        await db.auth.signOut();
+        window.location.reload();
+      }
+
+      if (navLogoutBtn) navLogoutBtn.addEventListener('click', handleSignOut);
+      if (mobileLogoutBtn) mobileLogoutBtn.addEventListener('click', handleSignOut);
+
+      db.auth.onAuthStateChange((event, session) => {
+        updateNav(session ? session.user : null);
+      });
+    })();
+  </script>
+</body>
+</html>
