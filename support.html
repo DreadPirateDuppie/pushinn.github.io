@@ -30,7 +30,7 @@
         <div class="hidden md:flex items-center space-x-6">
           <div class="flex items-baseline space-x-6">
             <a href="/" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
-            <a href="/dao" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">THE DAO</a>
+            <a href="/dao" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">THE UNION</a>
             <a href="/support" class="text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
           </div>
           <div id="nav-auth-container" class="flex items-center gap-2">
@@ -66,7 +66,7 @@
     <div class="hidden md:hidden bg-black border-b matrix-border shadow-2xl" id="mobile-menu">
       <div class="px-4 pt-3 pb-5 space-y-2">
         <a href="/" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-mono">HOME</a>
-        <a href="/dao" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-mono">THE DAO</a>
+        <a href="/dao" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-mono">THE UNION</a>
         <a href="/support" class="bg-obsidian text-matrix block px-3 py-2 rounded-md text-base font-mono">SUPPORT</a>
         <div id="mobile-auth-container" class="pt-2 border-t border-gray-800">
           <a id="mobile-login-link" href="/login" class="bg-matrix/10 text-matrix border border-matrix/30 block text-center px-3 py-2 rounded-md text-base font-mono font-bold uppercase">
@@ -95,7 +95,7 @@
         
         <div class="bg-surface matrix-border p-8 rounded-lg">
           <h2 class="font-mono text-matrix text-sm tracking-widest uppercase mb-4">Beta Feedback & Support</h2>
-          <h3 class="font-mono font-bold text-xl text-white mb-4">Transmit Intelligence.</h3>
+          <h3 class="font-mono font-bold text-xl text-white mb-4">Send a Message.</h3>
           <p class="font-sans text-gray-400 text-sm mb-6">Reporting a bug, sharing test feedback, or have an inquiry? Submit below or reach us directly at <a href="mailto:support@pushinn.app" class="text-matrix font-semibold hover:underline">support@pushinn.app</a>.</p>
           
           <form id="support-form" class="space-y-4">
@@ -112,13 +112,13 @@
             <input type="text" name="subject" id="support-subject" placeholder="Summary (e.g. Map freeze on iOS 18)" maxlength="150" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
             <textarea name="message" id="support-message" rows="5" placeholder="Details of the issue or feedback (steps to reproduce, device model, expected vs actual behavior)..." maxlength="5000" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required></textarea>
             <button type="submit" id="support-submit-btn" class="w-full bg-matrix text-black font-mono font-bold text-sm tracking-widest uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)]">
-              Transmit Feedback
+              Send Message
             </button>
             <div id="support-success-msg" style="display:none; color: #00FF41; font-family: monospace; font-size: 0.9rem; margin-top: 1rem; text-align: center;">
-              Transmission successful. Intelligence logged for the core team.
+              Message sent successfully. We'll get back to you shortly.
             </div>
             <div id="support-error-msg" style="display:none; color: #ff3333; font-family: monospace; font-size: 0.9rem; margin-top: 1rem; text-align: center;">
-              Could not transmit message. Please email support@pushinn.app instead.
+              Could not send message. Please email support@pushinn.app directly.
             </div>
           </form>
         </div>
@@ -208,7 +208,7 @@
         const successMsg = document.getElementById('support-success-msg');
         const errorMsg = document.getElementById('support-error-msg');
         
-        btn.textContent = 'Transmitting...';
+        btn.textContent = 'Sending...';
         btn.disabled = true;
         successMsg.style.display = 'none';
         errorMsg.style.display = 'none';
@@ -222,7 +222,7 @@
           .insert([{ username: name, email: email, subject: taggedSubject, message: message }]);
 
         btn.disabled = false;
-        btn.textContent = 'Transmit Feedback';
+        btn.textContent = 'Send Message';
 
         if (error) {
           errorMsg.style.display = 'block';
