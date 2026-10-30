@@ -42,6 +42,17 @@
     .matrix-hover:hover { border-color: rgba(0, 255, 65, 0.8); box-shadow: 0 0 15px rgba(0, 255, 65, 0.15); transform: translateY(-2px); }
     .typewriter-cursor { border-right: 2px solid #00FF41; animation: blink 0.75s step-end infinite; }
     @keyframes blink { 50% { border-color: transparent; } }
+
+    /* VX1000 Fisheye Viewfinder & Mockup Shadows */
+    .vx-barrel {
+      background: radial-gradient(circle at center, rgba(16, 28, 18, 0.25) 0%, rgba(5, 10, 5, 0.7) 65%, rgba(0, 0, 0, 0.96) 95%);
+      box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.95);
+    }
+    .vx-scanlines {
+      background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0px, rgba(0, 0, 0, 0.4) 1px, transparent 1px, transparent 2px);
+      pointer-events: none;
+    }
+    .phone-shadow { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 255, 65, 0.1); }
   </style>
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
@@ -113,7 +124,7 @@
 
   <!-- HERO -->
   <main class="flex-grow">
-    <section class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 flex flex-col items-center justify-center text-center min-h-[70vh]">
+    <section class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 sm:pt-24 sm:pb-16 flex flex-col items-center justify-center text-center">
       <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-matrix/40 bg-matrix/10 mb-8">
         <span class="w-2 h-2 rounded-full bg-matrix animate-pulse"></span>
         <span class="font-mono text-xs text-matrix tracking-widest uppercase">Closed Beta: Live</span>
@@ -140,8 +151,88 @@
       <p class="mt-6 font-mono text-xs text-gray-500 tracking-widest uppercase">Closed Beta // London</p>
     </section>
 
+    <!-- PRODUCT PREVIEW / VX1000 VIEW-FINDER TEASER -->
+    <section class="pb-16 px-4 sm:px-6 lg:px-8 relative">
+      <div class="max-w-4xl mx-auto flex flex-col items-center">
+        <!-- Phone Frame Container -->
+        <div class="w-[300px] sm:w-[320px] bg-black rounded-[42px] border-[5px] border-neutral-800 phone-shadow p-3 relative overflow-hidden flex flex-col">
+          <!-- Speaker & Dynamic Island -->
+          <div class="h-4 w-full bg-black flex items-center justify-center mb-2">
+            <div class="w-20 h-3.5 bg-neutral-900 rounded-full border border-neutral-800"></div>
+          </div>
+
+          <!-- Active Session Header -->
+          <div class="flex items-center justify-between font-mono text-[11px] text-matrix pb-2 border-b border-matrix/20 mb-2.5">
+            <span>SESSION // ACTIVE</span>
+            <span class="text-white">01:42:15</span>
+          </div>
+
+          <div class="bg-surface rounded-xl p-2.5 border border-white/5 mb-2.5">
+            <div class="font-mono text-[9px] text-gray-400 uppercase">Current Spot</div>
+            <div class="font-mono font-bold text-xs text-white uppercase">St Paul's 4-Block</div>
+          </div>
+
+          <!-- VX1000 Fisheye Viewfinder HUD -->
+          <div class="h-48 rounded-xl vx-barrel border border-matrix/40 p-2.5 relative overflow-hidden flex flex-col justify-between select-none">
+            <!-- CRT Scanline Overlay -->
+            <div class="absolute inset-0 vx-scanlines z-0"></div>
+
+            <!-- Top HUD -->
+            <div class="relative z-10 flex justify-between items-center font-mono text-[9px]">
+              <div class="flex items-center gap-1 bg-black/70 px-1.5 py-0.5 rounded border border-neutral-800">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse inline-block"></span>
+                <span class="text-red-400 font-bold uppercase">REC [●]</span>
+                <span class="text-gray-400">SP</span>
+              </div>
+              <div class="bg-black/70 px-1.5 py-0.5 rounded border border-neutral-800 text-matrix flex items-center gap-1">
+                <span>TC 00:08:24</span>
+                <span class="text-gray-400">▮▮▯</span>
+              </div>
+            </div>
+
+            <!-- Center HUD -->
+            <div class="relative z-10 my-auto text-center pointer-events-none">
+              <div class="inline-block px-2 py-0.5 bg-black/60 rounded border border-matrix/30 font-mono text-[9px] text-matrix tracking-widest uppercase">
+                MK1 FISHEYE // 4:3
+              </div>
+            </div>
+
+            <!-- Bottom HUD -->
+            <div class="relative z-10 flex justify-between items-end bg-black/85 p-2 rounded-lg border border-neutral-800">
+              <div>
+                <div class="font-mono text-xs font-bold text-white uppercase tracking-tight">Fs_Crook_Clean.mp4</div>
+                <div class="font-mono text-[9px] text-matrix">RAW MAKE COMMITTED // SOUTHBANK</div>
+              </div>
+              <!-- Micro VU Meter -->
+              <div class="flex flex-col gap-0.5 w-7">
+                <div class="flex gap-0.5 h-1">
+                  <div class="w-1 bg-matrix rounded-xs"></div>
+                  <div class="w-1 bg-matrix rounded-xs"></div>
+                  <div class="w-1 bg-matrix rounded-xs"></div>
+                  <div class="w-1 bg-amber-400 rounded-xs"></div>
+                  <div class="w-1 bg-red-500/30 rounded-xs"></div>
+                </div>
+                <div class="flex gap-0.5 h-1">
+                  <div class="w-1 bg-matrix rounded-xs"></div>
+                  <div class="w-1 bg-matrix rounded-xs"></div>
+                  <div class="w-1 bg-matrix rounded-xs"></div>
+                  <div class="w-1 bg-amber-400/40 rounded-xs"></div>
+                  <div class="w-1 bg-red-500/20 rounded-xs"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Action -->
+          <a href="/building" class="mt-3 w-full py-2.5 rounded-lg bg-matrix text-black font-mono font-bold text-xs text-center uppercase tracking-wider block hover:bg-white transition-colors">
+            SEE HOW IT WORKS →
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- NETWORK STATUS STRIP -->
-    <section class="py-20 bg-black matrix-border border-y border-x-0">
+    <section class="py-12 sm:py-16 bg-black matrix-border border-y border-x-0">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-5 gap-y-12 gap-x-4">
         <div class="text-center">
           <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-clips">00</div>
@@ -169,43 +260,32 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="bg-black py-16 border-t matrix-border">
+  <footer class="bg-black py-8 border-t matrix-border">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-        <div class="md:col-span-1">
-          <h2 class="font-mono font-bold text-2xl text-matrix tracking-widest mb-4">PUSHINN</h2>
-          <p class="text-gray-500 text-sm font-sans pr-4">The professional social layer for London's urban skateboarding subculture.</p>
+      <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+        <!-- Logo & Tagline -->
+        <div class="flex items-center gap-3 text-center md:text-left">
+          <span class="font-mono font-bold text-lg text-matrix tracking-widest uppercase">PUSHINN</span>
+          <span class="text-gray-600 font-mono text-xs hidden sm:inline">//</span>
+          <span class="text-gray-500 text-xs font-mono">London's Street Skateboarding Layer</span>
         </div>
         
-        <div>
-          <h4 class="font-mono text-white text-sm tracking-widest mb-6">SYSTEMS</h4>
-          <ul class="space-y-4 font-sans text-sm text-gray-400">
-            <li><a href="/building" class="hover:text-matrix transition-colors">What We're Building</a></li>
-            <li><a href="/dao" class="hover:text-matrix transition-colors">The Skaters' Union</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 class="font-mono text-white text-sm tracking-widest mb-6">RESOURCES</h4>
-          <ul class="space-y-4 font-sans text-sm text-gray-400">
-            <li><a href="/support" class="hover:text-matrix transition-colors">Support Desk</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 class="font-mono text-white text-sm tracking-widest mb-6">LEGAL</h4>
-          <ul class="space-y-4 font-sans text-sm text-gray-400">
-            <li><a href="/legal-privacy" class="hover:text-matrix transition-colors">Privacy Policy</a></li>
-            <li><a href="/legal-terms" class="hover:text-matrix transition-colors">Terms of Service</a></li>
-            <li><a href="/legal-privacy#account-deletion" class="hover:text-red-500 transition-colors text-gray-400">Delete Account</a></li>
-          </ul>
+        <!-- Inline Navigation & Legal Links -->
+        <div class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 font-mono text-xs text-gray-400">
+          <a href="/building" class="hover:text-matrix transition-colors">What We're Building</a>
+          <a href="/dao" class="hover:text-matrix transition-colors">The Union</a>
+          <a href="/support" class="hover:text-matrix transition-colors">Support</a>
+          <a href="/legal-privacy" class="hover:text-matrix transition-colors">Privacy</a>
+          <a href="/legal-terms" class="hover:text-matrix transition-colors">Terms</a>
         </div>
       </div>
       
-      <div class="pt-8 border-t matrix-border flex flex-col md:flex-row justify-between items-center gap-6">
-        <p class="text-gray-600 text-xs font-mono">&copy; 2026 PUSHINN LABS LTD.</p>
-        <div class="flex flex-wrap items-center gap-4 md:gap-8 font-mono text-xs text-gray-500">
-          <a href="mailto:admin@pushinn.app" class="hover:text-matrix transition-colors">admin@pushinn.app</a>
+      <div class="mt-6 pt-6 border-t border-gray-900 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-mono text-gray-600">
+        <div>&copy; 2026 PUSHINN LABS LTD. All rights reserved.</div>
+        <div class="flex items-center gap-4">
+          <a href="/legal-privacy#account-deletion" class="hover:text-red-500 transition-colors text-gray-500">Delete Account</a>
+          <span>•</span>
+          <a href="mailto:admin@pushinn.app" class="hover:text-matrix transition-colors text-gray-500">admin@pushinn.app</a>
         </div>
       </div>
     </div>
