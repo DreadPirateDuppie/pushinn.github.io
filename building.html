@@ -46,27 +46,6 @@
     .card-hover:hover { border-color: rgba(0, 255, 65, 0.4); transform: translateY(-2px); transition: all 0.2s ease; }
     .phone-shadow { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 255, 65, 0.1); }
     .tab-active { background-color: rgba(0, 255, 65, 0.15); border-color: #00FF41; color: #00FF41; }
-    
-    /* VX1000 Fisheye Viewfinder & Street Skate Textures */
-    .vx-barrel {
-      background: radial-gradient(circle at center, rgba(16, 28, 18, 0.25) 0%, rgba(5, 10, 5, 0.7) 65%, rgba(0, 0, 0, 0.96) 95%);
-      box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.95);
-    }
-    .vx-scanlines {
-      background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0px, rgba(0, 0, 0, 0.4) 1px, transparent 1px, transparent 2px);
-      pointer-events: none;
-    }
-    .asphalt-texture {
-      background-color: #0a0a0a;
-      background-image: radial-gradient(rgba(0, 255, 65, 0.08) 1px, transparent 1px), radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-      background-size: 8px 8px;
-      background-position: 0 0, 4px 4px;
-    }
-    .concrete-grain {
-      background-color: #111111;
-      background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
-      background-size: 4px 4px;
-    }
 
     /* ---- scroll motion layer ---- */
     #scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, #00CC33, #00FF41); box-shadow: 0 0 12px rgba(0,255,65,.7); z-index: 60; }
@@ -498,187 +477,225 @@
               </div>
 
               <!-- SCREEN VIEW CONTAINER -->
-              <div class="flex-grow p-4 flex flex-col text-left relative overflow-hidden">
+              <div class="flex-grow p-4 flex flex-col text-left relative overflow-hidden bg-black font-sans">
                 
-                <!-- SCREEN 1: SPOT RADAR -->
+                <!-- SCREEN 1: SPOT DETAILS (Stage 01 // Discovery) -->
                 <div id="screen-1" class="screen-view is-on h-full flex flex-col justify-between">
-                  <div>
-                    <div class="flex items-center justify-between font-mono text-[11px] text-matrix pb-2 border-b border-matrix/20 mb-3">
-                      <span>RADAR // LONDON</span>
-                      <span class="animate-pulse">LIVE (14 SPOTS)</span>
+                  <div class="space-y-3">
+                    <!-- Top Navigation / Status Header -->
+                    <div class="flex items-center justify-between pb-2 border-b border-white/10">
+                      <span class="font-mono text-[10px] text-matrix font-bold tracking-widest uppercase">LONDON SE1 // SPOT INTEL</span>
+                      <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-white bg-neutral-900 border border-neutral-800 px-2 py-0.5 rounded-full">
+                        <span class="text-amber-400">★</span> 4.9
+                      </span>
                     </div>
-                    <!-- Mock Map Graphics with Street Texture -->
-                    <div class="h-44 rounded-xl asphalt-texture border border-matrix/30 p-3 relative overflow-hidden mb-3 flex flex-col justify-between">
-                      <div class="absolute inset-0 opacity-25 bg-[radial-gradient(#00FF41_1px,transparent_1px)] [background-size:12px_12px]"></div>
-                      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none"></div>
-                      <div class="relative z-10 flex justify-between items-start">
-                        <span class="font-mono text-[9px] bg-black/90 px-2 py-0.5 rounded text-gray-300 border border-neutral-700">51.5074 N, 0.1278 W</span>
-                        <span class="font-mono text-[9px] bg-matrix/20 text-matrix px-2 py-0.5 rounded border border-matrix/40">LOW BUST</span>
+
+                    <!-- Spot Header -->
+                    <div>
+                      <h4 class="text-white font-bold text-base tracking-tight leading-snug">Southbank Undercroft</h4>
+                      <p class="text-gray-400 text-xs mt-0.5">Waterloo, London • 7-Stair, Ledges &amp; Banks</p>
+                    </div>
+
+                    <!-- Approved Spot MVP Banner -->
+                    <div class="bg-[#0D0D0D] border border-matrix/25 rounded-xl p-3">
+                      <div class="flex items-center justify-between mb-2">
+                        <span class="font-mono text-[9px] text-matrix font-bold tracking-widest uppercase">SPOT MVP</span>
+                        <span class="font-mono text-[10px] text-matrix font-bold">1,420 PTS</span>
                       </div>
-                      <div class="relative z-10 space-y-1">
-                        <div class="font-mono font-bold text-xs text-white uppercase flex items-center gap-1.5">
-                          <span class="w-1.5 h-1.5 rounded-full bg-matrix animate-ping"></span>
-                          Southbank Undercroft
+                      <div class="flex items-center gap-2.5">
+                        <div class="w-7 h-7 rounded-full bg-matrix/20 border border-matrix text-matrix flex items-center justify-center font-mono text-xs font-bold">M</div>
+                        <div>
+                          <div class="text-xs font-semibold text-white leading-none">@marcus_sk8</div>
+                          <div class="text-[10px] text-gray-400 mt-0.5">Landed 14 verified tricks</div>
                         </div>
-                        <div class="font-mono text-[10px] text-gray-300">7-Stair, 2x Ledges, Bank</div>
                       </div>
                     </div>
-                    <!-- Spot Details Card -->
-                    <div class="bg-surface rounded-xl p-3 subtle-border">
-                      <div class="font-mono text-[10px] text-gray-400 uppercase mb-1">Active Skaters Now</div>
-                      <div class="flex items-center gap-2">
-                        <div class="w-6 h-6 rounded-full bg-matrix/20 border border-matrix text-matrix flex items-center justify-center font-mono text-[10px] font-bold">R</div>
-                        <span class="font-mono text-xs text-white">@rider + 4 others sessioning</span>
+
+                    <!-- Stat Cards Grid (3-Col) -->
+                    <div class="grid grid-cols-3 gap-2">
+                      <div class="bg-[#0D0D0D] border border-white/10 rounded-xl p-2.5 text-center">
+                        <span class="block text-[8px] font-mono text-gray-500 uppercase tracking-wider mb-0.5">CLIPS</span>
+                        <span class="text-white font-bold text-xs">34</span>
+                      </div>
+                      <div class="bg-[#0D0D0D] border border-white/10 rounded-xl p-2.5 text-center">
+                        <span class="block text-[8px] font-mono text-gray-500 uppercase tracking-wider mb-0.5">ACTIVE</span>
+                        <span class="text-matrix font-bold text-xs">12</span>
+                      </div>
+                      <div class="bg-[#0D0D0D] border border-white/10 rounded-xl p-2.5 text-center">
+                        <span class="block text-[8px] font-mono text-gray-500 uppercase tracking-wider mb-0.5">BUST RISK</span>
+                        <span class="text-white font-bold text-xs">Zero</span>
                       </div>
                     </div>
                   </div>
-                  <div class="w-full py-2.5 rounded-lg bg-matrix text-black font-mono font-bold text-xs text-center uppercase tracking-wider">
-                    CHECK IN AT SPOT
+
+                  <!-- Primary Action Pill -->
+                  <div class="w-full py-2.5 rounded-full bg-matrix text-black font-mono font-bold text-xs text-center uppercase tracking-wider shadow-[0_0_15px_rgba(0,255,65,0.25)]">
+                    Check In at Spot
                   </div>
                 </div>
 
-                <!-- SCREEN 2: LIVE SESSION (Hidden by default) -->
+                <!-- SCREEN 2: SPOT CLIP FEED & VERIFICATION (Stage 02 // Action) -->
                 <div id="screen-2" class="screen-view h-full flex flex-col justify-between">
-                  <div>
-                    <div class="flex items-center justify-between font-mono text-[11px] text-matrix pb-2 border-b border-matrix/20 mb-3">
-                      <span>SESSION // ACTIVE</span>
-                      <span class="text-white">01:42:15</span>
+                  <div class="space-y-3">
+                    <div class="flex items-center justify-between pb-2 border-b border-white/10">
+                      <span class="font-mono text-[10px] text-matrix font-bold tracking-widest uppercase">SPOT FEED // LIVE SESSION</span>
+                      <span class="flex items-center gap-1.5 font-mono text-[10px] text-gray-400">
+                        <span class="w-1.5 h-1.5 rounded-full bg-matrix animate-pulse"></span>
+                        SESSION ON
+                      </span>
                     </div>
-                    <div class="bg-surface rounded-xl p-3 subtle-border mb-3">
-                      <div class="font-mono text-[10px] text-gray-400 uppercase">Current Spot</div>
-                      <div class="font-mono font-bold text-xs text-white uppercase mb-1">St Paul's 4-Block</div>
-                      <span class="font-mono text-[9px] text-matrix bg-matrix/10 px-2 py-0.5 rounded">TURF REP: +45 XP</span>
-                    </div>
-                    <!-- VX1000 Fisheye Viewfinder HUD -->
-                    <div class="h-44 rounded-xl vx-barrel border border-matrix/40 p-2.5 relative overflow-hidden flex flex-col justify-between select-none">
-                      <!-- CRT Scanline Overlay -->
-                      <div class="absolute inset-0 vx-scanlines z-0"></div>
 
-                      <!-- Top HUD: Tape Status, REC Blink & Analog Timecode -->
-                      <div class="relative z-10 flex justify-between items-center font-mono text-[9px]">
-                        <div class="flex items-center gap-1.5 bg-black/70 backdrop-blur-xs px-1.5 py-0.5 rounded border border-neutral-800">
-                          <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse inline-block"></span>
-                          <span class="text-red-400 font-bold uppercase tracking-wider">REC [●]</span>
-                          <span class="text-gray-400">SP</span>
+                    <!-- Feed Clip Card -->
+                    <div class="bg-[#0D0D0D] border border-matrix/25 rounded-xl p-3">
+                      <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                          <div class="w-6 h-6 rounded-full bg-matrix/20 border border-matrix text-matrix flex items-center justify-center font-mono text-[10px] font-bold">M</div>
+                          <span class="text-xs font-semibold text-white">@marcus_sk8</span>
                         </div>
-                        <div class="bg-black/70 backdrop-blur-xs px-1.5 py-0.5 rounded border border-neutral-800 text-matrix flex items-center gap-1">
-                          <span>TC 00:08:24</span>
-                          <span class="text-gray-400">▮▮▯</span>
-                        </div>
+                        <span class="font-mono text-[10px] text-gray-500">2h ago</span>
                       </div>
 
-                      <!-- Center HUD: Fisheye Indicator -->
-                      <div class="relative z-10 my-auto text-center pointer-events-none">
-                        <div class="inline-block px-2 py-0.5 bg-black/60 backdrop-blur-xs rounded border border-matrix/30 font-mono text-[9px] text-matrix tracking-widest uppercase">
-                          MK1 FISHEYE // 4:3
+                      <div class="text-white font-bold text-xs mb-0.5">Switch Backside Heel</div>
+                      <div class="text-[10px] text-gray-400 mb-2 font-mono">Southbank 7-Stair</div>
+
+                      <!-- Clean Video Preview Container -->
+                      <div class="h-28 bg-[#161616] rounded-lg border border-neutral-800 relative flex items-center justify-center overflow-hidden">
+                        <div class="w-9 h-9 rounded-full bg-black/80 border border-matrix/50 text-matrix flex items-center justify-center text-xs pl-0.5 shadow-lg">
+                          ▶
                         </div>
+                        <span class="absolute bottom-2 right-2 bg-black/80 text-gray-300 font-mono text-[9px] px-1.5 py-0.5 rounded border border-neutral-800">0:08</span>
+                        <span class="absolute top-2 left-2 bg-black/80 text-matrix font-mono text-[9px] px-1.5 py-0.5 rounded border border-matrix/30">VERIFIED MAKE</span>
                       </div>
 
-                      <!-- Bottom HUD: Trick Info & Peak Meters -->
-                      <div class="relative z-10 flex justify-between items-end bg-black/85 backdrop-blur-xs p-2 rounded-lg border border-neutral-800">
-                        <div>
-                          <div class="font-mono text-xs font-bold text-white uppercase tracking-tight">Fs_Crook_Clean.mp4</div>
-                          <div class="font-mono text-[9px] text-matrix flex items-center gap-1">
-                            <span>RAW MAKE COMMITTED</span>
-                            <span class="text-gray-400">// SOUTHBANK</span>
-                          </div>
-                        </div>
-                        <!-- Micro Audio VU Meter -->
-                        <div class="flex flex-col gap-0.5 w-8">
-                          <div class="flex gap-0.5 h-1">
-                            <div class="w-1 bg-matrix rounded-xs"></div>
-                            <div class="w-1 bg-matrix rounded-xs"></div>
-                            <div class="w-1 bg-matrix rounded-xs"></div>
-                            <div class="w-1 bg-amber-400 rounded-xs"></div>
-                            <div class="w-1 bg-red-500/30 rounded-xs"></div>
-                          </div>
-                          <div class="flex gap-0.5 h-1">
-                            <div class="w-1 bg-matrix rounded-xs"></div>
-                            <div class="w-1 bg-matrix rounded-xs"></div>
-                            <div class="w-1 bg-matrix rounded-xs"></div>
-                            <div class="w-1 bg-amber-400/40 rounded-xs"></div>
-                            <div class="w-1 bg-red-500/20 rounded-xs"></div>
-                          </div>
-                        </div>
+                      <!-- Social Proof Bar -->
+                      <div class="flex items-center justify-between text-xs pt-2 border-t border-neutral-800 font-mono">
+                        <span class="text-matrix font-bold">▲ 48 Verified</span>
+                        <span class="text-gray-500">12 Comments</span>
                       </div>
                     </div>
                   </div>
-                  <div class="w-full py-2.5 rounded-lg bg-matrix text-black font-mono font-bold text-xs text-center uppercase tracking-wider">
-                    UPLOAD RAW MAKE
+
+                  <!-- Swipe Up Signature Gesture Hint -->
+                  <div class="w-full py-2.5 rounded-full border border-neutral-800 bg-[#0D0D0D] text-gray-300 font-mono text-xs text-center flex items-center justify-center gap-1.5">
+                    <span class="text-matrix font-bold">⌃⌃</span> Swipe Up to Verify Clip
                   </div>
                 </div>
 
-                <!-- SCREEN 3: VERSUS S.K.A.T.E. (Hidden by default) -->
+                <!-- SCREEN 3: GAME OF S.K.A.T.E. (Stage 03 // Competition) -->
                 <div id="screen-3" class="screen-view h-full flex flex-col justify-between">
-                  <div>
-                    <div class="flex items-center justify-between font-mono text-[11px] text-matrix pb-2 border-b border-matrix/20 mb-3">
-                      <span>VERSUS // S.K.A.T.E.</span>
-                      <span class="text-amber-400 font-bold">POT: 500 PTS</span>
+                  <div class="space-y-3">
+                    <div class="flex items-center justify-between pb-2 border-b border-white/10">
+                      <span class="font-mono text-[10px] text-matrix font-bold tracking-widest uppercase">VERSUS // S.K.A.T.E.</span>
+                      <span class="font-mono text-[10px] text-amber-400 font-bold">ROUND 3 OF 5</span>
                     </div>
-                    <!-- Letters Scoreboard -->
-                    <div class="bg-surface rounded-xl p-3 subtle-border mb-3 text-center">
-                      <div class="flex justify-between items-center px-4 font-mono font-black text-xl mb-1">
-                        <span class="text-white">@RIDER</span>
-                        <span class="text-matrix">VS</span>
-                        <span class="text-red-400">@JAX</span>
-                      </div>
-                      <div class="flex justify-between items-center px-4 font-mono text-xs">
-                        <span class="text-matrix font-bold tracking-widest">S - K</span>
-                        <span class="text-red-500 font-bold tracking-widest">S - K - A - T</span>
-                      </div>
-                    </div>
-                    <!-- Quick-Fire Timer & Trick -->
-                    <div class="h-40 rounded-xl bg-surface subtle-border p-3 flex flex-col justify-between">
-                      <div class="font-mono text-[10px] text-gray-400">SET TRICK BY SETTER</div>
-                      <div class="font-mono text-center">
-                        <div class="text-xs text-matrix uppercase">CHALLENGE REQUIRED</div>
-                        <div class="font-bold text-white text-sm uppercase">Switch Heel 360</div>
-                      </div>
-                      <div class="flex justify-between items-center font-mono text-[10px] text-gray-400 pt-2 border-t border-neutral-800">
-                        <span>CLOCK: 03:14</span>
-                        <span class="text-matrix">SEALED VOTE</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="w-full py-2.5 rounded-lg bg-matrix text-black font-mono font-bold text-xs text-center uppercase tracking-wider">
-                    SUBMIT ATTEMPT CLIP
-                  </div>
-                </div>
 
-                <!-- SCREEN 4: TRICK ARCHIVE (Hidden by default) -->
-                <div id="screen-4" class="screen-view h-full flex flex-col justify-between">
-                  <div>
-                    <div class="flex items-center justify-between font-mono text-[11px] text-matrix pb-2 border-b border-matrix/20 mb-3">
-                      <span>ARCHIVE // SPOT TRICK ARCHIVE</span>
-                      <span class="text-amber-400">NBD SEAL</span>
-                    </div>
-                    <!-- Archive Card with Concrete Texture -->
-                    <div class="concrete-grain rounded-xl p-4 matrix-border-glow mb-3 relative overflow-hidden">
-                      <div class="absolute inset-0 bg-gradient-to-br from-matrix/5 via-transparent to-black/60 pointer-events-none"></div>
-                      <div class="relative z-10 flex justify-between items-start mb-2">
-                        <span class="font-mono text-[9px] bg-amber-400/20 text-amber-300 border border-amber-400/40 px-2 py-0.5 rounded font-bold uppercase tracking-wider flex items-center gap-1">
-                          <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                          FIRST LANDED (NBD)
-                        </span>
-                        <span class="font-mono text-[9px] text-gray-400">2026-10-24</span>
+                    <!-- Clean Matchup Board -->
+                    <div class="bg-[#0D0D0D] border border-matrix/25 rounded-xl p-3">
+                      <div class="flex justify-between items-center text-xs font-semibold text-white mb-2">
+                        <div class="flex items-center gap-1.5">
+                          <div class="w-5 h-5 rounded-full bg-matrix/20 border border-matrix text-matrix flex items-center justify-center font-mono text-[9px]">M</div>
+                          <span>@marcus</span>
+                        </div>
+                        <span class="font-mono text-[10px] text-gray-500 font-bold">VS</span>
+                        <div class="flex items-center gap-1.5">
+                          <span>@jax</span>
+                          <div class="w-5 h-5 rounded-full bg-red-500/20 border border-red-500 text-red-400 flex items-center justify-center font-mono text-[9px]">J</div>
+                        </div>
                       </div>
-                      <div class="relative z-10 font-mono font-bold text-sm text-white uppercase mb-1">Kickflip Backside Tailslide</div>
-                      <div class="relative z-10 font-mono text-xs text-gray-400 mb-3">Southbank 7-Stair Hubba</div>
-                      
-                      <div class="relative z-10 flex items-center gap-2 pt-2 border-t border-neutral-800">
-                        <div class="w-7 h-7 rounded-full bg-matrix/20 border border-matrix text-matrix flex items-center justify-center font-mono text-xs font-bold">R</div>
-                        <div>
-                          <div class="font-mono text-xs text-white font-bold">@rider</div>
-                          <div class="font-mono text-[9px] text-matrix">IMMORTALIZED IN SPOT LORE</div>
+
+                      <!-- Letter Tracker Boxes -->
+                      <div class="flex justify-between items-center pt-2 border-t border-neutral-800">
+                        <div class="flex gap-1 font-mono text-[10px]">
+                          <span class="w-5 h-5 rounded border border-matrix text-matrix flex items-center justify-center font-bold">S</span>
+                          <span class="w-5 h-5 rounded border border-matrix text-matrix flex items-center justify-center font-bold">K</span>
+                          <span class="w-5 h-5 rounded border border-neutral-800 text-neutral-600 flex items-center justify-center">-</span>
+                          <span class="w-5 h-5 rounded border border-neutral-800 text-neutral-600 flex items-center justify-center">-</span>
+                          <span class="w-5 h-5 rounded border border-neutral-800 text-neutral-600 flex items-center justify-center">-</span>
+                        </div>
+                        <div class="flex gap-1 font-mono text-[10px]">
+                          <span class="w-5 h-5 rounded border border-red-500 text-red-400 flex items-center justify-center font-bold">S</span>
+                          <span class="w-5 h-5 rounded border border-red-500 text-red-400 flex items-center justify-center font-bold">K</span>
+                          <span class="w-5 h-5 rounded border border-red-500 text-red-400 flex items-center justify-center font-bold">A</span>
+                          <span class="w-5 h-5 rounded border border-red-500 text-red-400 flex items-center justify-center font-bold">T</span>
+                          <span class="w-5 h-5 rounded border border-neutral-800 text-neutral-600 flex items-center justify-center">-</span>
                         </div>
                       </div>
                     </div>
-                    <div class="bg-surface rounded-xl p-3 subtle-border text-center font-mono text-[10px] text-gray-400">
-                      Verified by the community
+
+                    <!-- Trick on Call Card -->
+                    <div class="bg-[#0D0D0D] border border-white/10 rounded-xl p-3 text-center">
+                      <div class="font-mono text-[9px] text-gray-400 uppercase tracking-widest mb-1">TRICK ON CALL</div>
+                      <div class="text-white font-bold text-sm">Switch Backside 360 Flip</div>
+                      <div class="mt-2.5 pt-2 border-t border-neutral-800 flex justify-between items-center font-mono text-[10px]">
+                        <span class="text-matrix font-bold">⏱ 02:45 remaining</span>
+                        <span class="text-gray-500">Sealed Vote</span>
+                      </div>
                     </div>
                   </div>
-                  <div class="w-full py-2.5 rounded-lg bg-matrix text-black font-mono font-bold text-xs text-center uppercase tracking-wider">
-                    BROWSE SPOT ARCHIVES
+
+                  <!-- Primary Action Pill -->
+                  <div class="w-full py-2.5 rounded-full bg-matrix text-black font-mono font-bold text-xs text-center uppercase tracking-wider shadow-[0_0_15px_rgba(0,255,65,0.25)]">
+                    Submit Match Attempt
+                  </div>
+                </div>
+
+                <!-- SCREEN 4: SPOT TRICK ARCHIVE (Stage 04 // Legacy) -->
+                <div id="screen-4" class="screen-view h-full flex flex-col justify-between">
+                  <div class="space-y-2.5">
+                    <div class="flex items-center justify-between pb-2 border-b border-white/10">
+                      <span class="font-mono text-[10px] text-matrix font-bold tracking-widest uppercase">TRICK ARCHIVE // SOUTHBANK</span>
+                      <span class="font-mono text-[10px] text-gray-400">86 MAKED</span>
+                    </div>
+
+                    <!-- Row 1: Gold First Landed (NBD) -->
+                    <div class="bg-[#0D0D0D] border border-[#FFD700]/30 rounded-xl p-2.5">
+                      <div class="flex justify-between items-center mb-1">
+                        <span class="font-mono text-[8px] font-bold text-amber-300 bg-amber-400/10 border border-amber-400/30 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                          ★ FIRST LANDED (NBD)
+                        </span>
+                        <span class="font-mono text-[9px] text-gray-500">24 Oct</span>
+                      </div>
+                      <div class="text-white font-bold text-xs">Switch Bs Tailslide 270 Out</div>
+                      <div class="flex items-center justify-between mt-1 text-[10px] text-gray-400 font-mono">
+                        <span>@marcus_sk8</span>
+                        <span class="text-matrix">28 Verified</span>
+                      </div>
+                    </div>
+
+                    <!-- Row 2: Best Line -->
+                    <div class="bg-[#0D0D0D] border border-white/10 rounded-xl p-2.5">
+                      <div class="flex justify-between items-center mb-1">
+                        <span class="font-mono text-[8px] font-bold text-matrix bg-matrix/10 border border-matrix/30 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                          BEST LINE RECORD
+                        </span>
+                        <span class="font-mono text-[9px] text-gray-500">18 Oct</span>
+                      </div>
+                      <div class="text-white font-bold text-xs">Kickflip bs Boardslide to Fakie</div>
+                      <div class="flex items-center justify-between mt-1 text-[10px] text-gray-400 font-mono">
+                        <span>@tommy_h</span>
+                        <span class="text-gray-500">19 Verified</span>
+                      </div>
+                    </div>
+
+                    <!-- Row 3: Recent Landed -->
+                    <div class="bg-[#0D0D0D] border border-white/10 rounded-xl p-2.5">
+                      <div class="flex justify-between items-center mb-1">
+                        <span class="font-mono text-[8px] font-bold text-gray-300 bg-neutral-800 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                          RECENT MAKE
+                        </span>
+                        <span class="font-mono text-[9px] text-gray-500">Today</span>
+                      </div>
+                      <div class="text-white font-bold text-xs">Hardflip Backside Lipslide</div>
+                      <div class="flex items-center justify-between mt-1 text-[10px] text-gray-400 font-mono">
+                        <span>@sammy_d</span>
+                        <span class="text-matrix">Just Landed</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Primary Action Pill -->
+                  <div class="w-full py-2.5 rounded-full bg-matrix text-black font-mono font-bold text-xs text-center uppercase tracking-wider shadow-[0_0_15px_rgba(0,255,65,0.25)]">
+                    Browse All Records
                   </div>
                 </div>
 
