@@ -46,6 +46,27 @@
     .card-hover:hover { border-color: rgba(0, 255, 65, 0.4); transform: translateY(-2px); transition: all 0.2s ease; }
     .phone-shadow { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 255, 65, 0.1); }
     .tab-active { background-color: rgba(0, 255, 65, 0.15); border-color: #00FF41; color: #00FF41; }
+    
+    /* VX1000 Fisheye Viewfinder & Street Skate Textures */
+    .vx-barrel {
+      background: radial-gradient(circle at center, rgba(16, 28, 18, 0.25) 0%, rgba(5, 10, 5, 0.7) 65%, rgba(0, 0, 0, 0.96) 95%);
+      box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.95);
+    }
+    .vx-scanlines {
+      background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0px, rgba(0, 0, 0, 0.4) 1px, transparent 1px, transparent 2px);
+      pointer-events: none;
+    }
+    .asphalt-texture {
+      background-color: #0a0a0a;
+      background-image: radial-gradient(rgba(0, 255, 65, 0.08) 1px, transparent 1px), radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 8px 8px;
+      background-position: 0 0, 4px 4px;
+    }
+    .concrete-grain {
+      background-color: #111111;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
+      background-size: 4px 4px;
+    }
   </style>
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col font-sans">
@@ -216,6 +237,22 @@
             </ul>
           </div>
         </div>
+
+        <!-- The Institutional Standard / Manifesto Banner -->
+        <div class="mt-8 bg-surface rounded-xl p-6 subtle-border flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <div class="font-mono text-xs text-matrix uppercase tracking-widest mb-1">THE INSTITUTIONAL STANDARD</div>
+            <div class="text-white font-mono font-bold text-base uppercase">Professionalising the street. Proof over clout.</div>
+            <p class="text-xs text-gray-400 mt-1 max-w-2xl font-sans leading-relaxed">
+              No handouts, no subjective gatekeeping. If you put in the graft, land heavy clips, and climb the battle rankings, you access legitimate commercial liquidity. We provide the infrastructure; the streets provide the standard.
+            </p>
+          </div>
+          <div class="shrink-0">
+            <span class="inline-block font-mono text-xs text-matrix px-3 py-1.5 rounded bg-matrix/10 border border-matrix/30 uppercase tracking-wider">
+              MERITOCRACY FIRST
+            </span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -307,16 +344,20 @@
                       <span>RADAR // LONDON</span>
                       <span class="animate-pulse">LIVE (14 SPOTS)</span>
                     </div>
-                    <!-- Mock Map Graphics -->
-                    <div class="h-44 rounded-xl bg-surface subtle-border p-3 relative overflow-hidden mb-3 flex flex-col justify-between">
-                      <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#00FF41_1px,transparent_1px)] [background-size:12px_12px]"></div>
+                    <!-- Mock Map Graphics with Street Texture -->
+                    <div class="h-44 rounded-xl asphalt-texture border border-matrix/30 p-3 relative overflow-hidden mb-3 flex flex-col justify-between">
+                      <div class="absolute inset-0 opacity-25 bg-[radial-gradient(#00FF41_1px,transparent_1px)] [background-size:12px_12px]"></div>
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none"></div>
                       <div class="relative z-10 flex justify-between items-start">
-                        <span class="font-mono text-[9px] bg-black/80 px-2 py-0.5 rounded text-gray-300 border border-neutral-700">51.5074 N, 0.1278 W</span>
+                        <span class="font-mono text-[9px] bg-black/90 px-2 py-0.5 rounded text-gray-300 border border-neutral-700">51.5074 N, 0.1278 W</span>
                         <span class="font-mono text-[9px] bg-matrix/20 text-matrix px-2 py-0.5 rounded border border-matrix/40">LOW BUST</span>
                       </div>
                       <div class="relative z-10 space-y-1">
-                        <div class="font-mono font-bold text-xs text-white uppercase">Southbank Undercroft</div>
-                        <div class="font-mono text-[10px] text-gray-400">7-Stair, 2x Ledges, Bank</div>
+                        <div class="font-mono font-bold text-xs text-white uppercase flex items-center gap-1.5">
+                          <span class="w-1.5 h-1.5 rounded-full bg-matrix animate-ping"></span>
+                          Southbank Undercroft
+                        </div>
+                        <div class="font-mono text-[10px] text-gray-300">7-Stair, 2x Ledges, Bank</div>
                       </div>
                     </div>
                     <!-- Spot Details Card -->
@@ -345,16 +386,57 @@
                       <div class="font-mono font-bold text-xs text-white uppercase mb-1">St Paul's 4-Block</div>
                       <span class="font-mono text-[9px] text-matrix bg-matrix/10 px-2 py-0.5 rounded">TURF REP: +45 XP</span>
                     </div>
-                    <!-- Clip Upload Preview -->
-                    <div class="h-44 rounded-xl bg-neutral-900 border border-matrix/40 p-3 relative overflow-hidden flex flex-col justify-between">
-                      <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                      <div class="relative z-10 flex justify-between">
-                        <span class="font-mono text-[9px] bg-red-600 text-white px-2 py-0.5 rounded uppercase font-bold">REC CLIP</span>
-                        <span class="font-mono text-[9px] text-gray-300">00:08</span>
+                    <!-- VX1000 Fisheye Viewfinder HUD -->
+                    <div class="h-44 rounded-xl vx-barrel border border-matrix/40 p-2.5 relative overflow-hidden flex flex-col justify-between select-none">
+                      <!-- CRT Scanline Overlay -->
+                      <div class="absolute inset-0 vx-scanlines z-0"></div>
+
+                      <!-- Top HUD: Tape Status, REC Blink & Analog Timecode -->
+                      <div class="relative z-10 flex justify-between items-center font-mono text-[9px]">
+                        <div class="flex items-center gap-1.5 bg-black/70 backdrop-blur-xs px-1.5 py-0.5 rounded border border-neutral-800">
+                          <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse inline-block"></span>
+                          <span class="text-red-400 font-bold uppercase tracking-wider">REC [●]</span>
+                          <span class="text-gray-400">SP</span>
+                        </div>
+                        <div class="bg-black/70 backdrop-blur-xs px-1.5 py-0.5 rounded border border-neutral-800 text-matrix flex items-center gap-1">
+                          <span>TC 00:08:24</span>
+                          <span class="text-gray-400">▮▮▯</span>
+                        </div>
                       </div>
-                      <div class="relative z-10">
-                        <div class="font-mono text-xs font-bold text-white">Fs_Crook_Clean.mp4</div>
-                        <div class="font-mono text-[10px] text-matrix">Pinned to Spot Feed</div>
+
+                      <!-- Center HUD: Fisheye Indicator -->
+                      <div class="relative z-10 my-auto text-center pointer-events-none">
+                        <div class="inline-block px-2 py-0.5 bg-black/60 backdrop-blur-xs rounded border border-matrix/30 font-mono text-[9px] text-matrix tracking-widest uppercase">
+                          MK1 FISHEYE // 4:3
+                        </div>
+                      </div>
+
+                      <!-- Bottom HUD: Trick Info & Peak Meters -->
+                      <div class="relative z-10 flex justify-between items-end bg-black/85 backdrop-blur-xs p-2 rounded-lg border border-neutral-800">
+                        <div>
+                          <div class="font-mono text-xs font-bold text-white uppercase tracking-tight">Fs_Crook_Clean.mp4</div>
+                          <div class="font-mono text-[9px] text-matrix flex items-center gap-1">
+                            <span>RAW MAKE COMMITTED</span>
+                            <span class="text-gray-400">// SOUTHBANK</span>
+                          </div>
+                        </div>
+                        <!-- Micro Audio VU Meter -->
+                        <div class="flex flex-col gap-0.5 w-8">
+                          <div class="flex gap-0.5 h-1">
+                            <div class="w-1 bg-matrix rounded-xs"></div>
+                            <div class="w-1 bg-matrix rounded-xs"></div>
+                            <div class="w-1 bg-matrix rounded-xs"></div>
+                            <div class="w-1 bg-amber-400 rounded-xs"></div>
+                            <div class="w-1 bg-red-500/30 rounded-xs"></div>
+                          </div>
+                          <div class="flex gap-0.5 h-1">
+                            <div class="w-1 bg-matrix rounded-xs"></div>
+                            <div class="w-1 bg-matrix rounded-xs"></div>
+                            <div class="w-1 bg-matrix rounded-xs"></div>
+                            <div class="w-1 bg-amber-400/40 rounded-xs"></div>
+                            <div class="w-1 bg-red-500/20 rounded-xs"></div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -407,18 +489,20 @@
                       <span>ARCHIVE // HALL OF FAME</span>
                       <span class="text-amber-400">NBD SEAL</span>
                     </div>
-                    <!-- Archive Card -->
-                    <div class="bg-surface rounded-xl p-4 matrix-border-glow mb-3">
-                      <div class="flex justify-between items-start mb-2">
-                        <span class="font-mono text-[9px] bg-amber-400/20 text-amber-300 border border-amber-400/40 px-2 py-0.5 rounded font-bold uppercase">
+                    <!-- Archive Card with Concrete Texture -->
+                    <div class="concrete-grain rounded-xl p-4 matrix-border-glow mb-3 relative overflow-hidden">
+                      <div class="absolute inset-0 bg-gradient-to-br from-matrix/5 via-transparent to-black/60 pointer-events-none"></div>
+                      <div class="relative z-10 flex justify-between items-start mb-2">
+                        <span class="font-mono text-[9px] bg-amber-400/20 text-amber-300 border border-amber-400/40 px-2 py-0.5 rounded font-bold uppercase tracking-wider flex items-center gap-1">
+                          <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                           FIRST LANDED (NBD)
                         </span>
                         <span class="font-mono text-[9px] text-gray-400">2026-10-24</span>
                       </div>
-                      <div class="font-mono font-bold text-sm text-white uppercase mb-1">Kickflip Backside Tailslide</div>
-                      <div class="font-mono text-xs text-gray-400 mb-3">Southbank 7-Stair Hubba</div>
+                      <div class="relative z-10 font-mono font-bold text-sm text-white uppercase mb-1">Kickflip Backside Tailslide</div>
+                      <div class="relative z-10 font-mono text-xs text-gray-400 mb-3">Southbank 7-Stair Hubba</div>
                       
-                      <div class="flex items-center gap-2 pt-2 border-t border-neutral-800">
+                      <div class="relative z-10 flex items-center gap-2 pt-2 border-t border-neutral-800">
                         <div class="w-7 h-7 rounded-full bg-matrix/20 border border-matrix text-matrix flex items-center justify-center font-mono text-xs font-bold">R</div>
                         <div>
                           <div class="font-mono text-xs text-white font-bold">@rider</div>
