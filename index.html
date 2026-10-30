@@ -136,56 +136,56 @@
     <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none"><div class="hero-floor"></div></div>
 
     <!-- Badge -->
-    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-matrix/40 bg-matrix/10 mb-4 sm:mb-6 font-mono text-[10px] sm:text-xs text-matrix tracking-widest uppercase relative z-10">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-matrix/40 bg-matrix/10 mb-3 sm:mb-4 font-mono text-[10px] sm:text-xs text-matrix tracking-widest uppercase relative z-10">
       <span class="w-1.5 h-1.5 rounded-full bg-matrix animate-pulse"></span>
       <span>Closed Beta: Live</span>
     </div>
 
     <!-- Headline -->
-    <h1 class="font-mono font-extrabold text-3xl sm:text-5xl md:text-6xl tracking-tight text-white mb-4 sm:mb-6 min-h-[72px] sm:min-h-[110px] leading-tight flex flex-col justify-center relative z-10">
+    <h1 class="font-mono font-extrabold text-3xl sm:text-5xl md:text-6xl tracking-tight text-white mb-4 sm:mb-5 min-h-[72px] sm:min-h-[110px] leading-tight flex flex-col justify-center relative z-10">
       <span id="hero-line1"></span>
       <span id="hero-line2"></span>
     </h1>
-    
-    <!-- Description -->
-    <p class="max-w-md sm:max-w-xl text-xs sm:text-sm text-gray-400 font-sans mb-6 sm:mb-8 leading-relaxed relative z-10">
-      Pushinn brings street riders together around Game of S.K.A.T.E. battles, a live spot map, and the Skaters' Union. Built so your progression is on record and gets recognised.
-    </p>
-    
-    <!-- Action Buttons -->
-    <div class="flex flex-col sm:flex-row justify-center gap-3 w-full sm:w-auto max-w-xs sm:max-w-none relative z-10">
-      <a href="/login" class="px-6 py-2.5 sm:px-8 sm:py-3 rounded bg-matrix text-black font-mono font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-white hover:text-black transition-all shadow-[0_0_20px_rgba(0,255,65,0.35)] text-center">
-        Join Closed Beta
-      </a>
-      <a href="/building" class="px-6 py-2.5 sm:px-8 sm:py-3 rounded border border-white/20 text-white hover:border-matrix hover:text-matrix font-mono font-bold text-xs sm:text-sm uppercase tracking-wider transition-all text-center">
-        What We're Building
-      </a>
-    </div>
 
-    <!-- Telemetry Cluster -->
-    <div class="w-full max-w-sm sm:max-w-lg mt-6 sm:mt-8 pt-4 pb-2 border-t border-matrix/20 relative z-10">
+    <!-- Central Cockpit Telemetry Strip -->
+    <div class="w-full max-w-sm sm:max-w-md mx-auto mb-5 sm:mb-6 p-2.5 sm:p-3.5 rounded-xl border border-matrix/30 bg-black/60 backdrop-blur-md shadow-[0_0_25px_rgba(0,255,65,0.08)] relative z-10">
       <div class="grid grid-cols-5 text-center gap-1 sm:gap-2 font-mono uppercase">
         <div>
-          <span class="text-gray-500 text-[8px] sm:text-[10px] block tracking-wider">SYS</span>
-          <span class="text-matrix font-bold text-[11px] sm:text-xs" id="stat-status">ONLINE</span>
+          <span class="text-gray-500 text-[8px] sm:text-[9px] block tracking-wider mb-0.5">SYS</span>
+          <span class="text-matrix font-bold text-[11px] sm:text-xs tracking-tight" id="stat-status">ONLINE</span>
         </div>
-        <div>
-          <span class="text-gray-500 text-[8px] sm:text-[10px] block tracking-wider">CLIPS</span>
+        <div class="border-l border-neutral-800">
+          <span class="text-gray-500 text-[8px] sm:text-[9px] block tracking-wider mb-0.5">CLIPS</span>
           <span class="text-white font-bold text-[11px] sm:text-xs" id="stat-clips">--</span>
         </div>
-        <div>
-          <span class="text-gray-500 text-[8px] sm:text-[10px] block tracking-wider">SPOTS</span>
+        <div class="border-l border-neutral-800">
+          <span class="text-gray-500 text-[8px] sm:text-[9px] block tracking-wider mb-0.5">SPOTS</span>
           <span class="text-white font-bold text-[11px] sm:text-xs" id="stat-spots">---</span>
         </div>
-        <div>
-          <span class="text-gray-500 text-[8px] sm:text-[10px] block tracking-wider">USERS</span>
+        <div class="border-l border-neutral-800">
+          <span class="text-gray-500 text-[8px] sm:text-[9px] block tracking-wider mb-0.5">USERS</span>
           <span class="text-white font-bold text-[11px] sm:text-xs" id="stat-users">---</span>
         </div>
-        <div>
-          <span class="text-gray-500 text-[8px] sm:text-[10px] block tracking-wider">BATTLES</span>
+        <div class="border-l border-neutral-800">
+          <span class="text-gray-500 text-[8px] sm:text-[9px] block tracking-wider mb-0.5">BATTLES</span>
           <span class="text-white font-bold text-[11px] sm:text-xs" id="stat-battles">--</span>
         </div>
       </div>
+    </div>
+    
+    <!-- Description -->
+    <p class="max-w-md sm:max-w-lg text-xs sm:text-sm text-gray-400 font-sans mb-5 sm:mb-6 leading-relaxed relative z-10 px-2">
+      Pushinn brings street riders together around Game of S.K.A.T.E. battles, a live spot map, and the Skaters' Union. Built so your progression is on record and gets recognised.
+    </p>
+    
+    <!-- Action Pills (Side-by-Side, Fitted) -->
+    <div class="flex flex-row justify-center items-center gap-2.5 sm:gap-4 relative z-10">
+      <a href="/login" class="px-5 py-2 sm:px-6 sm:py-2.5 rounded-full bg-matrix text-black font-mono font-bold text-xs uppercase tracking-wider hover:bg-white hover:text-black transition-all shadow-[0_0_18px_rgba(0,255,65,0.35)] text-center whitespace-nowrap">
+        Join Closed Beta
+      </a>
+      <a href="/building" class="px-5 py-2 sm:px-6 sm:py-2.5 rounded-full border border-white/20 text-white hover:border-matrix hover:text-matrix font-mono font-bold text-xs uppercase tracking-wider transition-all text-center whitespace-nowrap">
+        What We're Building
+      </a>
     </div>
   </main>
 
