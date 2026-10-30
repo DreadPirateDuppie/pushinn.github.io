@@ -148,27 +148,29 @@
     </h1>
 
     <!-- Central Cockpit Telemetry Strip -->
-    <div class="w-full max-w-sm sm:max-w-md mx-auto mb-5 sm:mb-6 p-2.5 sm:p-3.5 rounded-xl border border-matrix/30 bg-black/60 backdrop-blur-md shadow-[0_0_25px_rgba(0,255,65,0.08)] relative z-10">
-      <div class="grid grid-cols-5 text-center gap-1 sm:gap-2 font-mono uppercase">
+    <div class="w-full max-w-sm sm:max-w-md mx-auto mt-2 mb-6 p-3 sm:p-3.5 rounded-xl border border-matrix/30 bg-black/60 backdrop-blur-md shadow-[0_0_25px_rgba(0,255,65,0.08)] relative z-10">
+      <!-- Floating Status Pill Straddling Top Border -->
+      <div class="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-matrix/50 bg-black text-[9px] font-mono tracking-widest uppercase shadow-[0_0_12px_rgba(0,255,65,0.25)]">
+        <span class="w-1.5 h-1.5 rounded-full bg-matrix animate-pulse"></span>
+        <span class="text-matrix font-bold" id="stat-status">ONLINE</span>
+      </div>
+
+      <div class="grid grid-cols-4 text-center gap-1 sm:gap-2 font-mono uppercase">
         <div>
-          <span class="text-gray-500 text-[8px] sm:text-[9px] block tracking-wider mb-0.5">SYS</span>
-          <span class="text-matrix font-bold text-[11px] sm:text-xs tracking-tight" id="stat-status">ONLINE</span>
-        </div>
-        <div class="border-l border-neutral-800">
           <span class="text-gray-500 text-[8px] sm:text-[9px] block tracking-wider mb-0.5">CLIPS</span>
-          <span class="text-white font-bold text-[11px] sm:text-xs" id="stat-clips">--</span>
+          <span class="text-white font-bold text-xs sm:text-sm tracking-tight" id="stat-clips">--</span>
         </div>
         <div class="border-l border-neutral-800">
           <span class="text-gray-500 text-[8px] sm:text-[9px] block tracking-wider mb-0.5">SPOTS</span>
-          <span class="text-white font-bold text-[11px] sm:text-xs" id="stat-spots">---</span>
+          <span class="text-white font-bold text-xs sm:text-sm tracking-tight" id="stat-spots">---</span>
         </div>
         <div class="border-l border-neutral-800">
           <span class="text-gray-500 text-[8px] sm:text-[9px] block tracking-wider mb-0.5">USERS</span>
-          <span class="text-white font-bold text-[11px] sm:text-xs" id="stat-users">---</span>
+          <span class="text-white font-bold text-xs sm:text-sm tracking-tight" id="stat-users">---</span>
         </div>
         <div class="border-l border-neutral-800">
           <span class="text-gray-500 text-[8px] sm:text-[9px] block tracking-wider mb-0.5">BATTLES</span>
-          <span class="text-white font-bold text-[11px] sm:text-xs" id="stat-battles">--</span>
+          <span class="text-white font-bold text-xs sm:text-sm tracking-tight" id="stat-battles">--</span>
         </div>
       </div>
     </div>
