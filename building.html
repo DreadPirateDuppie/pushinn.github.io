@@ -71,10 +71,10 @@
     /* ---- scroll motion layer ---- */
     #scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, #00CC33, #00FF41); box-shadow: 0 0 12px rgba(0,255,65,.7); z-index: 60; }
     .hero-floor { position: absolute; left: -50%; right: -50%; bottom: -10%; height: 70%; transform: perspective(500px) rotateX(62deg); transform-origin: 50% 100%;
-      background-image: linear-gradient(rgba(0,255,65,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,65,.35) 1px, transparent 1px);
+      background-image: linear-gradient(rgba(0,255,65,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,65,.5) 1px, transparent 1px);
       background-size: 56px 56px; animation: floor 2.4s linear infinite; mask-image: linear-gradient(to top, #000 10%, transparent 85%); -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 85%); }
     @keyframes floor { to { background-position: 0 56px; } }
-    .hero-word { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; }
+    .hero-word { display: inline-block; overflow: hidden; filter: drop-shadow(0 0 28px rgba(0,255,65,.35)); vertical-align: top; padding-bottom: .08em; }
     .hero-word > span { display: inline-block; transform: translateY(110%); animation: rise .9s cubic-bezier(.2,.8,.2,1) forwards; }
     @keyframes rise { to { transform: none; } }
     .scroll-cue { animation: cue 1.6s ease-in-out infinite; }
@@ -88,7 +88,7 @@
     .w > span { display: inline-block; transform: translateY(110%); transition: transform .8s cubic-bezier(.2,.8,.2,1); transition-delay: var(--d, 0ms); }
     h2.in .w > span { transform: none; }
 
-    .screen-view { position: absolute; inset: 1rem; opacity: 0; transform: translateY(26px) scale(.96); filter: blur(4px); transition: opacity .55s ease, transform .55s cubic-bezier(.2,.8,.2,1), filter .55s ease; pointer-events: none; }
+    .screen-view { position: absolute; inset: .75rem 1rem 1.5rem; opacity: 0; transform: translateY(26px) scale(.96); filter: blur(4px); transition: opacity .55s ease, transform .55s cubic-bezier(.2,.8,.2,1), filter .55s ease; pointer-events: none; }
     .screen-view.is-on { opacity: 1; transform: none; filter: none; pointer-events: auto; }
     @media (min-width: 1024px) {
       .stage-steps button { opacity: .35; transition: opacity .5s ease, transform .5s ease, border-color .3s; }
@@ -208,7 +208,7 @@
         
         <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight text-white uppercase font-mono mb-6 leading-[0.95]">
           <span class="hero-word"><span>WHAT</span></span> <span class="hero-word"><span style="animation-delay:.12s">WE'RE</span></span><br>
-          <span class="hero-word"><span class="text-matrix" style="animation-delay:.24s;text-shadow:0 0 40px rgba(0,255,65,.45)">BUILDING</span></span>
+          <span class="hero-word"><span class="text-matrix" style="animation-delay:.24s">BUILDING</span></span>
         </h1>
         
         <p class="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto mb-8 leading-relaxed font-sans">
