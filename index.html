@@ -119,104 +119,83 @@
             </button>
           </div>
         </div>
+        <div class="pt-3 border-t border-gray-900 flex justify-center items-center gap-4 text-xs font-mono text-gray-500">
+          <a href="/legal-privacy" class="hover:text-matrix">Privacy</a>
+          <span>•</span>
+          <a href="/legal-terms" class="hover:text-matrix">Terms</a>
+          <span>•</span>
+          <a href="/support" class="hover:text-matrix">Support</a>
+        </div>
       </div>
     </div>
   </nav>
 
-  <!-- HERO / STREET TERMINAL (Viewport-Locked) -->
-  <main class="min-h-[calc(100svh-3.5rem)] sm:min-h-[calc(100dvh-5rem)] flex flex-col justify-between items-center relative overflow-hidden px-4 sm:px-6 lg:px-8 pt-4 pb-2 sm:pt-8 sm:pb-4 text-center">
+  <!-- HERO / STREET TERMINAL (Zero-Scroll Viewport Lock) -->
+  <main class="h-[calc(100svh-3.5rem)] sm:h-[calc(100dvh-5rem)] flex flex-col justify-between items-center relative overflow-hidden px-4 sm:px-6 lg:px-8 pt-4 pb-4 sm:pt-8 sm:pb-6 text-center">
     <!-- Perspective Grid Floor -->
     <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none"><div class="hero-floor"></div></div>
 
     <!-- Top Badge & Identity -->
-    <div class="flex flex-col items-center pt-1 sm:pt-2 relative z-10">
-      <div class="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full border border-matrix/40 bg-matrix/10 mb-2 sm:mb-3">
-        <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-matrix animate-pulse"></span>
+    <div class="flex flex-col items-center pt-2 sm:pt-4 relative z-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full border border-matrix/30 bg-matrix/10 mb-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-matrix animate-pulse"></span>
         <span class="font-mono text-[10px] sm:text-xs text-matrix tracking-widest uppercase">Closed Beta: Live</span>
       </div>
-      <div class="font-mono text-white text-[10px] sm:text-xs tracking-[0.4em] sm:tracking-[0.5em] uppercase opacity-75">Pushinn</div>
+      <div class="font-mono text-gray-400 text-[10px] sm:text-xs tracking-[0.45em] uppercase opacity-75">Pushinn</div>
     </div>
 
     <!-- Center Stage: Headline, Manifesto & Action Buttons -->
-    <div class="max-w-3xl mx-auto my-auto py-2 sm:py-6 flex flex-col items-center relative z-10">
-      <h1 class="font-mono font-extrabold text-2xl sm:text-5xl md:text-6xl tracking-tight text-white mb-2 sm:mb-4 min-h-[56px] sm:min-h-[110px] flex flex-col justify-center">
+    <div class="max-w-2xl mx-auto my-auto py-2 sm:py-4 flex flex-col items-center relative z-10">
+      <h1 class="font-mono font-extrabold text-2xl sm:text-4xl md:text-5xl tracking-tight text-white mb-3 sm:mb-5 min-h-[56px] sm:min-h-[88px] flex flex-col justify-center leading-tight">
         <span id="hero-line1"></span>
         <span id="hero-line2"></span>
       </h1>
       
-      <p class="max-w-xl text-xs sm:text-base text-gray-400 font-sans mb-4 sm:mb-8 leading-normal sm:leading-relaxed">
+      <p class="max-w-md sm:max-w-lg text-xs sm:text-sm text-gray-400 font-sans mb-6 sm:mb-8 leading-relaxed">
         Pushinn brings street riders together around Game of S.K.A.T.E. battles, a live spot map, and the Skaters' Union. Built so your progression is on record and gets recognised.
       </p>
       
-      <div class="flex flex-col sm:flex-row justify-center gap-2.5 sm:gap-4 w-full sm:w-auto max-w-xs sm:max-w-none">
-        <a href="/login" class="bg-matrix text-black font-mono font-bold text-xs sm:text-base tracking-wider uppercase px-6 py-2.5 sm:px-8 sm:py-3.5 rounded hover:bg-white hover:text-black transition-all shadow-[0_0_25px_rgba(0,255,65,0.4)] text-center">
+      <div class="flex flex-col sm:flex-row justify-center gap-3 w-full sm:w-auto max-w-xs sm:max-w-none">
+        <a href="/login" class="bg-matrix text-black font-mono font-bold text-xs sm:text-sm tracking-wider uppercase px-6 py-2.5 sm:px-7 sm:py-3 rounded hover:bg-white hover:text-black transition-all shadow-[0_0_20px_rgba(0,255,65,0.35)] text-center">
           Join Closed Beta
         </a>
-        <a href="/building" class="border border-white/20 text-white hover:border-matrix hover:text-matrix font-mono font-bold text-xs sm:text-base tracking-wider uppercase px-6 py-2.5 sm:px-8 sm:py-3.5 rounded transition-all text-center">
+        <a href="/building" class="border border-white/20 text-white hover:border-matrix hover:text-matrix font-mono font-bold text-xs sm:text-sm tracking-wider uppercase px-6 py-2.5 sm:px-7 sm:py-3 rounded transition-all text-center">
           What We're Building
         </a>
       </div>
     </div>
 
-    <!-- MICRO TELEMETRY STRIP (Single Line Terminal Status) -->
-    <div class="w-full max-w-4xl pt-3 pb-2 sm:pt-4 sm:pb-2 border-t border-matrix/20 mt-auto relative z-10 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-      <div class="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-10 gap-y-1.5 font-mono text-[10px] sm:text-xs uppercase tracking-wider text-gray-500">
+    <!-- MICRO TELEMETRY STRIP (Single Line Terminal Status, Elevated) -->
+    <div class="w-full max-w-2xl pt-3 pb-2 sm:pb-3 border-t border-matrix/20 mt-auto mb-4 sm:mb-8 relative z-10">
+      <div class="flex items-center justify-center gap-x-2.5 sm:gap-x-5 font-mono text-[9px] sm:text-xs uppercase tracking-wider text-gray-500 whitespace-nowrap overflow-x-auto no-scrollbar">
         <div class="flex items-center gap-1.5">
           <span class="w-1.5 h-1.5 rounded-full bg-matrix animate-pulse"></span>
           <span class="text-gray-400">STATUS:</span>
           <span class="text-matrix font-bold" id="stat-status">ONLINE</span>
         </div>
-        <div class="flex items-center gap-1.5">
+        <span class="text-matrix/30 select-none">|</span>
+        <div class="flex items-center gap-1">
           <span class="text-gray-400">CLIPS:</span>
           <span class="text-white font-bold" id="stat-clips">--</span>
         </div>
-        <div class="flex items-center gap-1.5">
+        <span class="text-matrix/30 select-none">|</span>
+        <div class="flex items-center gap-1">
           <span class="text-gray-400">SPOTS:</span>
           <span class="text-white font-bold" id="stat-spots">---</span>
         </div>
-        <div class="flex items-center gap-1.5">
+        <span class="text-matrix/30 select-none">|</span>
+        <div class="flex items-center gap-1">
           <span class="text-gray-400">USERS:</span>
           <span class="text-white font-bold" id="stat-users">---</span>
         </div>
-        <div class="flex items-center gap-1.5">
+        <span class="text-matrix/30 select-none">|</span>
+        <div class="flex items-center gap-1">
           <span class="text-gray-400">BATTLES:</span>
           <span class="text-white font-bold" id="stat-battles">--</span>
         </div>
       </div>
     </div>
   </main>
-
-  <!-- FOOTER -->
-  <footer class="bg-black py-8 border-t matrix-border">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-        <!-- Logo & Tagline -->
-        <div class="flex items-center gap-3 text-center md:text-left">
-          <span class="font-mono font-bold text-lg text-matrix tracking-widest uppercase">PUSHINN</span>
-          <span class="text-gray-600 font-mono text-xs hidden sm:inline">//</span>
-          <span class="text-gray-500 text-xs font-mono">London's Street Skateboarding Layer</span>
-        </div>
-        
-        <!-- Inline Navigation & Legal Links -->
-        <div class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 font-mono text-xs text-gray-400">
-          <a href="/building" class="hover:text-matrix transition-colors">What We're Building</a>
-          <a href="/dao" class="hover:text-matrix transition-colors">The Union</a>
-          <a href="/support" class="hover:text-matrix transition-colors">Support</a>
-          <a href="/legal-privacy" class="hover:text-matrix transition-colors">Privacy</a>
-          <a href="/legal-terms" class="hover:text-matrix transition-colors">Terms</a>
-        </div>
-      </div>
-      
-      <div class="mt-6 pt-6 border-t border-gray-900 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-mono text-gray-600">
-        <div>&copy; 2026 PUSHINN LABS LTD. All rights reserved.</div>
-        <div class="flex items-center gap-4">
-          <a href="/legal-privacy#account-deletion" class="hover:text-red-500 transition-colors text-gray-500">Delete Account</a>
-          <span>•</span>
-          <a href="mailto:admin@pushinn.app" class="hover:text-matrix transition-colors text-gray-500">admin@pushinn.app</a>
-        </div>
-      </div>
-    </div>
-  </footer>
 
   <script>
     // Professional Typewriter Effect
