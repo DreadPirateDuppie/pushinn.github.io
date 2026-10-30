@@ -193,7 +193,46 @@
   </nav>
 
   <!-- MAIN CONTAINER -->
-  <main class="flex-grow">
+  <main class="flex-grow relative">
+
+    <!-- PERSISTENT PITCH DECK SECTION RAIL -->
+    <aside id="deck-rail" aria-label="Pitch deck section progress" class="fixed right-2 sm:right-6 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center select-none bg-black/85 backdrop-blur-md px-1.5 py-2.5 sm:px-2 sm:py-3.5 rounded-full border border-matrix/30 shadow-[0_0_25px_rgba(0,0,0,0.9)] transition-opacity duration-300">
+      <!-- Connecting Spine Line -->
+      <div class="absolute left-1/2 top-4 bottom-4 -translate-x-1/2 w-[2px] bg-neutral-800 -z-10">
+        <div id="deck-rail-progress" class="w-full bg-matrix h-0 transition-all duration-200"></div>
+      </div>
+      
+      <div class="flex flex-col items-center gap-1.5 sm:gap-2">
+        <a href="#mission" data-section="mission" title="01. The Mission" class="deck-node group relative w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center font-mono text-[9px] sm:text-[10px] bg-black border border-neutral-700 text-gray-400 hover:text-matrix hover:border-matrix transition-all">
+          <span>01</span>
+          <span class="hidden md:group-hover:block absolute right-full mr-3 px-2 py-1 rounded bg-black/95 border border-matrix/40 text-matrix text-xs whitespace-nowrap pointer-events-none shadow-lg">01 // THE MISSION</span>
+        </a>
+        <a href="#engine" data-section="engine" title="02. Product Engine" class="deck-node group relative w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center font-mono text-[9px] sm:text-[10px] bg-black border border-neutral-700 text-gray-400 hover:text-matrix hover:border-matrix transition-all">
+          <span>02</span>
+          <span class="hidden md:group-hover:block absolute right-full mr-3 px-2 py-1 rounded bg-black/95 border border-matrix/40 text-matrix text-xs whitespace-nowrap pointer-events-none shadow-lg">02 // PRODUCT ENGINE</span>
+        </a>
+        <a href="#careers" data-section="careers" title="03. Skater Careers" class="deck-node group relative w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center font-mono text-[9px] sm:text-[10px] bg-black border border-neutral-700 text-gray-400 hover:text-matrix hover:border-matrix transition-all">
+          <span>03</span>
+          <span class="hidden md:group-hover:block absolute right-full mr-3 px-2 py-1 rounded bg-black/95 border border-matrix/40 text-matrix text-xs whitespace-nowrap pointer-events-none shadow-lg">03 // CAREER ENGINE</span>
+        </a>
+        <a href="#susu" data-section="susu" title="04. Community Capital" class="deck-node group relative w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center font-mono text-[9px] sm:text-[10px] bg-black border border-neutral-700 text-gray-400 hover:text-matrix hover:border-matrix transition-all">
+          <span>04</span>
+          <span class="hidden md:group-hover:block absolute right-full mr-3 px-2 py-1 rounded bg-black/95 border border-matrix/40 text-matrix text-xs whitespace-nowrap pointer-events-none shadow-lg">04 // COMMUNITY CAPITAL</span>
+        </a>
+        <a href="#economy" data-section="economy" title="05. Economic Flywheel" class="deck-node group relative w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center font-mono text-[9px] sm:text-[10px] bg-black border border-neutral-700 text-gray-400 hover:text-matrix hover:border-matrix transition-all">
+          <span>05</span>
+          <span class="hidden md:group-hover:block absolute right-full mr-3 px-2 py-1 rounded bg-black/95 border border-matrix/40 text-matrix text-xs whitespace-nowrap pointer-events-none shadow-lg">05 // ECONOMIC FLYWHEEL</span>
+        </a>
+        <a href="#timeline" data-section="timeline" title="06. Where We Are" class="deck-node group relative w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center font-mono text-[9px] sm:text-[10px] bg-black border border-neutral-700 text-gray-400 hover:text-matrix hover:border-matrix transition-all">
+          <span>06</span>
+          <span class="hidden md:group-hover:block absolute right-full mr-3 px-2 py-1 rounded bg-black/95 border border-matrix/40 text-matrix text-xs whitespace-nowrap pointer-events-none shadow-lg">06 // WHERE WE ARE</span>
+        </a>
+        <a href="#devlog" data-section="devlog" title="07. Dev Log" class="deck-node group relative w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center font-mono text-[9px] sm:text-[10px] bg-black border border-neutral-700 text-gray-400 hover:text-matrix hover:border-matrix transition-all">
+          <span>07</span>
+          <span class="hidden md:group-hover:block absolute right-full mr-3 px-2 py-1 rounded bg-black/95 border border-matrix/40 text-matrix text-xs whitespace-nowrap pointer-events-none shadow-lg">07 // DEV LOG</span>
+        </a>
+      </div>
+    </aside>
 
     <!-- HERO / TITLE SECTION -->
     <section id="hero" class="relative min-h-[calc(100vh-5rem)] flex flex-col justify-center pt-16 pb-24 px-4 sm:px-6 lg:px-8 border-b border-matrix/20 overflow-hidden">
@@ -215,13 +254,18 @@
           An in-depth breakdown of the Pushinn platform, skater career infrastructure, and community creative treasury.
         </p>
 
-        <!-- Quick Jump Bar -->
-        <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs font-mono">
-          <a href="#mission" class="px-3 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">01. THE MISSION</a>
-          <a href="#engine" class="px-3 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">02. THE APP ENGINE</a>
-          <a href="#careers" class="px-3 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">03. SKATER CAREERS</a>
-          <a href="#susu" class="px-3 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">04. DIGITAL SUSU</a>
-          <a href="#economy" class="px-3 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">05. THE ECONOMY</a>
+        <!-- Pitch Deck Index (7 Sections Upfront) -->
+        <div class="mt-4 mb-3">
+          <div class="text-[10px] font-mono uppercase tracking-[0.25em] text-gray-500 mb-2.5">PITCH DECK OUTLINE // 7 SECTIONS</div>
+          <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 text-xs font-mono max-w-4xl mx-auto">
+            <a href="#mission" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">01. MISSION</a>
+            <a href="#engine" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">02. APP ENGINE</a>
+            <a href="#careers" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">03. CAREER ENGINE</a>
+            <a href="#susu" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">04. COMMUNITY CAPITAL</a>
+            <a href="#economy" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">05. ECONOMIC FLYWHEEL</a>
+            <a href="#timeline" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">06. WHERE WE ARE</a>
+            <a href="#devlog" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">07. DEV LOG</a>
+          </div>
         </div>
       </div>
       <a href="#mission" aria-label="Scroll down" class="scroll-cue absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 font-mono text-[10px] tracking-[0.3em] text-matrix/70 uppercase">
@@ -1132,6 +1176,42 @@
         const r = devlog.getBoundingClientRect();
         const p = Math.min(1, Math.max(0, (vh * 0.7 - r.top) / (r.height * 0.85)));
         logLine.style.transform = 'scaleY(' + p + ')';
+      }
+
+      // Pitch Deck Section Progress Rail ScrollSpy
+      const sections = ['mission', 'engine', 'careers', 'susu', 'economy', 'timeline', 'devlog'];
+      const railNodes = document.querySelectorAll('.deck-node');
+      const railProgress = document.getElementById('deck-rail-progress');
+      const deckRail = document.getElementById('deck-rail');
+      if (deckRail && railNodes.length) {
+        const hero = document.getElementById('hero');
+        if (hero) {
+          const heroBottom = hero.getBoundingClientRect().bottom;
+          deckRail.style.opacity = heroBottom > vh * 0.5 ? '0.35' : '1';
+        }
+        let activeIdx = -1;
+        sections.forEach((id, idx) => {
+          const sec = document.getElementById(id);
+          if (sec) {
+            const r = sec.getBoundingClientRect();
+            if (r.top <= vh * 0.45 && r.bottom > vh * 0.15) activeIdx = idx;
+          }
+        });
+        railNodes.forEach((node, idx) => {
+          if (idx === activeIdx) {
+            node.classList.add('bg-matrix', 'text-black', 'border-matrix', 'font-black', 'shadow-[0_0_12px_rgba(0,255,65,0.7)]', 'scale-110');
+            node.classList.remove('bg-black', 'text-gray-400', 'border-neutral-700', 'bg-matrix/20', 'text-matrix');
+          } else if (idx < activeIdx) {
+            node.classList.add('bg-matrix/20', 'text-matrix', 'border-matrix/40');
+            node.classList.remove('bg-matrix', 'text-black', 'border-matrix', 'font-black', 'shadow-[0_0_12px_rgba(0,255,65,0.7)]', 'scale-110', 'bg-black', 'text-gray-400', 'border-neutral-700');
+          } else {
+            node.classList.add('bg-black', 'text-gray-400', 'border-neutral-700');
+            node.classList.remove('bg-matrix', 'text-black', 'border-matrix', 'font-black', 'shadow-[0_0_12px_rgba(0,255,65,0.7)]', 'scale-110', 'bg-matrix/20', 'text-matrix', 'border-matrix/40');
+          }
+        });
+        if (railProgress && activeIdx >= 0) {
+          railProgress.style.height = ((activeIdx / (sections.length - 1)) * 100) + '%';
+        }
       }
       speed += (Math.min(Math.abs(y - lastY), 60) / 6 - speed + 1) * 0.1;
       lastY = y; ticking = false;
