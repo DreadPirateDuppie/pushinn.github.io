@@ -66,10 +66,52 @@
       background-color: #111111;
       background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
       background-size: 4px 4px;
+
+    /* ---- scroll motion layer ---- */
+    #scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, #00CC33, #00FF41); box-shadow: 0 0 12px rgba(0,255,65,.7); z-index: 60; }
+    .hero-floor { position: absolute; left: -50%; right: -50%; bottom: -10%; height: 70%; transform: perspective(500px) rotateX(62deg); transform-origin: 50% 100%;
+      background-image: linear-gradient(rgba(0,255,65,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,65,.35) 1px, transparent 1px);
+      background-size: 56px 56px; animation: floor 2.4s linear infinite; mask-image: linear-gradient(to top, #000 10%, transparent 85%); -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 85%); }
+    @keyframes floor { to { background-position: 0 56px; } }
+    .hero-word { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; }
+    .hero-word > span { display: inline-block; transform: translateY(110%); animation: rise .9s cubic-bezier(.2,.8,.2,1) forwards; }
+    @keyframes rise { to { transform: none; } }
+    .scroll-cue { animation: cue 1.6s ease-in-out infinite; }
+    @keyframes cue { 50% { transform: translateY(8px); opacity: .5; } }
+    .marquee { overflow: hidden; white-space: nowrap; }
+    .marquee-track { display: inline-flex; gap: 3rem; will-change: transform; }
+
+    .rv { opacity: 0; transform: translateY(40px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1); transition-delay: var(--d, 0ms); }
+    .rv.in { opacity: 1; transform: none; }
+    .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .06em; }
+    .w > span { display: inline-block; transform: translateY(110%); transition: transform .8s cubic-bezier(.2,.8,.2,1); transition-delay: var(--d, 0ms); }
+    h2.in .w > span { transform: none; }
+
+    .screen-view { position: absolute; inset: 1rem; opacity: 0; transform: translateY(26px) scale(.96); filter: blur(4px); transition: opacity .55s ease, transform .55s cubic-bezier(.2,.8,.2,1), filter .55s ease; pointer-events: none; }
+    .screen-view.is-on { opacity: 1; transform: none; filter: none; pointer-events: auto; }
+    @media (min-width: 1024px) {
+      .stage-steps button { opacity: .35; transition: opacity .5s ease, transform .5s ease, border-color .3s; }
+      .stage-steps button.tab-active { opacity: 1; transform: translateX(10px); }
+    }
+    .stage-meter > span { transition: transform .5s cubic-bezier(.2,.8,.2,1); transform-origin: 50% 0; }
+
+    .spot { position: relative; }
+    .spot::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s;
+      background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(0,255,65,.12), transparent 60%); }
+    .spot:hover::after { opacity: 1; }
+    .tier-fill { width: 0 !important; transition: width 1.6s cubic-bezier(.2,.8,.2,1) .2s; }
+    .tier-fill.in { width: 34% !important; }
+    .log-line { transform-origin: 50% 0; transform: scaleY(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rv, .w > span, .hero-word > span, .screen-view { transition: none !important; animation: none !important; transform: none !important; filter: none !important; }
+      .rv { opacity: 1; } .hero-floor, .scroll-cue { animation: none; } .log-line { transform: none; }
+      .tier-fill { width: 34% !important; transition: none; }
     }
   </style>
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col font-sans">
+  <div id="scroll-progress"></div>
 
   <!-- NAVIGATION -->
   <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
@@ -153,17 +195,19 @@
   <main class="flex-grow">
 
     <!-- HERO / TITLE SECTION -->
-    <section class="relative pt-16 pb-14 px-4 sm:px-6 lg:px-8 border-b border-matrix/20 overflow-hidden">
+    <section id="hero" class="relative min-h-[calc(100vh-5rem)] flex flex-col justify-center pt-16 pb-24 px-4 sm:px-6 lg:px-8 border-b border-matrix/20 overflow-hidden">
       <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-matrix/10 via-black to-black -z-10"></div>
-      
-      <div class="max-w-5xl mx-auto text-center">
+      <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none"><div class="hero-floor"></div></div>
+
+      <div id="hero-inner" class="max-w-5xl mx-auto text-center will-change-transform">
         <div class="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full bg-matrix/10 border border-matrix/30 text-matrix font-mono text-xs tracking-widest uppercase">
           <span class="w-2 h-2 rounded-full bg-matrix animate-ping"></span>
           ROADMAP
         </div>
         
-        <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white uppercase font-mono mb-4 leading-tight">
-          WHAT WE'RE <span class="text-matrix">BUILDING</span>
+        <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight text-white uppercase font-mono mb-6 leading-[0.95]">
+          <span class="hero-word"><span>WHAT</span></span> <span class="hero-word"><span style="animation-delay:.12s">WE'RE</span></span><br>
+          <span class="hero-word"><span class="text-matrix" style="animation-delay:.24s;text-shadow:0 0 40px rgba(0,255,65,.45)">BUILDING</span></span>
         </h1>
         
         <p class="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto mb-8 leading-relaxed font-sans">
@@ -179,7 +223,16 @@
           <a href="#economy" class="px-3 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">05. THE ECONOMY</a>
         </div>
       </div>
+      <a href="#mission" aria-label="Scroll down" class="scroll-cue absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 font-mono text-[10px] tracking-[0.3em] text-matrix/70 uppercase">
+        Scroll
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+      </a>
     </section>
+
+    <!-- MOVING BAND -->
+    <div class="marquee border-b border-matrix/20 bg-matrix text-black py-3 font-mono font-black text-sm sm:text-base tracking-[0.25em] uppercase" aria-hidden="true">
+      <div class="marquee-track" id="marquee-track"></div>
+    </div>
 
     <!-- 01. THE MISSION (CULTURE & INFRASTRUCTURE) -->
     <section id="mission" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-matrix/10">
@@ -270,10 +323,10 @@
         </div>
 
         <!-- Interactive Screen Switcher -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           
-          <!-- Left: Tab Controls & Story Descriptions -->
-          <div class="lg:col-span-7 space-y-4">
+          <!-- Left: Tab Controls & Story Descriptions (on desktop each stage is a scroll step) -->
+          <div class="stage-steps lg:col-span-7 space-y-4 lg:space-y-[32vh] lg:py-[22vh] order-2 lg:order-1">
             
             <!-- Loop 1: Spot Radar -->
             <button onclick="setScreen(1)" id="tab-btn-1" class="w-full text-left p-5 rounded-xl bg-surface border border-matrix subtle-border card-hover transition-all tab-active">
@@ -326,7 +379,12 @@
           </div>
 
           <!-- Right: Visual Device Mockup -->
-          <div class="lg:col-span-5 flex justify-center">
+          <div class="lg:col-span-5 flex justify-center items-center gap-5 order-1 lg:order-2 lg:sticky lg:top-[calc(50vh-280px)]">
+            <div class="stage-meter hidden lg:flex flex-col items-center gap-2 font-mono text-[10px] text-gray-500">
+              <span id="stage-num" class="text-matrix font-bold text-sm">01</span>
+              <div class="relative w-px h-48 bg-neutral-800 overflow-hidden"><span id="stage-bar" class="absolute inset-0 bg-matrix" style="transform:scaleY(.25)"></span></div>
+              <span>04</span>
+            </div>
             <div class="w-[300px] sm:w-[320px] h-[580px] bg-black rounded-[42px] border-[5px] border-neutral-800 phone-shadow relative overflow-hidden flex flex-col">
               
               <!-- Speaker & Dynamic Island -->
@@ -338,7 +396,7 @@
               <div class="flex-grow p-4 flex flex-col text-left relative overflow-hidden">
                 
                 <!-- SCREEN 1: SPOT RADAR -->
-                <div id="screen-1" class="screen-view h-full flex flex-col justify-between">
+                <div id="screen-1" class="screen-view is-on h-full flex flex-col justify-between">
                   <div>
                     <div class="flex items-center justify-between font-mono text-[11px] text-matrix pb-2 border-b border-matrix/20 mb-3">
                       <span>RADAR // LONDON</span>
@@ -375,7 +433,7 @@
                 </div>
 
                 <!-- SCREEN 2: LIVE SESSION (Hidden by default) -->
-                <div id="screen-2" class="screen-view hidden h-full flex flex-col justify-between">
+                <div id="screen-2" class="screen-view h-full flex flex-col justify-between">
                   <div>
                     <div class="flex items-center justify-between font-mono text-[11px] text-matrix pb-2 border-b border-matrix/20 mb-3">
                       <span>SESSION // ACTIVE</span>
@@ -446,7 +504,7 @@
                 </div>
 
                 <!-- SCREEN 3: VERSUS S.K.A.T.E. (Hidden by default) -->
-                <div id="screen-3" class="screen-view hidden h-full flex flex-col justify-between">
+                <div id="screen-3" class="screen-view h-full flex flex-col justify-between">
                   <div>
                     <div class="flex items-center justify-between font-mono text-[11px] text-matrix pb-2 border-b border-matrix/20 mb-3">
                       <span>VERSUS // S.K.A.T.E.</span>
@@ -483,7 +541,7 @@
                 </div>
 
                 <!-- SCREEN 4: TRICK ARCHIVE (Hidden by default) -->
-                <div id="screen-4" class="screen-view hidden h-full flex flex-col justify-between">
+                <div id="screen-4" class="screen-view h-full flex flex-col justify-between">
                   <div>
                     <div class="flex items-center justify-between font-mono text-[11px] text-matrix pb-2 border-b border-matrix/20 mb-3">
                       <span>ARCHIVE // HALL OF FAME</span>
@@ -675,7 +733,7 @@
         <!-- progress track -->
         <div class="mb-12">
           <div class="relative h-3 rounded-full bg-neutral-900 subtle-border overflow-hidden">
-            <div class="absolute inset-y-0 left-0 w-[34%] rounded-full bg-gradient-to-r from-matrixDim to-matrix" style="box-shadow:0 0 18px rgba(0,255,65,0.6)"></div>
+            <div class="tier-fill absolute inset-y-0 left-0 w-[34%] rounded-full bg-gradient-to-r from-matrixDim to-matrix" style="box-shadow:0 0 18px rgba(0,255,65,0.6)"></div>
             <div class="absolute inset-y-0 left-[34%] w-6 bg-matrix/60 blur-md animate-pulse"></div>
           </div>
           <div class="grid grid-cols-3 mt-3 font-mono text-[11px] sm:text-xs tracking-widest uppercase">
@@ -776,7 +834,7 @@
           Pushinn is built in the open. Here is what we've built, week by week, newest first. The newest week lands in the next beta build.
         </p>
         <div class="relative space-y-6">
-          <div class="absolute left-[6px] top-6 bottom-6 w-px bg-gradient-to-b from-matrix via-matrix/30 to-transparent"></div>
+          <div class="log-line absolute left-[6px] top-6 bottom-6 w-px bg-gradient-to-b from-matrix via-matrix/30 to-transparent"></div>
           <div class="relative pl-8 sm:pl-10">
             <span class="absolute left-0 top-6 w-3.5 h-3.5 rounded-full bg-matrix animate-pulse ring-4 ring-black"></span>
             <div class="bg-surface rounded-xl p-5 sm:p-6 matrix-border-glow">
@@ -957,11 +1015,16 @@
 
   <!-- SIMPLE JAVASCRIPT FOR PHONE SCREEN SWITCHER -->
   <script>
+    let currentScreen = 1;
     function setScreen(num) {
+      currentScreen = num;
+      const n = document.getElementById('stage-num'), bar = document.getElementById('stage-bar');
+      if (n) n.textContent = '0' + num;
+      if (bar) bar.style.transform = 'scaleY(' + (num / 4) + ')';
       for (let i = 1; i <= 4; i++) {
         const screen = document.getElementById('screen-' + i);
         const tab = document.getElementById('tab-btn-' + i);
-        if (screen) screen.classList.add('hidden');
+        if (screen) screen.classList.remove('is-on');
         if (tab) {
           tab.classList.remove('tab-active');
           tab.classList.add('text-gray-300');
@@ -969,12 +1032,119 @@
       }
       const activeScreen = document.getElementById('screen-' + num);
       const activeTab = document.getElementById('tab-btn-' + num);
-      if (activeScreen) activeScreen.classList.remove('hidden');
+      if (activeScreen) activeScreen.classList.add('is-on');
       if (activeTab) {
         activeTab.classList.add('tab-active');
         activeTab.classList.remove('text-gray-300');
       }
     }
+  </script>
+
+  <!-- SCROLL MOTION (no libraries; switched off for reduced-motion users) -->
+  <script>
+  (function () {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const desktop = window.matchMedia('(min-width: 1024px)');
+
+    // Moving band: built-today loops, speeds up with scroll
+    const track = document.getElementById('marquee-track');
+    const words = ['Find the spot', 'Turn up', 'Film the make', 'Play S.K.A.T.E.', 'Earn points', 'Climb the board'];
+    const chunk = words.map(w => '<span>' + w + '</span><span class="opacity-40">//</span>').join('');
+    track.innerHTML = chunk + chunk + chunk + chunk;
+
+    // Split section headings into words for a masked rise
+    document.querySelectorAll('main section h2').forEach(h => {
+      let i = 0;
+      const walk = node => {
+        [...node.childNodes].forEach(c => {
+          if (c.nodeType === 3) {
+            const frag = document.createDocumentFragment();
+            c.textContent.split(/(\s+)/).forEach(t => {
+              if (!t) return;
+              if (/^\s+$/.test(t)) { frag.appendChild(document.createTextNode(' ')); return; }
+              const w = document.createElement('span'); w.className = 'w';
+              const inner = document.createElement('span'); inner.textContent = t; inner.style.setProperty('--d', (i++ * 70) + 'ms');
+              w.appendChild(inner); frag.appendChild(w);
+            });
+            c.replaceWith(frag);
+          } else if (c.nodeType === 1 && c.tagName !== 'BR') walk(c);
+        });
+      };
+      walk(h);
+    });
+
+    // Reveal targets: section intros, cards, tiers, log weeks (staggered per row)
+    const targets = new Set();
+    document.querySelectorAll('main section:not(#hero)').forEach(sec => {
+      sec.querySelectorAll(':scope > div > div:not(.grid), :scope > div > p').forEach(el => targets.add(el));
+      sec.querySelectorAll('.grid > *, #devlog .relative > .relative, #timeline .rounded-2xl').forEach(el => {
+        if (!el.closest('.stage-steps') && !el.closest('#engine .lg\\:col-span-5')) targets.add(el);
+      });
+    });
+    document.querySelectorAll('#engine .grid, #engine .grid > *').forEach(el => targets.delete(el));
+    const parentCount = new Map();
+    targets.forEach(el => {
+      el.classList.add('rv');
+      const k = parentCount.get(el.parentNode) || 0; parentCount.set(el.parentNode, k + 1);
+      el.style.setProperty('--d', Math.min(k, 5) * 90 + 'ms');
+    });
+
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
+    targets.forEach(el => io.observe(el));
+    document.querySelectorAll('main section h2, .tier-fill').forEach(el => io.observe(el));
+
+    // Cursor spotlight on cards
+    document.querySelectorAll('main .grid > div, .stage-steps button').forEach(c => {
+      c.classList.add('spot');
+      c.addEventListener('pointermove', e => {
+        const r = c.getBoundingClientRect();
+        c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+
+    if (reduce) { document.querySelectorAll('.rv, h2').forEach(el => el.classList.add('in')); return; }
+
+    // Desktop: the stage nearest mid-screen drives the phone
+    const steps = [1, 2, 3, 4].map(i => document.getElementById('tab-btn-' + i));
+    const bar = document.getElementById('scroll-progress');
+    const heroInner = document.getElementById('hero-inner');
+    const logLine = document.querySelector('.log-line');
+    const devlog = document.getElementById('devlog');
+    let lastY = window.scrollY, x = 0, speed = 1, ticking = false;
+
+    function frame() {
+      const y = window.scrollY, vh = window.innerHeight;
+      const max = document.documentElement.scrollHeight - vh;
+      bar.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
+      if (heroInner && y < vh * 1.2) {
+        heroInner.style.transform = 'translateY(' + (y * 0.35) + 'px) scale(' + (1 - Math.min(y / vh, 1) * 0.08) + ')';
+        heroInner.style.opacity = String(Math.max(0, 1 - y / (vh * 0.75)));
+      }
+      if (desktop.matches) {
+        let best = currentScreen, bestD = Infinity;
+        steps.forEach((s, i) => { const r = s.getBoundingClientRect(); const d = Math.abs(r.top + r.height / 2 - vh / 2); if (d < bestD) { bestD = d; best = i + 1; } });
+        if (best !== currentScreen) setScreen(best);
+      }
+      if (logLine && devlog) {
+        const r = devlog.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, (vh * 0.7 - r.top) / (r.height * 0.85)));
+        logLine.style.transform = 'scaleY(' + p + ')';
+      }
+      speed += (Math.min(Math.abs(y - lastY), 60) / 6 - speed + 1) * 0.1;
+      lastY = y; ticking = false;
+    }
+    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+    frame();
+
+    (function loop() {
+      x -= speed; const half = track.scrollWidth / 2;
+      if (-x >= half) x += half;
+      track.style.transform = 'translateX(' + x + 'px)';
+      requestAnimationFrame(loop);
+    })();
+  })();
   </script>
 
   <!-- SUPABASE AUTH & NAV SCRIPT -->
