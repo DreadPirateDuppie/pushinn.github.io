@@ -271,9 +271,9 @@
           <span>06</span>
           <span class="deck-popout absolute right-full mr-2 sm:mr-3 px-2 sm:px-2.5 py-1 rounded bg-black/95 border border-matrix/40 text-matrix text-[10px] sm:text-xs font-mono tracking-wider whitespace-nowrap shadow-[0_0_15px_rgba(0,0,0,0.9)]">06 // WHERE WE ARE</span>
         </a>
-        <a href="#devlog" data-section="devlog" title="07. Dev Log" class="deck-node group relative w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center font-mono text-[9px] sm:text-[10px] bg-black border border-neutral-700 text-gray-400 hover:text-matrix hover:border-matrix">
+        <a href="#updates" data-section="updates" title="07. Weekly Updates" class="deck-node group relative w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center font-mono text-[9px] sm:text-[10px] bg-black border border-neutral-700 text-gray-400 hover:text-matrix hover:border-matrix">
           <span>07</span>
-          <span class="deck-popout absolute right-full mr-2 sm:mr-3 px-2 sm:px-2.5 py-1 rounded bg-black/95 border border-matrix/40 text-matrix text-[10px] sm:text-xs font-mono tracking-wider whitespace-nowrap shadow-[0_0_15px_rgba(0,0,0,0.9)]">07 // DEV LOG</span>
+          <span class="deck-popout absolute right-full mr-2 sm:mr-3 px-2 sm:px-2.5 py-1 rounded bg-black/95 border border-matrix/40 text-matrix text-[10px] sm:text-xs font-mono tracking-wider whitespace-nowrap shadow-[0_0_15px_rgba(0,0,0,0.9)]">07 // WEEKLY UPDATES</span>
         </a>
       </div>
     </aside>
@@ -308,7 +308,7 @@
             <a href="#susu" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">04. COMMUNITY CAPITAL</a>
             <a href="#economy" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">05. ECONOMIC FLYWHEEL</a>
             <a href="#timeline" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">06. WHERE WE ARE</a>
-            <a href="#devlog" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">07. DEV LOG</a>
+            <a href="#updates" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">07. WEEKLY UPDATES</a>
           </div>
         </div>
       </div>
@@ -912,10 +912,11 @@
       </div>
     </section>
 
-    <!-- 07. DEV LOG (patch notes, newest first; plain words, built work only) -->
-    <section id="devlog" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-matrix/10">
+    <!-- 07. WEEKLY UPDATES (patch notes, newest first; plain words, built work only) -->
+    <section id="updates" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-matrix/10">
+      <a id="devlog" class="sr-only"></a>
       <div class="max-w-3xl mx-auto">
-        <div class="font-mono text-xs text-matrix tracking-widest uppercase mb-2">07 // DEV LOG</div>
+        <div class="font-mono text-xs text-matrix tracking-widest uppercase mb-2">07 // WEEKLY UPDATES</div>
         <h2 class="text-4xl sm:text-5xl font-black font-mono text-white uppercase mb-4 tracking-tight leading-none">
           WHAT CHANGED <span class="text-matrix">THIS WEEK.</span>
         </h2>
@@ -1166,7 +1167,7 @@
     const targets = new Set();
     document.querySelectorAll('main section:not(#hero)').forEach(sec => {
       sec.querySelectorAll(':scope > div > div:not(.grid), :scope > div > p').forEach(el => targets.add(el));
-      sec.querySelectorAll('.grid > *, #devlog .relative > .relative, #timeline .rounded-2xl').forEach(el => {
+      sec.querySelectorAll('.grid > *, #updates .relative > .relative, #timeline .rounded-2xl').forEach(el => {
         if (!el.closest('.stage-steps') && !el.closest('#engine .lg\\:col-span-5')) targets.add(el);
       });
     });
@@ -1200,7 +1201,7 @@
     const bar = document.getElementById('scroll-progress');
     const heroInner = document.getElementById('hero-inner');
     const logLine = document.querySelector('.log-line');
-    const devlog = document.getElementById('devlog');
+    const devlog = document.getElementById('updates') || document.getElementById('devlog');
     let lastY = window.scrollY, x = 0, speed = 1, ticking = false;
     let currentDeckActive = -2;
     let popoutTimer = null;
@@ -1225,7 +1226,7 @@
       }
 
       // Pitch Deck Section Progress Rail ScrollSpy & Liquid Continuous Spine
-      const sectionIds = ['mission', 'engine', 'careers', 'susu', 'economy', 'timeline', 'devlog'];
+      const sectionIds = ['mission', 'engine', 'careers', 'susu', 'economy', 'timeline', 'updates'];
       const railNodes = document.querySelectorAll('.deck-node');
       const railProgress = document.getElementById('deck-rail-progress');
       const deckRail = document.getElementById('deck-rail');
