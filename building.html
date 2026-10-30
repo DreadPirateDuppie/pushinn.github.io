@@ -335,7 +335,7 @@
     </section>
 
     <!-- MOVING BAND -->
-    <div class="marquee border-b border-matrix/20 bg-matrix text-black py-3 font-mono font-black text-sm sm:text-base tracking-[0.25em] uppercase" aria-hidden="true">
+    <div class="hidden md:block marquee border-b border-matrix/20 bg-matrix text-black py-3 font-mono font-black text-sm sm:text-base tracking-[0.25em] uppercase" aria-hidden="true">
       <div class="marquee-track" id="marquee-track"></div>
     </div>
 
@@ -1463,7 +1463,7 @@
     wakeRail(2500);
 
     (function loop() {
-      if (reduce) return;
+      if (reduce || !desktop.matches) return;
       x -= speed; const half = track.scrollWidth / 2;
       if (-x >= half) x += half;
       track.style.transform = 'translateX(' + x + 'px)';
