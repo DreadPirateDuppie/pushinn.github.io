@@ -53,9 +53,26 @@
       pointer-events: none;
     }
     .phone-shadow { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 255, 65, 0.1); }
+
+    /* Scroll progress & street motion */
+    #scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, #00CC33, #00FF41); box-shadow: 0 0 12px rgba(0,255,65,.7); z-index: 60; }
+    .hero-floor { position: absolute; left: -50%; right: -50%; bottom: -10%; height: 75%; transform: perspective(500px) rotateX(62deg); transform-origin: 50% 100%;
+      background-image: linear-gradient(rgba(0,255,65,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,65,.35) 1px, transparent 1px);
+      background-size: 56px 56px; animation: floor 2.4s linear infinite; mask-image: linear-gradient(to top, #000 10%, transparent 85%); -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 85%); pointer-events: none; }
+    @keyframes floor { to { background-position: 0 56px; } }
+
+    .spot { position: relative; }
+    .spot::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s;
+      background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(0,255,65,.12), transparent 60%); }
+    .spot:hover::after { opacity: 1; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-floor { animation: none !important; }
+    }
   </style>
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
+  <div id="scroll-progress"></div>
 
   <!-- NAVIGATION -->
   <nav class="sticky top-0 z-50 bg-black matrix-border border-b border-t-0 border-x-0">
@@ -124,23 +141,26 @@
 
   <!-- HERO -->
   <main class="flex-grow">
-    <section class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 sm:pt-24 sm:pb-16 flex flex-col items-center justify-center text-center">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-matrix/40 bg-matrix/10 mb-8">
+    <section class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 sm:pt-24 sm:pb-16 flex flex-col items-center justify-center text-center overflow-hidden">
+      <!-- Perspective Grid Floor -->
+      <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none"><div class="hero-floor"></div></div>
+
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-matrix/40 bg-matrix/10 mb-8 relative z-10">
         <span class="w-2 h-2 rounded-full bg-matrix animate-pulse"></span>
         <span class="font-mono text-xs text-matrix tracking-widest uppercase">Closed Beta: Live</span>
       </div>
-      <div class="font-mono text-white text-base tracking-[0.5em] uppercase mb-6 opacity-80">Pushinn</div>
+      <div class="font-mono text-white text-base tracking-[0.5em] uppercase mb-6 opacity-80 relative z-10">Pushinn</div>
 
-      <h1 class="font-mono font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight text-white mb-8 min-h-[120px] md:min-h-[160px] flex flex-col justify-center">
+      <h1 class="font-mono font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight text-white mb-8 min-h-[120px] md:min-h-[160px] flex flex-col justify-center relative z-10">
         <span id="hero-line1"></span>
         <span id="hero-line2"></span>
       </h1>
       
-      <p class="mt-4 max-w-2xl text-lg sm:text-xl text-gray-400 font-sans mb-12">
+      <p class="mt-4 max-w-2xl text-lg sm:text-xl text-gray-400 font-sans mb-12 relative z-10">
         Pushinn brings street riders together around Game of S.K.A.T.E. battles, a live spot map and the Skaters' Union. Built so your progression is on record and gets recognised.
       </p>
       
-      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4 relative z-10">
         <a href="/login" class="bg-matrix text-black font-mono font-bold text-base tracking-wider uppercase px-8 py-4 rounded hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_30px_rgba(0,255,65,0.4)]">
           Join Closed Beta
         </a>
@@ -148,14 +168,14 @@
           What We're Building
         </a>
       </div>
-      <p class="mt-6 font-mono text-xs text-gray-500 tracking-widest uppercase">Closed Beta // London</p>
+      <p class="mt-6 font-mono text-xs text-gray-500 tracking-widest uppercase relative z-10">Closed Beta // London</p>
     </section>
 
     <!-- PRODUCT PREVIEW / VX1000 VIEW-FINDER TEASER -->
     <section class="pb-16 px-4 sm:px-6 lg:px-8 relative">
       <div class="max-w-4xl mx-auto flex flex-col items-center">
         <!-- Phone Frame Container -->
-        <div class="w-[300px] sm:w-[320px] bg-black rounded-[42px] border-[5px] border-neutral-800 phone-shadow p-3 relative overflow-hidden flex flex-col">
+        <div class="w-[300px] sm:w-[320px] bg-black rounded-[42px] border-[5px] border-neutral-800 phone-shadow p-3 relative overflow-hidden flex flex-col spot">
           <!-- Speaker & Dynamic Island -->
           <div class="h-4 w-full bg-black flex items-center justify-center mb-2">
             <div class="w-20 h-3.5 bg-neutral-900 rounded-full border border-neutral-800"></div>
@@ -234,23 +254,23 @@
     <!-- NETWORK STATUS STRIP -->
     <section class="py-12 sm:py-16 bg-black matrix-border border-y border-x-0">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-5 gap-y-12 gap-x-4">
-        <div class="text-center">
+        <div class="text-center spot p-3 rounded-xl transition-all">
           <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-clips">00</div>
           <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">Clips</div>
         </div>
-        <div class="text-center md:border-l matrix-border">
+        <div class="text-center md:border-l matrix-border spot p-3 rounded-xl transition-all">
           <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-spots">000</div>
           <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">Spots Logged</div>
         </div>
-        <div class="text-center md:border-l matrix-border col-span-2 md:col-span-1">
+        <div class="text-center md:border-l matrix-border col-span-2 md:col-span-1 spot p-3 rounded-xl transition-all">
           <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-status">OFFLINE</div>
           <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">System Status</div>
         </div>
-        <div class="text-center md:border-l matrix-border">
+        <div class="text-center md:border-l matrix-border spot p-3 rounded-xl transition-all">
           <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-users">000</div>
           <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">User Count</div>
         </div>
-        <div class="text-center md:border-l matrix-border">
+        <div class="text-center md:border-l matrix-border spot p-3 rounded-xl transition-all">
           <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-battles">00</div>
           <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">Battles Fought</div>
         </div>
@@ -357,6 +377,25 @@
       }
       setInterval(updateDashboard, 60000);
       updateDashboard();
+
+      // Top scroll progress bar
+      const bar = document.getElementById('scroll-progress');
+      if (bar) {
+        window.addEventListener('scroll', () => {
+          const y = window.scrollY, vh = window.innerHeight;
+          const max = document.documentElement.scrollHeight - vh;
+          bar.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
+        }, { passive: true });
+      }
+
+      // Cursor spotlight on interactive cards
+      document.querySelectorAll('.spot').forEach(c => {
+        c.addEventListener('pointermove', e => {
+          const r = c.getBoundingClientRect();
+          c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        });
+      });
     });
   </script>
 
