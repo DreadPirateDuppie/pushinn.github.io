@@ -147,6 +147,21 @@
       }
     }
 
+    /* Mobile Idle Auto-Fade for unobstructed reading */
+    @media (max-width: 1023px) {
+      #deck-rail {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-50%) scale(0.92);
+        transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      #deck-rail.is-awake {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: translateY(-50%) scale(1) !important;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .rv, .w > span, .hero-word > span, .screen-view { transition: none !important; animation: none !important; transform: none !important; filter: none !important; }
       .rv { opacity: 1; } .hero-floor, .scroll-cue { animation: none; } .log-line { transform: none; }
@@ -241,7 +256,7 @@
   <main class="flex-grow relative">
 
     <!-- PERSISTENT PITCH DECK SECTION RAIL -->
-    <aside id="deck-rail" aria-label="Pitch deck section progress" class="fixed right-2 sm:right-6 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center select-none bg-black/85 backdrop-blur-md px-1.5 py-2.5 sm:px-2 sm:py-3.5 rounded-full border border-matrix/30 shadow-[0_0_25px_rgba(0,0,0,0.9)] transition-opacity duration-300 touch-manipulation">
+    <aside id="deck-rail" aria-label="Pitch deck section progress" class="fixed right-2 sm:right-6 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center select-none bg-black/85 backdrop-blur-md px-1.5 py-2.5 sm:px-2 sm:py-3.5 rounded-full border border-matrix/30 shadow-[0_0_25px_rgba(0,0,0,0.9)] transition-all duration-300 touch-manipulation is-awake">
       <!-- Connecting Spine Line -->
       <div class="absolute left-1/2 top-5 bottom-5 sm:top-7 sm:bottom-7 -translate-x-1/2 w-[2px] bg-neutral-800 -z-10 rounded-full overflow-hidden pointer-events-none">
         <div id="deck-rail-progress" class="w-full bg-matrix h-0 transition-[height] duration-75 ease-out shadow-[0_0_8px_rgba(0,255,65,0.7)]"></div>
@@ -1206,11 +1221,27 @@
     let lastY = window.scrollY, x = 0, speed = 1, ticking = false;
     let currentDeckActive = -2;
     let popoutTimer = null;
+    let railIdleTimer = null;
+    let isScrubbing = false;
+
+    const deckRail = document.getElementById('deck-rail');
+    function wakeRail(duration = 1500) {
+      if (!deckRail) return;
+      deckRail.classList.add('is-awake');
+      if (railIdleTimer) clearTimeout(railIdleTimer);
+      if (!desktop.matches && !isScrubbing) {
+        railIdleTimer = setTimeout(() => {
+          if (!isScrubbing) deckRail.classList.remove('is-awake');
+        }, duration);
+      }
+    }
 
     function frame() {
       const y = window.scrollY, vh = window.innerHeight;
       const max = document.documentElement.scrollHeight - vh;
       bar.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
+      wakeRail(1500);
+
       if (heroInner && y < vh * 1.2) {
         heroInner.style.transform = 'translateY(' + (y * 0.35) + 'px) scale(' + (1 - Math.min(y / vh, 1) * 0.08) + ')';
         heroInner.style.opacity = String(Math.max(0, 1 - y / (vh * 0.75)));
@@ -1230,12 +1261,15 @@
       const sectionIds = ['mission', 'engine', 'careers', 'susu', 'economy', 'timeline', 'updates'];
       const railNodes = document.querySelectorAll('.deck-node');
       const railProgress = document.getElementById('deck-rail-progress');
-      const deckRail = document.getElementById('deck-rail');
       if (deckRail && railNodes.length) {
-        const hero = document.getElementById('hero');
-        if (hero) {
-          const heroBottom = hero.getBoundingClientRect().bottom;
-          deckRail.style.opacity = heroBottom > vh * 0.5 ? '0.75' : '1';
+        if (desktop.matches) {
+          const hero = document.getElementById('hero');
+          if (hero) {
+            const heroBottom = hero.getBoundingClientRect().bottom;
+            deckRail.style.opacity = heroBottom > vh * 0.5 ? '0.75' : '1';
+          }
+        } else {
+          deckRail.style.opacity = '';
         }
 
         // Tap/click listeners for instant mobile navigation & popout
@@ -1266,7 +1300,7 @@
 
         const secEls = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
         const N = secEls.length;
-        if (N === sectionIds.length) {
+        if (N === sectionIds.length && !isScrubbing) {
           const viewportFocus = vh * 0.38;
           const firstTop = secEls[0].getBoundingClientRect().top;
           let progressPct = 0;
@@ -1334,6 +1368,85 @@
       speed += (Math.min(Math.abs(y - lastY), 60) / 6 - speed + 1) * 0.1;
       lastY = y; ticking = false;
     }
+
+    // Touch & Drag Scrubber along Pitch Deck Rail
+    if (deckRail) {
+      const sectionIds = ['mission', 'engine', 'careers', 'susu', 'economy', 'timeline', 'updates'];
+      const secEls = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+      const railNodes = document.querySelectorAll('.deck-node');
+      const railProgress = document.getElementById('deck-rail-progress');
+      const N = secEls.length;
+
+      function handleScrub(touchY) {
+        const rect = deckRail.getBoundingClientRect();
+        const trackTop = rect.top + 14;
+        const trackHeight = Math.max(1, rect.height - 28);
+        const relY = Math.max(0, Math.min(1, (touchY - trackTop) / trackHeight));
+        const targetFraction = relY;
+        const targetIdx = Math.min(N - 1, Math.max(0, Math.round(targetFraction * (N - 1))));
+
+        const sec = secEls[targetIdx];
+        if (sec) {
+          window.scrollTo({ top: sec.offsetTop - window.innerHeight * 0.15, behavior: 'instant' });
+        }
+
+        if (railProgress) {
+          railProgress.style.height = (targetFraction * 100).toFixed(2) + '%';
+        }
+
+        railNodes.forEach((node, idx) => {
+          if (idx === targetIdx) {
+            node.classList.add('is-active');
+            node.classList.remove('is-visited', 'is-future');
+          } else if (idx < targetIdx) {
+            node.classList.add('is-visited');
+            node.classList.remove('is-active', 'is-future');
+          } else {
+            node.classList.add('is-future');
+            node.classList.remove('is-active', 'is-visited');
+          }
+        });
+
+        if (targetIdx !== currentDeckActive) {
+          currentDeckActive = targetIdx;
+          document.querySelectorAll('.deck-popout').forEach(p => p.classList.remove('popout-visible'));
+          const popout = railNodes[targetIdx] && railNodes[targetIdx].querySelector('.deck-popout');
+          if (popout) popout.classList.add('popout-visible');
+        }
+      }
+
+      deckRail.addEventListener('touchstart', (e) => {
+        isScrubbing = true;
+        deckRail.classList.add('is-awake');
+        if (railIdleTimer) clearTimeout(railIdleTimer);
+        if (e.touches && e.touches.length) {
+          handleScrub(e.touches[0].clientY);
+        }
+      }, { passive: false });
+
+      deckRail.addEventListener('touchmove', (e) => {
+        if (!isScrubbing) return;
+        e.preventDefault();
+        if (e.touches && e.touches.length) {
+          handleScrub(e.touches[0].clientY);
+        }
+      }, { passive: false });
+
+      const endScrub = () => {
+        if (!isScrubbing) return;
+        isScrubbing = false;
+        if (popoutTimer) clearTimeout(popoutTimer);
+        popoutTimer = setTimeout(() => {
+          document.querySelectorAll('.deck-popout').forEach(p => p.classList.remove('popout-visible'));
+          popoutTimer = null;
+        }, 1800);
+        wakeRail(1500);
+      };
+
+      deckRail.addEventListener('touchend', endScrub, { passive: true });
+      deckRail.addEventListener('touchcancel', endScrub, { passive: true });
+    }
+
     // Phones and tablets: the phone sits above the stages, so it plays through them on its own while on screen
     const phone = document.getElementById('screen-1').closest('.phone-shadow');
     let cycle = null;
@@ -1347,6 +1460,7 @@
     window.addEventListener('touchmove', () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
     window.addEventListener('resize', () => { requestAnimationFrame(frame); }, { passive: true });
     frame();
+    wakeRail(2500);
 
     (function loop() {
       if (reduce) return;
