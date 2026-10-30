@@ -43,28 +43,12 @@
     .typewriter-cursor { border-right: 2px solid #00FF41; animation: blink 0.75s step-end infinite; }
     @keyframes blink { 50% { border-color: transparent; } }
 
-    /* VX1000 Fisheye Viewfinder & Mockup Shadows */
-    .vx-barrel {
-      background: radial-gradient(circle at center, rgba(16, 28, 18, 0.25) 0%, rgba(5, 10, 5, 0.7) 65%, rgba(0, 0, 0, 0.96) 95%);
-      box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.95);
-    }
-    .vx-scanlines {
-      background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0px, rgba(0, 0, 0, 0.4) 1px, transparent 1px, transparent 2px);
-      pointer-events: none;
-    }
-    .phone-shadow { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 255, 65, 0.1); }
-
     /* Scroll progress & street motion */
     #scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, #00CC33, #00FF41); box-shadow: 0 0 12px rgba(0,255,65,.7); z-index: 60; }
     .hero-floor { position: absolute; left: -50%; right: -50%; bottom: -10%; height: 75%; transform: perspective(500px) rotateX(62deg); transform-origin: 50% 100%;
       background-image: linear-gradient(rgba(0,255,65,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,65,.35) 1px, transparent 1px);
       background-size: 56px 56px; animation: floor 2.4s linear infinite; mask-image: linear-gradient(to top, #000 10%, transparent 85%); -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 85%); pointer-events: none; }
     @keyframes floor { to { background-position: 0 56px; } }
-
-    .spot { position: relative; }
-    .spot::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s;
-      background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(0,255,65,.12), transparent 60%); }
-    .spot:hover::after { opacity: 1; }
 
     @media (prefers-reduced-motion: reduce) {
       .hero-floor { animation: none !important; }
@@ -139,144 +123,67 @@
     </div>
   </nav>
 
-  <!-- HERO -->
-  <main class="flex-grow">
-    <section class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 sm:pt-24 sm:pb-16 flex flex-col items-center justify-center text-center overflow-hidden">
-      <!-- Perspective Grid Floor -->
-      <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none"><div class="hero-floor"></div></div>
+  <!-- HERO / STREET TERMINAL (Viewport-Locked) -->
+  <main class="min-h-[calc(100dvh-5rem)] flex flex-col justify-between items-center relative overflow-hidden px-4 sm:px-6 lg:px-8 pt-8 pb-4 text-center">
+    <!-- Perspective Grid Floor -->
+    <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none"><div class="hero-floor"></div></div>
 
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-matrix/40 bg-matrix/10 mb-8 relative z-10">
+    <!-- Top Badge & Identity -->
+    <div class="flex flex-col items-center pt-2 relative z-10">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-matrix/40 bg-matrix/10 mb-3">
         <span class="w-2 h-2 rounded-full bg-matrix animate-pulse"></span>
         <span class="font-mono text-xs text-matrix tracking-widest uppercase">Closed Beta: Live</span>
       </div>
-      <div class="font-mono text-white text-base tracking-[0.5em] uppercase mb-6 opacity-80 relative z-10">Pushinn</div>
+      <div class="font-mono text-white text-xs tracking-[0.5em] uppercase opacity-75">Pushinn</div>
+    </div>
 
-      <h1 class="font-mono font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight text-white mb-8 min-h-[120px] md:min-h-[160px] flex flex-col justify-center relative z-10">
+    <!-- Center Stage: Headline, Manifesto & Action Buttons -->
+    <div class="max-w-3xl mx-auto my-auto py-6 flex flex-col items-center relative z-10">
+      <h1 class="font-mono font-extrabold text-3xl sm:text-5xl md:text-6xl tracking-tight text-white mb-4 min-h-[72px] sm:min-h-[110px] flex flex-col justify-center">
         <span id="hero-line1"></span>
         <span id="hero-line2"></span>
       </h1>
       
-      <p class="mt-4 max-w-2xl text-lg sm:text-xl text-gray-400 font-sans mb-12 relative z-10">
-        Pushinn brings street riders together around Game of S.K.A.T.E. battles, a live spot map and the Skaters' Union. Built so your progression is on record and gets recognised.
+      <p class="max-w-xl text-sm sm:text-base text-gray-400 font-sans mb-8 leading-relaxed">
+        Pushinn brings street riders together around Game of S.K.A.T.E. battles, a live spot map, and the Skaters' Union. Built so your progression is on record and gets recognised.
       </p>
       
-      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4 relative z-10">
-        <a href="/login" class="bg-matrix text-black font-mono font-bold text-base tracking-wider uppercase px-8 py-4 rounded hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_30px_rgba(0,255,65,0.4)]">
+      <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 w-full sm:w-auto max-w-xs sm:max-w-none">
+        <a href="/login" class="bg-matrix text-black font-mono font-bold text-sm sm:text-base tracking-wider uppercase px-8 py-3.5 rounded hover:bg-white hover:text-black transition-all shadow-[0_0_25px_rgba(0,255,65,0.4)] text-center">
           Join Closed Beta
         </a>
-        <a href="/building" class="border border-white/20 text-white hover:border-matrix hover:text-matrix font-mono font-bold text-base tracking-wider uppercase px-8 py-4 rounded transition-all duration-300">
+        <a href="/building" class="border border-white/20 text-white hover:border-matrix hover:text-matrix font-mono font-bold text-sm sm:text-base tracking-wider uppercase px-8 py-3.5 rounded transition-all text-center">
           What We're Building
         </a>
       </div>
-      <p class="mt-6 font-mono text-xs text-gray-500 tracking-widest uppercase relative z-10">Closed Beta // London</p>
-    </section>
+    </div>
 
-    <!-- PRODUCT PREVIEW / VX1000 VIEW-FINDER TEASER -->
-    <section class="pb-16 px-4 sm:px-6 lg:px-8 relative">
-      <div class="max-w-4xl mx-auto flex flex-col items-center">
-        <!-- Phone Frame Container -->
-        <div class="w-[300px] sm:w-[320px] bg-black rounded-[42px] border-[5px] border-neutral-800 phone-shadow p-3 relative overflow-hidden flex flex-col spot">
-          <!-- Speaker & Dynamic Island -->
-          <div class="h-4 w-full bg-black flex items-center justify-center mb-2">
-            <div class="w-20 h-3.5 bg-neutral-900 rounded-full border border-neutral-800"></div>
-          </div>
-
-          <!-- Active Session Header -->
-          <div class="flex items-center justify-between font-mono text-[11px] text-matrix pb-2 border-b border-matrix/20 mb-2.5">
-            <span>SESSION // ACTIVE</span>
-            <span class="text-white">01:42:15</span>
-          </div>
-
-          <div class="bg-surface rounded-xl p-2.5 border border-white/5 mb-2.5">
-            <div class="font-mono text-[9px] text-gray-400 uppercase">Current Spot</div>
-            <div class="font-mono font-bold text-xs text-white uppercase">St Paul's 4-Block</div>
-          </div>
-
-          <!-- VX1000 Fisheye Viewfinder HUD -->
-          <div class="h-48 rounded-xl vx-barrel border border-matrix/40 p-2.5 relative overflow-hidden flex flex-col justify-between select-none">
-            <!-- CRT Scanline Overlay -->
-            <div class="absolute inset-0 vx-scanlines z-0"></div>
-
-            <!-- Top HUD -->
-            <div class="relative z-10 flex justify-between items-center font-mono text-[9px]">
-              <div class="flex items-center gap-1 bg-black/70 px-1.5 py-0.5 rounded border border-neutral-800">
-                <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse inline-block"></span>
-                <span class="text-red-400 font-bold uppercase">REC [●]</span>
-                <span class="text-gray-400">SP</span>
-              </div>
-              <div class="bg-black/70 px-1.5 py-0.5 rounded border border-neutral-800 text-matrix flex items-center gap-1">
-                <span>TC 00:08:24</span>
-                <span class="text-gray-400">▮▮▯</span>
-              </div>
-            </div>
-
-            <!-- Center HUD -->
-            <div class="relative z-10 my-auto text-center pointer-events-none">
-              <div class="inline-block px-2 py-0.5 bg-black/60 rounded border border-matrix/30 font-mono text-[9px] text-matrix tracking-widest uppercase">
-                MK1 FISHEYE // 4:3
-              </div>
-            </div>
-
-            <!-- Bottom HUD -->
-            <div class="relative z-10 flex justify-between items-end bg-black/85 p-2 rounded-lg border border-neutral-800">
-              <div>
-                <div class="font-mono text-xs font-bold text-white uppercase tracking-tight">Fs_Crook_Clean.mp4</div>
-                <div class="font-mono text-[9px] text-matrix">RAW MAKE COMMITTED // SOUTHBANK</div>
-              </div>
-              <!-- Micro VU Meter -->
-              <div class="flex flex-col gap-0.5 w-7">
-                <div class="flex gap-0.5 h-1">
-                  <div class="w-1 bg-matrix rounded-xs"></div>
-                  <div class="w-1 bg-matrix rounded-xs"></div>
-                  <div class="w-1 bg-matrix rounded-xs"></div>
-                  <div class="w-1 bg-amber-400 rounded-xs"></div>
-                  <div class="w-1 bg-red-500/30 rounded-xs"></div>
-                </div>
-                <div class="flex gap-0.5 h-1">
-                  <div class="w-1 bg-matrix rounded-xs"></div>
-                  <div class="w-1 bg-matrix rounded-xs"></div>
-                  <div class="w-1 bg-matrix rounded-xs"></div>
-                  <div class="w-1 bg-amber-400/40 rounded-xs"></div>
-                  <div class="w-1 bg-red-500/20 rounded-xs"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card Action -->
-          <a href="/building" class="mt-3 w-full py-2.5 rounded-lg bg-matrix text-black font-mono font-bold text-xs text-center uppercase tracking-wider block hover:bg-white transition-colors">
-            SEE HOW IT WORKS →
-          </a>
+    <!-- MICRO TELEMETRY STRIP (Single Line Terminal Status) -->
+    <div class="w-full max-w-4xl pt-4 pb-2 border-t border-matrix/20 mt-auto relative z-10">
+      <div class="flex flex-wrap items-center justify-center gap-x-6 sm:gap-x-10 gap-y-2 font-mono text-[11px] sm:text-xs uppercase tracking-wider text-gray-500">
+        <div class="flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-matrix animate-pulse"></span>
+          <span class="text-gray-400">STATUS:</span>
+          <span class="text-matrix font-bold" id="stat-status">ONLINE</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="text-gray-400">CLIPS:</span>
+          <span class="text-white font-bold" id="stat-clips">--</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="text-gray-400">SPOTS:</span>
+          <span class="text-white font-bold" id="stat-spots">---</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="text-gray-400">USERS:</span>
+          <span class="text-white font-bold" id="stat-users">---</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="text-gray-400">BATTLES:</span>
+          <span class="text-white font-bold" id="stat-battles">--</span>
         </div>
       </div>
-    </section>
-
-    <!-- NETWORK STATUS STRIP -->
-    <section class="py-12 sm:py-16 bg-black matrix-border border-y border-x-0">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-5 gap-y-12 gap-x-4">
-        <div class="text-center spot p-3 rounded-xl transition-all">
-          <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-clips">00</div>
-          <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">Clips</div>
-        </div>
-        <div class="text-center md:border-l matrix-border spot p-3 rounded-xl transition-all">
-          <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-spots">000</div>
-          <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">Spots Logged</div>
-        </div>
-        <div class="text-center md:border-l matrix-border col-span-2 md:col-span-1 spot p-3 rounded-xl transition-all">
-          <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-status">OFFLINE</div>
-          <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">System Status</div>
-        </div>
-        <div class="text-center md:border-l matrix-border spot p-3 rounded-xl transition-all">
-          <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-users">000</div>
-          <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">User Count</div>
-        </div>
-        <div class="text-center md:border-l matrix-border spot p-3 rounded-xl transition-all">
-          <div class="font-mono text-gray-500 text-3xl font-medium mb-2 uppercase" id="stat-battles">00</div>
-          <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">Battles Fought</div>
-        </div>
-      </div>
-    </section>
-
+    </div>
   </main>
 
   <!-- FOOTER -->
