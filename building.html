@@ -576,83 +576,106 @@
       </div>
     </section>
 
-    <!-- 06. TIMELINE: LIVE NOW / NEXT / LATER -->
-    <section id="timeline" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-matrix/10 bg-black">
-      <div class="max-w-5xl mx-auto">
+    <!-- 06. TIMELINE: LIVE NOW / NEXT / LATER (battle-pass track) -->
+    <section id="timeline" class="relative py-20 px-4 sm:px-6 lg:px-8 border-b border-matrix/10 bg-black overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse at 20% 0%, rgba(0,255,65,0.12), transparent 55%)"></div>
+      <div class="relative max-w-5xl mx-auto">
         <div class="font-mono text-xs text-matrix tracking-widest uppercase mb-2">06 // WHERE WE ARE</div>
-        <h2 class="text-3xl sm:text-4xl font-bold font-mono text-white uppercase mb-4 tracking-tight">
-          LIVE NOW. <span class="text-matrix">NEXT. LATER.</span>
+        <h2 class="text-4xl sm:text-6xl font-black font-mono text-white uppercase mb-4 tracking-tight leading-none">
+          TIER 1 <span class="text-matrix">UNLOCKED.</span>
         </h2>
-        <p class="text-gray-400 max-w-3xl mb-12 text-base leading-relaxed">
-          What you can use today, and what we're building towards.
+        <p class="text-gray-400 max-w-3xl mb-10 text-base leading-relaxed">
+          The first tier is live in closed beta across London. Every skater who joins pushes us to the next one.
         </p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-surface p-6 rounded-xl matrix-border-glow">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="w-2 h-2 rounded-full bg-matrix animate-pulse"></span>
-              <span class="font-mono text-xs text-matrix tracking-widest uppercase">Live now</span>
-            </div>
-            <div class="font-mono text-xs text-gray-500 uppercase mb-5">Closed beta, London</div>
-            <ul class="space-y-4">
-              <li>
-                <div class="font-mono text-sm font-bold text-white uppercase">Battles</div>
-                <p class="text-sm text-gray-400">Game of S.K.A.T.E. online or at the spot, counted on the leaderboard.</p>
-              </li>
-              <li>
-                <div class="font-mono text-sm font-bold text-white uppercase">The map</div>
-                <p class="text-sm text-gray-400">Spots open up when you turn up. Check if it's wet, locked off or busy.</p>
-              </li>
-              <li>
-                <div class="font-mono text-sm font-bold text-white uppercase">The feed</div>
-                <p class="text-sm text-gray-400">Post clips, tag the spot, see what's happening across London.</p>
-              </li>
-              <li>
-                <div class="font-mono text-sm font-bold text-white uppercase">Rewards</div>
-                <p class="text-sm text-gray-400">Earn points for skating, battling and posting, and spend them in the shop.</p>
-              </li>
-            </ul>
+
+        <!-- progress track -->
+        <div class="mb-12">
+          <div class="relative h-3 rounded-full bg-neutral-900 subtle-border overflow-hidden">
+            <div class="absolute inset-y-0 left-0 w-[34%] rounded-full bg-gradient-to-r from-matrixDim to-matrix" style="box-shadow:0 0 18px rgba(0,255,65,0.6)"></div>
+            <div class="absolute inset-y-0 left-[34%] w-6 bg-matrix/60 blur-md animate-pulse"></div>
           </div>
-          <div class="bg-surface p-6 rounded-xl subtle-border">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="w-2 h-2 rounded-full bg-neutral-600"></span>
-              <span class="font-mono text-xs text-matrix tracking-widest uppercase">Next</span>
-            </div>
-            <div class="font-mono text-xs text-gray-500 uppercase mb-5">In the works</div>
-            <ul class="space-y-4">
-              <li>
-                <div class="font-mono text-sm font-bold text-white uppercase">Shop network</div>
-                <p class="text-sm text-gray-400">Local skate shops join, and points go on decks, wheels and hardware.</p>
-              </li>
-              <li>
-                <div class="font-mono text-sm font-bold text-white uppercase">Spot bounties</div>
-                <p class="text-sm text-gray-400">Shops put trick bounties on spots.</p>
-              </li>
-              <li>
-                <div class="font-mono text-sm font-bold text-white uppercase">Skater cards</div>
-                <p class="text-sm text-gray-400">Your battle record and clips in one profile you can show sponsors.</p>
-              </li>
-            </ul>
+          <div class="grid grid-cols-3 mt-3 font-mono text-[11px] sm:text-xs tracking-widest uppercase">
+            <div class="text-matrix flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-matrix animate-pulse"></span>Tier 1 · Live now</div>
+            <div class="text-gray-500 text-center">Tier 2 · Next</div>
+            <div class="text-gray-600 text-right">Tier 3 · Later</div>
           </div>
-          <div class="bg-surface p-6 rounded-xl subtle-border">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="w-2 h-2 rounded-full bg-neutral-600"></span>
-              <span class="font-mono text-xs text-matrix tracking-widest uppercase">Later</span>
+        </div>
+
+        <!-- tier 1 -->
+        <div class="rounded-2xl p-6 sm:p-8 bg-surface matrix-border-glow mb-6">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+            <div class="font-mono font-bold text-white uppercase text-xl">Tier 1 <span class="text-matrix">// Live now</span></div>
+            <span class="px-3 py-1 rounded-full bg-matrix text-black font-mono font-bold text-[10px] tracking-widest uppercase">Closed beta · London</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="relative bg-black/60 rounded-xl p-5 matrix-border overflow-hidden group hover:border-matrix transition-colors">
+              <div class="absolute -right-2 -top-4 font-mono font-black text-7xl text-matrix/10 select-none group-hover:text-matrix/20 transition-colors">01</div>
+              <div class="flex items-center gap-2 text-matrix mb-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span class="font-mono text-[10px] tracking-widest uppercase">Unlocked</span></div>
+              <h4 class="font-mono font-bold text-white uppercase text-lg mb-1">Battles</h4>
+              <p class="text-sm text-gray-400">Game of S.K.A.T.E. online or at the spot, counted on the leaderboard.</p>
             </div>
-            <div class="font-mono text-xs text-gray-500 uppercase mb-5">The bigger picture</div>
-            <ul class="space-y-4">
-              <li>
-                <div class="font-mono text-sm font-bold text-white uppercase">The community pot</div>
-                <p class="text-sm text-gray-400">A share of what Pushinn spends on marketing goes back to the scene.</p>
-              </li>
-              <li>
-                <div class="font-mono text-sm font-bold text-white uppercase">Spot repairs</div>
-                <p class="text-sm text-gray-400">The pot pays for DIY builds and upkeep at London spots.</p>
-              </li>
-              <li>
-                <div class="font-mono text-sm font-bold text-white uppercase">Skaters vote</div>
-                <p class="text-sm text-gray-400">You decide which video parts, zines and events get funded.</p>
-              </li>
-            </ul>
+            <div class="relative bg-black/60 rounded-xl p-5 matrix-border overflow-hidden group hover:border-matrix transition-colors">
+              <div class="absolute -right-2 -top-4 font-mono font-black text-7xl text-matrix/10 select-none group-hover:text-matrix/20 transition-colors">02</div>
+              <div class="flex items-center gap-2 text-matrix mb-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span class="font-mono text-[10px] tracking-widest uppercase">Unlocked</span></div>
+              <h4 class="font-mono font-bold text-white uppercase text-lg mb-1">The map</h4>
+              <p class="text-sm text-gray-400">Spots open up when you turn up. Check if it's wet, locked off or busy.</p>
+            </div>
+            <div class="relative bg-black/60 rounded-xl p-5 matrix-border overflow-hidden group hover:border-matrix transition-colors">
+              <div class="absolute -right-2 -top-4 font-mono font-black text-7xl text-matrix/10 select-none group-hover:text-matrix/20 transition-colors">03</div>
+              <div class="flex items-center gap-2 text-matrix mb-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span class="font-mono text-[10px] tracking-widest uppercase">Unlocked</span></div>
+              <h4 class="font-mono font-bold text-white uppercase text-lg mb-1">The feed</h4>
+              <p class="text-sm text-gray-400">Post clips, tag the spot, see what's happening across London.</p>
+            </div>
+            <div class="relative bg-black/60 rounded-xl p-5 matrix-border overflow-hidden group hover:border-matrix transition-colors">
+              <div class="absolute -right-2 -top-4 font-mono font-black text-7xl text-matrix/10 select-none group-hover:text-matrix/20 transition-colors">04</div>
+              <div class="flex items-center gap-2 text-matrix mb-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span class="font-mono text-[10px] tracking-widest uppercase">Unlocked</span></div>
+              <h4 class="font-mono font-bold text-white uppercase text-lg mb-1">Rewards</h4>
+              <p class="text-sm text-gray-400">Earn points for skating, battling and posting, and spend them in the shop.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- tiers 2 + 3 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="rounded-2xl p-6 bg-surface subtle-border">
+            <div class="flex items-center justify-between mb-5">
+              <div class="font-mono font-bold text-white uppercase text-lg">Tier 2 <span class="text-gray-500">// Next</span></div>
+              <span class="font-mono text-[10px] tracking-widest uppercase text-gray-400 border border-neutral-700 rounded-full px-3 py-1">In the works</span>
+            </div>
+            <div class="space-y-3">
+              <div class="flex gap-4 items-start p-4 rounded-lg bg-black/40 subtle-border ">
+                <div class="shrink-0 w-9 h-9 rounded-md border border-neutral-700 flex items-center justify-center text-gray-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+                <div><h4 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">Shop network</h4><p class="text-sm text-gray-500">Local skate shops join, and points go on decks, wheels and hardware.</p></div>
+              </div>
+              <div class="flex gap-4 items-start p-4 rounded-lg bg-black/40 subtle-border ">
+                <div class="shrink-0 w-9 h-9 rounded-md border border-neutral-700 flex items-center justify-center text-gray-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+                <div><h4 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">Spot bounties</h4><p class="text-sm text-gray-500">Shops put trick bounties on spots.</p></div>
+              </div>
+              <div class="flex gap-4 items-start p-4 rounded-lg bg-black/40 subtle-border ">
+                <div class="shrink-0 w-9 h-9 rounded-md border border-neutral-700 flex items-center justify-center text-gray-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+                <div><h4 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">Skater cards</h4><p class="text-sm text-gray-500">Your battle record and clips in one profile you can show sponsors.</p></div>
+              </div>
+            </div>
+          </div>
+          <div class="rounded-2xl p-6 bg-surface subtle-border">
+            <div class="flex items-center justify-between mb-5">
+              <div class="font-mono font-bold text-white uppercase text-lg">Tier 3 <span class="text-gray-500">// Later</span></div>
+              <span class="font-mono text-[10px] tracking-widest uppercase text-gray-500 border border-neutral-800 rounded-full px-3 py-1">The bigger picture</span>
+            </div>
+            <div class="space-y-3">
+              <div class="flex gap-4 items-start p-4 rounded-lg bg-black/40 subtle-border opacity-70">
+                <div class="shrink-0 w-9 h-9 rounded-md border border-neutral-700 flex items-center justify-center text-gray-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+                <div><h4 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">The community pot</h4><p class="text-sm text-gray-500">A share of what Pushinn spends on marketing goes back to the scene.</p></div>
+              </div>
+              <div class="flex gap-4 items-start p-4 rounded-lg bg-black/40 subtle-border opacity-70">
+                <div class="shrink-0 w-9 h-9 rounded-md border border-neutral-700 flex items-center justify-center text-gray-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+                <div><h4 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">Spot repairs</h4><p class="text-sm text-gray-500">The pot pays for DIY builds and upkeep at London spots.</p></div>
+              </div>
+              <div class="flex gap-4 items-start p-4 rounded-lg bg-black/40 subtle-border opacity-70">
+                <div class="shrink-0 w-9 h-9 rounded-md border border-neutral-700 flex items-center justify-center text-gray-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+                <div><h4 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">Skaters vote</h4><p class="text-sm text-gray-500">You decide which video parts, zines and events get funded.</p></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
