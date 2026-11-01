@@ -127,15 +127,8 @@
             >
           </div>
 
-          <!-- DIVIDER -->
-          <div id="auth-divider" class="relative flex py-2 items-center">
-            <div class="flex-grow border-t matrix-border"></div>
-            <span class="flex-shrink mx-4 text-gray-500 text-xs uppercase tracking-wider font-mono">or connect with</span>
-            <div class="flex-grow border-t matrix-border"></div>
-          </div>
-
           <!-- SOCIAL SIGN-IN (2-Column Grid) -->
-          <div id="social-auth-section" class="grid grid-cols-2 gap-3">
+          <div id="social-auth-section" class="grid grid-cols-2 gap-3 pt-1">
             <button
               type="button"
               id="google-signin-btn"
@@ -212,7 +205,6 @@
       const navUserEmail = document.getElementById('nav-user-email');
       const navLogoutBtn = document.getElementById('nav-logout-btn');
       const socialAuthSection = document.getElementById('social-auth-section');
-      const authDivider = document.getElementById('auth-divider');
       const googleSigninBtn = document.getElementById('google-signin-btn');
       const appleSigninBtn = document.getElementById('apple-signin-btn');
 
@@ -240,7 +232,6 @@
             alreadyLoggedIn.classList.remove('hidden');
             loginForm.classList.add('hidden');
             if (socialAuthSection) socialAuthSection.classList.add('hidden');
-            if (authDivider) authDivider.classList.add('hidden');
             updateNavAuth(session.user);
             if (window.location.hash.includes('access_token') || window.location.search.includes('code=')) {
               successMsg.textContent = 'Signed in successfully. Redirecting...';
@@ -265,7 +256,6 @@
         alreadyLoggedIn.classList.add('hidden');
         loginForm.classList.remove('hidden');
         if (socialAuthSection) socialAuthSection.classList.remove('hidden');
-        if (authDivider) authDivider.classList.remove('hidden');
         updateNavAuth(null);
       }
 
@@ -277,7 +267,6 @@
           alreadyLoggedIn.classList.add('hidden');
           loginForm.classList.remove('hidden');
           if (socialAuthSection) socialAuthSection.classList.remove('hidden');
-          if (authDivider) authDivider.classList.remove('hidden');
           updateNavAuth(null);
         } else if (session && session.user) {
           initSession();
