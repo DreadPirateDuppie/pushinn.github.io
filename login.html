@@ -48,7 +48,7 @@
           <div class="hidden md:flex items-baseline space-x-6">
             <a href="/" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
             <a href="/building" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">WHAT WE'RE BUILDING</a>
-            <a href="/dao" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">THE UNION</a>
+            <a href="/union" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">THE UNION</a>
             <a href="/support" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
           </div>
           <div id="nav-auth-container" class="flex items-center gap-2">
@@ -82,7 +82,7 @@
           <p class="font-semibold text-white">You are already signed in.</p>
           <p id="current-user-email" class="text-xs text-gray-300"></p>
           <div class="flex gap-3 pt-2">
-            <a href="/dao" class="flex-1 bg-matrix text-black font-bold py-2 px-3 rounded text-xs uppercase hover:bg-white transition-colors">
+            <a href="/union" class="flex-1 bg-matrix text-black font-bold py-2 px-3 rounded text-xs uppercase hover:bg-white transition-colors">
               Go to the DAO
             </a>
             <button id="signout-btn" class="flex-1 bg-black text-gray-300 border border-gray-700 py-2 px-3 rounded text-xs uppercase hover:text-white transition-colors">
@@ -216,7 +216,7 @@
         if (typeof raw === 'string' && raw.startsWith('/') && !raw.startsWith('//') && !raw.includes('\\')) {
           return raw;
         }
-        return '/dao';
+        return '/union';
       }
       const redirectTarget = getSafeRedirect(urlParams.get('redirect'));
 
