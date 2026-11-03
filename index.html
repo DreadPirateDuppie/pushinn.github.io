@@ -84,14 +84,7 @@
 
     /* Scroll progress & street motion */
     #scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, #00CC33, #00FF41); box-shadow: 0 0 12px rgba(0,255,65,.7); z-index: 60; }
-    .hero-floor { position: absolute; left: -50%; right: -50%; bottom: -10%; height: 75%; transform: perspective(500px) rotateX(62deg); transform-origin: 50% 100%;
-      background-image: linear-gradient(rgba(0,255,65,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,65,.35) 1px, transparent 1px);
-      background-size: 56px 56px; animation: floor 2.4s linear infinite; mask-image: linear-gradient(to top, #000 10%, transparent 85%); -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 85%); pointer-events: none; }
-    @keyframes floor { to { background-position: 0 56px; } }
 
-    @media (prefers-reduced-motion: reduce) {
-      .hero-floor { animation: none !important; }
-    }
   </style>
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
@@ -171,9 +164,6 @@
 
   <!-- HERO / STREET TERMINAL (Zero-Scroll Viewport Lock) -->
   <main class="flex flex-col justify-center items-center h-[calc(100svh-3.5rem)] sm:h-[calc(100dvh-5rem)] px-4 sm:px-6 relative overflow-hidden text-center">
-    <!-- Perspective Grid Floor -->
-    <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none"><div class="hero-floor"></div></div>
-
     <!-- Headline -->
     <h1 class="font-mono font-extrabold text-3xl sm:text-5xl md:text-6xl tracking-tight text-white mb-4 sm:mb-5 min-h-[72px] sm:min-h-[110px] leading-tight flex flex-col justify-center relative z-10">
       <span class="sr-only">Pushinn - The Skaters' Union</span>
@@ -186,7 +176,7 @@
       <!-- Floating Status Pill Straddling Top Border -->
       <div class="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-matrix/50 bg-black text-[9px] font-mono tracking-widest uppercase shadow-[0_0_12px_rgba(0,255,65,0.25)]">
         <span class="w-1.5 h-1.5 rounded-full bg-matrix animate-pulse"></span>
-        <span class="text-matrix font-bold" id="stat-status">ONLINE</span>
+        <span class="text-matrix font-bold" id="stat-status">CLOSED BETA</span>
       </div>
 
       <div class="grid grid-cols-4 text-center gap-1 sm:gap-2 font-mono uppercase">
@@ -215,12 +205,12 @@
     </p>
     
     <!-- Action Pills (Side-by-Side, Fitted) -->
-    <div class="flex flex-row justify-center items-center gap-2.5 sm:gap-4 relative z-10">
-      <a href="/building" class="px-5 py-2 sm:px-6 sm:py-2.5 rounded-full bg-matrix text-black font-mono font-bold text-xs uppercase tracking-wider hover:bg-white hover:text-black transition-all shadow-[0_0_18px_rgba(0,255,65,0.35)] text-center whitespace-nowrap">
-        What We're Building
+    <div class="flex flex-col sm:flex-row justify-center items-center gap-2.5 sm:gap-4 relative z-10">
+      <a href="https://instagram.com/pushinnlabsltd" target="_blank" rel="noopener" class="px-5 py-2 sm:px-6 sm:py-2.5 rounded-full bg-matrix text-black font-mono font-bold text-xs uppercase tracking-wider hover:bg-white hover:text-black transition-all shadow-[0_0_18px_rgba(0,255,65,0.35)] text-center whitespace-nowrap">
+        Closed Beta on Instagram
       </a>
-      <a href="/building#updates" class="px-5 py-2 sm:px-6 sm:py-2.5 rounded-full border border-white/20 text-white hover:border-matrix hover:text-matrix font-mono font-bold text-xs uppercase tracking-wider transition-all text-center whitespace-nowrap">
-        Weekly Updates
+      <a href="/building" class="px-5 py-2 sm:px-6 sm:py-2.5 rounded-full border border-white/20 text-white hover:border-matrix hover:text-matrix font-mono font-bold text-xs uppercase tracking-wider transition-all text-center whitespace-nowrap">
+        What We're Building
       </a>
     </div>
   </main>
@@ -285,7 +275,7 @@
           set('stat-spots', pad(data.spots, 3));
           set('stat-users', pad(data.users, 3));
           set('stat-battles', pad(data.battles, 2));
-          set('stat-status', 'ONLINE');
+          set('stat-status', 'CLOSED BETA');
           document.getElementById('stat-status').classList.replace('text-white', 'text-matrix');
         } catch (e) { console.error('Status strip unavailable:', e); }
       }
