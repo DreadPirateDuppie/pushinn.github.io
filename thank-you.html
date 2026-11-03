@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="You're on the Pushinn beta tester list. Watch your inbox for your install link.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pushinn.app/thank-you">
+  <meta property="og:title" content="Pushinn | You're on the list">
+  <meta property="og:description" content="Thanks for signing up to the Pushinn beta. Your install link is coming by email.">
+  <meta property="og:image" content="https://pushinn.app/og-image.png">
+  <meta property="og:site_name" content="Pushinn">
+  <title>You're on the list | Pushinn</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { matrix: '#00FF41', obsidian: '#0A0A0A', surface: '#111111' }, fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } }
+    }
+  </script>
+  <style>
+    body { background-color: #000; color: #fff; }
+    .matrix-border { border: 1px solid rgba(0, 255, 65, 0.2); }
+  </style>
+</head>
+<body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <div class="flex-shrink-0">
+          <a href="/" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
+        </div>
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-baseline space-x-8">
+            <a href="/" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
+            <a href="/building" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">WHAT WE'RE BUILDING</a>
+            <a href="/dao" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">THE UNION</a>
+            <a href="/support" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8 py-24">
+    <div class="max-w-lg mx-auto text-center">
+      <div class="mx-auto mb-8 w-16 h-16 flex items-center justify-center rounded-full border border-matrix text-matrix text-2xl font-mono shadow-[0_0_20px_rgba(0,255,65,0.25)]">&check;</div>
+      <h1 class="font-mono font-extrabold text-4xl sm:text-5xl tracking-tight text-white mb-6">You're on the list.</h1>
+      <div class="space-y-4 text-lg text-gray-200 font-sans">
+        <p>Thanks for signing up to the Pushinn beta.</p>
+        <p>When there's a build ready, you'll get an email with a link to install it &mdash; TestFlight if you're on iPhone, Google Play if you're on Android. Keep an eye on your inbox, and check your spam folder for anything from <span class="text-gray-100">admin@pushinn.app</span>.</p>
+      </div>
+      <a href="/" class="inline-block mt-10 font-mono font-bold text-sm tracking-widest uppercase text-matrix border border-matrix px-8 py-4 rounded hover:bg-matrix hover:text-black transition-all duration-300">
+        Back to home
+      </a>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-black py-16 border-t matrix-border mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div class="md:col-span-1">
+          <h2 class="font-mono font-bold text-2xl text-matrix tracking-widest mb-4">PUSHINN</h2>
+          <p class="text-gray-500 text-sm font-sans pr-4">The professional social layer for London's urban skateboarding subculture.</p>
+        </div>
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6">SYSTEMS</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="/#features" class="hover:text-matrix transition-colors">Features</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6">RESOURCES</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="/support" class="hover:text-matrix transition-colors">Support Desk</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6">LEGAL</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="/legal-privacy" class="hover:text-matrix transition-colors">Privacy Policy</a></li>
+            <li><a href="/legal-terms" class="hover:text-matrix transition-colors">Terms of Service</a></li>
+            <li><a href="/support#delete" class="hover:text-red-500 transition-colors text-gray-400">Delete Account</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 border-t matrix-border flex flex-col md:flex-row justify-between items-center gap-6">
+        <p class="text-gray-600 text-xs font-mono">&copy; 2026 PUSHINN LABS LTD.</p>
+        <div class="flex flex-wrap items-center gap-4 md:gap-8 font-mono text-xs text-gray-500">
+          <a href="mailto:admin@pushinn.app" class="hover:text-matrix transition-colors">admin@pushinn.app</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
