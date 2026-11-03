@@ -25,23 +25,37 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Pushinn",
-    "url": "https://pushinn.app",
-    "image": "https://pushinn.app/og-image.png",
-    "operatingSystem": "Android, iOS",
-    "applicationCategory": "SportsApplication",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "GBP"
-    },
-    "description": "Mobile application and community platform for skateboarders and BMX riders featuring Game of S.K.A.T.E. battles, spot mapping, and rider rankings.",
-    "author": {
-      "@type": "Organization",
-      "name": "Pushinn Labs LTD",
-      "url": "https://pushinn.app"
-    }
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://pushinn.app/#organization",
+        "name": "Pushinn Labs LTD",
+        "legalName": "Pushinn Labs LTD",
+        "identifier": "17046072",
+        "url": "https://pushinn.app",
+        "logo": "https://pushinn.app/favicon.png",
+        "sameAs": [
+          "https://www.instagram.com/pushinnlabsltd/"
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Pushinn",
+        "url": "https://pushinn.app",
+        "image": "https://pushinn.app/og-image.png",
+        "operatingSystem": "Android, iOS",
+        "applicationCategory": "SportsApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "GBP"
+        },
+        "description": "Mobile application and community platform for skateboarders and BMX riders featuring Game of S.K.A.T.E. battles, spot mapping, and rider rankings.",
+        "author": {
+          "@id": "https://pushinn.app/#organization"
+        }
+      }
+    ]
   }
   </script>
   
@@ -214,6 +228,17 @@
       </a>
     </div>
   </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 py-8 px-4 text-center font-mono text-xs text-gray-500 bg-obsidian">
+    <p class="mb-2 text-gray-400">Claim the Spot. Own the Streets.</p>
+    <p>&copy; 2026 Pushinn Labs LTD. Registered in England & Wales (No. 17046072).</p>
+    <div class="mt-4 flex justify-center space-x-6 text-gray-400">
+      <a href="/legal-privacy" class="hover:text-matrix transition-colors">Privacy</a>
+      <a href="/legal-terms" class="hover:text-matrix transition-colors">Terms</a>
+      <a href="/support" class="hover:text-matrix transition-colors">Support</a>
+    </div>
+  </footer>
 
   <script>
     // Professional Typewriter Effect
