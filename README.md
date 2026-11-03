@@ -20,14 +20,12 @@ PushInn is a trustless geospatial battle network for skateboarding. It replaces 
 | Page | Path | Purpose |
 |---|---|---|
 | Home | `index.html` | Hero, features overview, bottom stats |
-| Beta | `beta.html` | App store waitlist |
 | Athlete Missions | `bounties.html` | Dynamic mission feed (loaded from `missions.json`) |
 | Sponsor-Heat Portal | `partners.html` | Brand and sponsor scouting pipeline |
 | Contact | `contact.html` | Formspree contact form (subject-prefill via `?subject=` param) |
 | Help / System Briefing | `help.html` | Platform documentation |
 | Privacy Policy | `privacy.html` | Data and privacy details |
 | Terms of Service | `terms.html` | Platform terms |
-| Thank You | `thank-you.html` | Post-form submission confirmation |
 
 ## Development
 
