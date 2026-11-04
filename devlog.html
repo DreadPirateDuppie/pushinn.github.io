@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dev Log | Pushinn</title>
+  <meta name="description" content="The Pushinn dev log: what we have built, newest first, in plain words.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { matrix: '#00FF41', obsidian: '#0A0A0A', surface: '#111111' }, fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } }
+    }
+  </script>
+  <style>
+    body { background-color: #000; color: #fff; }
+    .matrix-border { border: 1px solid rgba(0, 255, 65, 0.2); }
+    .matrix-border-glow { border: 1px solid rgba(0, 255, 65, 0.6); box-shadow: 0 0 20px rgba(0, 255, 65, 0.15); }
+    .subtle-border { border: 1px solid rgba(255, 255, 255, 0.08); }
+    .matrix-hover:hover { border-color: rgba(0, 255, 65, 0.8); box-shadow: 0 0 15px rgba(0, 255, 65, 0.15); transform: translateY(-2px); }
+  </style>
+</head>
+<body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-black matrix-border border-b border-t-0 border-x-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <div class="flex-shrink-0">
+          <a href="/" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
+        </div>
+        <div class="hidden md:flex items-center space-x-6">
+          <div class="flex items-baseline space-x-6">
+            <a href="/" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
+            <a href="/building" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">WHAT WE'RE BUILDING</a>
+            <a href="/devlog" class="text-matrix font-mono text-sm tracking-wider transition-colors duration-200">DEV LOG</a>
+            <a href="/union" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">THE UNION</a>
+            <a href="/support" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
+          </div>
+          <div id="nav-auth-container" class="flex items-center gap-2">
+            <a id="nav-login-link" href="/login" class="text-xs font-mono font-bold px-3 py-1.5 rounded bg-matrix/20 text-matrix border border-matrix/40 uppercase">
+              Sign In
+            </a>
+            <div id="nav-user-badge" class="hidden flex items-center gap-2">
+              <span id="nav-user-email" class="hidden sm:inline font-mono text-xs text-matrix"></span>
+              <button id="nav-logout-btn" type="button" class="text-xs font-mono px-2.5 py-1 rounded border border-gray-700 bg-surface text-gray-300 hover:text-white hover:border-gray-500 uppercase transition-colors">
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="-mr-2 flex md:hidden">
+          <!-- Mobile menu button -->
+          <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-matrix hover:text-white hover:bg-obsidian focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-obsidian focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <!-- Icon when menu is closed. -->
+            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <!-- Icon when menu is open. -->
+            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="hidden md:hidden bg-black border-b matrix-border shadow-2xl" id="mobile-menu">
+      <div class="px-4 pt-3 pb-5 space-y-2">
+        <a href="/" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-mono">HOME</a>
+        <a href="/building" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-mono">WHAT WE'RE BUILDING</a>
+        <a href="/devlog" class="bg-obsidian text-matrix block px-3 py-2 rounded-md text-base font-mono">DEV LOG</a>
+        <a href="/union" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-mono">THE UNION</a>
+        <a href="/support" class="text-gray-300 hover:bg-obsidian hover:text-matrix block px-3 py-2 rounded-md text-base font-mono">SUPPORT</a>
+        <div id="mobile-auth-container" class="pt-2 border-t border-gray-800">
+          <a id="mobile-login-link" href="/login" class="bg-matrix/10 text-matrix border border-matrix/30 block text-center px-3 py-2 rounded-md text-base font-mono font-bold uppercase">
+            Sign In / Account
+          </a>
+          <div id="mobile-user-badge" class="hidden flex items-center justify-between px-3 py-2 rounded-md bg-surface border border-gray-800">
+            <span id="mobile-user-email" class="font-mono text-xs text-matrix"></span>
+            <button id="mobile-logout-btn" type="button" class="text-xs font-mono px-2 py-1 rounded border border-gray-700 text-gray-300 hover:text-white uppercase">
+              Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-grow">
+    <section class="py-20 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto">
+        <div class="font-mono text-xs text-matrix tracking-widest uppercase mb-2">Built in the open</div>
+        <h1 class="text-4xl sm:text-5xl font-black font-mono text-white uppercase mb-4 tracking-tight leading-none">
+          DEV <span class="text-matrix">LOG.</span>
+        </h1>
+        <p class="text-gray-400 mb-10 text-base leading-relaxed">
+          Pushinn is built in the open. Here is what we've built, newest first, in plain words.
+        </p>
+<div class="relative space-y-6">
+          <div class="absolute left-[6px] top-6 bottom-6 w-px bg-gradient-to-b from-matrix via-matrix/30 to-transparent"></div>
+          <div class="relative pl-8 sm:pl-10">
+            <span class="absolute left-0 top-6 w-3.5 h-3.5 rounded-full bg-matrix animate-pulse ring-4 ring-black"></span>
+            <div class="bg-surface rounded-xl p-5 sm:p-6 matrix-border-glow">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="font-mono font-bold text-white uppercase text-base">Week of 26 Oct</span><span class="px-2 py-0.5 rounded-full bg-matrix text-black font-mono font-bold text-[10px] tracking-widest uppercase">Next build</span>
+                <span class="ml-auto font-mono text-[10px] tracking-widest text-gray-500 uppercase">6 changes</span>
+              </div>
+              <ul class="space-y-2.5">
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Chat is back, with Report and Block on every message.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Report clips, posts and profiles straight from the app.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-white/10 text-white border border-white/20">FIXED</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Auto check-out keeps working after you leave the spot screen.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-white/10 text-white border border-white/20">FIXED</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">If something won't load (feed, map, battles, rewards), you now get a clear message and a Retry button instead of an empty screen.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-white/10 text-white border border-white/20">FIXED</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">'Mark all as read' actually marks your notifications read.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Ad privacy choices and map credits in Settings.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="relative pl-8 sm:pl-10">
+            <span class="absolute left-0 top-6 w-3.5 h-3.5 rounded-full bg-neutral-700 ring-4 ring-black"></span>
+            <div class="bg-surface rounded-xl p-5 sm:p-6 subtle-border">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="font-mono font-bold text-white uppercase text-base">Week of 19 Oct</span>
+                <span class="ml-auto font-mono text-[10px] tracking-widest text-gray-500 uppercase">13 changes</span>
+              </div>
+              <ul class="space-y-2.5">
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Trim your video before you post it.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Pick a cover frame for your clip, and change it after posting.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Full-screen clip viewer. Landscape clips turn sideways.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Swipe up and down through a skater's clips on their profile.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-white/10 text-white border border-white/20">FIXED</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Big videos get shrunk to fit instead of refused.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Report a bug from Settings.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-white/10 text-white border border-white/20">FIXED</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">The app asks for your location once, and explains why first.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix/10 text-matrix border border-matrix/40">SAFER</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Battle votes stay sealed until both skaters have voted.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix/10 text-matrix border border-matrix/40">SAFER</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Live sessions can only be joined with the code.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix/10 text-matrix border border-matrix/40">SAFER</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Blocking someone now covers comments, likes, invites and notifications.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix/10 text-matrix border border-matrix/40">SAFER</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">No lookalike or fake staff usernames.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix/10 text-matrix border border-matrix/40">SAFER</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Chat photos can only be opened by people in that chat.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-white/10 text-white border border-white/20">FIXED</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Videos pause when you switch tab.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="relative pl-8 sm:pl-10">
+            <span class="absolute left-0 top-6 w-3.5 h-3.5 rounded-full bg-neutral-700 ring-4 ring-black"></span>
+            <div class="bg-surface rounded-xl p-5 sm:p-6 subtle-border">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="font-mono font-bold text-white uppercase text-base">Week of 12 Oct</span>
+                <span class="ml-auto font-mono text-[10px] tracking-widest text-gray-500 uppercase">3 changes</span>
+              </div>
+              <ul class="space-y-2.5">
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Redesigned post screen.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix/10 text-matrix border border-matrix/40">SAFER</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Battle clips have to be your own upload for that battle.</span>
+                </li>
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix/10 text-matrix border border-matrix/40">SAFER</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Trick scores are worked out by Pushinn, so they can't be faked.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="relative pl-8 sm:pl-10">
+            <span class="absolute left-0 top-6 w-3.5 h-3.5 rounded-full bg-neutral-700 ring-4 ring-black"></span>
+            <div class="bg-surface rounded-xl p-5 sm:p-6 subtle-border">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="font-mono font-bold text-white uppercase text-base">Week of 5 Oct</span>
+                <span class="ml-auto font-mono text-[10px] tracking-widest text-gray-500 uppercase">1 change</span>
+              </div>
+              <ul class="space-y-2.5">
+                <li class="flex gap-3 items-start">
+                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
+                  <span class="text-sm text-gray-300 leading-relaxed">Delete your account any time. Your battles stay as 'Deleted skater' and your spots stay on the map.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-black py-16 border-t matrix-border mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div class="md:col-span-1">
+          <h2 class="font-mono font-bold text-2xl text-matrix tracking-widest mb-4">PUSHINN</h2>
+          <p class="text-gray-500 text-sm font-sans pr-4">Claim the Spot. Own the Streets.</p>
+        </div>
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6">SYSTEMS</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="/#features" class="hover:text-matrix transition-colors">Features</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6">RESOURCES</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="/devlog" class="text-matrix transition-colors">Dev Log</a></li>
+            <li><a href="/support" class="hover:text-matrix transition-colors">Support Desk</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-mono text-white text-sm tracking-widest mb-6">LEGAL</h4>
+          <ul class="space-y-4 font-sans text-sm text-gray-400">
+            <li><a href="/legal-privacy" class="hover:text-matrix transition-colors">Privacy Policy</a></li>
+            <li><a href="/legal-terms" class="hover:text-matrix transition-colors">Terms of Service</a></li>
+            <li><a href="/support#takedown" class="hover:text-matrix transition-colors">Property Takedown</a></li>
+            <li><a href="/support#delete" class="hover:text-red-500 transition-colors text-gray-400">Delete Account</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 border-t matrix-border flex flex-col md:flex-row justify-between items-center gap-6">
+        <p class="text-gray-600 text-xs font-mono">&copy; 2026 PUSHINN LABS LTD.</p>
+        <div class="flex flex-wrap items-center gap-4 md:gap-8 font-mono text-xs text-gray-500">
+          <a href="mailto:admin@pushinn.app" class="hover:text-matrix transition-colors">admin@pushinn.app</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Supabase Integration -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const _supabaseUrl = 'https://hbwycwbmkarztmodssyc.supabase.co';
+    const _supabaseKey = ['sb_publishable', 'l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg'].join('_'); // gitleaks:allow
+    // The library is on the page as `supabase`, so the client needs a name of its own.
+    const db = window.supabase.createClient(_supabaseUrl, _supabaseKey);
+
+    const supportForm = document.getElementById('support-form');
+    if (supportForm) {
+      supportForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('support-submit-btn');
+        const category = (supportForm.elements['category'] && supportForm.elements['category'].value) || 'Beta Feedback';
+        const name = (supportForm.elements['name'].value || '').trim();
+        const email = (supportForm.elements['email'].value || '').trim();
+        const subject = (supportForm.elements['subject'].value || '').trim();
+        const message = (supportForm.elements['message'].value || '').trim();
+        const successMsg = document.getElementById('support-success-msg');
+        const errorMsg = document.getElementById('support-error-msg');
+        
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
+
+        // The database refuses subjects over 150 characters; the tag adds up to 18.
+        const taggedSubject = ('[' + category + '] ' + subject).slice(0, 150);
+
+        // using contact_messages table for general support & beta tester feedback
+        const { error } = await db
+          .from('contact_messages')
+          .insert([{ username: name, email: email, subject: taggedSubject, message: message }]);
+
+        btn.disabled = false;
+        btn.textContent = 'Send Message';
+
+        if (error) {
+          errorMsg.style.display = 'block';
+          console.error('Supabase error:', error);
+        } else {
+          successMsg.style.display = 'block';
+          supportForm.reset();
+        }
+      });
+    }
+
+    // Mobile menu toggle & close on link tap
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenuButton && mobileMenu) {
+      const menuIconOpen = mobileMenuButton.querySelector('svg:first-child');
+      const menuIconClose = mobileMenuButton.querySelector('svg:last-child');
+
+      function toggleMenu(show) {
+        const isExpanded = typeof show === 'boolean' ? show : mobileMenu.classList.contains('hidden');
+        mobileMenuButton.setAttribute('aria-expanded', isExpanded);
+        if (isExpanded) {
+          mobileMenu.classList.remove('hidden');
+          menuIconOpen.classList.add('hidden');
+          menuIconClose.classList.remove('hidden');
+        } else {
+          mobileMenu.classList.add('hidden');
+          menuIconOpen.classList.remove('hidden');
+          menuIconClose.classList.add('hidden');
+        }
+      }
+
+      mobileMenuButton.addEventListener('click', () => toggleMenu());
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => toggleMenu(false));
+      });
+    }
+
+    // Navbar session management
+    (function() {
+      const navLoginLink = document.getElementById('nav-login-link');
+      const navUserBadge = document.getElementById('nav-user-badge');
+      const navUserEmail = document.getElementById('nav-user-email');
+      const navLogoutBtn = document.getElementById('nav-logout-btn');
+
+      const mobileLoginLink = document.getElementById('mobile-login-link');
+      const mobileUserBadge = document.getElementById('mobile-user-badge');
+      const mobileUserEmail = document.getElementById('mobile-user-email');
+      const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+
+      function updateNav(user) {
+        if (user && user.email) {
+          const handle = user.email.split('@')[0];
+          if (navLoginLink) navLoginLink.classList.add('hidden');
+          if (navUserBadge) navUserBadge.classList.remove('hidden');
+          if (navUserEmail) navUserEmail.textContent = handle;
+
+          if (mobileLoginLink) mobileLoginLink.classList.add('hidden');
+          if (mobileUserBadge) mobileUserBadge.classList.remove('hidden');
+          if (mobileUserEmail) mobileUserEmail.textContent = handle;
+
+          // Auto-fill support form fields if empty
+          const nameInput = document.getElementById('support-name');
+          const emailInput = document.getElementById('support-email');
+          if (nameInput && !nameInput.value) nameInput.value = handle;
+          if (emailInput && !emailInput.value) emailInput.value = user.email;
+        } else {
+          if (navLoginLink) navLoginLink.classList.remove('hidden');
+          if (navUserBadge) navUserBadge.classList.add('hidden');
+
+          if (mobileLoginLink) mobileLoginLink.classList.remove('hidden');
+          if (mobileUserBadge) mobileUserBadge.classList.add('hidden');
+        }
+      }
+
+      async function checkSession() {
+        try {
+          const { data: { session } } = await db.auth.getSession();
+          updateNav(session ? session.user : null);
+        } catch (e) {
+          console.error('Session error:', e);
+        }
+      }
+
+      checkSession();
+
+      async function handleSignOut() {
+        await db.auth.signOut();
+        window.location.reload();
+      }
+
+      if (navLogoutBtn) navLogoutBtn.addEventListener('click', handleSignOut);
+      if (mobileLogoutBtn) mobileLogoutBtn.addEventListener('click', handleSignOut);
+
+      db.auth.onAuthStateChange((event, session) => {
+        updateNav(session ? session.user : null);
+      });
+    })();
+  </script>
+</body>
+</html>

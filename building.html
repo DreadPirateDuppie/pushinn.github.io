@@ -168,6 +168,7 @@
         <div class="hidden md:flex items-center space-x-6">
           <a href="/" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200 uppercase">HOME</a>
           <a href="/building" class="text-matrix font-mono text-sm tracking-wider uppercase font-semibold">WHAT WE'RE BUILDING</a>
+          <a href="/devlog" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200 uppercase">DEV LOG</a>
           <a href="/union" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200 uppercase">THE UNION</a>
           <a href="/support" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200 uppercase">SUPPORT</a>
           
@@ -203,6 +204,7 @@
     <div id="mobile-menu" class="hidden md:hidden bg-surface border-b border-matrix/20 px-4 pt-3 pb-6 space-y-3">
       <a href="/" class="block text-gray-300 hover:text-matrix font-mono text-sm tracking-wider uppercase py-1">HOME</a>
       <a href="/building" class="block text-matrix font-mono text-sm tracking-wider uppercase font-bold py-1">WHAT WE'RE BUILDING</a>
+      <a href="/devlog" class="block text-gray-300 hover:text-matrix font-mono text-sm tracking-wider uppercase py-1">DEV LOG</a>
       <a href="/union" class="block text-gray-300 hover:text-matrix font-mono text-sm tracking-wider uppercase py-1">THE UNION</a>
       <a href="/support" class="block text-gray-300 hover:text-matrix font-mono text-sm tracking-wider uppercase py-1">SUPPORT</a>
       
@@ -256,10 +258,6 @@
           <span>06</span>
           <span class="deck-popout absolute right-full mr-2 sm:mr-3 px-2 sm:px-2.5 py-1 rounded bg-black/95 border border-matrix/40 text-matrix text-[10px] sm:text-xs font-mono tracking-wider whitespace-nowrap shadow-[0_0_15px_rgba(0,0,0,0.9)]">06 // WHERE WE ARE</span>
         </a>
-        <a href="#updates" data-section="updates" title="07. Weekly Updates" class="deck-node group relative w-7 h-7 rounded-full flex items-center justify-center font-mono text-[10px] bg-black border border-neutral-700 text-gray-400 hover:text-matrix hover:border-matrix touch-manipulation cursor-pointer">
-          <span>07</span>
-          <span class="deck-popout absolute right-full mr-2 sm:mr-3 px-2 sm:px-2.5 py-1 rounded bg-black/95 border border-matrix/40 text-matrix text-[10px] sm:text-xs font-mono tracking-wider whitespace-nowrap shadow-[0_0_15px_rgba(0,0,0,0.9)]">07 // WEEKLY UPDATES</span>
-        </a>
       </div>
     </aside>
 
@@ -285,7 +283,7 @@
 
         <!-- Pitch Deck Index (7 Sections Upfront) -->
         <div class="mt-4 mb-3">
-          <div class="text-[10px] font-mono uppercase tracking-[0.25em] text-gray-500 mb-2.5">PITCH DECK OUTLINE // 7 SECTIONS</div>
+          <div class="text-[10px] font-mono uppercase tracking-[0.25em] text-gray-500 mb-2.5">PITCH DECK OUTLINE // 6 SECTIONS</div>
           <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 text-xs font-mono max-w-4xl mx-auto">
             <a href="#mission" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">01. MISSION</a>
             <a href="#engine" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">02. APP ENGINE</a>
@@ -293,7 +291,6 @@
             <a href="#susu" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">04. COMMUNITY CAPITAL</a>
             <a href="#economy" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">05. ECONOMIC FLYWHEEL</a>
             <a href="#timeline" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">06. WHERE WE ARE</a>
-            <a href="#updates" class="px-2.5 py-1.5 rounded bg-surface subtle-border hover:border-matrix text-gray-300 hover:text-matrix transition-all">07. WEEKLY UPDATES</a>
           </div>
         </div>
       </div>
@@ -735,158 +732,6 @@
       </div>
     </section>
 
-    <!-- 07. WEEKLY UPDATES (patch notes, newest first; plain words, built work only) -->
-    <section id="updates" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-matrix/10">
-      <a id="devlog" class="sr-only"></a>
-      <div class="max-w-3xl mx-auto">
-        <div class="font-mono text-xs text-matrix tracking-widest uppercase mb-2">07 // WEEKLY UPDATES</div>
-        <h2 class="text-4xl sm:text-5xl font-black font-mono text-white uppercase mb-4 tracking-tight leading-none">
-          WHAT CHANGED <span class="text-matrix">THIS WEEK.</span>
-        </h2>
-        <p class="text-gray-400 mb-10 text-base leading-relaxed">
-          Pushinn is built in the open. Here is what we've built, week by week, newest first. The newest week lands in the next build.
-        </p>
-        <div class="relative space-y-6">
-          <div class="log-line absolute left-[6px] top-6 bottom-6 w-px bg-gradient-to-b from-matrix via-matrix/30 to-transparent"></div>
-          <div class="relative pl-8 sm:pl-10">
-            <span class="absolute left-0 top-6 w-3.5 h-3.5 rounded-full bg-matrix animate-pulse ring-4 ring-black"></span>
-            <div class="bg-surface rounded-xl p-5 sm:p-6 matrix-border-glow">
-              <div class="flex items-center gap-3 mb-4">
-                <span class="font-mono font-bold text-white uppercase text-base">Week of 26 Oct</span><span class="px-2 py-0.5 rounded-full bg-matrix text-black font-mono font-bold text-[10px] tracking-widest uppercase">Next build</span>
-                <span class="ml-auto font-mono text-[10px] tracking-widest text-gray-500 uppercase">6 changes</span>
-              </div>
-              <ul class="space-y-2.5">
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Chat is back, with Report and Block on every message.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Report clips, posts and profiles straight from the app.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-white/10 text-white border border-white/20">FIXED</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Auto check-out keeps working after you leave the spot screen.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-white/10 text-white border border-white/20">FIXED</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">If something won't load (feed, map, battles, rewards), you now get a clear message and a Retry button instead of an empty screen.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-white/10 text-white border border-white/20">FIXED</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">'Mark all as read' actually marks your notifications read.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Ad privacy choices and map credits in Settings.</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="relative pl-8 sm:pl-10">
-            <span class="absolute left-0 top-6 w-3.5 h-3.5 rounded-full bg-neutral-700 ring-4 ring-black"></span>
-            <div class="bg-surface rounded-xl p-5 sm:p-6 subtle-border">
-              <div class="flex items-center gap-3 mb-4">
-                <span class="font-mono font-bold text-white uppercase text-base">Week of 19 Oct</span>
-                <span class="ml-auto font-mono text-[10px] tracking-widest text-gray-500 uppercase">13 changes</span>
-              </div>
-              <ul class="space-y-2.5">
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Trim your video before you post it.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Pick a cover frame for your clip, and change it after posting.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Full-screen clip viewer. Landscape clips turn sideways.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Swipe up and down through a skater's clips on their profile.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-white/10 text-white border border-white/20">FIXED</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Big videos get shrunk to fit instead of refused.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Report a bug from Settings.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-white/10 text-white border border-white/20">FIXED</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">The app asks for your location once, and explains why first.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix/10 text-matrix border border-matrix/40">SAFER</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Battle votes stay sealed until both skaters have voted.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix/10 text-matrix border border-matrix/40">SAFER</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Live sessions can only be joined with the code.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix/10 text-matrix border border-matrix/40">SAFER</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Blocking someone now covers comments, likes, invites and notifications.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix/10 text-matrix border border-matrix/40">SAFER</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">No lookalike or fake staff usernames.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix/10 text-matrix border border-matrix/40">SAFER</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Chat photos can only be opened by people in that chat.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-white/10 text-white border border-white/20">FIXED</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Videos pause when you switch tab.</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="relative pl-8 sm:pl-10">
-            <span class="absolute left-0 top-6 w-3.5 h-3.5 rounded-full bg-neutral-700 ring-4 ring-black"></span>
-            <div class="bg-surface rounded-xl p-5 sm:p-6 subtle-border">
-              <div class="flex items-center gap-3 mb-4">
-                <span class="font-mono font-bold text-white uppercase text-base">Week of 12 Oct</span>
-                <span class="ml-auto font-mono text-[10px] tracking-widest text-gray-500 uppercase">3 changes</span>
-              </div>
-              <ul class="space-y-2.5">
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Redesigned post screen.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix/10 text-matrix border border-matrix/40">SAFER</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Battle clips have to be your own upload for that battle.</span>
-                </li>
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix/10 text-matrix border border-matrix/40">SAFER</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Trick scores are worked out by Pushinn, so they can't be faked.</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="relative pl-8 sm:pl-10">
-            <span class="absolute left-0 top-6 w-3.5 h-3.5 rounded-full bg-neutral-700 ring-4 ring-black"></span>
-            <div class="bg-surface rounded-xl p-5 sm:p-6 subtle-border">
-              <div class="flex items-center gap-3 mb-4">
-                <span class="font-mono font-bold text-white uppercase text-base">Week of 5 Oct</span>
-                <span class="ml-auto font-mono text-[10px] tracking-widest text-gray-500 uppercase">1 change</span>
-              </div>
-              <ul class="space-y-2.5">
-                <li class="flex gap-3 items-start">
-                  <span class="shrink-0 mt-0.5 w-14 text-center px-1.5 py-0.5 rounded font-mono font-bold text-[10px] tracking-widest bg-matrix text-black">NEW</span>
-                  <span class="text-sm text-gray-300 leading-relaxed">Delete your account any time. Your battles stay as 'Deleted skater' and your spots stay on the map.</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- 08. CALL TO ACTION / BACK PUSHINN -->
     <section class="py-24 px-4 sm:px-6 lg:px-8 text-center bg-gradient-to-t from-surface via-black to-black">
@@ -988,7 +833,7 @@
     const targets = new Set();
     document.querySelectorAll('main section:not(#hero)').forEach(sec => {
       sec.querySelectorAll(':scope > div > div:not(.grid), :scope > div > p').forEach(el => targets.add(el));
-      sec.querySelectorAll('.grid > *, #updates .relative > .relative, #timeline .rounded-2xl').forEach(el => {
+      sec.querySelectorAll('.grid > *, #timeline .rounded-2xl').forEach(el => {
         if (!el.closest('.stage-steps') && !el.closest('#engine .lg\\:col-span-5')) targets.add(el);
       });
     });
@@ -1022,7 +867,7 @@
     const bar = document.getElementById('scroll-progress');
     const heroInner = document.getElementById('hero-inner');
     const logLine = document.querySelector('.log-line');
-    const devlog = document.getElementById('updates') || document.getElementById('devlog');
+    const devlog = null;
     let lastY = window.scrollY, x = 0, speed = 1, ticking = false;
     let currentDeckActive = -2;
     let popoutTimer = null;
@@ -1063,7 +908,7 @@
       }
 
       // Pitch Deck Section Progress Rail ScrollSpy & Liquid Continuous Spine
-      const sectionIds = ['mission', 'engine', 'careers', 'susu', 'economy', 'timeline', 'updates'];
+      const sectionIds = ['mission', 'engine', 'careers', 'susu', 'economy', 'timeline'];
       const railNodes = document.querySelectorAll('.deck-node');
       const railProgress = document.getElementById('deck-rail-progress');
       if (deckRail && railNodes.length) {
@@ -1176,7 +1021,7 @@
 
     // Touch & Drag Scrubber along Pitch Deck Rail
     if (deckRail) {
-      const sectionIds = ['mission', 'engine', 'careers', 'susu', 'economy', 'timeline', 'updates'];
+      const sectionIds = ['mission', 'engine', 'careers', 'susu', 'economy', 'timeline'];
       const secEls = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
       const railNodes = document.querySelectorAll('.deck-node');
       const railProgress = document.getElementById('deck-rail-progress');
