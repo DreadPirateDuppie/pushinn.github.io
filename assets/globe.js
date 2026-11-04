@@ -8,6 +8,7 @@
   var W = 720, H = 360, RES = 0.5, D = Math.PI / 180;
   var LON = -0.1278, LAT = 51.5074;       // London
   var TILT = -8 * D, CT = Math.cos(TILT), ST = Math.sin(TILT);
+  function setTilt(t) { TILT = Math.max(-100 * D, Math.min(5 * D, t)); CT = Math.cos(TILT); ST = Math.sin(TILT); }
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var w, h, R, cx, cy, dpr, rot = LON * D, t0 = 0, last = 0, raf = 0;
 
@@ -107,12 +108,33 @@
   function frame(now) {
     raf = requestAnimationFrame(frame);
     if (now - last < 33) return;            // ~30fps
-    rot += (now - last) * 0.0000625 * (last ? 1 : 0); // ~3.6 deg/s
+    if (!drag && now >= resumeAt) rot += (now - last) * 0.0000625 * (last ? 1 : 0); // ~3.6 deg/s, paused while dragging
     last = now;
     draw(now);
   }
   function start() { if (!raf && !reduce) { last = 0; raf = requestAnimationFrame(frame); } }
   function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+
+  // Desktop only (wide screen, mouse): drag to turn the globe. Left/right turns it,
+  // up/down tilts it so the southern hemisphere can be brought into view.
+  var drag = null, resumeAt = 0;
+  if (window.matchMedia && matchMedia('(hover: hover) and (pointer: fine) and (min-width: 768px)').matches) {
+    cv.style.pointerEvents = 'auto'; cv.style.cursor = 'grab'; cv.style.touchAction = 'none';
+    cv.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0) return;
+      drag = { x: e.clientX, y: e.clientY }; cv.style.cursor = 'grabbing';
+      try { cv.setPointerCapture(e.pointerId); } catch (x) {}
+    });
+    cv.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      rot -= (e.clientX - drag.x) / R;
+      setTilt(TILT + (e.clientY - drag.y) / R);
+      drag.x = e.clientX; drag.y = e.clientY;
+      draw(performance.now());
+    });
+    var end = function () { if (drag) { drag = null; cv.style.cursor = 'grab'; resumeAt = performance.now() + 4000; } };
+    cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  }
 
   size();
   draw(0);
