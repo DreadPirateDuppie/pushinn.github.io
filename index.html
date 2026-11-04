@@ -164,6 +164,8 @@
 
   <!-- HERO / STREET TERMINAL (Zero-Scroll Viewport Lock) -->
   <main class="flex flex-col justify-center items-center h-[calc(100svh-3.5rem)] sm:h-[calc(100dvh-5rem)] px-4 sm:px-6 relative overflow-hidden text-center">
+    <!-- Ambient dot-matrix globe (decorative, never receives input) -->
+    <canvas id="globe-canvas" aria-hidden="true" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
     <!-- Headline -->
     <h1 class="font-mono font-extrabold text-3xl sm:text-5xl md:text-6xl tracking-tight text-white mb-4 sm:mb-5 min-h-[72px] sm:min-h-[110px] leading-tight flex flex-col justify-center relative z-10">
       <span class="sr-only">Pushinn - The Skaters' Union</span>
@@ -303,6 +305,7 @@
     });
   </script>
 
+  <script src="assets/globe.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     // Mobile menu toggle & close on link tap
