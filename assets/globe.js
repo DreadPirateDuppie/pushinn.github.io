@@ -45,7 +45,7 @@
     cv.width = w * dpr; cv.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     R = Math.max(w * 0.5, 460);
-    var cap = R * (w >= 768 ? 0.3 : 0.36);
+    var cap = R * (w >= 768 ? 0.5 : 0.36);
     cx = w / 2; cy = h - cap + R;
   }
 
