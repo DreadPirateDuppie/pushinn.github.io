@@ -108,7 +108,7 @@
   function frame(now) {
     raf = requestAnimationFrame(frame);
     if (now - last < 33) return;            // ~30fps
-    if (!drag && now >= resumeAt) rot += (now - last) * 0.0000625 * (last ? 1 : 0); // ~3.6 deg/s, paused while dragging
+    if (!drag) rot += (now - last) * 0.0000625 * (last ? 1 : 0); // ~3.6 deg/s, held only while the mouse is down
     last = now;
     draw(now);
   }
@@ -117,7 +117,7 @@
 
   // Desktop only (wide screen, mouse): drag to turn the globe. Left/right turns it,
   // up/down tilts it so the southern hemisphere can be brought into view.
-  var drag = null, resumeAt = 0;
+  var drag = null;
   if (window.matchMedia && matchMedia('(hover: hover) and (pointer: fine) and (min-width: 768px)').matches) {
     cv.style.pointerEvents = 'auto'; cv.style.cursor = 'grab'; cv.style.touchAction = 'none';
     cv.addEventListener('pointerdown', function (e) {
@@ -132,7 +132,7 @@
       drag.x = e.clientX; drag.y = e.clientY;
       draw(performance.now());
     });
-    var end = function () { if (drag) { drag = null; cv.style.cursor = 'grab'; resumeAt = performance.now() + 4000; } };
+    var end = function () { if (drag) { drag = null; cv.style.cursor = 'grab'; } };
     cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
   }
 
