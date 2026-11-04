@@ -178,12 +178,15 @@
             <a id="nav-login-link" href="/login" class="text-xs font-mono font-bold px-3 py-1.5 rounded bg-matrix/20 text-matrix border border-matrix/40 uppercase">
               Sign In
             </a>
-            <div id="nav-user-badge" class="hidden flex items-center gap-2">
-              <a id="nav-user-email" href="/settings" title="Account settings" class="hidden sm:inline font-mono text-xs text-matrix hover:underline"></a>
-              <a href="/settings" class="text-xs font-mono px-2.5 py-1 rounded border border-gray-700 bg-surface text-gray-300 hover:text-white hover:border-gray-500 uppercase transition-colors">Settings</a>
-              <button id="nav-logout-btn" type="button" class="text-xs font-mono px-2.5 py-1 rounded border border-gray-700 bg-surface text-gray-300 hover:text-white hover:border-gray-500 uppercase transition-colors">
-                Sign Out
+            <div id="nav-user-badge" class="hidden relative">
+              <button id="nav-cog-btn" type="button" aria-label="Account menu" aria-haspopup="true" aria-expanded="false" class="flex items-center justify-center w-9 h-9 rounded-full border border-gray-700 bg-surface text-gray-300 hover:text-matrix hover:border-matrix/60 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
               </button>
+              <div id="nav-cog-menu" role="menu" class="hidden absolute right-0 top-full mt-2 w-52 rounded-xl border border-matrix/25 bg-[#0D0D0D] shadow-lg overflow-hidden z-50">
+                <div id="nav-user-email" class="px-4 py-3 font-mono text-xs text-matrix truncate border-b border-white/10"></div>
+                <a href="/settings" role="menuitem" class="block px-4 py-2.5 font-mono text-xs uppercase tracking-wider text-gray-300 hover:text-white hover:bg-white/5">Settings</a>
+                <button id="nav-logout-btn" type="button" role="menuitem" class="block w-full text-left px-4 py-2.5 font-mono text-xs uppercase tracking-wider text-gray-300 hover:text-white hover:bg-white/5">Sign out</button>
+              </div>
             </div>
           </div>
         </div>
@@ -217,9 +220,10 @@
         </a>
         <div id="mobile-user-badge" class="hidden flex items-center justify-between px-3 py-2 rounded-md bg-black border border-gray-800">
           <span id="mobile-user-email" class="font-mono text-xs text-matrix"></span>
+          <span class="flex items-center gap-2"><a href="/settings" class="text-xs font-mono px-2 py-1 rounded border border-gray-700 text-gray-300 hover:text-white uppercase">Settings</a>
           <button id="mobile-logout-btn" type="button" class="text-xs font-mono px-2 py-1 rounded border border-gray-700 bg-surface text-gray-300 hover:text-white uppercase">
             Sign Out
-          </button>
+          </button></span>
         </div>
       </div>
     </div>
