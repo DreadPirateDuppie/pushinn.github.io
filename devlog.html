@@ -21,6 +21,7 @@
     .subtle-border { border: 1px solid rgba(255, 255, 255, 0.08); }
     .matrix-hover:hover { border-color: rgba(0, 255, 65, 0.8); box-shadow: 0 0 15px rgba(0, 255, 65, 0.15); transform: translateY(-2px); }
   </style>
+  <script src="/assets/nav-gate.js"></script>
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
   <!-- NAVIGATION -->
@@ -43,7 +44,8 @@
               Sign In
             </a>
             <div id="nav-user-badge" class="hidden flex items-center gap-2">
-              <span id="nav-user-email" class="hidden sm:inline font-mono text-xs text-matrix"></span>
+              <a id="nav-user-email" href="/settings" title="Account settings" class="hidden sm:inline font-mono text-xs text-matrix hover:underline"></a>
+              <a href="/settings" class="text-xs font-mono px-2.5 py-1 rounded border border-gray-700 bg-surface text-gray-300 hover:text-white hover:border-gray-500 uppercase transition-colors">Settings</a>
               <button id="nav-logout-btn" type="button" class="text-xs font-mono px-2.5 py-1 rounded border border-gray-700 bg-surface text-gray-300 hover:text-white hover:border-gray-500 uppercase transition-colors">
                 Sign Out
               </button>

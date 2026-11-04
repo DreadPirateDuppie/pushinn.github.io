@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Pushinn</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            matrix: '#00FF41',
+            obsidian: '#0A0A0A',
+            surface: '#111111'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #000; color: #fff; }
+    .matrix-border { border: 1px solid rgba(0, 255, 65, 0.2); }
+    .matrix-glow { box-shadow: 0 0 20px rgba(0, 255, 65, 0.15); }
+    .matrix-hover:hover { border-color: rgba(0, 255, 65, 0.8); box-shadow: 0 0 15px rgba(0, 255, 65, 0.2); }
+    /* Pushinn design standard: one green, panels #0D0D0D with a 25% green edge, radius 12, pills for chips and buttons */
+    .p-panel { background: #0D0D0D; border: 1px solid rgba(0, 255, 65, 0.25); border-radius: 12px; }
+    .p-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #00FF41; }
+    .p-field { width: 100%; background: #000; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; padding: 12px 14px; color: #fff; font-size: 14px; }
+    .p-field:focus { outline: none; border-color: #00FF41; }
+    .p-field::placeholder { color: rgba(255, 255, 255, 0.3); }
+    .p-btn { background: #00FF41; color: #000; font-weight: 600; font-size: 14px; padding: 11px 22px; border-radius: 999px; transition: background-color .15s; }
+    .p-btn:hover { background: #fff; }
+    .p-btn:disabled { opacity: .5; }
+    .p-btn-ghost { border: 1px solid rgba(255, 255, 255, 0.2); color: rgba(255, 255, 255, 0.8); font-weight: 600; font-size: 13px; padding: 7px 16px; border-radius: 999px; transition: border-color .15s, color .15s; }
+    .p-btn-ghost:hover { border-color: #fff; color: #fff; }
+    .p-chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(255, 255, 255, 0.15); color: rgba(255, 255, 255, 0.7); font-size: 13px; font-weight: 500; padding: 6px 14px; border-radius: 999px; transition: border-color .15s, color .15s; }
+    .p-chip:hover { border-color: rgba(255, 255, 255, 0.4); color: #fff; }
+    .p-chip-on, .p-chip-on:hover { border-color: #00FF41; color: #00FF41; }
+    .p-chip .admin-count, .p-chip .chip-count { color: rgba(255, 255, 255, 0.4); font-variant-numeric: tabular-nums; }
+    .p-chip-on .admin-count, .p-chip-on .chip-count { color: rgba(0, 255, 65, 0.7); }
+    .stat-btn { text-align: left; transition: border-color .15s; }
+    .stat-btn:hover { border-color: rgba(0, 255, 65, 0.6); }
+    .stat-btn.on { border-color: #00FF41; }
+    .p-tab { font-size: 14px; font-weight: 600; padding: 8px 18px; border-radius: 999px; color: rgba(255, 255, 255, 0.5); border: 1px solid transparent; transition: color .15s, border-color .15s; }
+    .p-tab:hover { color: #fff; }
+    @media (max-width: 480px) { .p-tab { font-size: 13px; padding: 7px 11px; white-space: nowrap; } }
+    .p-tab-on, .p-tab-on:hover { color: #fff; border-color: rgba(255, 255, 255, 0.2); background: #0D0D0D; }
+    .p-status { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+    .p-status .dot { width: 6px; height: 6px; border-radius: 999px; background: currentColor; }
+    .hit-btn { width: 56px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 8px 0; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.15); transition: border-color .15s, background-color .15s; }
+    .hit-btn:hover:not(:disabled) { border-color: #00FF41; }
+    .hit-btn .n { font-size: 20px; font-weight: 600; color: #fff; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .hit-btn .t { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.5); }
+    .hit-btn.on { border-color: #00FF41; }
+    .hit-btn.on .n, .hit-btn.on .t { color: #00FF41; }
+    .hit-btn:disabled { cursor: default; }
+    .vote-opt { position: relative; overflow: hidden; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left; padding: 11px 16px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.15); color: #fff; font-size: 14px; font-weight: 500; transition: border-color .15s; }
+    button.vote-opt:hover:not(:disabled) { border-color: #00FF41; }
+    .vote-opt.mine { border-color: #00FF41; color: #00FF41; }
+    .vote-opt.result { border-radius: 12px; cursor: default; }
+    .vote-opt .bar { position: absolute; inset: 0 auto 0 0; background: rgba(255, 255, 255, 0.08); }
+    .vote-opt.lead .bar { background: rgba(0, 255, 65, 0.18); }
+    .vote-opt .lbl, .vote-opt .pct { position: relative; }
+    .vote-opt .pct { font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, 0.7); }
+    .vote-opt.lead .lbl { font-weight: 700; }
+    .p-subtab { font-size: 14px; font-weight: 600; padding: 10px 0; margin-bottom: -1px; white-space: nowrap; color: rgba(255, 255, 255, 0.5); border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; }
+    .p-subtab:hover { color: #fff; }
+    .p-subtab-on, .p-subtab-on:hover { color: #fff; border-bottom-color: #00FF41; }
+    .sub-count { font-size: 11px; font-weight: 600; color: #000; background: rgba(255, 255, 255, 0.5); border-radius: 999px; padding: 1px 7px; margin-left: 4px; font-variant-numeric: tabular-nums; }
+    .sub-count:empty { display: none; }
+    .kpi { text-align: left; }
+    button.kpi { transition: border-color .15s; }
+    button.kpi:hover { border-color: rgba(0, 255, 65, 0.6); }
+    .bars { display: flex; align-items: flex-end; gap: 2px; height: 96px; }
+    .bars .bar { flex: 1; min-width: 0; height: 100%; display: flex; align-items: flex-end; cursor: default; }
+    .bars .bar i { display: block; width: 100%; background: #00FF41; border-radius: 4px 4px 0 0; min-height: 2px; opacity: .85; }
+    .bars .bar.zero i { background: rgba(255, 255, 255, 0.12); }
+    .bars .bar:hover i, .bars .bar.on i { opacity: 1; background: #fff; }
+    .ret td, .ret th { padding: 6px 5px; text-align: center; font-variant-numeric: tabular-nums; font-size: 12px; white-space: nowrap; }
+    .ret td.c { border-radius: 6px; }
+  </style>
+  <script src="/assets/nav-gate.js"></script>
+</head>
+<body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col font-sans">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <div class="flex items-center gap-3">
+          <a href="/" class="font-mono font-bold text-2xl text-matrix tracking-widest uppercase">PUSHINN</a>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-matrix/10 text-matrix border border-matrix/30">ADMIN</span>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="hidden md:flex items-baseline space-x-6">
+            <a href="/" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">HOME</a>
+            <a href="/building" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">WHAT WE'RE BUILDING</a>
+            <a href="/devlog" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">DEV LOG</a>
+            <a href="/union" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">THE UNION</a>
+            <a href="/support" class="text-gray-300 hover:text-matrix font-mono text-sm tracking-wider transition-colors duration-200">SUPPORT</a>
+          </div>
+          <div id="nav-auth-container" class="flex items-center gap-2">
+            <a id="nav-login-link" href="/login?redirect=/union" class="hidden text-xs font-mono font-bold px-3 py-1.5 rounded bg-matrix text-black hover:bg-white uppercase transition-colors">
+              Sign In
+            </a>
+            <div id="nav-user-badge" class="hidden flex items-center gap-2">
+              <a id="nav-user-email" href="/settings" title="Account settings" class="hidden sm:inline font-mono text-xs text-matrix hover:underline"></a>
+              <a href="/settings" class="text-xs font-mono px-2.5 py-1 rounded border border-gray-700 bg-surface text-gray-300 hover:text-white hover:border-gray-500 uppercase transition-colors">Settings</a>
+              <button id="nav-logout-btn" type="button" class="text-xs font-mono px-2.5 py-1 rounded border border-gray-700 bg-surface text-gray-300 hover:text-white hover:border-gray-500 uppercase transition-colors">
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-grow">
+
+    <!-- NOT AN ADMIN -->
+    <section id="denied-section" class="max-w-md mx-auto px-4 pt-24 pb-24 hidden">
+      <div class="bg-surface matrix-border p-8 rounded-lg matrix-glow text-center">
+        <div class="font-sans text-matrix text-xs font-semibold tracking-wider uppercase mb-2">Admins only</div>
+        <h2 class="font-sans font-bold text-xl text-white mb-3">This page is for Pushinn admins</h2>
+        <p class="text-gray-400 text-sm mb-6 font-sans">Your account isn't an admin account. The Skaters' Union is where members report bugs, post ideas and vote.</p>
+        <a href="/union" class="block w-full bg-matrix text-black font-sans font-bold text-sm tracking-wider uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300">Back to the Union</a>
+      </div>
+    </section>
+
+    <!-- ADMIN CONTENT (REVEALED ONCE THE DATABASE CONFIRMS THIS ACCOUNT IS AN ADMIN) -->
+    <section id="dao-content" class="max-w-3xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-24 hidden font-sans">
+      <!-- COMPACT HEADER -->
+      <header class="flex items-start justify-between gap-4 mb-8">
+        <div class="min-w-0">
+          <div class="p-label">Pushinn</div>
+          <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight text-white mt-2">Admin<span id="dao-handle" class="hidden"></span></h1>
+          <p class="text-sm text-white/50 mt-2 truncate">Signed in as <span id="authenticated-email" class="text-white/70"></span></p>
+        </div>
+        <span id="admin-badge" class="p-chip p-chip-on shrink-0 mt-1">Admin</span>
+      </header>
+
+
+      <!-- PINNED UPDATE FROM THE TEAM (newest pinned post) -->
+      <article id="announcement" class="hidden p-panel p-5 sm:p-6 mb-8">
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="p-label">Pinned update</span>
+            <span id="announcement-tag" class="hidden p-status border-white/20 text-white/70"></span>
+          </div>
+          <div class="flex items-center gap-3 shrink-0">
+            <span id="announcement-date" class="text-xs text-white/40"></span>
+            <button id="announcement-delete" type="button" class="hidden text-xs text-red-400/80 hover:text-red-400">Delete</button>
+          </div>
+        </div>
+        <h2 id="announcement-title" class="text-lg sm:text-xl font-semibold text-white mt-3 break-words"></h2>
+        <p id="announcement-body" class="text-sm sm:text-base text-white/70 mt-2 leading-relaxed whitespace-pre-line break-words"></p>
+      </article>
+
+
+      <!-- TAB 3: ADMIN (shown only when the database says this account is an admin) -->
+      <div id="tab-admin" class="tab-panel">
+        <!-- Admin sections, same order as the app's admin dashboard -->
+        <nav class="flex gap-5 border-b border-white/10 mb-6 overflow-x-auto" aria-label="Admin sections">
+          <button type="button" data-sec="stats" class="admin-sec p-subtab p-subtab-on">Stats</button>
+          <button type="button" data-sec="errors" class="admin-sec p-subtab">Errors <span id="admin-err-badge" class="sub-count"></span></button>
+          <button type="button" data-sec="mod" class="admin-sec p-subtab">Moderation <span id="admin-mod-badge" class="sub-count"></span></button>
+          <button type="button" data-sec="users" class="admin-sec p-subtab">Users</button>
+          <button type="button" data-sec="settings" class="admin-sec p-subtab">Settings</button>
+          <button type="button" data-sec="bugs" class="admin-sec p-subtab">Bug reports</button>
+          <button type="button" data-sec="ideas" class="admin-sec p-subtab">Ideas</button>
+          <button type="button" data-sec="votes" class="admin-sec p-subtab">Votes</button>
+          <button type="button" data-sec="posts" class="admin-sec p-subtab">Post an update or vote</button>
+        </nav>
+
+        <!-- STATS -->
+        <div id="admin-sec-stats" class="admin-sec-panel">
+          <div id="kpi-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6"></div>
+          <div class="grid sm:grid-cols-2 gap-3 mb-6">
+            <div id="chart-spots" class="p-panel p-4 sm:p-5"></div>
+            <div id="chart-users" class="p-panel p-4 sm:p-5"></div>
+          </div>
+          <div class="flex items-baseline justify-between mb-3 px-1">
+            <h3 class="p-label">Who keeps coming back</h3>
+            <span class="text-xs text-white/40">% of each month's sign-ups still active</span>
+          </div>
+          <div id="retention" class="p-panel p-2 sm:p-3 mb-6 overflow-x-auto"></div>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <h3 class="p-label mb-3 px-1">Dropping off this week</h3>
+              <div id="at-risk" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
+            </div>
+            <div>
+              <h3 class="p-label mb-3 px-1">Most fought-over spots</h3>
+              <div id="top-spots" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ERRORS: every app error, grouped by kind (the app's Errors tab) -->
+        <div id="admin-sec-errors" class="admin-sec-panel hidden">
+          <div class="flex flex-wrap items-center gap-2 mb-4">
+            <button data-status="open" class="err-filter p-chip p-chip-on">Open <span class="admin-count"></span></button>
+            <button data-status="fixed" class="err-filter p-chip">Fixed <span class="admin-count"></span></button>
+            <button data-status="ignored" class="err-filter p-chip">Ignored <span class="admin-count"></span></button>
+            <span class="text-xs text-white/40 ml-auto">Newest first</span>
+          </div>
+          <div id="err-list" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
+        </div>
+
+        <!-- MODERATION: the app's Reports tab (reports, spots, clips, bins, feedback) -->
+        <div id="admin-sec-mod" class="admin-sec-panel hidden">
+          <div class="flex flex-wrap items-center gap-2 mb-4">
+            <button data-q="reports" class="mod-filter p-chip p-chip-on">Reports <span class="admin-count"></span></button>
+            <button data-q="spots" class="mod-filter p-chip">Unverified spots <span class="admin-count"></span></button>
+            <button data-q="clips" class="mod-filter p-chip">Clips to review <span class="admin-count"></span></button>
+            <button data-q="removed" class="mod-filter p-chip">Removed clips <span class="admin-count"></span></button>
+            <button data-q="deleted" class="mod-filter p-chip">Deleted spots <span class="admin-count"></span></button>
+            <button data-q="feedback" class="mod-filter p-chip">Feedback <span class="admin-count"></span></button>
+          </div>
+          <label id="mod-all-wrap" class="flex items-center gap-2 text-xs text-white/50 mb-3 px-1 cursor-pointer select-none">
+            <input id="mod-all" type="checkbox" class="accent-matrix"> Show dismissed reports too
+          </label>
+          <div id="mod-list" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
+        </div>
+
+        <!-- USERS -->
+        <div id="admin-sec-users" class="admin-sec-panel hidden">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <input id="user-search" type="search" autocomplete="off" placeholder="Search username or email" class="p-field flex-1 min-w-[12rem]">
+            <span id="user-total" class="text-xs text-white/40 tabular-nums"></span>
+          </div>
+          <div id="user-list" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
+          <div class="flex justify-center mt-4"><button type="button" id="user-more" class="p-btn-ghost hidden">Show more</button></div>
+        </div>
+
+        <!-- SETTINGS: the app's admin Settings tab (points_config) -->
+        <div id="admin-sec-settings" class="admin-sec-panel hidden">
+          <div class="flex items-baseline justify-between mb-3 px-1">
+            <h3 class="p-label">Points &amp; XP</h3>
+            <span id="set-updated" class="text-xs text-white/40"></span>
+          </div>
+          <form id="settings-form" class="p-panel p-5 sm:p-6 space-y-5" novalidate>
+            <div id="settings-fields" class="space-y-5"><p class="text-white/50 text-sm">Loading…</p></div>
+            <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3 pt-1">
+              <span id="settings-msg" class="text-sm sm:mr-auto"></span>
+              <button type="submit" id="settings-save" class="p-btn" disabled>Save changes</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- UPDATES & VOTES -->
+        <div id="admin-sec-posts" class="admin-sec-panel hidden">
+        <div class="flex flex-wrap gap-2 mb-6">
+          <button type="button" data-form="admin-update-form" class="admin-compose p-btn-ghost">+ Post an update</button>
+          <button type="button" data-form="admin-vote-form" class="admin-compose p-btn-ghost">+ Start a vote</button>
+        </div>
+
+        <form id="admin-update-form" class="hidden p-panel p-5 sm:p-6 mb-8 space-y-4">
+          <div class="p-label">Post an update</div>
+          <p class="text-xs text-white/50 -mt-2">Shows pinned at the top of the Union for every tester until you post another or delete it.</p>
+          <input id="update-title" type="text" maxlength="150" placeholder="Headline, e.g. Build 141 is out" class="p-field" required>
+          <textarea id="update-body" rows="4" maxlength="5000" placeholder="What changed and what to test" class="p-field" required></textarea>
+          <input id="update-tag" type="text" maxlength="50" placeholder="Build (optional), e.g. Build 141" class="p-field">
+          <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3">
+            <span id="update-msg" class="text-sm sm:mr-auto"></span>
+            <button type="submit" id="update-submit" class="p-btn">Post update</button>
+          </div>
+        </form>
+
+        <form id="admin-vote-form" class="hidden p-panel p-5 sm:p-6 mb-8 space-y-4">
+          <div class="p-label">Start a vote</div>
+          <p class="text-xs text-white/50 -mt-2">Testers see how many people voted, but not the split, until it ends. You can see the split all along.</p>
+          <input id="vote-title" type="text" maxlength="200" placeholder="Ask a question, e.g. Which park should we map next?" class="p-field" required>
+          <textarea id="vote-desc" rows="2" maxlength="4000" placeholder="Context (optional)" class="p-field"></textarea>
+          <div id="vote-options" class="space-y-2"></div>
+          <button type="button" id="vote-add-option" class="text-sm text-matrix hover:text-white">+ Add option</button>
+          <label class="flex items-center gap-3 text-sm text-white/70">Ends after
+            <select id="vote-length" class="bg-black border border-white/20 rounded-full px-3 py-1.5 text-sm text-white">
+              <option value="1">1 day</option>
+              <option value="3">3 days</option>
+              <option value="7" selected>7 days</option>
+              <option value="14">14 days</option>
+              <option value="">No end (close it yourself)</option>
+            </select>
+          </label>
+          <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3">
+            <span id="vote-msg" class="text-sm sm:mr-auto"></span>
+            <button type="submit" id="vote-submit" class="p-btn">Start vote</button>
+          </div>
+        </form>
+
+        </div>
+
+        <!-- BUG REPORTS -->
+        <div id="admin-sec-bugs" class="admin-sec-panel hidden">
+        <div class="flex items-baseline justify-between mb-3 px-1">
+          <h3 class="p-label">Bug reports</h3>
+          <span class="text-xs text-white/40">Testers see the status and your note</span>
+        </div>
+        <div id="admin-filters" class="flex flex-wrap gap-2 mb-4">
+          <button data-status="" class="admin-filter p-chip p-chip-on">All <span class="admin-count"></span></button>
+          <button data-status="new" class="admin-filter p-chip">New <span class="admin-count"></span></button>
+          <button data-status="seen" class="admin-filter p-chip">Seen <span class="admin-count"></span></button>
+          <button data-status="fixing" class="admin-filter p-chip">Fixing <span class="admin-count"></span></button>
+          <button data-status="fixed" class="admin-filter p-chip">Fixed <span class="admin-count"></span></button>
+        </div>
+        <div id="admin-list" class="p-panel divide-y divide-white/5 overflow-hidden"></div>
+        </div>
+
+        <!-- IDEAS (set status and dev note) -->
+        <div id="admin-sec-ideas" class="admin-sec-panel hidden">
+        <div class="p-panel divide-y divide-white/5 overflow-hidden">
+          <div class="p-4 sm:p-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 bg-white/[0.02]">
+            <div id="sug-filters" class="flex flex-wrap gap-2" role="tablist" aria-label="Sort ideas">
+              <button type="button" data-filter="top" class="sug-filter p-chip p-chip-on">Top <span class="chip-count"></span></button>
+              <button type="button" data-filter="new" class="sug-filter p-chip">New</button>
+              <button type="button" data-filter="planned" class="sug-filter p-chip">Planned <span class="chip-count"></span></button>
+            </div>
+            <span id="suggestion-status" class="text-xs text-white/50 font-mono"></span>
+          </div>
+          <div id="suggestion-list" class="divide-y divide-white/5"></div>
+        </div>
+        </div>
+
+        <!-- VOTES (end a vote early) -->
+        <div id="admin-sec-votes" class="admin-sec-panel hidden">
+        <div class="flex items-baseline justify-between mb-3 px-1">
+          <h3 class="p-label">Community votes</h3>
+          <span class="text-xs text-white/40">Admins see the split before it ends</span>
+        </div>
+        <div id="vote-list" class="space-y-4"></div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-black py-12 border-t matrix-border mt-auto font-sans">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+        <p>&copy; 2026 PUSHINN LABS LTD. ADMIN.</p>
+        <div class="flex items-center gap-6">
+          <a href="/support" class="hover:text-matrix transition-colors">SUPPORT</a>
+          <a href="/legal-privacy" class="hover:text-matrix transition-colors">PRIVACY</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SUPABASE INTEGRATION & CLIENT LOGIC -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const _supabaseUrl = 'https://hbwycwbmkarztmodssyc.supabase.co';
+    const _supabaseKey = ['sb_publishable', 'l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg'].join('_'); // gitleaks:allow — Supabase publishable key, safe for client code
+    const db = window.supabase.createClient(_supabaseUrl, _supabaseKey);
+
+    // SESSION: this page is for admins. Signed-out visitors go to sign-in;
+    // signed-in non-admins see a notice. The database itself refuses every
+    // admin call from a non-admin, so this only decides what is shown.
+    const deniedSection = document.getElementById('denied-section');
+    const daoContent = document.getElementById('dao-content');
+    const authEmailSpan = document.getElementById('authenticated-email');
+    const navLoginLink = document.getElementById('nav-login-link');
+    const navUserBadge = document.getElementById('nav-user-badge');
+    const navUserEmail = document.getElementById('nav-user-email');
+    const navLogoutBtn = document.getElementById('nav-logout-btn');
+    let userIsAdmin = false;
+
+    function updateNavAuth(user) {
+      if (user && user.email) {
+        if (navLoginLink) navLoginLink.classList.add('hidden');
+        if (navUserBadge) navUserBadge.classList.remove('hidden');
+        if (navUserEmail) navUserEmail.textContent = user.email.split('@')[0];
+      } else {
+        if (navLoginLink) navLoginLink.classList.remove('hidden');
+        if (navUserBadge) navUserBadge.classList.add('hidden');
+      }
+    }
+    function leaveSignedOut() {
+      daoContent.classList.add('hidden');
+      deniedSection.classList.add('hidden');
+      updateNavAuth(null);
+      location.replace('/login?redirect=/admin');
+    }
+    async function checkAuth() {
+      try {
+        const { data: { session } } = await db.auth.getSession();
+        if (!(session && session.user && session.user.email)) { leaveSignedOut(); return null; }
+        updateNavAuth(session.user);
+        authEmailSpan.textContent = session.user.email;
+        onSignedIn();
+        return session.user;
+      } catch (err) {
+        console.error('Auth verification error:', err);
+        leaveSignedOut();
+        return null;
+      }
+    }
+    async function handleSignOut() {
+      await db.auth.signOut();
+      window.location.href = '/login?redirect=/admin';
+    }
+    if (navLogoutBtn) navLogoutBtn.addEventListener('click', handleSignOut);
+    db.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') leaveSignedOut();
+      else if (session && session.user) checkAuth();
+    });
+
+    function byNewest(a, b) { return new Date(b.created_at) - new Date(a.created_at); }
+
+    // SHARED HELPERS (all text goes in through textContent, never as HTML)
+    function el(tag, cls, text) {
+      const n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text !== undefined && text !== null) n.textContent = text;
+      return n;
+    }
+    const STATUS = {
+      new:    { label: 'New',    cls: 'border-white/15 text-white/50' },
+      seen:   { label: 'Seen',   cls: 'border-white/30 text-white/80' },
+      fixing: { label: 'Fixing', cls: 'border-matrix/40 text-matrix' },
+      fixed:  { label: 'Fixed',  cls: 'border-matrix text-matrix' }
+    };
+    function statusPill(s) {
+      const st = STATUS[s] || STATUS.new;
+      const pill = el('span', 'p-status ' + st.cls);
+      const dot = el('span', 'dot' + (s === 'fixing' ? ' animate-pulse' : ''));
+      pill.append(dot, document.createTextNode(s === 'fixed' ? '✓ ' + st.label : st.label));
+      if (s === 'fixed') dot.remove();
+      return pill;
+    }
+    function ago(iso) {
+      const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+      if (s < 3600) return Math.max(1, Math.round(s / 60)) + 'm ago';
+      if (s < 86400) return Math.round(s / 3600) + 'h ago';
+      return Math.round(s / 86400) + 'd ago';
+    }
+    function peopleText(n) { return n === 1 ? '1 person' : n + ' people'; }
+    function friendlyError(error) {
+      const m = (error && error.message) || '';
+      if (m.includes('TOO_MANY_REPORTS')) return "You've filed 10 reports today. Add to an existing one, or try again tomorrow.";
+      if (m.includes('ACCOUNT_SUSPENDED')) return "This account can't post right now. Contact admin@pushinn.app.";
+      if (m.includes('SIGN_IN_REQUIRED')) return 'Your session ended. Sign in again.';
+      if (m.includes('TOO_MANY_IDEAS')) return "You've posted 5 ideas today. Vote on others, or try again tomorrow.";
+      if (m.includes('IDEA_CLOSED')) return 'Voting on this idea has finished.';
+      if (m.includes('IDEA_NOT_FOUND')) return 'That idea was removed. Refresh the page.';
+      if (m.includes('suggestions_shape')) return 'Check the fields: the title needs at least 5 characters.';
+      if (m.includes('BALLOT_CLOSED')) return 'This vote has ended.';
+      if (m.includes('BALLOT_NOT_FOUND')) return 'That vote was removed. Refresh the page.';
+      if (m.includes('INVALID_OPTIONS')) return 'Give 2 to 6 options, each up to 120 characters.';
+      if (m.includes('ADMIN_REQUIRED')) return 'Only admins can do that.';
+      if (m.includes('ADMIN_PROTECTED')) return "Admins can't be banned, and one admin can't remove another. An admin can step down themselves.";
+      if (m.includes('LAST_ADMIN')) return "The last admin can't be removed. Make someone else an admin first.";
+      if (m.includes('dao_ballots_shape')) return 'The question needs at least 5 characters.';
+      if (m.includes('dao_announcements_shape')) return 'The headline needs at least 3 characters and the update at least 5.';
+      if (m.includes('bug_reports_shape')) return 'Check the fields: the summary needs at least 5 characters.';
+      return 'That didn\'t go through. Check your connection, or email admin@pushinn.app.';
+    }
+
+    // Plain wording for one admin_audit_list row.
+    function auditText(a) {
+      const d = a.detail || {};
+      switch (a.action) {
+        case 'made_admin': return 'Made admin';
+        case 'removed_admin': return 'Admin rights removed';
+        case 'banned': return 'Banned' + (d.reason ? ': ' + d.reason : '');
+        case 'unbanned': return 'Unbanned';
+        case 'verified': return 'Verified';
+        case 'unverified': return 'Verified badge removed';
+        case 'allowed_posting': return 'Allowed to post';
+        case 'stopped_posting': return 'Stopped from posting';
+        case 'points_changed': return 'Points ' + fmt(Number(d.from) || 0) + ' → ' + fmt(Number(d.to) || 0);
+        default: return a.action;
+      }
+    }
+
+    // ADMIN (the database decides; hiding the tab is only for tidiness)
+    const adminList = document.getElementById('admin-list');
+    let adminStatus = '';
+    let adminRows = [];
+    document.querySelectorAll('.admin-filter').forEach(b => b.addEventListener('click', () => {
+      adminStatus = b.dataset.status;
+      document.querySelectorAll('.admin-filter').forEach(x => x.classList.toggle('p-chip-on', x === b));
+      drawAdminList();
+    }));
+
+    function renderAdminReport(r) {
+      const row = el('div', 'p-4 sm:p-5');
+      const top = el('div', 'flex items-start justify-between gap-3');
+      const left = el('div', 'min-w-0');
+      left.appendChild(el('div', 'text-white font-semibold leading-snug break-words', r.summary));
+      const meta = el('div', 'flex flex-wrap items-center gap-x-2 gap-y-1 mt-1.5 text-xs text-white/50');
+      meta.append(
+        el('span', 'font-mono uppercase tracking-wider text-[10px] text-white/60', r.category), el('span', null, '·'),
+        el('span', null, '@' + (r.reporter || 'deleted account')), el('span', null, '·'),
+        el('span', null, ago(r.created_at)), el('span', null, '·'),
+        el('span', 'text-white font-semibold', peopleText(r.hits) + ' had this'));
+      left.appendChild(meta);
+      top.append(left, statusPill(r.status));
+      row.appendChild(top);
+
+      row.appendChild(el('p', 'mt-3 text-sm text-white/70 whitespace-pre-line break-words border-l border-white/10 pl-3', r.details));
+      const phones = el('div', 'flex flex-wrap gap-1.5 mt-3');
+      (r.devices || []).forEach(d => phones.appendChild(el('span', 'text-[11px] text-white/60 border border-white/10 rounded-full px-2 py-0.5', d)));
+      row.appendChild(phones);
+      row.appendChild(renderNearbyErrors(r));
+
+      // Status saves the moment you tap it; the note saves with its button or Enter.
+      const controls = el('div', 'flex flex-col sm:flex-row gap-3 mt-4');
+      const seg = el('div', 'flex gap-1.5 shrink-0');
+      const note = el('input', 'p-field !py-2 !text-sm flex-1');
+      note.placeholder = 'Note testers will see (optional)';
+      note.maxLength = 1000;
+      note.value = r.admin_note || '';
+      const saveNote = el('button', 'p-btn-ghost shrink-0', 'Save note');
+      saveNote.type = 'button';
+      const msg = el('span', 'text-xs text-white/40 self-center');
+      async function save(status) {
+        msg.textContent = 'Saving…';
+        const { error } = await db.rpc('admin_set_bug_status', { p_report: r.id, p_status: status, p_note: note.value });
+        if (error) { msg.className = 'text-xs text-red-400 self-center'; msg.textContent = friendlyError(error); return; }
+        r.status = status;
+        r.admin_note = note.value;
+        top.replaceChild(statusPill(r.status), top.lastChild);
+        seg.querySelectorAll('button').forEach(b => b.classList.toggle('p-chip-on', b.dataset.status === status));
+        msg.className = 'text-xs text-matrix self-center';
+        msg.textContent = 'Saved';
+        updateAdminCounts();
+      }
+      Object.keys(STATUS).forEach(k => {
+        const b = el('button', 'p-chip !px-3 !py-1.5 !text-xs' + (k === r.status ? ' p-chip-on' : ''), STATUS[k].label);
+        b.type = 'button';
+        b.dataset.status = k;
+        b.addEventListener('click', () => { if (k !== r.status) save(k); });
+        seg.appendChild(b);
+      });
+      saveNote.addEventListener('click', () => save(r.status));
+      note.addEventListener('keydown', e => { if (e.key === 'Enter') save(r.status); });
+      const noteRow = el('div', 'flex gap-2 flex-1 min-w-0');
+      noteRow.append(note, saveNote);
+      controls.append(seg, noteRow);
+      row.append(controls, msg);
+      return row;
+    }
+
+    // The app's own error log around this report: what the people on it hit
+    // from a day before they reported it to an hour after. Loaded on tap.
+    function whenText(min) {
+      const a = Math.abs(min);
+      const span = a < 60 ? a + ' min' : a < 1440 ? Math.round(a / 60) + 'h' : Math.round(a / 1440) + 'd';
+      return min < 0 ? span + ' before' : min === 0 ? 'same minute' : span + ' after';
+    }
+    function renderNearbyErrors(r) {
+      const box = el('div', 'mt-3');
+      const n = r.error_count || 0;
+      if (n === 0) { box.appendChild(el('p', 'text-xs text-white/40', 'No app errors around this report.')); return box; }
+      const toggle = el('button', 'text-xs text-matrix hover:underline', 'Show ' + n + ' app error' + (n === 1 ? '' : 's') + ' around this report');
+      toggle.type = 'button';
+      const list = el('div', 'hidden mt-2 border border-white/10 rounded-lg divide-y divide-white/5 overflow-hidden');
+      let loaded = false;
+      toggle.addEventListener('click', async () => {
+        const open = list.classList.toggle('hidden') === false;
+        toggle.textContent = (open ? 'Hide ' : 'Show ') + n + ' app error' + (n === 1 ? '' : 's') + ' around this report';
+        if (!open || loaded) return;
+        list.replaceChildren(el('p', 'p-3 text-xs text-white/50', 'Loading…'));
+        const { data, error } = await db.rpc('admin_bug_report_errors', { p_report: r.id });
+        if (error) { list.replaceChildren(el('p', 'p-3 text-xs text-red-400', 'Could not load: ' + (error.message || 'unknown error'))); return; }
+        loaded = true;
+        list.replaceChildren();
+        (data || []).forEach(e => {
+          const item = el('div', 'p-3');
+          const meta = el('div', 'flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-white/50');
+          if (e.is_crash) meta.appendChild(el('span', 'font-mono uppercase tracking-wider text-[10px] text-red-400', 'Crash'));
+          meta.appendChild(el('span', null, [e.screen, e.app_version && 'v' + e.app_version, e.platform].filter(Boolean).join(' · ')));
+          meta.appendChild(el('span', 'ml-auto', '@' + (e.username || 'deleted account') + ' · ' + whenText(e.minutes_after)));
+          item.append(meta, el('p', 'mt-1 font-mono text-xs text-white/70 break-words line-clamp-3', e.error_message || e.error_type || ''));
+          list.appendChild(item);
+        });
+        if (n > (data || []).length) list.appendChild(el('p', 'p-3 text-xs text-white/40', 'Showing the newest ' + data.length + '. The rest are in the app\'s Errors tab.'));
+      });
+      box.append(toggle, list);
+      return box;
+    }
+
+    function updateAdminCounts() {
+      document.querySelectorAll('.admin-filter').forEach(b => {
+        const s = b.dataset.status;
+        b.querySelector('.admin-count').textContent = adminRows.filter(r => !s || r.status === s).length;
+      });
+    }
+
+    function drawAdminList() {
+      adminList.replaceChildren();
+      const rows = adminRows.filter(r => !adminStatus || r.status === adminStatus);
+      if (rows.length === 0) { adminList.appendChild(el('p', 'p-5 text-white/50 text-sm', 'Nothing here.')); return; }
+      rows.forEach(r => adminList.appendChild(renderAdminReport(r)));
+    }
+
+    async function loadAdminList() {
+      adminList.replaceChildren(el('p', 'p-5 text-white/50 text-sm', 'Loading…'));
+      const { data, error } = await db.rpc('admin_bug_reports', { p_status: null });
+      if (error) { adminList.replaceChildren(el('p', 'p-5 text-red-400 text-sm', 'Could not load: ' + (error.message || 'unknown error'))); return; }
+      adminRows = data || [];
+      updateAdminCounts();
+      drawAdminList();
+    }
+
+    let boardStarted = false;
+    async function onSignedIn() {
+      if (boardStarted) return;
+      boardStarted = true;
+      const { data: isAdmin } = await db.rpc('is_admin');
+      if (isAdmin !== true) {
+        boardStarted = false;
+        daoContent.classList.add('hidden');
+        deniedSection.classList.remove('hidden');
+        return;
+      }
+      userIsAdmin = true;
+      deniedSection.classList.add('hidden');
+      daoContent.classList.remove('hidden');
+      showAdminSec(adminSec);
+      loadErrorCount();
+      loadModeration(true);
+      loadAnnouncement();
+    }
+    // -------------------------------------------------------------
+    // SUGGESTIONS / COMMUNITY IDEAS BOARD
+    // -------------------------------------------------------------
+    let suggestionRows = [];
+
+    const sugList = document.getElementById('suggestion-list');
+    const sugStatus = document.getElementById('suggestion-status');
+
+    const SUG_STATUS = {
+      exploring: { label: 'Exploring', cls: 'border-amber-400/40 text-amber-400' },
+      planned:   { label: 'Planned',   cls: 'border-matrix/40 text-matrix' },
+      completed: { label: 'Completed', cls: 'border-cyan-400/40 text-cyan-400' },
+      closed:    { label: 'Not doing',    cls: 'border-white/20 text-white/40' }
+    };
+
+    function sugStatusPill(s) {
+      const st = SUG_STATUS[s] || SUG_STATUS.exploring;
+      const pill = el('span', 'p-status ' + st.cls);
+      const dot = el('span', 'dot' + (s === 'planned' ? ' animate-pulse' : ''));
+      pill.append(dot, document.createTextNode(st.label));
+      return pill;
+    }
+
+    function renderSuggestion(sug) {
+      const row = el('div', 'flex gap-4 p-4 sm:p-5' + (sug.status === 'closed' ? ' opacity-50 hover:opacity-100 transition-opacity' : ''));
+
+      // Upvote Button
+      const btn = el('button', 'hit-btn self-start');
+      btn.type = 'button';
+      const n = el('span', 'n', sug.votes);
+      const t = el('span', 't');
+      btn.append(n, t);
+
+      function paintBtn() {
+        n.textContent = sug.votes;
+        btn.classList.toggle('on', sug.i_voted || sug.mine);
+        const finished = sug.status === 'completed' || sug.status === 'closed';
+        // Your own idea always carries your vote; a finished idea takes no new votes.
+        btn.disabled = sug.mine || (finished && !sug.i_voted);
+        if (sug.mine) { t.textContent = 'Yours'; btn.title = 'You proposed this idea'; }
+        else if (sug.i_voted) { t.textContent = '✓ Voted'; btn.title = 'Tap to take vote back'; }
+        else if (finished) { t.textContent = 'Closed'; btn.title = 'Voting on this idea has finished'; }
+        else { t.textContent = 'Vote'; btn.title = 'Upvote this idea'; }
+        btn.setAttribute('aria-label', sug.votes + ' votes. ' + btn.title);
+      }
+      paintBtn();
+
+      btn.addEventListener('click', async () => {
+        btn.disabled = true;
+        const { data, error } = await db.rpc('vote_suggestion', { p_suggestion_id: sug.id });
+        if (error) {
+          paintBtn();
+          sugStatus.textContent = friendlyError(error);
+          return;
+        }
+        if (data) {
+          sug.i_voted = data.voted;
+          sug.votes = data.votes;
+          paintBtn();
+          updateSugCounts();
+        }
+      });
+      row.appendChild(btn);
+
+      // Body
+      const body = el('div', 'min-w-0 flex-1');
+      const top = el('div', 'flex items-start justify-between gap-3');
+      const title = el('div', 'text-white font-semibold leading-snug break-words', sug.title);
+      top.append(title, sugStatusPill(sug.status));
+      body.appendChild(top);
+
+      const meta = el('div', 'flex items-center gap-2 mt-1.5 text-xs text-white/50');
+      meta.append(
+        el('span', 'font-mono uppercase tracking-wider text-[10px] text-white/60', sug.category),
+        el('span', null, '·'),
+        el('span', null, ago(sug.created_at))
+      );
+      body.appendChild(meta);
+
+      const details = el('p', 'mt-3 text-sm text-white/70 whitespace-pre-line break-words border-l border-white/10 pl-3', sug.details);
+      body.appendChild(details);
+
+      if (sug.admin_note) {
+        const note = el('div', 'mt-3 text-sm text-white/80 flex gap-2 bg-white/[0.02] p-2.5 rounded border border-white/5');
+        note.append(el('span', 'p-label pt-0.5 shrink-0 text-matrix', 'Dev Note'), el('span', 'break-words', sug.admin_note));
+        body.appendChild(note);
+      }
+
+      // Admin Status & Note Editor (Visible only to admin)
+      if (userIsAdmin) {
+        const adminBar = el('div', 'mt-3 pt-3 border-t border-white/5 flex flex-wrap items-center gap-2');
+        const sel = el('select', 'bg-black border border-white/20 rounded px-2 py-1 text-xs text-white');
+        ['exploring', 'planned', 'completed', 'closed'].forEach(st => {
+          const opt = el('option', null, SUG_STATUS[st].label);
+          opt.value = st;
+          if (sug.status === st) opt.selected = true;
+          sel.appendChild(opt);
+        });
+
+        const noteInput = el('input', 'bg-black border border-white/20 rounded px-2 py-1 text-xs text-white flex-1 min-w-[140px]');
+        noteInput.placeholder = 'Add dev note...';
+        if (sug.admin_note) noteInput.value = sug.admin_note;
+
+        const saveBtn = el('button', 'p-btn text-xs py-1 px-3', 'Save');
+        saveBtn.type = 'button';
+        saveBtn.addEventListener('click', async () => {
+          saveBtn.disabled = true;
+          saveBtn.textContent = 'Saving…';
+          const { error } = await db.rpc('admin_set_suggestion_status', {
+            p_suggestion_id: sug.id,
+            p_status: sel.value,
+            p_note: noteInput.value.trim()
+          });
+          saveBtn.disabled = false;
+          saveBtn.textContent = 'Save';
+          if (error) {
+            alert('Could not update: ' + error.message);
+          } else {
+            sug.status = sel.value;
+            sug.admin_note = noteInput.value.trim() || null;
+            loadSuggestions();
+          }
+        });
+
+        adminBar.append(sel, noteInput, saveBtn);
+        body.appendChild(adminBar);
+      }
+
+      row.appendChild(body);
+      return row;
+    }
+
+    async function loadSuggestions() {
+      if (!sugList) return;
+      sugStatus.textContent = 'Loading ideas…';
+      const { data, error } = await db.rpc('suggestion_board', { p_category: null, p_status: null, p_limit: 100 });
+      if (error) {
+        sugStatus.textContent = 'Could not load ideas';
+        sugList.replaceChildren(el('p', 'p-5 text-white/50 text-sm', 'Failed to load: ' + friendlyError(error)));
+        return;
+      }
+      suggestionRows = data || [];
+      sugStatus.textContent = '';
+      updateSugCounts();
+      drawSuggestions();
+    }
+
+    // Same chip row as the bug list: Top, New, Mine (posted or voted), Planned.
+    // Finished ideas (Completed / Not doing) sink below open ones in Top and New.
+    const finishedIdea = s => s.status === 'completed' || s.status === 'closed';
+    const SUG_FILTERS = {
+      top:     { keep: () => true, sort: (a, b) => finishedIdea(a) - finishedIdea(b) || b.votes - a.votes || byNewest(a, b), empty: 'No ideas posted yet. Be the first!' },
+      new:     { keep: () => true, sort: (a, b) => finishedIdea(a) - finishedIdea(b) || byNewest(a, b), empty: 'No ideas posted yet. Be the first!' },
+      mine:    { keep: s => s.mine || s.i_voted, sort: byNewest, empty: 'Ideas you post or vote for show up here.' },
+      planned: { keep: s => s.status === 'planned', sort: (a, b) => b.votes - a.votes || byNewest(a, b), empty: 'Nothing planned yet.' }
+    };
+    let sugFilter = 'top';
+    document.querySelectorAll('.sug-filter').forEach(b => b.addEventListener('click', () => {
+      sugFilter = b.dataset.filter;
+      document.querySelectorAll('.sug-filter').forEach(x => x.classList.toggle('p-chip-on', x === b));
+      drawSuggestions();
+    }));
+    function updateSugCounts() {
+      document.querySelectorAll('.sug-filter').forEach(b => {
+        const c = b.querySelector('.chip-count');
+        if (c) c.textContent = suggestionRows.filter(SUG_FILTERS[b.dataset.filter].keep).length;
+      });
+    }
+    function drawSuggestions() {
+      const f = SUG_FILTERS[sugFilter];
+      const rows = suggestionRows.filter(f.keep).sort(f.sort);
+      sugList.replaceChildren();
+      if (rows.length === 0) { sugList.appendChild(el('p', 'p-5 text-white/50 text-sm', f.empty)); return; }
+      rows.forEach(s => sugList.appendChild(renderSuggestion(s)));
+    }
+
+    // ANNOUNCEMENTS: newest pinned update from the team, shown above the tabs
+    let shownAnnouncement = null;
+    async function loadAnnouncement() {
+      const { data, error } = await db.rpc('dao_get_announcements', { p_limit: 1 });
+      const card = document.getElementById('announcement');
+      const a = !error && data && data[0];
+      shownAnnouncement = a || null;
+      card.classList.toggle('hidden', !a);
+      if (!a) return;
+      document.getElementById('announcement-title').textContent = a.title;
+      document.getElementById('announcement-body').textContent = a.content;
+      document.getElementById('announcement-date').textContent = ago(a.created_at);
+      const tag = document.getElementById('announcement-tag');
+      tag.textContent = a.build_tag || '';
+      tag.classList.toggle('hidden', !a.build_tag);
+      document.getElementById('announcement-delete').classList.toggle('hidden', !userIsAdmin);
+    }
+    document.getElementById('announcement-delete').addEventListener('click', async () => {
+      if (!shownAnnouncement || !confirm('Delete this update for everyone?')) return;
+      const { error } = await db.rpc('dao_admin_delete_announcement', { p_id: shownAnnouncement.id });
+      if (error) { alert(friendlyError(error)); return; }
+      loadAnnouncement();
+    });
+
+    // COMMUNITY VOTES. Tap an option to vote; tap another to change it while the vote is open.
+    // The split stays hidden until it ends (the database only sends it to admins before then).
+    const voteList = document.getElementById('vote-list');
+    function timeLeft(iso) {
+      const ms = new Date(iso) - Date.now();
+      const h = Math.floor(ms / 3600e3);
+      if (h >= 48) return Math.floor(h / 24) + ' days left';
+      if (h >= 1) return h + (h === 1 ? ' hour left' : ' hours left');
+      const m = Math.max(1, Math.floor(ms / 60e3));
+      return m + (m === 1 ? ' minute left' : ' minutes left');
+    }
+    function votesText(n) { return n === 1 ? '1 vote' : n + ' votes'; }
+
+    function renderVote(v) {
+      const card = el('div', 'p-panel p-5 sm:p-6');
+      card.appendChild(el('h3', 'text-base sm:text-lg font-semibold text-white break-words', v.title));
+      if (v.description) card.appendChild(el('p', 'text-sm text-white/60 mt-1.5 whitespace-pre-line break-words', v.description));
+
+      const opts = el('div', 'space-y-2 mt-4');
+      const voted = v.my_vote !== null && v.my_vote !== undefined;
+      const showSplit = Array.isArray(v.results);
+      const max = showSplit ? Math.max(...v.results) : 0;
+      (v.options || []).forEach((label, i) => {
+        if (showSplit && (v.is_closed || voted || userIsAdmin)) {
+          const n = v.results[i] || 0;
+          const pct = v.total_votes ? Math.round(n * 100 / v.total_votes) : 0;
+          const row = el(v.is_closed ? 'div' : 'button', 'vote-opt result' + (n === max && n > 0 ? ' lead' : '') + (v.my_vote === i ? ' mine' : ''));
+          const bar = el('span', 'bar'); bar.style.width = pct + '%';
+          row.append(bar, el('span', 'lbl break-words', (v.my_vote === i ? '✓ ' : '') + label), el('span', 'pct', pct + '%'));
+          if (!v.is_closed) { row.type = 'button'; row.addEventListener('click', () => castVote(v, i, row)); }
+          opts.appendChild(row);
+          return;
+        }
+        const b = el('button', 'vote-opt' + (v.my_vote === i ? ' mine' : ''));
+        b.type = 'button';
+        b.append(el('span', 'lbl break-words', (v.my_vote === i ? '✓ ' : '') + label));
+        if (v.is_closed) b.disabled = true;
+        else b.addEventListener('click', () => castVote(v, i, b));
+        opts.appendChild(b);
+      });
+      card.appendChild(opts);
+
+      const foot = el('div', 'flex flex-wrap items-center gap-x-2 gap-y-1 mt-4 text-xs text-white/50');
+      const bits = [votesText(v.total_votes)];
+      if (v.is_closed) bits.push('Final results');
+      else if (v.closes_at) bits.push(timeLeft(v.closes_at));
+      if (!v.is_closed && voted && !userIsAdmin) bits.push('You voted · results when it ends');
+      if (!v.is_closed && userIsAdmin) bits.push('Only admins see the split until it ends');
+      bits.forEach((b, k) => { if (k) foot.appendChild(el('span', null, '·')); foot.appendChild(el('span', null, b)); });
+      if (userIsAdmin && !v.is_closed) {
+        const close = el('button', 'ml-auto text-xs text-white/70 hover:text-white border border-white/20 rounded-full px-3 py-1', 'End vote now');
+        close.type = 'button';
+        close.addEventListener('click', async () => {
+          if (!confirm('End this vote now? Everyone will see the results.')) return;
+          const { error } = await db.rpc('dao_admin_close_ballot', { p_ballot_id: v.id });
+          if (error) { alert(friendlyError(error)); return; }
+          loadVotes();
+        });
+        foot.appendChild(close);
+      }
+      card.appendChild(foot);
+      return card;
+    }
+
+    async function castVote(v, i, btn) {
+      if (v.my_vote === i) return;
+      btn.disabled = true;
+      const { error } = await db.rpc('dao_cast_vote', { p_ballot_id: v.id, p_option_index: i });
+      if (error) { btn.disabled = false; alert(friendlyError(error)); loadVotes(); return; }
+      loadVotes();
+    }
+
+    async function loadVotes() {
+      const { data, error } = await db.rpc('dao_get_ballots');
+      voteList.replaceChildren();
+      if (error) { voteList.appendChild(el('p', 'p-panel p-5 text-red-400 text-sm', friendlyError(error))); return; }
+      if (!data || data.length === 0) {
+        voteList.appendChild(el('p', 'p-panel p-5 text-white/50 text-sm', 'No votes running right now. When the team asks the community something, it shows up here.'));
+        return;
+      }
+      data.forEach(v => voteList.appendChild(renderVote(v)));
+    }
+
+    // ADMIN: compose an update or a vote
+    document.querySelectorAll('.admin-compose').forEach(b => b.addEventListener('click', () => {
+      const f = document.getElementById(b.dataset.form);
+      const opening = f.classList.contains('hidden');
+      document.querySelectorAll('#admin-update-form, #admin-vote-form').forEach(x => x.classList.add('hidden'));
+      f.classList.toggle('hidden', !opening);
+      if (opening) f.querySelector('input').focus();
+    }));
+    function adminMsg(id, text, ok) {
+      const m = document.getElementById(id);
+      m.textContent = text;
+      m.className = 'text-sm sm:mr-auto ' + (ok ? 'text-matrix' : 'text-red-400');
+    }
+
+    document.getElementById('admin-update-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('update-submit');
+      btn.disabled = true;
+      const { error } = await db.rpc('dao_admin_post_announcement', {
+        p_title: document.getElementById('update-title').value.trim(),
+        p_content: document.getElementById('update-body').value.trim(),
+        p_build_tag: document.getElementById('update-tag').value.trim() || null,
+        p_is_pinned: true
+      });
+      btn.disabled = false;
+      if (error) { adminMsg('update-msg', friendlyError(error), false); return; }
+      e.target.reset();
+      adminMsg('update-msg', 'Posted. It\'s pinned at the top of the Union.', true);
+      loadAnnouncement();
+    });
+
+    const voteOptions = document.getElementById('vote-options');
+    function addVoteOption() {
+      const n = voteOptions.children.length;
+      if (n >= 6) return;
+      const input = el('input', 'p-field');
+      input.type = 'text';
+      input.maxLength = 120;
+      input.placeholder = 'Option ' + (n + 1) + (n >= 2 ? ' (optional)' : '');
+      voteOptions.appendChild(input);
+      document.getElementById('vote-add-option').classList.toggle('hidden', voteOptions.children.length >= 6);
+    }
+    function resetVoteOptions() { voteOptions.replaceChildren(); addVoteOption(); addVoteOption(); }
+    resetVoteOptions();
+    document.getElementById('vote-add-option').addEventListener('click', addVoteOption);
+
+    document.getElementById('admin-vote-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const options = [...voteOptions.querySelectorAll('input')].map(i => i.value.trim()).filter(Boolean);
+      if (options.length < 2) { adminMsg('vote-msg', 'Give at least 2 options.', false); return; }
+      const days = document.getElementById('vote-length').value;
+      const btn = document.getElementById('vote-submit');
+      btn.disabled = true;
+      const { error } = await db.rpc('dao_admin_create_ballot', {
+        p_title: document.getElementById('vote-title').value.trim(),
+        p_description: document.getElementById('vote-desc').value.trim(),
+        p_category: 'General',
+        p_options: options,
+        p_closes_at: days ? new Date(Date.now() + days * 86400e3).toISOString() : null
+      });
+      btn.disabled = false;
+      if (error) { adminMsg('vote-msg', friendlyError(error), false); return; }
+      e.target.reset();
+      resetVoteOptions();
+      adminMsg('vote-msg', 'Vote started. It\'s on the Vote tab.', true);
+      loadVotes();
+    });
+
+    // -------------------------------------------------------------
+    // ADMIN: STATS + ERRORS (the app's admin dashboard, on the web).
+    // Every call below refuses non-admins in the database itself.
+    // -------------------------------------------------------------
+    var adminSec = 'stats';
+    const adminLoaded = {};
+    function showAdminSec(sec, force) {
+      adminSec = sec;
+      history.replaceState(null, '', '#' + sec);
+      document.querySelectorAll('.admin-sec').forEach(b => b.classList.toggle('p-subtab-on', b.dataset.sec === sec));
+      document.querySelectorAll('.admin-sec-panel').forEach(p => p.classList.toggle('hidden', p.id !== 'admin-sec-' + sec));
+      if (sec === 'bugs') loadAdminList();
+      if (sec === 'ideas') loadSuggestions();
+      if (sec === 'votes') loadVotes();
+      if (sec === 'stats' && (force || !adminLoaded.stats)) loadStats();
+      if (sec === 'errors' && (force || !adminLoaded.errors)) loadErrors();
+      if (sec === 'mod' && (force || !adminLoaded.mod)) loadModeration();
+      if (sec === 'users' && (force || !adminLoaded.users)) loadUsers();
+      if (sec === 'settings' && (force || !adminLoaded.settings)) loadSettings();
+    }
+    document.querySelectorAll('.admin-sec').forEach(b => b.addEventListener('click', () => showAdminSec(b.dataset.sec, true)));
+
+    const fmt = n => (n === null || n === undefined) ? '–' : Number(n).toLocaleString('en-GB');
+    function shortDate(d) { return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }); }
+
+    function kpi(label, value, sub, onTap) {
+      const box = el(onTap ? 'button' : 'div', 'kpi p-panel p-4');
+      if (onTap) { box.type = 'button'; box.addEventListener('click', onTap); }
+      box.appendChild(el('div', 'p-label', label));
+      box.appendChild(el('div', 'text-2xl sm:text-3xl font-semibold text-white mt-2 tabular-nums', value));
+      if (sub) box.appendChild(el('div', 'text-xs text-white/45 mt-1 leading-snug', sub));
+      return box;
+    }
+
+    // One series per chart, last 30 days, tap or hover a bar to read it.
+    function barChart(box, title, unit, rows) {
+      box.replaceChildren();
+      const byDay = {};
+      (rows || []).forEach(r => { byDay[String(r.day).slice(0, 10)] = Number(r.count) || 0; });
+      const days = [];
+      for (let i = 29; i >= 0; i--) {
+        const d = new Date(Date.now() - i * 86400e3);
+        const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+        days.push({ key, n: byDay[key] || 0 });
+      }
+      const total = days.reduce((a, d) => a + d.n, 0);
+      const max = Math.max(1, ...days.map(d => d.n));
+      const head = el('div', 'flex items-baseline justify-between gap-3');
+      head.appendChild(el('div', 'p-label', title));
+      const read = el('div', 'text-xs text-white/50 tabular-nums', fmt(total) + ' in 30 days');
+      head.appendChild(read);
+      const bars = el('div', 'bars mt-4');
+      days.forEach(d => {
+        const b = el('div', 'bar' + (d.n ? '' : ' zero'));
+        const fill = el('i');
+        fill.style.height = (d.n ? Math.max(4, d.n / max * 100) : 2) + '%';
+        b.appendChild(fill);
+        b.title = shortDate(d.key) + ': ' + d.n + ' ' + unit;
+        const show = () => { bars.querySelectorAll('.bar').forEach(x => x.classList.toggle('on', x === b)); read.textContent = shortDate(d.key) + ': ' + fmt(d.n) + ' ' + unit; };
+        b.addEventListener('mouseenter', show);
+        b.addEventListener('click', show);
+        bars.appendChild(b);
+      });
+      bars.addEventListener('mouseleave', () => { bars.querySelectorAll('.bar').forEach(x => x.classList.remove('on')); read.textContent = fmt(total) + ' in 30 days'; });
+      const axis = el('div', 'flex justify-between text-[10px] text-white/35 mt-1.5 font-mono');
+      axis.append(el('span', null, shortDate(days[0].key)), el('span', null, 'Today'));
+      box.append(head, bars, axis);
+    }
+
+    function retentionTable(box, rows) {
+      box.replaceChildren();
+      if (!rows || rows.length === 0) { box.appendChild(el('p', 'p-3 text-sm text-white/50', 'No sign-ups yet.')); return; }
+      const t = el('table', 'ret w-full');
+      const hr = el('tr');
+      hr.appendChild(el('th', 'text-left text-white/40 font-normal', 'Joined'));
+      hr.appendChild(el('th', 'text-white/40 font-normal', 'People'));
+      for (let m = 0; m <= 6; m++) hr.appendChild(el('th', 'text-white/40 font-normal', m === 0 ? 'Month 1' : '+' + m));
+      t.appendChild(hr);
+      rows.slice().sort((a, b) => String(b.cohort_month).localeCompare(String(a.cohort_month))).forEach(r => {
+        const tr = el('tr');
+        tr.appendChild(el('td', 'text-left text-white/70', new Date(r.cohort_month).toLocaleDateString('en-GB', { month: 'short', year: '2-digit' })));
+        tr.appendChild(el('td', 'text-white/70', fmt(r.cohort_size)));
+        for (let m = 0; m <= 6; m++) {
+          const v = r['month_' + m];
+          const td = el('td', 'c', v === null || v === undefined ? '' : Math.round(v) + '%');
+          if (v !== null && v !== undefined) {
+            td.style.background = 'rgba(0, 255, 65, ' + (0.06 + Math.min(1, v / 100) * 0.55).toFixed(2) + ')';
+            td.style.color = v >= 50 ? '#000' : '#fff';
+          }
+          tr.appendChild(td);
+        }
+        t.appendChild(tr);
+      });
+      box.appendChild(t);
+    }
+
+    function simpleList(box, rows, empty, draw) {
+      box.replaceChildren();
+      if (!rows || rows.length === 0) { box.appendChild(el('p', 'p-4 text-sm text-white/50', empty)); return; }
+      rows.forEach(r => box.appendChild(draw(r)));
+    }
+
+    let openErrorCount = null;
+    function lastDays(rows, n) {
+      const since = Date.now() - n * 86400e3;
+      return (rows || []).filter(r => new Date(r.day).getTime() >= since - 86400e3).reduce((a, r) => a + (Number(r.count) || 0), 0);
+    }
+    async function loadStats() {
+      adminLoaded.stats = true;
+      const grid = document.getElementById('kpi-grid');
+      grid.replaceChildren(el('p', 'col-span-full text-sm text-white/50 px-1', 'Loading…'));
+      const count = q => q.then(r => r.error ? null : r.count);
+      const [users, spots, reports, battles, wager, stick, ttv, posts, growth, cohorts, atRisk, topSpots] = await Promise.all([
+        count(db.from('user_profiles').select('id', { count: 'exact', head: true })),
+        count(db.from('map_posts').select('id', { count: 'exact', head: true }).is('deleted_at', null)),
+        count(db.from('post_reports').select('id', { count: 'exact', head: true }).eq('status', 'pending')),
+        count(db.from('battles').select('id', { count: 'exact', head: true }).not('winner_id', 'is', null)),
+        db.from('battles').select('wager_amount').not('winner_id', 'is', null).order('wager_amount', { ascending: false }).limit(1),
+        db.rpc('get_stickiness_ratio'),
+        db.rpc('get_time_to_value_stats'),
+        db.rpc('get_daily_post_stats', { days_ago: 30 }),
+        db.rpc('get_user_growth_stats', { days_ago: 30 }),
+        db.rpc('get_cohort_retention', { months_back: 12 }),
+        db.rpc('get_at_risk_users', { limit_cnt: 10 }),
+        db.from('map_posts').select('id, title, mvp_score').is('deleted_at', null).not('mvp_score', 'is', null).order('mvp_score', { ascending: false }).limit(5)
+      ]);
+      const st = Array.isArray(stick.data) ? stick.data[0] : stick.data;
+      const maxWager = wager.data && wager.data[0] ? wager.data[0].wager_amount : 0;
+      if (openErrorCount === null) await loadErrorCount();
+      grid.replaceChildren(
+        kpi('Users', fmt(users), 'All accounts'),
+        kpi('Spots', fmt(spots), 'On the map, not deleted'),
+        kpi('Battles settled', fmt(battles), maxWager ? 'Biggest wager ' + fmt(maxWager) + ' pts' : 'No wagers yet'),
+        kpi('Daily / monthly', st ? Math.round(st.ratio || 0) + '%' : '–', st ? fmt(st.dau) + ' active today of ' + fmt(st.mau) + ' this month' : 'Couldn\'t load'),
+        kpi('Hours to first spot', ttv.error || ttv.data === null ? '–' : (Number(ttv.data) || 0).toFixed(1), 'Average, from sign-up'),
+        kpi('Reported posts', fmt(reports), 'Waiting for review'),
+        kpi('Open errors', fmt(openErrorCount), 'Tap to see them', () => showAdminSec('errors')),
+        kpi('New this week', fmt(lastDays(growth.data, 7)), 'Sign-ups in the last 7 days')
+      );
+      barChart(document.getElementById('chart-spots'), 'New spots per day', 'spots', posts.data);
+      barChart(document.getElementById('chart-users'), 'New users per day', 'users', growth.data);
+      retentionTable(document.getElementById('retention'), cohorts.data);
+      simpleList(document.getElementById('at-risk'), atRisk.data, 'Nobody\'s dropped off sharply this week.', u => {
+        const row = el('div', 'flex items-center justify-between gap-3 px-4 py-3');
+        row.appendChild(el('span', 'text-sm text-white truncate', '@' + (u.username || 'deleted account')));
+        row.appendChild(el('span', 'text-xs text-white/50 shrink-0 tabular-nums', fmt(u.activity_last_week) + ' → ' + fmt(u.activity_this_week) + ' actions · −' + Math.round(u.drop_percentage || 0) + '%'));
+        return row;
+      });
+      simpleList(document.getElementById('top-spots'), topSpots.data, 'No battles won at a spot yet.', p => {
+        const row = el('div', 'flex items-center justify-between gap-3 px-4 py-3');
+        row.appendChild(el('span', 'text-sm text-white truncate', p.title || 'Untitled spot'));
+        row.appendChild(el('span', 'text-xs text-white/50 shrink-0 tabular-nums', 'MVP score ' + fmt(p.mvp_score)));
+        return row;
+      });
+      const failed = [users, spots, reports, battles].some(v => v === null) || [stick, ttv, posts, growth, cohorts, atRisk, topSpots, wager].some(r => r.error);
+      if (failed) grid.appendChild(el('p', 'col-span-full text-xs text-red-400 px-1', 'Some numbers couldn\'t load and show as –. Reload to try again.'));
+    }
+
+    // ERRORS
+    const ERR_STATUS = { open: 'Open', fixed: 'Fixed', ignored: 'Ignored' };
+    let errRows = [];
+    let errStatus = 'open';
+    const errList = document.getElementById('err-list');
+    document.querySelectorAll('.err-filter').forEach(b => b.addEventListener('click', () => {
+      errStatus = b.dataset.status;
+      document.querySelectorAll('.err-filter').forEach(x => x.classList.toggle('p-chip-on', x === b));
+      drawErrors();
+    }));
+
+    function updateErrCounts() {
+      document.querySelectorAll('.err-filter').forEach(b => { b.querySelector('.admin-count').textContent = errRows.filter(g => g.status === b.dataset.status).length; });
+      openErrorCount = errRows.filter(g => g.status === 'open').length;
+      document.getElementById('admin-err-badge').textContent = openErrorCount ? (openErrorCount > 99 ? '99+' : openErrorCount) : '';
+    }
+    async function fetchErrors() {
+      const { data, error } = await db.rpc('admin_error_groups', { p_status: null, p_limit: 1000 });
+      if (error) return error;
+      errRows = data || [];
+      updateErrCounts();
+      return null;
+    }
+    async function loadErrorCount() { await fetchErrors(); }
+    async function loadErrors() {
+      adminLoaded.errors = true;
+      errList.replaceChildren(el('p', 'p-5 text-white/50 text-sm', 'Loading…'));
+      const error = await fetchErrors();
+      if (error) { errList.replaceChildren(el('p', 'p-5 text-red-400 text-sm', 'Could not load: ' + (error.message || 'unknown error'))); return; }
+      drawErrors();
+    }
+    function drawErrors() {
+      errList.replaceChildren();
+      const rows = errRows.filter(g => g.status === errStatus);
+      if (rows.length === 0) { errList.appendChild(el('p', 'p-5 text-white/50 text-sm', errStatus === 'open' ? 'No open errors.' : 'Nothing marked ' + ERR_STATUS[errStatus].toLowerCase() + '.')); return; }
+      rows.forEach(g => errList.appendChild(renderErrorGroup(g)));
+    }
+    function errSummary(g) {
+      return [g.total_count === 1 ? 'Once' : fmt(g.total_count) + ' times', peopleText(g.people || 0), 'last seen ' + ago(g.last_seen)].join(' · ');
+    }
+
+    function renderErrorGroup(g) {
+      const row = el('div', 'p-4 sm:p-5');
+      const head = el('button', 'w-full text-left flex items-start gap-3');
+      head.type = 'button';
+      const left = el('div', 'min-w-0 flex-1');
+      const titleRow = el('div', 'flex items-start gap-2');
+      if (g.is_crash) titleRow.appendChild(el('span', 'p-status border-red-400/60 text-red-400 shrink-0', 'Crash'));
+      titleRow.appendChild(el('span', 'text-white font-semibold leading-snug break-words line-clamp-2 font-mono text-sm', g.title || g.error_type || 'Unknown error'));
+      left.appendChild(titleRow);
+      left.appendChild(el('div', 'text-xs text-white/50 mt-1.5', errSummary(g)));
+      if (g.last_hour > 0) left.appendChild(el('div', 'text-xs text-amber-400 mt-1', g.last_hour + ' in the last hour'));
+      const chev = el('span', 'text-white/40 text-sm shrink-0 mt-0.5', '▾');
+      head.append(left, chev);
+      const body = el('div', 'hidden mt-4');
+      let loaded = false;
+      head.addEventListener('click', async () => {
+        const open = body.classList.toggle('hidden') === false;
+        chev.textContent = open ? '▴' : '▾';
+        if (open && !loaded) { loaded = true; fillErrorGroup(g, body); }
+      });
+      row.append(head, body);
+      return row;
+    }
+
+    async function fillErrorGroup(g, body) {
+      body.replaceChildren();
+      body.appendChild(el('p', 'text-xs text-white/50', 'First seen ' + ago(g.first_seen) + (g.error_type ? ' · ' + g.error_type : '')));
+      // Mark fixed / Ignore / Reopen, like the app.
+      const actions = el('div', 'flex flex-wrap items-center gap-2 mt-3');
+      const msg = el('span', 'text-xs text-white/40');
+      function drawActions() {
+        actions.replaceChildren();
+        const opts = g.status === 'open' ? [['fixed', 'Mark fixed'], ['ignored', 'Ignore']] : [['open', 'Reopen']];
+        opts.forEach(([s, label]) => {
+          const b = el('button', 'p-btn-ghost !py-1.5 !text-xs', label);
+          b.type = 'button';
+          b.addEventListener('click', async () => {
+            b.disabled = true;
+            msg.className = 'text-xs text-white/40';
+            msg.textContent = 'Saving…';
+            const { error } = await db.rpc('admin_set_error_status', { p_group_id: g.id, p_status: s });
+            b.disabled = false;
+            if (error) { msg.className = 'text-xs text-red-400'; msg.textContent = friendlyError(error); return; }
+            g.status = s;
+            msg.className = 'text-xs text-matrix';
+            msg.textContent = 'Moved to ' + ERR_STATUS[s] + '.';
+            updateErrCounts();
+            drawActions();
+          });
+          actions.appendChild(b);
+        });
+        actions.appendChild(msg);
+      }
+      drawActions();
+      body.appendChild(actions);
+
+      const list = el('div', 'mt-4 border border-white/10 rounded-lg divide-y divide-white/5 overflow-hidden');
+      list.appendChild(el('p', 'p-3 text-xs text-white/50', 'Loading…'));
+      body.appendChild(list);
+      const { data, error } = await db.from('error_logs')
+        .select('id, created_at, user_id, error_message, stack_trace, error_type, screen, app_version, platform, device_info, is_crash')
+        .eq('group_id', g.id).order('created_at', { ascending: false }).limit(20);
+      if (error) { list.replaceChildren(el('p', 'p-3 text-xs text-red-400', 'Could not load: ' + (error.message || 'unknown error'))); return; }
+      const ids = [...new Set((data || []).map(e => e.user_id).filter(Boolean))];
+      const names = {};
+      if (ids.length) {
+        const { data: profs } = await db.from('user_profiles').select('id, username').in('id', ids);
+        (profs || []).forEach(p => { names[p.id] = p.username; });
+      }
+      list.replaceChildren();
+      list.appendChild(el('p', 'px-3 py-2 text-[11px] font-mono uppercase tracking-wider text-white/40', 'Latest ' + (data || []).length + (g.total_count > (data || []).length ? ' of ' + fmt(g.total_count) : '')));
+      (data || []).forEach(e => {
+        const item = el('div', 'p-3');
+        const meta = el('div', 'flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-white/50');
+        const device = typeof e.device_info === 'object' && e.device_info ? (e.device_info.model || e.device_info.device || '') : (e.device_info || '');
+        meta.appendChild(el('span', null, [e.screen, e.app_version && 'v' + e.app_version, e.platform, device].filter(Boolean).join(' · ')));
+        meta.appendChild(el('span', 'ml-auto', (e.user_id ? '@' + (names[e.user_id] || 'deleted account') : 'signed out') + ' · ' + ago(e.created_at)));
+        item.append(meta, el('p', 'mt-1 font-mono text-xs text-white/75 break-words whitespace-pre-line line-clamp-4', e.error_message || e.error_type || ''));
+        if (e.stack_trace) {
+          const t = el('button', 'mt-1.5 text-[11px] text-matrix hover:underline', 'Show stack trace');
+          t.type = 'button';
+          const pre = el('pre', 'hidden mt-2 p-2 bg-black border border-white/10 rounded text-[10px] leading-relaxed text-white/60 overflow-x-auto max-h-64', e.stack_trace);
+          t.addEventListener('click', () => { const o = pre.classList.toggle('hidden') === false; t.textContent = (o ? 'Hide' : 'Show') + ' stack trace'; });
+          item.append(t, pre);
+        }
+        list.appendChild(item);
+      });
+    }
+
+    // MODERATION (the app's Reports tab). Every list reads tables the
+    // database only opens fully to admins; every action is an admin-only
+    // database function, so a tester's page can't do any of this.
+    const MOD_EMPTY = {
+      reports: 'No reports waiting.', spots: 'Every spot is verified.', clips: 'No clips waiting for review.',
+      removed: 'No clips taken down.', deleted: 'No deleted spots.', feedback: 'No feedback yet.'
+    };
+    const mod = { reports: [], spots: [], clips: [], removed: [], deleted: [], feedback: [] };
+    let modQ = 'reports';
+    let modAllReports = false;
+    let modFailed = {};
+    const modList = document.getElementById('mod-list');
+    document.querySelectorAll('.mod-filter').forEach(b => b.addEventListener('click', () => {
+      modQ = b.dataset.q;
+      document.querySelectorAll('.mod-filter').forEach(x => x.classList.toggle('p-chip-on', x === b));
+      document.getElementById('mod-all-wrap').classList.toggle('hidden', modQ !== 'reports');
+      drawModeration();
+    }));
+    document.getElementById('mod-all').addEventListener('change', async e => {
+      modAllReports = e.target.checked;
+      modList.replaceChildren(el('p', 'p-5 text-white/50 text-sm', 'Loading…'));
+      await fetchModeration(['reports']);
+      drawModeration();
+    });
+
+    // Usernames for user ids (these columns point at auth.users, so they
+    // can't be joined to profiles in one query).
+    async function withNames(rows, idKey, nameKey) {
+      const ids = [...new Set(rows.map(r => r[idKey]).filter(Boolean))];
+      if (!ids.length) return rows;
+      const { data } = await db.from('user_profiles').select('id, username').in('id', ids);
+      const names = {};
+      (data || []).forEach(p => { names[p.id] = p.username; });
+      rows.forEach(r => { r[nameKey] = r[idKey] ? (names[r[idKey]] || null) : null; });
+      return rows;
+    }
+    const MOD_FETCH = {
+      async reports() {
+        let q = db.from('post_reports').select('*, map_posts(id, title, description, category, photo_url, photo_urls, deleted_at)');
+        if (!modAllReports) q = q.eq('status', 'pending');
+        const r = await q.order('created_at', { ascending: false }).limit(200);
+        return r.error ? r : { data: await withNames(r.data || [], 'reporter_user_id', 'reporter') };
+      },
+      async spots() {
+        const r = await db.from('map_posts').select('id, title, description, category, photo_url, photo_urls, user_id, created_at')
+          .or('is_verified.eq.false,is_verified.is.null').not('latitude', 'is', null).not('longitude', 'is', null)
+          .is('deleted_at', null).order('created_at', { ascending: false }).limit(200);
+        return r.error ? r : { data: await withNames(r.data || [], 'user_id', 'poster') };
+      },
+      async clips() {
+        const r = await db.from('spot_videos').select('*, map_posts(title)').eq('status', 'pending').order('created_at', { ascending: true }).limit(200);
+        return r.error ? r : { data: await withNames(r.data || [], 'submitted_by', 'submitter') };
+      },
+      async removed() {
+        const r = await db.from('spot_videos').select('*, map_posts(title)').eq('status', 'removed').order('removed_at', { ascending: false }).limit(200);
+        if (r.error) return r;
+        await withNames(r.data || [], 'submitted_by', 'submitter');
+        return { data: await withNames(r.data || [], 'removed_by', 'remover') };
+      },
+      async deleted() {
+        return db.from('map_posts').select('id, title, category, deleted_at').not('deleted_at', 'is', null).order('deleted_at', { ascending: false }).limit(200);
+      },
+      async feedback() {
+        const r = await db.from('user_feedback').select('*').order('created_at', { ascending: false }).limit(200);
+        return r.error ? r : { data: await withNames(r.data || [], 'user_id', 'author') };
+      }
+    };
+    async function fetchModeration(keys) {
+      await Promise.all(keys.map(async k => {
+        const r = await MOD_FETCH[k]();
+        modFailed[k] = r.error ? (r.error.message || 'unknown error') : null;
+        mod[k] = r.error ? [] : (r.data || []);
+      }));
+      updateModCounts();
+    }
+    function updateModCounts() {
+      document.querySelectorAll('.mod-filter').forEach(b => {
+        const n = b.dataset.q === 'reports' ? mod.reports.filter(r => r.status === 'pending').length : mod[b.dataset.q].length;
+        b.querySelector('.admin-count').textContent = n;
+      });
+      // The tab badge counts what's waiting for you: reports, spots, clips.
+      const waiting = mod.reports.filter(r => r.status === 'pending').length + mod.spots.length + mod.clips.length;
+      document.getElementById('admin-mod-badge').textContent = waiting ? (waiting > 99 ? '99+' : waiting) : '';
+    }
+    async function loadModeration(countOnly) {
+      if (!countOnly) {
+        adminLoaded.mod = true;
+        modList.replaceChildren(el('p', 'p-5 text-white/50 text-sm', 'Loading…'));
+      }
+      await fetchModeration(Object.keys(MOD_FETCH));
+      if (!countOnly || adminSec === 'mod') drawModeration();
+    }
+    function drawModeration() {
+      modList.replaceChildren();
+      if (modFailed[modQ]) { modList.appendChild(el('p', 'p-5 text-red-400 text-sm', 'Could not load: ' + modFailed[modQ])); return; }
+      const rows = mod[modQ];
+      if (!rows.length) { modList.appendChild(el('p', 'p-5 text-white/50 text-sm', modAllReports && modQ === 'reports' ? 'No reports yet.' : MOD_EMPTY[modQ])); return; }
+      rows.forEach(r => modList.appendChild(MOD_DRAW[modQ](r)));
+      // Each list asks the database for at most 200 rows and has no "more" button yet,
+      // so a full list means older items exist that aren't shown.
+      if (rows.length >= 200) modList.appendChild(el('p', 'p-5 text-amber-300/90 text-sm', 'Showing the newest 200. Older items are not listed here yet.'));
+    }
+
+    // One row: optional picture or clip on the left, text, then buttons.
+    function modRow(media) {
+      const row = el('div', 'p-4 sm:p-5 flex gap-3 sm:gap-4');
+      if (media) row.appendChild(media);
+      const main = el('div', 'min-w-0 flex-1');
+      row.appendChild(main);
+      return { row, main };
+    }
+    function spotPhoto(p) {
+      const url = p && ((p.photo_urls && p.photo_urls[0]) || p.photo_url);
+      const box = el('div', 'w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-md border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center text-white/25 text-[10px]');
+      if (url) {
+        const img = el('img', 'w-full h-full object-cover');
+        img.src = url; img.alt = ''; img.loading = 'lazy';
+        img.addEventListener('error', () => { img.remove(); box.textContent = 'No photo'; });
+        box.appendChild(img);
+      } else box.textContent = 'No photo';
+      return box;
+    }
+    function clipPlayer(v) {
+      const box = el('div', 'w-24 sm:w-28 shrink-0');
+      if (!v.url) { box.appendChild(el('div', 'aspect-[9/16] rounded-md border border-white/10 bg-white/5 flex items-center justify-center text-white/25 text-[10px]', 'No video')); return box; }
+      const vid = el('video', 'w-full aspect-[9/16] object-cover rounded-md border border-white/10 bg-black');
+      vid.src = v.url; vid.controls = true; vid.preload = 'none'; vid.playsInline = true;
+      if (v.thumbnail_url) vid.poster = v.thumbnail_url;
+      box.appendChild(vid);
+      return box;
+    }
+    function who(name, id) { return id ? '@' + (name || 'deleted account') : 'deleted account'; }
+    // A button that runs an admin action, shows what happened, then
+    // refreshes the given lists.
+    function modAction(label, cls, run, done, refresh, confirmText) {
+      const b = el('button', cls + ' !py-1.5 !text-xs', label);
+      b.type = 'button';
+      b.addEventListener('click', async () => {
+        if (confirmText && !confirm(confirmText)) return;
+        const wrap = b.parentElement;
+        wrap.querySelectorAll('button').forEach(x => { x.disabled = true; });
+        let msg = wrap.querySelector('.mod-msg');
+        if (!msg) { msg = el('span', 'mod-msg text-xs'); wrap.appendChild(msg); }
+        msg.className = 'mod-msg text-xs text-white/40';
+        msg.textContent = 'Saving…';
+        const { error } = await run();
+        if (error) {
+          wrap.querySelectorAll('button').forEach(x => { x.disabled = false; });
+          msg.className = 'mod-msg text-xs text-red-400';
+          msg.textContent = friendlyError(error);
+          return;
+        }
+        msg.className = 'mod-msg text-xs text-matrix';
+        msg.textContent = done;
+        await fetchModeration(refresh);
+        setTimeout(drawModeration, 900);
+      });
+      return b;
+    }
+    function actions() { return el('div', 'flex flex-wrap items-center gap-2 mt-3'); }
+    const PRIMARY = 'p-btn';
+    const GHOST = 'p-btn-ghost';
+
+    const MOD_DRAW = {
+      reports(r) {
+        const p = r.map_posts;
+        const { row, main } = modRow(spotPhoto(p));
+        const head = el('div', 'flex items-start gap-2');
+        head.appendChild(el('span', 'text-white font-semibold leading-snug break-words', r.reason || 'Report'));
+        if (r.status !== 'pending') head.appendChild(el('span', 'p-status border-white/15 text-white/50 shrink-0', r.status === 'dismissed' ? 'Dismissed' : r.status === 'resolved' ? 'Resolved' : r.status));
+        main.appendChild(head);
+        main.appendChild(el('div', 'text-sm text-white/80 mt-1 truncate', 'Spot: ' + (p ? (p.title || 'Untitled spot') : 'deleted spot') + (p && p.deleted_at ? ' (in the bin)' : '')));
+        main.appendChild(el('div', 'text-xs text-white/50 mt-1', 'Reported by ' + who(r.reporter, r.reporter_user_id) + ' · ' + ago(r.created_at)));
+        if (r.details && r.details.trim()) main.appendChild(el('p', 'text-sm text-white/75 mt-2 break-words whitespace-pre-line', r.details.trim()));
+        if (r.status === 'pending') {
+          const a = actions();
+          a.appendChild(modAction('Dismiss', GHOST,
+            () => db.from('post_reports').update({ status: 'dismissed', resolved_at: new Date().toISOString() }).eq('id', r.id).select('id')
+              .then(res => res.error ? res : (res.data && res.data.length ? res : { error: { message: 'Nothing changed. Reload the page.' } })),
+            'Dismissed.', ['reports']));
+          if (p && !p.deleted_at) a.appendChild(modAction('Delete spot', GHOST + ' !text-red-400',
+            () => db.rpc('admin_delete_spot', { p_post_id: p.id }).then(res => res.error ? res
+              : db.from('post_reports').update({ status: 'resolved', resolved_at: new Date().toISOString() }).eq('post_id', p.id).eq('status', 'pending')),
+            'Spot moved to the bin. You can restore it for 30 days.', ['reports', 'deleted', 'spots'],
+            'Move "' + (p.title || 'this spot') + '" to the bin? It can be restored for 30 days.'));
+          main.appendChild(a);
+        }
+        return row;
+      },
+      spots(p) {
+        const { row, main } = modRow(spotPhoto(p));
+        main.appendChild(el('div', 'text-white font-semibold leading-snug break-words', p.title || 'Untitled spot'));
+        main.appendChild(el('div', 'text-xs text-white/50 mt-1', [p.category, 'by ' + who(p.poster, p.user_id), ago(p.created_at)].filter(Boolean).join(' · ')));
+        if (p.description && p.description.trim()) main.appendChild(el('p', 'text-sm text-white/75 mt-2 break-words line-clamp-3', p.description.trim()));
+        const a = actions();
+        a.appendChild(modAction('Verify', PRIMARY, () => db.rpc('admin_verify_spot', { p_post_id: p.id }),
+          'Verified. The poster got their spot points.', ['spots']));
+        main.appendChild(a);
+        return row;
+      },
+      clips(v) {
+        const { row, main } = modRow(clipPlayer(v));
+        main.appendChild(el('div', 'text-white font-semibold leading-snug break-words', v.trick_name || 'Clip'));
+        main.appendChild(el('div', 'text-sm text-white/80 mt-1 truncate', 'At ' + ((v.map_posts && v.map_posts.title) || 'unknown spot')));
+        main.appendChild(el('div', 'text-xs text-white/50 mt-1', [ 'by ' + who(v.submitter, v.submitted_by), v.skater_name && !v.is_own_clip ? 'skater: ' + v.skater_name : null, ago(v.created_at)].filter(Boolean).join(' · ')));
+        if (v.description && v.description.trim()) main.appendChild(el('p', 'text-sm text-white/75 mt-2 break-words line-clamp-3', v.description.trim()));
+        const a = actions();
+        a.appendChild(modAction('Approve', PRIMARY, () => db.rpc('admin_moderate_video', { p_video_id: v.id, p_status: 'approved' }), 'Approved. It\'s live.', ['clips']));
+        a.appendChild(modAction('Reject', GHOST + ' !text-red-400', () => db.rpc('admin_moderate_video', { p_video_id: v.id, p_status: 'rejected' }), 'Rejected.', ['clips']));
+        main.appendChild(a);
+        return row;
+      },
+      removed(v) {
+        const { row, main } = modRow(clipPlayer(v));
+        main.appendChild(el('div', 'text-white font-semibold leading-snug break-words', (v.trick_name || 'Clip') + ' at ' + ((v.map_posts && v.map_posts.title) || 'unknown spot')));
+        main.appendChild(el('div', 'text-xs text-white/50 mt-1', 'Posted by ' + who(v.submitter, v.submitted_by) + ' · taken down by ' + (v.removed_by ? '@' + (v.remover || 'deleted account') : 'an admin') + (v.removed_at ? ' · ' + ago(v.removed_at) : '')));
+        if (v.removal_reason) main.appendChild(el('p', 'text-sm text-white/75 mt-2 break-words', 'Reason: ' + v.removal_reason));
+        const a = actions();
+        a.appendChild(modAction('Restore', GHOST, () => db.rpc('admin_restore_video', { p_video_id: v.id }), 'Restored. It\'s live again.', ['removed']));
+        main.appendChild(a);
+        return row;
+      },
+      deleted(p) {
+        const { row, main } = modRow(null);
+        const days = Math.max(0, 30 - Math.floor((Date.now() - new Date(p.deleted_at).getTime()) / 86400e3));
+        main.appendChild(el('div', 'text-white font-semibold leading-snug break-words', p.title || 'Untitled spot'));
+        main.appendChild(el('div', 'text-xs text-white/50 mt-1', [p.category, 'deleted ' + shortDate(p.deleted_at), days === 0 ? 'gone for good any time now' : 'gone for good in ' + days + (days === 1 ? ' day' : ' days')].filter(Boolean).join(' · ')));
+        const a = actions();
+        a.appendChild(modAction('Restore', GHOST, () => db.rpc('admin_undelete_spot', { p_post_id: p.id }), 'Restored to the map.', ['deleted', 'spots']));
+        main.appendChild(a);
+        return row;
+      },
+      feedback(f) {
+        const { row, main } = modRow(null);
+        main.appendChild(el('div', 'text-xs text-white/50', who(f.author, f.user_id) + ' · ' + ago(f.created_at)));
+        main.appendChild(el('p', 'text-sm text-white mt-1.5 break-words whitespace-pre-line', f.feedback_text || ''));
+        return row;
+      }
+    };
+
+    // USERS (the app's Users tab + user detail). The list comes from
+    // admin_list_users (the only way to read emails); profile changes are
+    // plain updates the database only lets admins make, and points go
+    // through award_points_atomic as 'admin_adjustment' (admin-only).
+    const USER_PAGE = 20;
+    const userList = document.getElementById('user-list');
+    const userMore = document.getElementById('user-more');
+    let users = [];
+    let userTotal = 0;
+    let userQuery = '';
+    let userOpen = null;
+    let myId = null;
+    let userSearchTimer = null;
+    let userFlash = null; // { id, text } shown under a row after it redraws
+    document.getElementById('user-search').addEventListener('input', e => {
+      clearTimeout(userSearchTimer);
+      userSearchTimer = setTimeout(() => { userQuery = e.target.value.trim(); loadUsers(); }, 300);
+    });
+    userMore.addEventListener('click', () => loadUsers(true));
+
+    async function loadUsers(more) {
+      adminLoaded.users = true;
+      if (!myId) { const { data } = await db.auth.getSession(); myId = data.session && data.session.user.id; }
+      if (!more) { users = []; userOpen = null; userList.replaceChildren(el('p', 'p-5 text-white/50 text-sm', 'Loading…')); }
+      userMore.disabled = true;
+      const { data, error } = await db.rpc('admin_list_users', { p_search: userQuery || null, p_limit: USER_PAGE, p_offset: users.length });
+      userMore.disabled = false;
+      if (error) {
+        userList.replaceChildren(el('p', 'p-5 text-red-400 text-sm', 'Could not load users: ' + (error.message || 'unknown error')));
+        userMore.classList.add('hidden');
+        return;
+      }
+      users = users.concat(data || []);
+      if (data && data.length) userTotal = Number(data[0].total_count) || users.length;
+      else if (!more) userTotal = 0;
+      document.getElementById('user-total').textContent = userTotal === 1 ? '1 user' : fmt(userTotal) + ' users';
+      userMore.classList.toggle('hidden', users.length >= userTotal);
+      drawUsers();
+    }
+    function drawUsers() {
+      userList.replaceChildren();
+      if (!users.length) { userList.appendChild(el('p', 'p-5 text-white/50 text-sm', userQuery ? 'Nobody matches "' + userQuery + '".' : 'No users yet.')); return; }
+      users.forEach(u => userList.appendChild(userRow(u)));
+    }
+    function userBadges(u) {
+      const out = [];
+      if (u.is_admin) out.push(el('span', 'p-status border-matrix/40 text-matrix', 'Admin'));
+      if (u.is_verified) out.push(el('span', 'p-status border-sky-400/40 text-sky-300', 'Verified'));
+      if (u.is_banned) out.push(el('span', 'p-status border-red-500/40 text-red-400', 'Banned'));
+      if (u.can_post === false) out.push(el('span', 'p-status border-amber-400/40 text-amber-300', "Can't post"));
+      return out;
+    }
+    function avatar(u) {
+      const box = el('div', 'w-10 h-10 shrink-0 rounded-full border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center text-white/60 text-sm font-semibold');
+      const letter = (u.username || '?').charAt(0).toUpperCase();
+      if (u.avatar_url) {
+        const img = el('img', 'w-full h-full object-cover');
+        img.src = u.avatar_url; img.alt = ''; img.loading = 'lazy';
+        img.addEventListener('error', () => { img.remove(); box.textContent = letter; });
+        box.appendChild(img);
+      } else box.textContent = letter;
+      return box;
+    }
+    function userRow(u) {
+      const wrap = el('div');
+      const head = el('button', 'w-full text-left p-4 sm:p-5 flex items-center gap-3 hover:bg-white/[0.03]');
+      head.type = 'button';
+      head.setAttribute('aria-expanded', userOpen === u.id ? 'true' : 'false');
+      head.appendChild(avatar(u));
+      const main = el('div', 'min-w-0 flex-1');
+      const top = el('div', 'flex flex-wrap items-center gap-2');
+      top.appendChild(el('span', 'text-white font-semibold truncate', '@' + (u.username || 'no username')));
+      if (u.id === myId) top.appendChild(el('span', 'text-xs text-white/40', '(you)'));
+      userBadges(u).forEach(b => top.appendChild(b));
+      main.appendChild(top);
+      main.appendChild(el('div', 'text-xs text-white/50 mt-1 truncate', [u.email || 'no email', u.created_at ? 'joined ' + shortDate(u.created_at) : null].filter(Boolean).join(' · ')));
+      head.appendChild(main);
+      const pts = el('div', 'text-right shrink-0');
+      pts.appendChild(el('div', 'text-white font-semibold tabular-nums', fmt(Math.round(Number(u.points) * 100) / 100)));
+      pts.appendChild(el('div', 'text-[10px] text-white/40 uppercase tracking-wider', 'points'));
+      head.appendChild(pts);
+      head.addEventListener('click', () => { userOpen = userOpen === u.id ? null : u.id; drawUsers(); });
+      wrap.appendChild(head);
+      if (userOpen === u.id) wrap.appendChild(userDetail(u));
+      return wrap;
+    }
+
+    // Updates one profile; RLS turns a forbidden update into "0 rows".
+    async function updateUser(id, values) {
+      const res = await db.from('user_profiles').update(values).eq('id', id).select('id');
+      if (res.error) return res;
+      return res.data && res.data.length ? res : { error: { message: 'Nothing changed (not allowed, or the account is gone).' } };
+    }
+    function userDetail(u) {
+      const box = el('div', 'px-4 sm:px-5 pb-5 sm:pl-[4.25rem]');
+      if (u.is_banned) box.appendChild(el('p', 'text-sm text-red-300/90 mb-3 break-words', 'Banned' + (u.banned_at ? ' ' + shortDate(u.banned_at) : '') + (u.ban_reason ? ': ' + u.ban_reason : '')));
+      if (u.bio && u.bio.trim()) box.appendChild(el('p', 'text-sm text-white/70 mb-3 break-words whitespace-pre-line', u.bio.trim()));
+      const msg = el('p', 'text-xs min-h-[1rem] mt-2');
+      const a = el('div', 'flex flex-wrap items-center gap-2');
+      const run = async (work, done) => {
+        a.querySelectorAll('button').forEach(x => { x.disabled = true; });
+        msg.className = 'text-xs min-h-[1rem] mt-2 text-white/40';
+        msg.textContent = 'Saving…';
+        const { error } = await work();
+        a.querySelectorAll('button').forEach(x => { x.disabled = false; });
+        if (error) { msg.className = 'text-xs min-h-[1rem] mt-2 text-red-400'; msg.textContent = userError(error); return false; }
+        msg.className = 'text-xs min-h-[1rem] mt-2 text-matrix';
+        msg.textContent = done;
+        userFlash = { id: u.id, text: done };
+        await refreshUser(u.id);
+        return true;
+      };
+      const btn = (label, cls, onTap) => {
+        const b = el('button', cls + ' !py-1.5 !text-xs', label);
+        b.type = 'button';
+        b.addEventListener('click', onTap);
+        a.appendChild(b);
+        return b;
+      };
+      const isMe = u.id === myId;
+
+      btn(u.is_verified ? 'Unverify' : 'Verify', u.is_verified ? GHOST : PRIMARY, () =>
+        run(() => updateUser(u.id, { is_verified: !u.is_verified }), u.is_verified ? 'Verified badge removed.' : 'Verified.'));
+      btn(u.can_post === false ? 'Allow posting' : 'Stop posting', GHOST, () =>
+        run(() => updateUser(u.id, { can_post: u.can_post === false }), u.can_post === false ? 'They can post again.' : "They can't post spots or clips now."));
+      btn('Add points', GHOST, () => pointsForm(true));
+      btn('Remove points', GHOST, () => pointsForm(false));
+      if (!isMe) {
+        if (u.is_banned) btn('Unban', GHOST, () => run(() => updateUser(u.id, { is_banned: false, ban_reason: null, banned_at: null }), 'Unbanned.'));
+        else btn('Ban', GHOST + ' !text-red-400', () => banForm());
+        btn(u.is_admin ? 'Remove admin' : 'Make admin', GHOST + (u.is_admin ? ' !text-red-400' : ''), () => {
+          if (u.is_admin) {
+            if (!confirm('Take admin rights away from @' + u.username + '?')) return;
+            run(() => updateUser(u.id, { is_admin: false }), 'Admin rights removed.');
+          } else adminForm();
+        });
+      }
+      box.appendChild(a);
+      const form = el('div');
+      box.append(form, msg);
+      if (userFlash && userFlash.id === u.id) { msg.className = 'text-xs min-h-[1rem] mt-2 text-matrix'; msg.textContent = userFlash.text; userFlash = null; }
+
+      function banForm() {
+        form.replaceChildren();
+        const f = el('form', 'mt-3 flex flex-col sm:flex-row gap-2');
+        const reason = el('input', 'p-field flex-1');
+        reason.type = 'text'; reason.maxLength = 200; reason.required = true; reason.placeholder = 'Reason (they may see this)';
+        const go = el('button', PRIMARY + ' !bg-red-500 !border-red-500 shrink-0', 'Ban @' + (u.username || 'user'));
+        go.type = 'submit';
+        const cancel = el('button', GHOST + ' shrink-0', 'Cancel');
+        cancel.type = 'button';
+        cancel.addEventListener('click', () => form.replaceChildren());
+        f.append(reason, go, cancel);
+        f.addEventListener('submit', async e => {
+          e.preventDefault();
+          const r = reason.value.trim();
+          if (!r) { reason.focus(); return; }
+          go.disabled = true;
+          const ok = await run(() => updateUser(u.id, { is_banned: true, ban_reason: r, banned_at: new Date().toISOString() }), 'Banned.');
+          if (ok) form.replaceChildren(); else go.disabled = false;
+        });
+        form.appendChild(f);
+        reason.focus();
+      }
+      // Granting admin rights needs the signed-in admin's own password again.
+      // Re-signing in checks it; an account with no password (Google or Apple
+      // only) can't pass, so it's told to set one in Account first.
+      function adminForm() {
+        form.replaceChildren();
+        const f = el('form', 'mt-3 flex flex-col sm:flex-row gap-2');
+        const pw = el('input', 'p-field flex-1');
+        pw.type = 'password'; pw.autocomplete = 'current-password'; pw.required = true; pw.placeholder = 'Your password, to confirm';
+        const go = el('button', PRIMARY + ' shrink-0', 'Make @' + (u.username || 'user') + ' an admin');
+        go.type = 'submit';
+        const cancel = el('button', GHOST + ' shrink-0', 'Cancel');
+        cancel.type = 'button';
+        cancel.addEventListener('click', () => form.replaceChildren());
+        f.append(pw, go, cancel);
+        f.addEventListener('submit', async e => {
+          e.preventDefault();
+          go.disabled = true;
+          msg.className = 'text-xs min-h-[1rem] mt-2 text-white/40';
+          msg.textContent = 'Checking your password…';
+          const { data: sess } = await db.auth.getSession();
+          const email = sess.session && sess.session.user.email;
+          const { error: authError } = email
+            ? await db.auth.signInWithPassword({ email, password: pw.value })
+            : { error: { message: 'no email' } };
+          if (authError) {
+            go.disabled = false;
+            msg.className = 'text-xs min-h-[1rem] mt-2 text-red-400';
+            msg.textContent = "That password isn't right. If you sign in with Google or Apple, set a password in Account first.";
+            pw.focus();
+            return;
+          }
+          const ok = await run(() => updateUser(u.id, { is_admin: true }), '@' + u.username + ' is now an admin.');
+          if (ok) form.replaceChildren(); else go.disabled = false;
+        });
+        form.appendChild(f);
+        pw.focus();
+      }
+      function pointsForm(adding) {
+        form.replaceChildren();
+        const f = el('form', 'mt-3 flex flex-col sm:flex-row gap-2');
+        const amount = el('input', 'p-field sm:!w-32 shrink-0');
+        amount.type = 'number'; amount.min = '0.01'; amount.step = '0.01'; amount.max = '100000'; amount.required = true;
+        amount.placeholder = adding ? 'Add' : 'Remove'; amount.inputMode = 'decimal';
+        const reason = el('input', 'p-field flex-1');
+        reason.type = 'text'; reason.maxLength = 200; reason.required = true; reason.placeholder = 'Reason, shows in their history';
+        const go = el('button', PRIMARY + ' shrink-0', adding ? 'Add points' : 'Remove points');
+        go.type = 'submit';
+        const cancel = el('button', GHOST + ' shrink-0', 'Cancel');
+        cancel.type = 'button';
+        cancel.addEventListener('click', () => form.replaceChildren());
+        f.append(amount, reason, go, cancel);
+        f.addEventListener('submit', async e => {
+          e.preventDefault();
+          const n = Math.round(Number(amount.value) * 100) / 100;
+          if (!(n > 0) || n > 100000) { msg.className = 'text-xs min-h-[1rem] mt-2 text-red-400'; msg.textContent = 'Enter an amount between 0.01 and 100,000.'; return; }
+          const r = reason.value.trim();
+          if (!r) { reason.focus(); return; }
+          const ok = await run(() => db.rpc('award_points_atomic', {
+            p_user_id: u.id, p_amount: adding ? n : -n, p_transaction_type: 'admin_adjustment', p_reference_id: null, p_description: r
+          }), (adding ? 'Added ' : 'Removed ') + fmt(n) + ' points.');
+          if (ok) form.replaceChildren();
+        });
+        form.appendChild(f);
+        amount.focus();
+      }
+
+      // Points history, newest first (the app's Transaction History).
+      const hist = el('div', 'mt-4');
+      hist.appendChild(el('div', 'p-label mb-2', 'Points history'));
+      const histList = el('div', 'text-sm', null);
+      histList.appendChild(el('p', 'text-white/40 text-xs', 'Loading…'));
+      hist.appendChild(histList);
+      box.appendChild(hist);
+      db.from('point_transactions').select('id, amount, transaction_type, description, created_at').eq('user_id', u.id)
+        .order('created_at', { ascending: false }).limit(50).then(({ data, error }) => {
+          histList.replaceChildren();
+          if (error) { histList.appendChild(el('p', 'text-red-400 text-xs', 'Could not load: ' + (error.message || 'unknown error'))); return; }
+          if (!data || !data.length) { histList.appendChild(el('p', 'text-white/40 text-xs', 'No points yet.')); return; }
+          data.forEach(t => {
+            const n = Number(t.amount) || 0;
+            const line = el('div', 'flex items-baseline gap-3 py-1.5 border-b border-white/5 last:border-0');
+            line.appendChild(el('span', 'text-white/40 text-xs tabular-nums w-14 shrink-0', shortDate(t.created_at)));
+            line.appendChild(el('span', 'text-white/75 flex-1 min-w-0 truncate', t.description || (t.transaction_type || '').replace(/_/g, ' ')));
+            line.appendChild(el('span', 'tabular-nums font-semibold shrink-0 ' + (n >= 0 ? 'text-matrix' : 'text-red-400'), (n > 0 ? '+' : '') + fmt(n)));
+            histList.appendChild(line);
+          });
+        });
+      // Admin history: who changed this user's admin, ban, verified, posting or points.
+      const adminHist = el('div', 'mt-4');
+      adminHist.appendChild(el('div', 'p-label mb-2', 'Admin history'));
+      const adminHistList = el('div', 'text-sm', null);
+      adminHistList.appendChild(el('p', 'text-white/40 text-xs', 'Loading…'));
+      adminHist.appendChild(adminHistList);
+      box.appendChild(adminHist);
+      db.rpc('admin_audit_list', { p_target: u.id, p_limit: 50 }).then(({ data, error }) => {
+          adminHistList.replaceChildren();
+          if (error) { adminHistList.appendChild(el('p', 'text-red-400 text-xs', 'Could not load: ' + (error.message || 'unknown error'))); return; }
+          if (!data || !data.length) { adminHistList.appendChild(el('p', 'text-white/40 text-xs', 'No admin changes yet.')); return; }
+          data.forEach(a => {
+            const line = el('div', 'py-1.5 border-b border-white/5 last:border-0');
+            line.appendChild(el('div', 'text-white/75', auditText(a)));
+            line.appendChild(el('div', 'text-white/40 text-xs', shortDate(a.created_at) + ' · by ' + (a.actor_username ? '@' + a.actor_username : 'the database')));
+            adminHistList.appendChild(line);
+          });
+        });
+      return box;
+    }
+    // Re-reads one user (search by id isn't possible, so re-read the
+    // loaded page range) and keeps their row open.
+    async function refreshUser(id) {
+      const { data, error } = await db.rpc('admin_list_users', { p_search: userQuery || null, p_limit: Math.max(users.length, USER_PAGE), p_offset: 0 });
+      if (error) return;
+      users = data || [];
+      if (users.length) userTotal = Number(users[0].total_count) || users.length;
+      userOpen = users.some(u => u.id === id) ? id : null;
+      drawUsers();
+    }
+    function userError(error) {
+      const m = (error && error.message) || '';
+      if (m.includes('PRIVILEGED_COLUMN') || m.includes('admin only') || m.includes('requires an admin')) return 'Only admins can do that.';
+      if (m.includes('Nothing changed')) return m;
+      return friendlyError(error);
+    }
+
+    // SETTINGS (the app's admin Settings tab). Five numbers in the
+    // points_config row of app_settings; award_points_atomic and
+    // recalculate_map_score read them. Saving re-reads the row and merges
+    // only what changed, so the other keys in it are kept (like the app).
+    const SETTING_KEY = 'points_config';
+    const SETTING_FIELDS = [
+      { group: 'Points', key: 'base_daily_points', label: 'Base daily points', help: 'The baseline points awarded for a daily login.' },
+      { group: 'Points', key: 'streak_bonus_multiplier', label: 'Streak bonus multiplier', help: 'Additional points awarded per day of streak.' },
+      { group: 'Points', key: 'first_login_bonus', label: 'First login bonus', help: 'One-time points awarded to new users.' },
+      { group: 'XP', key: 'post_xp', label: 'XP per post', help: 'XP awarded when a map spot is verified.' },
+      { group: 'XP', key: 'vote_xp', label: 'XP per upvote', help: 'XP awarded to the author when their post is liked.' }
+    ];
+    let settingSaved = {}; // key -> text as loaded, to tell what was edited
+    const settingsSave = document.getElementById('settings-save');
+    async function readSettings() {
+      const { data, error } = await db.from('app_settings').select('value, updated_at').eq('key', SETTING_KEY).maybeSingle();
+      if (error) throw error;
+      return data || { value: {}, updated_at: null };
+    }
+    function showSettingsUpdated(at) {
+      document.getElementById('set-updated').textContent = at ? 'Last saved ' + shortDate(at) + ', ' + new Date(at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : '';
+    }
+    async function loadSettings() {
+      adminLoaded.settings = true;
+      const box = document.getElementById('settings-fields');
+      settingsSave.disabled = true;
+      settingsSave.classList.add('hidden');
+      adminMsg('settings-msg', '', true);
+      box.replaceChildren(el('p', 'text-white/50 text-sm', 'Loading…'));
+      let row;
+      try { row = await readSettings(); } catch (error) {
+        // Never show (or save) the form until the real values are in.
+        box.replaceChildren(el('p', 'text-red-400 text-sm', 'Could not load settings: ' + (error.message || 'unknown error')));
+        const retry = el('button', 'p-btn-ghost mt-3', 'Try again');
+        retry.type = 'button';
+        retry.addEventListener('click', loadSettings);
+        box.appendChild(retry);
+        return;
+      }
+      const v = row.value || {};
+      box.replaceChildren();
+      let group = null;
+      SETTING_FIELDS.forEach(f => {
+        if (f.group !== group) { group = f.group; box.appendChild(el('div', 'p-label pt-1', group)); }
+        const text = v[f.key] === undefined || v[f.key] === null ? '' : String(v[f.key]);
+        settingSaved[f.key] = text;
+        const wrap = el('div');
+        const lab = el('label', 'block text-sm text-white font-semibold', f.label);
+        lab.htmlFor = 'set-' + f.key;
+        const input = el('input', 'p-field mt-2 sm:!w-48 tabular-nums');
+        input.id = 'set-' + f.key; input.type = 'text'; input.inputMode = 'decimal'; input.autocomplete = 'off';
+        input.value = text;
+        if (!text) input.placeholder = 'Not set';
+        input.addEventListener('input', () => { adminMsg('settings-msg', '', true); input.classList.remove('!border-red-500'); });
+        wrap.append(lab, el('p', 'text-xs text-white/45 mt-0.5', f.help), input);
+        box.appendChild(wrap);
+      });
+      showSettingsUpdated(row.updated_at);
+      settingsSave.classList.remove('hidden');
+      settingsSave.disabled = false;
+    }
+    document.getElementById('settings-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const changes = {};
+      let bad = null;
+      SETTING_FIELDS.forEach(f => {
+        const input = document.getElementById('set-' + f.key);
+        const text = input.value.trim();
+        if (text === settingSaved[f.key]) return;
+        // A blank is only fine for a key that was never set.
+        const ok = text !== '' && /^\d+(\.\d+)?$/.test(text) && Number.isFinite(Number(text));
+        if (!ok) { input.classList.add('!border-red-500'); bad = bad || f; return; }
+        changes[f.key] = Number(text);
+      });
+      if (bad) { adminMsg('settings-msg', bad.label + ': enter a number, 0 or more.', false); document.getElementById('set-' + bad.key).focus(); return; }
+      if (!Object.keys(changes).length) { adminMsg('settings-msg', 'No changes.', true); return; }
+      settingsSave.disabled = true;
+      adminMsg('settings-msg', 'Saving…', true);
+      try {
+        const current = await readSettings();
+        const merged = Object.assign({}, current.value || {}, changes);
+        const at = new Date().toISOString();
+        const { data, error } = await db.from('app_settings').upsert({ key: SETTING_KEY, value: merged, updated_at: at }).select('key');
+        if (error) throw error;
+        if (!data || !data.length) throw { message: 'Nothing was saved (not allowed).' };
+        SETTING_FIELDS.forEach(f => { if (f.key in changes) settingSaved[f.key] = String(changes[f.key]); document.getElementById('set-' + f.key).value = settingSaved[f.key]; });
+        showSettingsUpdated(at);
+        adminMsg('settings-msg', 'Saved.', true);
+      } catch (error) {
+        adminMsg('settings-msg', (error && error.message && error.message.startsWith('Nothing')) ? error.message : 'Not saved: ' + friendlyError(error), false);
+      }
+      settingsSave.disabled = false;
+    });
+
+    // INITIALIZE
+    (function () { const h = location.hash.slice(1); if (document.getElementById('admin-sec-' + h)) adminSec = h; })();
+    checkAuth();
+  </script>
+</body>
+</html>
