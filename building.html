@@ -95,7 +95,7 @@
     }
     .deck-node.is-future {
       background-color: #000 !important;
-      color: #737373 !important;
+      color: #8e95a1 !important;
       border-color: #404040 !important;
     }
     .deck-popout {
@@ -155,6 +155,7 @@
   <link rel="stylesheet" href="/assets/tailwind.css">
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col font-sans">
+  <a href="#main" class="skip-link">Skip to content</a>
   <div id="scroll-progress"></div>
 
   <!-- NAVIGATION -->
@@ -233,7 +234,7 @@
   </nav>
 
   <!-- MAIN CONTAINER -->
-  <main class="flex-grow relative">
+  <main id="main" tabindex="-1" class="flex-grow relative">
 
     <!-- PERSISTENT PITCH DECK SECTION RAIL -->
     <aside id="deck-rail" aria-label="Pitch deck section progress" class="fixed right-2 sm:right-6 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center select-none bg-black/85 backdrop-blur-md px-1.5 py-2.5 sm:px-2 sm:py-3.5 rounded-full border border-matrix/30 shadow-[0_0_25px_rgba(0,0,0,0.9)] transition-all duration-300 touch-manipulation is-awake">
@@ -671,25 +672,25 @@
             <div class="relative bg-black/60 rounded-xl p-5 matrix-border overflow-hidden group hover:border-matrix transition-colors">
               <div class="absolute -right-2 -top-4 font-mono font-black text-7xl text-matrix/10 select-none group-hover:text-matrix/20 transition-colors">01</div>
               <div class="flex items-center gap-2 text-matrix mb-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span class="font-mono text-[10px] tracking-widest uppercase">Unlocked</span></div>
-              <h4 class="font-mono font-bold text-white uppercase text-lg mb-1">Battles</h4>
+              <h3 class="font-mono font-bold text-white uppercase text-lg mb-1">Battles</h3>
               <p class="text-sm text-gray-400">Game of S.K.A.T.E. online or at the spot, counted on the leaderboard.</p>
             </div>
             <div class="relative bg-black/60 rounded-xl p-5 matrix-border overflow-hidden group hover:border-matrix transition-colors">
               <div class="absolute -right-2 -top-4 font-mono font-black text-7xl text-matrix/10 select-none group-hover:text-matrix/20 transition-colors">02</div>
               <div class="flex items-center gap-2 text-matrix mb-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span class="font-mono text-[10px] tracking-widest uppercase">Unlocked</span></div>
-              <h4 class="font-mono font-bold text-white uppercase text-lg mb-1">The map</h4>
+              <h3 class="font-mono font-bold text-white uppercase text-lg mb-1">The map</h3>
               <p class="text-sm text-gray-400">Spots open up when you turn up. Check if it's wet, locked off or busy.</p>
             </div>
             <div class="relative bg-black/60 rounded-xl p-5 matrix-border overflow-hidden group hover:border-matrix transition-colors">
               <div class="absolute -right-2 -top-4 font-mono font-black text-7xl text-matrix/10 select-none group-hover:text-matrix/20 transition-colors">03</div>
               <div class="flex items-center gap-2 text-matrix mb-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span class="font-mono text-[10px] tracking-widest uppercase">Unlocked</span></div>
-              <h4 class="font-mono font-bold text-white uppercase text-lg mb-1">The feed</h4>
+              <h3 class="font-mono font-bold text-white uppercase text-lg mb-1">The feed</h3>
               <p class="text-sm text-gray-400">Post clips, tag the spot, see what's happening across London.</p>
             </div>
             <div class="relative bg-black/60 rounded-xl p-5 matrix-border overflow-hidden group hover:border-matrix transition-colors">
               <div class="absolute -right-2 -top-4 font-mono font-black text-7xl text-matrix/10 select-none group-hover:text-matrix/20 transition-colors">04</div>
               <div class="flex items-center gap-2 text-matrix mb-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span class="font-mono text-[10px] tracking-widest uppercase">Unlocked</span></div>
-              <h4 class="font-mono font-bold text-white uppercase text-lg mb-1">Rewards</h4>
+              <h3 class="font-mono font-bold text-white uppercase text-lg mb-1">Rewards</h3>
               <p class="text-sm text-gray-400">Earn points for skating, battling and posting, and spend them in the shop.</p>
             </div>
           </div>
@@ -705,15 +706,15 @@
             <div class="space-y-3">
               <div class="flex gap-4 items-start p-4 rounded-lg bg-black/40 subtle-border ">
                 <div class="shrink-0 w-9 h-9 rounded-md border border-neutral-700 flex items-center justify-center text-gray-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
-                <div><h4 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">Shop network</h4><p class="text-sm text-gray-500">Local skate shops join, and points go on decks, wheels and hardware.</p></div>
+                <div><h3 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">Shop network</h3><p class="text-sm text-gray-500">Local skate shops join, and points go on decks, wheels and hardware.</p></div>
               </div>
               <div class="flex gap-4 items-start p-4 rounded-lg bg-black/40 subtle-border ">
                 <div class="shrink-0 w-9 h-9 rounded-md border border-neutral-700 flex items-center justify-center text-gray-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
-                <div><h4 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">Spot bounties</h4><p class="text-sm text-gray-500">Shops put trick bounties on spots.</p></div>
+                <div><h3 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">Spot bounties</h3><p class="text-sm text-gray-500">Shops put trick bounties on spots.</p></div>
               </div>
               <div class="flex gap-4 items-start p-4 rounded-lg bg-black/40 subtle-border ">
                 <div class="shrink-0 w-9 h-9 rounded-md border border-neutral-700 flex items-center justify-center text-gray-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
-                <div><h4 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">Skater cards</h4><p class="text-sm text-gray-500">Your battle record and clips in one profile you can show sponsors.</p></div>
+                <div><h3 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">Skater cards</h3><p class="text-sm text-gray-500">Your battle record and clips in one profile you can show sponsors.</p></div>
               </div>
             </div>
           </div>
@@ -725,15 +726,15 @@
             <div class="space-y-3">
               <div class="flex gap-4 items-start p-4 rounded-lg bg-black/40 subtle-border opacity-70">
                 <div class="shrink-0 w-9 h-9 rounded-md border border-neutral-700 flex items-center justify-center text-gray-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
-                <div><h4 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">The community pot</h4><p class="text-sm text-gray-500">A share of what Pushinn spends on marketing goes back to the scene.</p></div>
+                <div><h3 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">The community pot</h3><p class="text-sm text-gray-500">A share of what Pushinn spends on marketing goes back to the scene.</p></div>
               </div>
               <div class="flex gap-4 items-start p-4 rounded-lg bg-black/40 subtle-border opacity-70">
                 <div class="shrink-0 w-9 h-9 rounded-md border border-neutral-700 flex items-center justify-center text-gray-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
-                <div><h4 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">Spot repairs</h4><p class="text-sm text-gray-500">The pot pays for DIY builds and upkeep at London spots.</p></div>
+                <div><h3 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">Spot repairs</h3><p class="text-sm text-gray-500">The pot pays for DIY builds and upkeep at London spots.</p></div>
               </div>
               <div class="flex gap-4 items-start p-4 rounded-lg bg-black/40 subtle-border opacity-70">
                 <div class="shrink-0 w-9 h-9 rounded-md border border-neutral-700 flex items-center justify-center text-gray-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
-                <div><h4 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">Skaters vote</h4><p class="text-sm text-gray-500">You decide which video parts, zines and events get funded.</p></div>
+                <div><h3 class="font-mono font-bold text-gray-200 uppercase text-sm mb-0.5">Skaters vote</h3><p class="text-sm text-gray-500">You decide which video parts, zines and events get funded.</p></div>
               </div>
             </div>
           </div>

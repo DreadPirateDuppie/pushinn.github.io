@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="/assets/tailwind.css">
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
+  <a href="#main" class="skip-link">Skip to content</a>
   <!-- NAVIGATION -->
   <nav class="sticky top-0 z-50 bg-black matrix-border border-b border-t-0 border-x-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -102,7 +103,7 @@
     </div>
   </nav>
 
-  <main class="flex-grow">
+  <main id="main" tabindex="-1" class="flex-grow">
     <section class="py-20 px-4 sm:px-6 lg:px-8">
       <div class="max-w-3xl mx-auto">
         <div class="font-mono text-xs text-matrix tracking-widest uppercase mb-2">Built in the open</div>
@@ -260,24 +261,24 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
         <div class="md:col-span-1">
-          <h2 class="font-mono font-bold text-2xl text-matrix tracking-widest mb-4">PUSHINN</h2>
+          <p class="font-mono font-bold text-2xl text-matrix tracking-widest mb-4">PUSHINN</p>
           <p class="text-gray-500 text-sm font-sans pr-4">Claim the Spot. Own the Streets.</p>
         </div>
         <div>
-          <h4 class="font-mono text-white text-sm tracking-widest mb-6">SYSTEMS</h4>
+          <h2 class="font-mono text-white text-sm tracking-widest mb-6">SYSTEMS</h2>
           <ul class="space-y-4 font-sans text-sm text-gray-400">
             <li><a href="/#features" class="hover:text-matrix transition-colors">Features</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-mono text-white text-sm tracking-widest mb-6">RESOURCES</h4>
+          <h2 class="font-mono text-white text-sm tracking-widest mb-6">RESOURCES</h2>
           <ul class="space-y-4 font-sans text-sm text-gray-400">
             <li><a href="/devlog" class="text-matrix transition-colors">Dev Log</a></li>
             <li><a href="/support" class="hover:text-matrix transition-colors">Support Desk</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-mono text-white text-sm tracking-widest mb-6">LEGAL</h4>
+          <h2 class="font-mono text-white text-sm tracking-widest mb-6">LEGAL</h2>
           <ul class="space-y-4 font-sans text-sm text-gray-400">
             <li><a href="/legal-privacy" class="hover:text-matrix transition-colors">Privacy Policy</a></li>
             <li><a href="/legal-terms" class="hover:text-matrix transition-colors">Terms of Service</a></li>

@@ -33,6 +33,7 @@
   <link rel="stylesheet" href="/assets/tailwind.css">
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col font-sans">
+  <a href="#main" class="skip-link">Skip to content</a>
 
   <!-- NAVIGATION -->
   <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
@@ -70,7 +71,7 @@
   </nav>
 
   <!-- MAIN LOGIN FORM -->
-  <main class="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8 py-20">
+  <main id="main" tabindex="-1" class="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8 py-20">
     <div class="w-full max-w-md mx-auto">
       <div class="bg-surface matrix-border p-8 rounded-lg matrix-glow">
         <div class="text-matrix text-xs font-semibold tracking-wider uppercase mb-2">Account</div>

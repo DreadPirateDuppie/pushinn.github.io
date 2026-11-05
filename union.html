@@ -87,6 +87,7 @@
   <link rel="stylesheet" href="/assets/tailwind.css">
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col font-sans">
+  <a href="#main" class="skip-link">Skip to content</a>
 
   <!-- NAVIGATION -->
   <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
@@ -124,7 +125,7 @@
     </div>
   </nav>
 
-  <main class="flex-grow">
+  <main id="main" tabindex="-1" class="flex-grow">
     <!-- HERO HEADER (signed-out only; signed-in members get the compact header below) -->
     <section id="hero" class="hidden max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 text-center">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-matrix/10 border border-matrix/30 font-sans text-xs text-matrix font-medium mb-6">

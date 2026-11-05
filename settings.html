@@ -88,6 +88,7 @@
   <link rel="stylesheet" href="/assets/tailwind.css">
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col font-sans">
+  <a href="#main" class="skip-link">Skip to content</a>
 
   <!-- NAVIGATION -->
   <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-md matrix-border border-b border-t-0 border-x-0">
@@ -125,7 +126,7 @@
     </div>
   </nav>
 
-  <main class="flex-grow">
+  <main id="main" tabindex="-1" class="flex-grow">
 
     <section id="settings-content" class="max-w-3xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-24 hidden font-sans">
       <header class="mb-8">

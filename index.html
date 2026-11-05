@@ -100,6 +100,7 @@
   <link rel="stylesheet" href="/assets/tailwind.css">
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
+  <a href="#main" class="skip-link">Skip to content</a>
   <div id="scroll-progress"></div>
 
   <!-- NAVIGATION -->
@@ -182,7 +183,7 @@
   </nav>
 
   <!-- HERO / STREET TERMINAL (Zero-Scroll Viewport Lock) -->
-  <main class="flex flex-col justify-center items-center h-[calc(100svh-3.5rem)] sm:h-[calc(100dvh-5rem)] px-4 sm:px-6 md:pb-[20vh] relative overflow-hidden text-center">
+  <main id="main" tabindex="-1" class="flex flex-col justify-center items-center h-[calc(100svh-3.5rem)] sm:h-[calc(100dvh-5rem)] px-4 sm:px-6 md:pb-[20vh] relative overflow-hidden text-center">
     <!-- Ambient dot-matrix globe (decorative, never receives input) -->
     <canvas id="globe-canvas" aria-hidden="true" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
     <!-- Status pill above the headline -->

@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Accessibility (T-244) */
+.skip-link { position: absolute; left: 0.75rem; top: -4rem; z-index: 100; background: #00FF41; color: #000; padding: 0.6rem 1rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; border-radius: 0.25rem; }
+.skip-link:focus { top: 0.75rem; }
+main:focus { outline: none; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
