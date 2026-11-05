@@ -5,7 +5,6 @@
 ## Key pages
 - [Home](https://pushinn.app/): what Pushinn is
 - [What we're building](https://pushinn.app/building): the mission and roadmap
-- [Dev log](https://pushinn.app/devlog): what has been built and when
 - [The Skaters' Union](https://pushinn.app/union): the community page (bugs, ideas, votes)
 - [Support](https://pushinn.app/support): help and contact
 - [Safety](https://pushinn.app/safety): safety information
