@@ -90,6 +90,16 @@
     .ret td.c { border-radius: 6px; }
   </style>
   <script src="/assets/nav-gate.js"></script>
+  <style id="text-size-bump">
+    html { font-size: 112.5%; }
+    /* tablet widths: keep the top menu on one line now that text is larger */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      nav a { white-space: nowrap; }
+      nav .md\:flex a.font-mono { font-size: 0.7rem; }
+      nav .md\:flex .space-x-6 > :not([hidden]) ~ :not([hidden]) { margin-left: 0.7rem; }
+      nav .md\:flex { column-gap: 0.5rem; }
+    }
+  </style>
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col font-sans">
 

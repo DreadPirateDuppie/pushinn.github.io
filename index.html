@@ -102,6 +102,16 @@
 
   </style>
   <script src="/assets/nav-gate.js"></script>
+  <style id="text-size-bump">
+    html { font-size: 112.5%; }
+    /* tablet widths: keep the top menu on one line now that text is larger */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      nav a { white-space: nowrap; }
+      nav .md\:flex a.font-mono { font-size: 0.7rem; }
+      nav .md\:flex .space-x-6 > :not([hidden]) ~ :not([hidden]) { margin-left: 0.7rem; }
+      nav .md\:flex { column-gap: 0.5rem; }
+    }
+  </style>
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
   <div id="scroll-progress"></div>
@@ -234,7 +244,7 @@
       <a href="https://instagram.com/pushinnlabsltd" target="_blank" rel="noopener" class="px-5 py-2 sm:px-6 sm:py-2.5 rounded-full bg-matrix text-black font-mono font-bold text-xs uppercase tracking-wider hover:bg-white hover:text-black transition-all shadow-[0_0_18px_rgba(0,255,65,0.35)] text-center whitespace-nowrap">
         Follow on Instagram
       </a>
-      <a href="/building" class="px-5 py-2 sm:px-6 sm:py-2.5 rounded-full border border-white/20 text-white hover:border-matrix hover:text-matrix font-mono font-bold text-xs uppercase tracking-wider transition-all text-center whitespace-nowrap">
+      <a href="/building" class="px-5 py-2 sm:px-6 sm:py-2.5 rounded-full border border-white/30 bg-black/80 backdrop-blur-sm text-white hover:border-matrix hover:text-matrix font-mono font-bold text-xs uppercase tracking-wider transition-all text-center whitespace-nowrap">
         What We're Building
       </a>
     </div>
