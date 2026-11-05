@@ -143,6 +143,12 @@
             >
           </div>
 
+          <!-- REMEMBER ME -->
+          <label for="remember-me" class="flex items-center gap-3 cursor-pointer select-none">
+            <input id="remember-me" type="checkbox" name="remember" checked class="w-5 h-5 rounded border border-matrix/40 bg-black accent-[#00FF41] cursor-pointer">
+            <span class="text-sm text-gray-300">Remember me on this device</span>
+          </label>
+
           <!-- SOCIAL SIGN-IN (2-Column Grid) -->
           <div id="social-auth-section" class="grid grid-cols-2 gap-3 pt-1">
             <button
@@ -199,6 +205,22 @@
       const _supabaseUrl = 'https://hbwycwbmkarztmodssyc.supabase.co';
       const _supabaseKey = ['sb_publishable', 'l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg'].join('_'); // gitleaks:allow — Supabase publishable key, safe for client code
       const db = window.supabase.createClient(_supabaseUrl, _supabaseKey);
+
+      // Remember me: ticked (default) keeps you signed in on this device. Unticked signs you out
+      // when the browser is closed (nav-gate.js does the sign-out on the next visit).
+      function applyRememberChoice() {
+        const box = document.getElementById('remember-me');
+        const remember = !box || box.checked;
+        try {
+          if (remember) {
+            localStorage.removeItem('pushinn_remember');
+            document.cookie = 'pushinn_alive=; path=/; max-age=0; SameSite=Lax';
+          } else {
+            localStorage.setItem('pushinn_remember', '0');
+            document.cookie = 'pushinn_alive=1; path=/; SameSite=Lax'; // no expiry: lasts until the browser closes
+          }
+        } catch (e) { /* storage blocked: default behaviour */ }
+      }
 
       const loginForm = document.getElementById('login-form');
       const loginBtn = document.getElementById('login-btn');
@@ -305,6 +327,7 @@
       if (googleSigninBtn) {
         googleSigninBtn.addEventListener('click', async () => {
           errorMsg.classList.add('hidden');
+          applyRememberChoice();
           try {
             const { error } = await db.auth.signInWithOAuth({
               provider: 'google',
@@ -326,6 +349,7 @@
       if (appleSigninBtn) {
         appleSigninBtn.addEventListener('click', async () => {
           errorMsg.classList.add('hidden');
+          applyRememberChoice();
           try {
             const { error } = await db.auth.signInWithOAuth({
               provider: 'apple',
@@ -355,6 +379,7 @@
 
           loginBtn.disabled = true;
           loginBtn.textContent = 'Signing in...';
+          applyRememberChoice();
 
           try {
             const { data, error } = await db.auth.signInWithPassword({

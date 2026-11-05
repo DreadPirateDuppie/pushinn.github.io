@@ -1,3 +1,20 @@
+/* Remember me: if the visitor signed in with "Remember me" unticked, sign them out once the
+   browser has been closed. pushinn_alive is a cookie with no expiry, so the browser drops it on
+   close; if the flag is set and the cookie is gone, the saved sign-in is cleared. */
+(function () {
+  try {
+    if (localStorage.getItem('pushinn_remember') !== '0') return;
+    if (document.cookie.indexOf('pushinn_alive=1') !== -1) return;
+    var gone = [];
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (/^sb-.+-auth-token/.test(k)) gone.push(k);
+    }
+    gone.forEach(function (k) { localStorage.removeItem(k); });
+    localStorage.removeItem('pushinn_remember');
+  } catch (e) { /* leave sign-in alone */ }
+})();
+
 /* Remember the page's Supabase client so the nav can ask "is this account an admin?"
    without a second copy of the project key. If anything here fails, the Admin link
    simply doesn't appear. */
