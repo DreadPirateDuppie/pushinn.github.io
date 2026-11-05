@@ -4,6 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Support Desk | Pushinn</title>
+  <meta name="description" content="Contact Pushinn: report a bug, send feedback or ask a question.">
+  <link rel="canonical" href="https://pushinn.app/support">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pushinn.app/support">
+  <meta property="og:title" content="Support Desk | Pushinn">
+  <meta property="og:description" content="Contact Pushinn: report a bug, send feedback or ask a question.">
+  <meta property="og:image" content="https://pushinn.app/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Support Desk | Pushinn">
+  <meta name="twitter:description" content="Contact Pushinn: report a bug, send feedback or ask a question.">
+  <meta name="twitter:image" content="https://pushinn.app/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
@@ -29,6 +40,9 @@
       nav .md\:flex { column-gap: 0.5rem; }
     }
   </style>
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
 </head>
 <body class="antialiased selection:bg-matrix selection:text-black min-h-screen flex flex-col">
   <!-- NAVIGATION -->
@@ -119,7 +133,7 @@
           <p class="font-sans text-gray-400 text-sm mb-6">Reporting a bug, sharing test feedback, or have an inquiry? Submit below or reach us directly at <a href="mailto:support@pushinn.app" class="text-matrix font-semibold hover:underline">support@pushinn.app</a>.</p>
           
           <form id="support-form" class="space-y-4">
-            <select name="category" id="support-category" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
+            <select name="category" id="support-category" aria-label="Feedback type" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
               <option value="" disabled selected>Select feedback type...</option>
               <option value="Beta Feedback">Feedback (Thoughts & Experience)</option>
               <option value="Bug Report">Bug Report (Crashes, Glitches, Freezes)</option>
@@ -127,10 +141,10 @@
               <option value="Account / Login">Account / Login Issue</option>
               <option value="General Inquiry">General Inquiry</option>
             </select>
-            <input type="text" name="name" id="support-name" placeholder="Your name or handle" maxlength="100" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
-            <input type="email" name="email" id="support-email" placeholder="Email address" maxlength="320" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
-            <input type="text" name="subject" id="support-subject" placeholder="Summary (e.g. Map freeze on iOS 18)" maxlength="150" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
-            <textarea name="message" id="support-message" rows="5" placeholder="Details of the issue or feedback (steps to reproduce, device model, expected vs actual behavior)..." maxlength="5000" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required></textarea>
+            <input type="text" name="name" id="support-name" aria-label="Your name or handle" placeholder="Your name or handle" maxlength="100" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
+            <input type="email" name="email" id="support-email" aria-label="Email address" placeholder="Email address" maxlength="320" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
+            <input type="text" name="subject" id="support-subject" aria-label="Summary" placeholder="Summary (e.g. Map freeze on iOS 18)" maxlength="150" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required>
+            <textarea name="message" id="support-message" aria-label="Details" rows="5" placeholder="Details of the issue or feedback (steps to reproduce, device model, expected vs actual behavior)..." maxlength="5000" class="w-full bg-black matrix-border rounded p-4 text-white font-sans focus:outline-none focus:border-matrix focus:ring-1 focus:ring-matrix transition-colors" required></textarea>
             <button type="submit" id="support-submit-btn" class="w-full bg-matrix text-black font-mono font-bold text-sm tracking-widest uppercase px-6 py-4 rounded hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,255,65,0.2)]">
               Send Message
             </button>
