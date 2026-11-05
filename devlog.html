@@ -2,6 +2,7 @@
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
+  <meta name="robots" content="noindex">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dev Log | Pushinn</title>
   <meta name="description" content="The Pushinn dev log: what we have built, newest first, in plain words.">
@@ -306,6 +307,17 @@
     const _supabaseKey = ['sb_publishable', 'l_vkhikI4yoBWubK0MGL9Q_5wxWDEIg'].join('_'); // gitleaks:allow
     // The library is on the page as `supabase`, so the client needs a name of its own.
     const db = window.supabase.createClient(_supabaseUrl, _supabaseKey);
+
+    // Members only: signed-out visitors are sent to sign-in and come back here afterwards.
+    (function () {
+      var main = document.querySelector('main');
+      if (main) main.style.visibility = 'hidden';
+      db.auth.getSession().then(function (r) {
+        var session = r && r.data && r.data.session;
+        if (session && session.user) { if (main) main.style.visibility = ''; }
+        else { location.replace('/login?redirect=/devlog'); }
+      }).catch(function () { location.replace('/login?redirect=/devlog'); });
+    })();
 
     const supportForm = document.getElementById('support-form');
     if (supportForm) {

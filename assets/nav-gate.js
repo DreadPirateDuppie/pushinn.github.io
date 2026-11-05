@@ -37,7 +37,7 @@
   } catch (e) { /* ignore */ }
 })();
 
-/* Hide the Union link in the nav until the visitor is signed in.
+/* Hide the Union and Dev Log links in the nav until the visitor is signed in.
    Cosmetic only: the Union page itself sends signed-out visitors to sign-in,
    and its data is protected by the database, not by this script. */
 (function () {
@@ -48,7 +48,7 @@
     }
   } catch (e) { return; }
   var st = document.createElement('style');
-  st.textContent = 'nav a[href="/union"]{display:none!important}';
+  st.textContent = 'nav a[href="/union"],nav a[href="/devlog"]{display:none!important}';
   document.head.appendChild(st);
 })();
 
