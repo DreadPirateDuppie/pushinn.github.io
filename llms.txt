@@ -1,0 +1,17 @@
+# Pushinn
+
+> Pushinn is a platform for street skateboarders and BMX riders. It is built around Game of S.K.A.T.E. battles, a live skate spot map, and the Skaters' Union community. It is made by Pushinn Labs LTD, a company registered in England and Wales (company number 17046072).
+
+## Key pages
+- [Home](https://pushinn.app/): what Pushinn is
+- [What we're building](https://pushinn.app/building): the mission and roadmap
+- [Dev log](https://pushinn.app/devlog): what has been built and when
+- [The Skaters' Union](https://pushinn.app/union): the community page (bugs, ideas, votes)
+- [Support](https://pushinn.app/support): help and contact
+- [Safety](https://pushinn.app/safety): safety information
+
+## Company
+- Legal name: Pushinn Labs LTD
+- Company number: 17046072
+- Official record: https://find-and-update.company-information.service.gov.uk/company/17046072
+- Instagram: https://www.instagram.com/pushinnlabsltd/
