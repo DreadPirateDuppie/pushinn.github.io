@@ -215,7 +215,7 @@
       <!-- Floating Status Pill Straddling Top Border -->
       <div class="absolute -top-3 sm:-top-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:gap-2 sm:px-5 sm:py-1 rounded-full border border-matrix/50 bg-black text-[9px] sm:text-base font-mono tracking-widest uppercase shadow-[0_0_12px_rgba(0,255,65,0.25)]">
         <span class="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full bg-matrix animate-pulse"></span>
-        <span class="text-matrix font-bold" id="stat-status">ONLINE</span>
+        <span class="text-matrix font-bold" id="stat-status">BETA</span>
       </div>
 
       <div class="grid grid-cols-4 text-center gap-1 sm:gap-6 font-mono uppercase">
@@ -325,7 +325,7 @@
           set('stat-spots', pad(data.spots, 3));
           set('stat-users', pad(data.users, 3));
           set('stat-battles', pad(data.battles, 2));
-          set('stat-status', 'ONLINE');
+          set('stat-status', 'BETA');
           document.getElementById('stat-status').classList.replace('text-white', 'text-matrix');
         } catch (e) { console.error('Status strip unavailable:', e); }
       }
