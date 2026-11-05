@@ -203,6 +203,11 @@
   <main class="flex flex-col justify-center items-center h-[calc(100svh-3.5rem)] sm:h-[calc(100dvh-5rem)] px-4 sm:px-6 md:pb-[20vh] relative overflow-hidden text-center">
     <!-- Ambient dot-matrix globe (decorative, never receives input) -->
     <canvas id="globe-canvas" aria-hidden="true" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+    <!-- Status pill above the headline -->
+    <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:gap-2 sm:px-5 sm:py-1 mb-3 sm:mb-4 rounded-full border border-matrix/50 bg-black text-[9px] sm:text-base font-mono tracking-widest uppercase shadow-[0_0_12px_rgba(0,255,65,0.25)] relative z-10">
+      <span class="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full bg-matrix animate-pulse"></span>
+      <span class="text-matrix font-bold" id="stat-status">BETA ONLINE</span>
+    </div>
     <!-- Headline -->
     <h1 class="font-mono font-extrabold text-3xl sm:text-5xl md:text-6xl tracking-tight text-white mb-4 sm:mb-5 min-h-[72px] sm:min-h-[110px] leading-tight flex flex-col justify-center relative z-10">
       <span class="sr-only">Pushinn - The Skaters' Union</span>
@@ -211,13 +216,7 @@
     </h1>
 
     <!-- Central Cockpit Telemetry Strip -->
-    <div class="w-full max-w-sm sm:max-w-xl mx-auto mt-2 mb-6 p-3 sm:mt-6 sm:mb-8 sm:px-8 sm:pt-6 sm:pb-3.5 rounded-xl sm:rounded-2xl border border-matrix/30 bg-black/60 backdrop-blur-md shadow-[0_0_25px_rgba(0,255,65,0.08)] relative z-10">
-      <!-- Floating Status Pill Straddling Top Border -->
-      <div class="absolute -top-3 sm:-top-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:gap-2 sm:px-5 sm:py-1 rounded-full border border-matrix/50 bg-black text-[9px] sm:text-base font-mono tracking-widest uppercase shadow-[0_0_12px_rgba(0,255,65,0.25)]">
-        <span class="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full bg-matrix animate-pulse"></span>
-        <span class="text-matrix font-bold" id="stat-status">BETA</span>
-      </div>
-
+    <div class="w-full max-w-sm sm:max-w-xl mx-auto mt-0 mb-5 px-3 py-1.5 sm:mt-2 sm:mb-6 sm:px-8 sm:py-2 rounded-xl sm:rounded-2xl border border-matrix/30 bg-black/60 backdrop-blur-md shadow-[0_0_25px_rgba(0,255,65,0.08)] relative z-10">
       <div class="grid grid-cols-4 text-center gap-1 sm:gap-6 font-mono uppercase">
         <div>
           <span class="text-gray-500 text-[8px] sm:text-gray-400 sm:text-sm block tracking-wider mb-0.5 sm:mb-0.5">USERS</span>
@@ -325,7 +324,7 @@
           set('stat-spots', pad(data.spots, 3));
           set('stat-users', pad(data.users, 3));
           set('stat-battles', pad(data.battles, 2));
-          set('stat-status', 'BETA');
+          set('stat-status', 'BETA ONLINE');
           document.getElementById('stat-status').classList.replace('text-white', 'text-matrix');
         } catch (e) { console.error('Status strip unavailable:', e); }
       }
