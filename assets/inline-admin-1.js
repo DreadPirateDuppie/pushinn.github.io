@@ -96,6 +96,7 @@
       if (m.includes('BALLOT_CLOSED')) return 'This vote has ended.';
       if (m.includes('BALLOT_NOT_FOUND')) return 'That vote was removed. Refresh the page.';
       if (m.includes('INVALID_OPTIONS')) return 'Give 2 to 6 options, each up to 120 characters.';
+      if (m.includes('Deleting comments is not switched on yet')) return m;
       if (m.includes('ADMIN_REQUIRED')) return 'Only admins can do that.';
       if (m.includes('ADMIN_PROTECTED')) return "Admins can't be banned, and one admin can't remove another. An admin can step down themselves.";
       if (m.includes('LAST_ADMIN')) return "The last admin can't be removed. Make someone else an admin first.";
@@ -918,7 +919,7 @@
       reports: 'No reports waiting.', spots: 'Every spot is verified.', clips: 'No clips waiting for review.',
       removed: 'No clips taken down.', deleted: 'No deleted spots.', feedback: 'No feedback yet.'
     };
-    const mod = { reports: [], spots: [], clips: [], removed: [], deleted: [], feedback: [] };
+    const mod = { reports: [], content: [], spots: [], clips: [], removed: [], deleted: [], feedback: [] };
     let modQ = 'reports';
     let modAllReports = false;
     let modFailed = {};
@@ -932,7 +933,7 @@
     document.getElementById('mod-all').addEventListener('change', async e => {
       modAllReports = e.target.checked;
       modList.replaceChildren(el('p', 'p-5 text-white/50 text-sm', 'Loading…'));
-      await fetchModeration(['reports']);
+      await fetchModeration(['reports', 'content']);
       drawModeration();
     });
 
@@ -953,6 +954,13 @@
         if (!modAllReports) q = q.eq('status', 'pending');
         const r = await q.order('created_at', { ascending: false }).limit(200);
         return r.error ? r : { data: await withNames(r.data || [], 'reporter_user_id', 'reporter') };
+      },
+      // Clip, profile, message and comment reports (content_reports, plus
+      // comment_reports once the database has it). Read through the admin-only
+      // function; its own list so a failure here leaves the spot reports alone.
+      async content() {
+        const r = await db.rpc('admin_content_reports', { p_status: modAllReports ? null : 'open' });
+        return r.error ? r : { data: r.data || [] };
       },
       async spots() {
         const r = await db.from('map_posts').select('id, title, description, category, photo_url, photo_urls, user_id, created_at')
@@ -986,13 +994,17 @@
       }));
       updateModCounts();
     }
+    // Spot reports waiting plus clip, profile, message and comment reports still open.
+    function openReportCount() {
+      return mod.reports.filter(r => r.status === 'pending').length + mod.content.filter(r => r.status === 'open').length;
+    }
     function updateModCounts() {
       document.querySelectorAll('.mod-filter').forEach(b => {
-        const n = b.dataset.q === 'reports' ? mod.reports.filter(r => r.status === 'pending').length : mod[b.dataset.q].length;
+        const n = b.dataset.q === 'reports' ? openReportCount() : mod[b.dataset.q].length;
         b.querySelector('.admin-count').textContent = n;
       });
       // The tab badge counts what's waiting for you: reports, spots, clips.
-      const waiting = mod.reports.filter(r => r.status === 'pending').length + mod.spots.length + mod.clips.length;
+      const waiting = openReportCount() + mod.spots.length + mod.clips.length;
       document.getElementById('admin-mod-badge').textContent = waiting ? (waiting > 99 ? '99+' : waiting) : '';
     }
     async function loadModeration(countOnly) {
@@ -1006,12 +1018,37 @@
     function drawModeration() {
       modList.replaceChildren();
       if (modFailed[modQ]) { modList.appendChild(el('p', 'p-5 text-red-400 text-sm', 'Could not load: ' + modFailed[modQ])); return; }
-      const rows = mod[modQ];
-      if (!rows.length) { modList.appendChild(el('p', 'p-5 text-white/50 text-sm', modAllReports && modQ === 'reports' ? 'No reports yet.' : MOD_EMPTY[modQ])); return; }
-      rows.forEach(r => modList.appendChild(MOD_DRAW[modQ](r)));
+      const onReports = modQ === 'reports';
+      // The Reports list holds spot reports and content reports together, newest first.
+      const items = onReports
+        ? mod.reports.map(r => [r, MOD_DRAW.reports]).concat(mod.content.map(r => [r, MOD_DRAW.content]))
+            .sort((a, b) => new Date(b[0].created_at) - new Date(a[0].created_at))
+        : mod[modQ].map(r => [r, MOD_DRAW[modQ]]);
+      const contentFailed = onReports && modFailed.content;
+      if (contentFailed) modList.appendChild(contentLoadError(modFailed.content));
+      if (!items.length) {
+        if (!contentFailed) modList.appendChild(el('p', 'p-5 text-white/50 text-sm', modAllReports && onReports ? 'No reports yet.' : MOD_EMPTY[modQ]));
+        return;
+      }
+      items.forEach(([r, draw]) => modList.appendChild(draw(r)));
       // Each list asks the database for at most 200 rows and has no "more" button yet,
       // so a full list means older items exist that aren't shown.
-      if (rows.length >= 200) modList.appendChild(el('p', 'p-5 text-amber-300/90 text-sm', 'Showing the newest 200. Older items are not listed here yet.'));
+      const full = onReports ? (mod.reports.length >= 200 || mod.content.length >= 200) : mod[modQ].length >= 200;
+      if (full) modList.appendChild(el('p', 'p-5 text-amber-300/90 text-sm', 'Showing the newest 200. Older items are not listed here yet.'));
+    }
+    // Shown above the Reports list when only the clip, profile, message and comment reports failed to load.
+    function contentLoadError(message) {
+      const box = el('div', 'p-4 sm:p-5 flex flex-wrap items-center gap-3');
+      box.appendChild(el('p', 'text-red-400 text-sm min-w-0 flex-1 break-words', 'Could not load clip, profile, message and comment reports: ' + message));
+      const retry = el('button', GHOST + ' !py-1.5 !text-xs', 'Retry');
+      retry.type = 'button';
+      retry.addEventListener('click', async () => {
+        retry.disabled = true;
+        await fetchModeration(['content']);
+        drawModeration();
+      });
+      box.appendChild(retry);
+      return box;
     }
 
     // One row: optional picture or clip on the left, text, then buttons.
@@ -1074,6 +1111,7 @@
     const PRIMARY = 'p-btn';
     const GHOST = 'p-btn-ghost';
 
+    const CONTENT_LABEL = { clip: 'Clip', user: 'Profile', message: 'Message', comment: 'Comment' };
     const MOD_DRAW = {
       reports(r) {
         const p = r.map_posts;
@@ -1096,6 +1134,33 @@
               : db.from('post_reports').update({ status: 'resolved', resolved_at: new Date().toISOString() }).eq('post_id', p.id).eq('status', 'pending')),
             'Spot moved to the bin. You can restore it for 30 days.', ['reports', 'deleted', 'spots'],
             'Move "' + (p.title || 'this spot') + '" to the bin? It can be restored for 30 days.'));
+          main.appendChild(a);
+        }
+        return row;
+      },
+      content(r) {
+        const { row, main } = modRow(null);
+        const head = el('div', 'flex items-start gap-2');
+        head.appendChild(el('span', 'p-status border-white/15 text-white/70 shrink-0', CONTENT_LABEL[r.target_type] || 'Report'));
+        head.appendChild(el('span', 'text-white font-semibold leading-snug break-words', r.reason || 'Report'));
+        if (r.status !== 'open') head.appendChild(el('span', 'p-status border-white/15 text-white/50 shrink-0', r.status === 'dismissed' ? 'Dismissed' : r.status === 'reviewed' ? 'Reviewed' : r.status));
+        main.appendChild(head);
+        // The comment columns only exist once the comment-reports database change is applied.
+        if (r.target_type === 'comment') {
+          main.appendChild(el('p', 'text-sm text-white/80 mt-1 break-words whitespace-pre-line', r.comment_text ? '\u201c' + r.comment_text + '\u201d' : 'The comment text is not available.'));
+          if (r.commenter) main.appendChild(el('div', 'text-xs text-white/50 mt-1', 'Written by @' + r.commenter));
+        } else if (r.target_type === 'user' && r.target_username) {
+          main.appendChild(el('div', 'text-sm text-white/80 mt-1 truncate', 'Profile: @' + r.target_username));
+        }
+        main.appendChild(el('div', 'text-xs text-white/50 mt-1', 'Reported by ' + (r.reporter ? '@' + r.reporter : 'deleted account') + ' \u00b7 ' + ago(r.created_at)));
+        if (r.status === 'open') {
+          const a = actions();
+          a.appendChild(modAction('Reviewed', PRIMARY, () => db.rpc('admin_set_report_status', { p_report: r.id, p_status: 'reviewed' }), 'Marked reviewed.', ['content']));
+          a.appendChild(modAction('Dismiss', GHOST, () => db.rpc('admin_set_report_status', { p_report: r.id, p_status: 'dismissed' }), 'Dismissed.', ['content']));
+          if (r.target_type === 'comment') a.appendChild(modAction('Delete comment', GHOST + ' !text-red-400',
+            () => db.rpc('admin_delete_comment', { p_comment: r.target_id, p_note: '' }).then(res => res.error
+              ? { error: { message: /admin_delete_comment|schema cache/i.test(res.error.message || '') ? 'Deleting comments is not switched on yet.' : res.error.message } } : res),
+            'Comment deleted.', ['content'], 'Delete this comment? This can\'t be undone.'));
           main.appendChild(a);
         }
         return row;
